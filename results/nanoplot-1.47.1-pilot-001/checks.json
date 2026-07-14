@@ -625,15 +625,32 @@
       "runs_analysis": false,
       "asserts_output_exists": false,
       "asserts_output_content": false,
-      "asserts_output_format": false
+      "asserts_output_format": false,
+      "source_text_suggestion": {
+        "depth": 1,
+        "facts": {
+          "has_import_test": true,
+          "has_help_test": true,
+          "has_version_test": false,
+          "has_command_test": true,
+          "uses_test_data": false,
+          "runs_analysis": false,
+          "asserts_output_exists": false,
+          "asserts_output_content": false,
+          "asserts_output_format": false
+        },
+        "mismatches": {},
+        "requires_review": false,
+        "method_limit": "high-confidence text signals only; not a rendered recipe"
+      }
     },
     "tool": {
       "name": "seebot",
       "version": "0.1.0"
     },
     "command": null,
-    "started_at": "2026-07-14T20:32:02.674278Z",
-    "duration_seconds": 0.001260874792933464,
+    "started_at": "2026-07-14T20:39:43.208832Z",
+    "duration_seconds": 0.004817125154659152,
     "environment_id": "sha256:8269f9db9b46a1d858cdc95aa6ce29811d359ddd8cb7e626438a65bb9fef7000",
     "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
     "evidence": {

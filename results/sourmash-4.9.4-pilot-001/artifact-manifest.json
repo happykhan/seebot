@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "sourmash-4.9.4-pilot-001",
+  "artifact": {
+    "filename": "sourmash-4.9.4-pilot-001-evidence.tar.gz",
+    "url": "https://github.com/happykhan/seebot/releases/download/sourmash-4.9.4-pilot-001/sourmash-4.9.4-pilot-001-evidence.tar.gz",
+    "sha256": "45dad3bca9fc1da9cf91ea02329e5bc7b415545023d730ac89566e2172bec2a3",
+    "size_bytes": 192766
+  },
+  "audit_code_commit": "b3a41e7f543168bea108e0d093140161e649b799",
+  "package_manifest_sha256": "dfdccd14138a77ee3e96a015cb2a4b4424913e8c0de74255622269879ccc8608",
+  "package_sha256": "e5f77851c066e79ab1d35a9cf8e7529460803800c7496c3e491cf00b1eb717ef",
+  "source_sha256": "28889d11041e398831875c7d17a367e3e5937b095d006752e45c7f2302f4626d",
+  "execution": {
+    "backend": "pixi",
+    "platform": "osx-arm64",
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "resolved_build": "hdfd78af_0",
+    "scope_note": "Native development execution; not the frozen noarch artifact on a Linux host"
+  }
+}
