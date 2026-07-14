@@ -13,8 +13,8 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
-from bioconda_audit import __version__
-from bioconda_audit.models import (
+from seebot import __version__
+from seebot.models import (
     CheckResult,
     EvidencePaths,
     Status,
@@ -158,7 +158,7 @@ def run_probe(
         "started_at": started.isoformat().replace("+00:00", "Z"),
         "duration_seconds": duration,
         "environment_id": env_id,
-        "tool": {"name": "bcqa", "version": __version__},
+        "tool": {"name": "seebot", "version": __version__},
         **audit_code_identity(),
     }
     metadata_path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
@@ -171,7 +171,7 @@ def run_probe(
         status=status,
         expected={"exit_codes": spec.allowed_exit_codes, "timeout_seconds": spec.timeout_seconds},
         observed=observed,
-        tool=ToolIdentity(name="bcqa", version=__version__),
+        tool=ToolIdentity(name="seebot", version=__version__),
         command=spec.command,
         started_at=started,
         duration_seconds=duration,
@@ -293,7 +293,7 @@ def run_container_probe(
         "duration_seconds": duration,
         "environment_id": env_id,
         "network_access": False,
-        "tool": {"name": "bcqa", "version": __version__},
+        "tool": {"name": "seebot", "version": __version__},
         "manifest_sha256": spec.manifest_sha256,
         **audit_code_identity(),
     }
@@ -311,7 +311,7 @@ def run_container_probe(
             "output_sha256": spec.expected_output_sha256 or {},
         },
         observed=observed,
-        tool=ToolIdentity(name="bcqa", version=__version__),
+        tool=ToolIdentity(name="seebot", version=__version__),
         command=spec.command,
         started_at=started,
         duration_seconds=duration,

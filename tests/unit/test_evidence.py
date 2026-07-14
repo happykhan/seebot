@@ -1,8 +1,8 @@
 from pathlib import Path
 from sys import executable
 
-from bioconda_audit.evidence import ProbeSpec, run_probe
-from bioconda_audit.models import Status
+from seebot.evidence import ProbeSpec, run_probe
+from seebot.models import Status
 
 
 def test_non_matching_exit_code_is_package_fail(tmp_path: Path) -> None:

@@ -11,13 +11,13 @@ from urllib.parse import urlparse
 
 import httpx
 
-from bioconda_audit.evidence import (
+from seebot.evidence import (
     audit_code_identity,
     environment_id,
     evidence_path,
     sha256_file,
 )
-from bioconda_audit.models import CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
 
 
 def repository_facts(paths: list[str]) -> dict[str, bool | int]:

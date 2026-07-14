@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://happykhan.github.io/seecode/schemas/cohort.schema.json",
+  "$id": "https://happykhan.github.io/seebot/schemas/cohort.schema.json",
   "title": "Seebot cohort record",
   "type": "object",
   "additionalProperties": false,

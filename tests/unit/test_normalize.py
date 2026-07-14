@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from bioconda_audit.models import Applicability, CheckResult, EvidencePaths, Status, ToolIdentity
-from bioconda_audit.normalize.results import normalize_run, rebuild_global_results
+from seebot.models import Applicability, CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.normalize.results import normalize_run, rebuild_global_results
 
 
 def test_normalize_writes_json_and_csv(tmp_path: Path) -> None:
@@ -18,7 +18,7 @@ def test_normalize_writes_json_and_csv(tmp_path: Path) -> None:
         applicability=Applicability.APPLICABLE,
         expected={"exit_codes": [0]},
         observed={"exit_code": 0},
-        tool=ToolIdentity(name="bcqa", version="0.1.0"),
+        tool=ToolIdentity(name="seebot", version="0.1.0"),
         command=["tool", "--help"],
         started_at=datetime.now(UTC),
         duration_seconds=0.1,

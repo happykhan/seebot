@@ -3,7 +3,7 @@
   "run_id": "cutadapt-5.2-pilot-001",
   "artifact": {
     "filename": "cutadapt-5.2-pilot-001-evidence.tar.gz",
-    "url": "https://github.com/happykhan/seecode/releases/download/cutadapt-5.2-pilot-001/cutadapt-5.2-pilot-001-evidence.tar.gz",
+    "url": "https://github.com/happykhan/seebot/releases/download/cutadapt-5.2-pilot-001/cutadapt-5.2-pilot-001-evidence.tar.gz",
     "sha256": "eb0cfb18287316c96cbcec0644d1b686393a1724ce361cbd1a63fec68047eae2",
     "size_bytes": 85860
   },

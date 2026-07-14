@@ -9,14 +9,14 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from bioconda_audit import __version__
-from bioconda_audit.evidence import (
+from seebot import __version__
+from seebot.evidence import (
     audit_code_identity,
     environment_id,
     evidence_path,
     sha256_file,
 )
-from bioconda_audit.models import CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
 
 
 @dataclass(frozen=True)
@@ -110,7 +110,7 @@ def write_recipe_test_observation(
         method="automated_with_manifest",
         expected={"measurement_only": True},
         observed=observed,
-        tool=ToolIdentity(name="bcqa", version=__version__),
+        tool=ToolIdentity(name="seebot", version=__version__),
         command=None,
         started_at=started,
         duration_seconds=duration,

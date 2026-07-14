@@ -92,8 +92,8 @@ export default function App() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#results">Results</a>
-          <a href="https://github.com/happykhan/seecode/tree/main/docs/protocol.md">Protocol</a>
-          <a href="https://github.com/happykhan/seecode">Repository ↗</a>
+          <a href="https://github.com/happykhan/seebot/tree/main/docs/protocol.md">Protocol</a>
+          <a href="https://github.com/happykhan/seebot">Repository ↗</a>
         </nav>
       </header>
 
@@ -152,7 +152,7 @@ export default function App() {
           <p className="kicker">How to read this site</p>
           <h2>An <code>ERROR</code> is ours,<br />not the package’s.</h2>
           <p>If Seebot cannot start or supervise an audit, the outcome is <code>ERROR</code> and is excluded from package-failure counts. <code>UNTESTABLE</code> and <code>NOT_APPLICABLE</code> remain visible rather than disappearing from denominators.</p>
-          <a href="https://github.com/happykhan/seecode/blob/main/docs/protocol.md">Read the full protocol →</a>
+          <a href="https://github.com/happykhan/seebot/blob/main/docs/protocol.md">Read the full protocol →</a>
         </section>
       </main>
 

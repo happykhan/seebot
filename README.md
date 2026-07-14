@@ -14,8 +14,8 @@ Seebot is in the **10-package pilot** phase. The 200-package study must not star
 
 ```bash
 uv sync --all-extras
-uv run bcqa --help
-uv run bcqa manifest validate-all
+uv run seebot --help
+uv run seebot manifest validate-all
 uv run pytest
 
 cd web
@@ -26,8 +26,8 @@ npm run build
 Run the deterministic local demonstration without installing third-party tools:
 
 ```bash
-uv run bcqa --run-id demo audit cli fixtures/cli-tools/healthy-tool.yaml
-uv run bcqa --run-id demo results normalize
+uv run seebot --run-id demo audit cli fixtures/cli-tools/healthy-tool.yaml
+uv run seebot --run-id demo results normalize
 ```
 
 Normalizing a run also rebuilds `results/global/check-results.json` and
@@ -35,8 +35,8 @@ Normalizing a run also rebuilds `results/global/check-results.json` and
 without executing an audit:
 
 ```bash
-uv run bcqa results rebuild-global
-uv run bcqa report build
+uv run seebot results rebuild-global
+uv run seebot report build
 ```
 
 The first real pilot package is Cutadapt 5.2. Its reviewed manifest, functional FASTQ
@@ -46,7 +46,7 @@ measurement completed, not that the source had zero findings.
 
 ## Repository map
 
-- `src/bioconda_audit/`: audit engine and `bcqa` CLI
+- `src/seebot/`: audit engine and `seebot` CLI
 - `schemas/`: versioned machine-readable contracts
 - `config/`: frozen settings, exclusions, rubric, and tool versions
 - `manifests/`: reviewed package and cohort inputs

@@ -4,5 +4,4 @@ if [[ $# -ne 2 ]]; then
   echo "usage: $0 PACKAGE_OR_MANIFEST RUN_ID" >&2
   exit 64
 fi
-uv run bcqa --run-id "$2" audit all "$1"
-
+uv run seebot --run-id "$2" audit all "$1"

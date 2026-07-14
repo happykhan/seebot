@@ -38,14 +38,14 @@ dev = [
 ]
 
 [project.scripts]
-bcqa = "bioconda_audit.cli:app"
+seebot = "seebot.cli:app"
 
 [build-system]
 requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/bioconda_audit"]
+packages = ["src/seebot"]
 
 [tool.pytest.ini_options]
 addopts = "--strict-markers --strict-config -q"
@@ -61,4 +61,4 @@ select = ["E", "F", "I", "N", "UP", "B", "SIM"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
-packages = ["bioconda_audit"]
+packages = ["seebot"]

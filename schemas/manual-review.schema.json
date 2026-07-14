@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://happykhan.github.io/seecode/schemas/manual-review.schema.json",
+  "$id": "https://happykhan.github.io/seebot/schemas/manual-review.schema.json",
   "title": "Seebot manual or agent review",
   "type": "object",
   "additionalProperties": false,

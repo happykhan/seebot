@@ -1,4 +1,4 @@
-from bioconda_audit.analyzers.repository import repository_facts
+from seebot.analyzers.repository import repository_facts
 
 
 def test_repository_facts_are_presence_observations() -> None:

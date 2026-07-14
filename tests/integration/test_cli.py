@@ -2,7 +2,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from bioconda_audit.cli import app
+from seebot.cli import app
 
 runner = CliRunner()
 

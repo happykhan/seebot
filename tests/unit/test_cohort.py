@@ -4,8 +4,8 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from bioconda_audit.cohort.downloads import complete_window, month_urls
-from bioconda_audit.cohort.rank import rank_downloads
+from seebot.cohort.downloads import complete_window, month_urls
+from seebot.cohort.rank import rank_downloads
 
 
 def test_complete_window_is_chronological_across_year_boundary() -> None:

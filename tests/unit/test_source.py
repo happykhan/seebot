@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from bioconda_audit.source.fetch import extract_safe
-from bioconda_audit.source.inventory import inventory_tree
+from seebot.source.fetch import extract_safe
+from seebot.source.inventory import inventory_tree
 
 
 def test_safe_tar_extracts(tmp_path: Path) -> None:

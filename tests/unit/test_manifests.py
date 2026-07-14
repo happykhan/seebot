@@ -2,7 +2,7 @@ from pathlib import Path
 
 import yaml
 
-from bioconda_audit.manifests import validate_manifest, write_template
+from seebot.manifests import validate_manifest, write_template
 
 
 def test_generated_manifest_validates(tmp_path: Path) -> None:

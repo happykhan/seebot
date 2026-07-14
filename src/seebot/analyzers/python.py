@@ -12,13 +12,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from bioconda_audit.evidence import (
+from seebot.evidence import (
     audit_code_identity,
     environment_id,
     evidence_path,
     sha256_file,
 )
-from bioconda_audit.models import CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
 
 Parser = Callable[[str], dict[str, Any]]
 

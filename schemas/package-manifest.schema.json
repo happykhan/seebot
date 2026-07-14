@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://happykhan.github.io/seecode/schemas/package-manifest.schema.json",
+  "$id": "https://happykhan.github.io/seebot/schemas/package-manifest.schema.json",
   "title": "Seebot package manifest",
   "type": "object",
   "additionalProperties": false,

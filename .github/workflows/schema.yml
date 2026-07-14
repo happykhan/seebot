@@ -1,9 +1,9 @@
 name: schemas
 on:
   push:
-    paths: ['schemas/**', 'manifests/**', 'config/**', 'src/bioconda_audit/manifests.py']
+    paths: ['schemas/**', 'manifests/**', 'config/**', 'src/seebot/manifests.py']
   pull_request:
-    paths: ['schemas/**', 'manifests/**', 'config/**', 'src/bioconda_audit/manifests.py']
+    paths: ['schemas/**', 'manifests/**', 'config/**', 'src/seebot/manifests.py']
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -11,5 +11,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
       - run: uv sync
-      - run: uv run bcqa manifest validate-all
-
+      - run: uv run seebot manifest validate-all

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import httpx
 
-from bioconda_audit.evidence import sha256_file
+from seebot.evidence import sha256_file
 
 
 class ChecksumMismatchError(ValueError):

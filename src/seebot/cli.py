@@ -1,4 +1,4 @@
-"""The bcqa command-line interface."""
+"""The seebot command-line interface."""
 
 from __future__ import annotations
 
@@ -12,23 +12,23 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from bioconda_audit.analyzers.python import run_python_analyzers
-from bioconda_audit.analyzers.repository import run_repository_observation
-from bioconda_audit.cohort.downloads import fetch_window
-from bioconda_audit.cohort.rank import rank_downloads
-from bioconda_audit.evidence import (
+from seebot.analyzers.python import run_python_analyzers
+from seebot.analyzers.repository import run_repository_observation
+from seebot.cohort.downloads import fetch_window
+from seebot.cohort.rank import rank_downloads
+from seebot.evidence import (
     ContainerProbeSpec,
     ProbeSpec,
     run_container_probe,
     run_probe,
     sha256_file,
 )
-from bioconda_audit.manifests import load_yaml, validate_manifest, write_template
-from bioconda_audit.normalize.results import normalize_run, rebuild_global_results
-from bioconda_audit.recipes.checkout import fetch_recipe_file
-from bioconda_audit.recipes.test_depth import write_recipe_test_observation
-from bioconda_audit.source.fetch import download_verified, extract_safe
-from bioconda_audit.source.inventory import inventory_tree
+from seebot.manifests import load_yaml, validate_manifest, write_template
+from seebot.normalize.results import normalize_run, rebuild_global_results
+from seebot.recipes.checkout import fetch_recipe_file
+from seebot.recipes.test_depth import write_recipe_test_observation
+from seebot.source.fetch import download_verified, extract_safe
+from seebot.source.inventory import inventory_tree
 
 ROOT = Path(__file__).resolve().parents[2]
 console = Console()
