@@ -48,4 +48,10 @@ Commands run without network access unless the manifest explicitly declares it, 
 Normalization updates an append-only global fact table with one row per package, run, and
 rubric check. The web application reads the lossless JSON form; statistical workflows may
 read the CSV export. The table preserves every explicit state, including `ERROR` and
-`UNTESTABLE`, and never collapses domains into a composite quality score.
+`UNTESTABLE`.
+
+The website derives a separate Engineering Practice Award view using the versioned,
+public formula in `config/awards.yaml`. It ranks only observable CLI contracts,
+repository signals, and recipe-test depth. It is presented alongside—not instead of—the
+domain results and is explicitly not a ranking of scientific correctness, algorithmic
+quality, security, or maintainability.

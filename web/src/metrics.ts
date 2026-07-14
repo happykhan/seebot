@@ -30,6 +30,32 @@ function observed(results: CheckResult[], checkId: string): Record<string, unkno
 function number(value: unknown): number { return typeof value === 'number' ? value : 0 }
 function rate(count: number, lines: number): string { return lines ? (count * 1000 / lines).toFixed(1) : '—' }
 
+export interface CohortMetric {
+  key: string
+  label: string
+  value: number
+  unit: string
+}
+
+export function cohortMetricValues(results: CheckResult[]): CohortMetric[] {
+  const ruff = observed(results, 'PY-RUFF-001')
+  const pylint = observed(results, 'PY-PYLINT-001')
+  const radon = observed(results, 'PY-RADON-001')
+  const docs = observed(results, 'PY-INTERROGATE-001')
+  const vulture = observed(results, 'PY-VULTURE-001')
+  const bandit = observed(results, 'PY-BANDIT-001')
+  const lines = number(ruff.nonblank_noncomment_lines)
+  const perThousand = (count: unknown) => lines ? number(count) * 1000 / lines : 0
+  return [
+    { key: 'ruff', label: 'Ruff findings', value: perThousand(ruff.finding_count), unit: '/ 1k lines' },
+    { key: 'pylint', label: 'Pylint messages', value: perThousand(pylint.message_count), unit: '/ 1k lines' },
+    { key: 'docstrings', label: 'Docstring coverage', value: number(docs.docstring_coverage_percent), unit: '%' },
+    { key: 'complexity', label: 'Mean complexity', value: number(radon.complexity_mean), unit: '' },
+    { key: 'vulture', label: 'Vulture candidates', value: perThousand(vulture.candidate_count), unit: '/ 1k lines' },
+    { key: 'bandit', label: 'Bandit indicators', value: perThousand(bandit.indicator_count), unit: '/ 1k lines' },
+  ]
+}
+
 export function packageMetrics(results: CheckResult[]) {
   const ruff = observed(results, 'PY-RUFF-001')
   const pylint = observed(results, 'PY-PYLINT-001')

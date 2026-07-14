@@ -4,7 +4,10 @@
 
 Seebot is a code-first research project for selecting a frozen cohort of Bioconda packages, retrieving the exact packaged source, running conservative and reproducible checks, preserving evidence, and publishing analysis-ready results through a web application.
 
-The project measures observable properties. It does not label software as “good” or “bad”, infer scientific validity from engineering signals, or collapse distinct domains into a single quality score.
+The project measures observable properties. It does not infer scientific validity from
+engineering signals. The public dashboard reports raw domains separately and also
+publishes a narrowly defined, versioned Engineering Practice Award score for ranking and
+badges; its formula is explicit in `config/awards.yaml`.
 
 ## Current phase
 
@@ -50,6 +53,11 @@ the public website currently publishes only normalized summaries.
 Results also carry a `result_kind`. Contract checks use the normal outcome vocabulary;
 successful observational checks are presented as `MEASURED`, because completing a
 static-analysis measurement is not a claim that the software has no findings.
+
+The results website is designed for the final cohort: a searchable, sortable, paginated
+tool directory; an award leaderboard; cohort-level Python metric distributions; detailed
+package profiles; and reusable SVG badges. Static-analysis findings are comparative
+observations and do not contribute to the award score.
 
 ## Repository map
 

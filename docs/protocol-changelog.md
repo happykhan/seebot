@@ -18,3 +18,6 @@
   provenance.
 - Removed temporary GitHub Release evidence publishing. The mini-pilot website exposes
   normalized summaries only; raw evidence will move to Cloudflare storage later.
+- Added the versioned Seebot Engineering Practice Award, competition ranking, generated
+  SVG badges, cohort metric aggregation, and a searchable/paginated tool directory. The
+  award excludes static-analysis counts and makes its limited scope explicit.

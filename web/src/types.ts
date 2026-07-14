@@ -40,3 +40,22 @@ export interface PackageSummary {
   upstream_url: string
   run_id: string
 }
+
+export interface AwardRanking extends PackageSummary {
+  score: number
+  maximum_points: number
+  eligible: boolean
+  missing_checks: string[]
+  tier: string
+  tier_colour: string
+  breakdown: { contracts: number; repository: number; recipe_test: number }
+  rank: number | null
+}
+
+export interface RankingData {
+  schema_version: number
+  rubric_version: string
+  title: string
+  scope_note: string
+  rankings: AwardRanking[]
+}

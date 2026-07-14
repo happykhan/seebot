@@ -1,0 +1,27 @@
+schema_version: 1
+version: 0.1.0-pilot
+title: Seebot Engineering Practice Award
+description: Transparent points for observed CLI contracts, repository signals, and Bioconda recipe-test depth.
+maximum_points: 100
+contracts:
+  PKG-IDENTITY-001: 10
+  CLI-HELP-001: 10
+  CLI-VERSION-001: 10
+  CLI-INVALID-001: 10
+  CLI-FUNCTIONAL-001: 10
+repository_signals:
+  licence_file_present: 5
+  contribution_guide_present: 5
+  citation_metadata_present: 5
+  ci_workflow_present: 5
+  test_path_present: 5
+  documentation_path_present: 5
+recipe_test:
+  points_per_level: 5
+  maximum_level: 4
+tiers:
+  - {name: Gold, minimum_points: 85, colour: "#9a6a00"}
+  - {name: Silver, minimum_points: 70, colour: "#68717a"}
+  - {name: Bronze, minimum_points: 55, colour: "#925f36"}
+  - {name: Reviewed, minimum_points: 0, colour: "#50635c"}
+scope_note: This award concerns observable engineering practices, not scientific validity or algorithmic quality.

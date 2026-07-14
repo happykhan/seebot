@@ -27,6 +27,7 @@ from seebot.manifests import load_yaml, validate_manifest, write_template
 from seebot.normalize.results import normalize_run, rebuild_global_results
 from seebot.recipes.checkout import fetch_recipe_file
 from seebot.recipes.test_depth import write_recipe_test_observation
+from seebot.report.awards import load_award_config, rank_packages, write_badges
 from seebot.runtime.pixi import (
     PixiEnvironment,
     PixiProbeSpec,
@@ -785,6 +786,24 @@ def report_build(ctx: typer.Context) -> None:
             )
         package_target = target.parent / "packages.json"
         package_target.write_text(json.dumps(packages, indent=2) + "\n", encoding="utf-8")
+        award_config = load_award_config(ROOT / "config" / "awards.yaml")
+        rankings = rank_packages(packages, rows, award_config)
+        ranking_target = target.parent / "rankings.json"
+        ranking_target.write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "rubric_version": award_config["version"],
+                    "title": award_config["title"],
+                    "scope_note": award_config["scope_note"],
+                    "rankings": rankings,
+                },
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        write_badges(rankings, ROOT / "web" / "public" / "badges")
     console.print(f"Prepared web application dataset: {target}")
 
 
