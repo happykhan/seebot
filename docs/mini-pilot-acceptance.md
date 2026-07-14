@@ -19,8 +19,8 @@ reviewed end-user Python CLI with a miniature functional test.
 - Contract outcomes, measurements, audit errors, and applicability states remain
   visibly distinct.
 - Each package has a useful results profile rather than only raw check rows.
-- Public evidence references resolve to an archived artifact or an explicit artifact
-  manifest.
+- The website publishes normalized summaries only. Raw evidence remains local during
+  this mini-pilot until the planned Cloudflare storage layer is implemented.
 - Core Pixi execution, normalization, status presentation, and web loading have tests.
 - All three packages rerun from a clean checkout before the mini-pilot is declared
   complete.

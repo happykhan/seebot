@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { contractTitle, displayStatus, packageMetrics } from './metrics'
 import type { CheckResult, PackageSummary } from './types'
 
-function ResultRow({ result, artifactUrl }: { result: CheckResult; artifactUrl: string }) {
+function ResultRow({ result }: { result: CheckResult }) {
   const label = displayStatus(result)
   return (
     <details className="result-row">
@@ -23,7 +23,6 @@ function ResultRow({ result, artifactUrl }: { result: CheckResult; artifactUrl: 
             <div><dt>Run</dt><dd>{result.run_id}</dd></div>
             <div><dt>Command</dt><dd>{result.command?.join(' ') ?? 'Not applicable'}</dd></div>
           </dl>
-          <a className="evidence-link" href={artifactUrl}>Download raw evidence ↗</a>
         </div>
       </div>
     </details>
@@ -67,12 +66,12 @@ function PackageProfile({ pkg, results }: { pkg: PackageSummary; results: CheckR
       <section className="facts-section">
         <div><h3>Repository snapshot</h3><div className="fact-list">{Object.entries(metrics.repository).map(([label, value]) => <span className={value ? 'present' : 'absent'} key={label}>{value ? '✓' : '–'} {label}</span>)}</div></div>
         <div><h3>Recipe test</h3><strong className="depth">Level {metrics.recipeDepth}</strong><p>Installation-level checks only; independent functional behaviour is tested separately.</p></div>
-        <div><h3>Execution</h3><p>Native Pixi environment. Exact solved package build and lock hash are retained in evidence.</p><a className="evidence-link" href={pkg.artifact_url}>Download evidence archive ↗</a></div>
+        <div><h3>Execution</h3><p>Package installation and executable probes run in a fresh native Pixi environment.</p></div>
       </section>
 
       <section className="checks-section">
         <div className="section-label"><span>All recorded observations</span><small>{contracts.length} contracts · {measurements.length} measurements</small></div>
-        {results.map((result) => <ResultRow artifactUrl={pkg.artifact_url} key={result.check_id} result={result} />)}
+        {results.map((result) => <ResultRow key={result.check_id} result={result} />)}
       </section>
     </article>
   )

@@ -39,5 +39,4 @@ export interface PackageSummary {
   description: string
   upstream_url: string
   run_id: string
-  artifact_url: string
 }

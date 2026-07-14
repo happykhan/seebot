@@ -14,4 +14,7 @@
 - Added conservative recipe-test source suggestions and explicit mismatch evidence;
   the reviewed component facts remain authoritative pending rendered-recipe support.
 - Replaced the pass-count landing page with package profiles that separate executable
-  contracts, source measurements, repository observations, recipe depth, and evidence.
+  contracts, source measurements, repository observations, recipe depth, and execution
+  provenance.
+- Removed temporary GitHub Release evidence publishing. The mini-pilot website exposes
+  normalized summaries only; raw evidence will move to Cloudflare storage later.

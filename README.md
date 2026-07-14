@@ -41,10 +41,11 @@ uv run seebot report build
 ```
 
 The three-package mini-pilot covers Cutadapt 5.2, NanoPlot 1.47.1, and sourmash
-4.9.4. Each has a reviewed manifest, a small functional fixture, normalized results,
-and public evidence. Pixi installs the reviewed version and records the native solved
-artifact and lock hash. This development runner does not claim to execute the frozen
-Linux package when running on macOS.
+4.9.4. Each has a reviewed manifest, a small functional fixture, and normalized results.
+Pixi installs the reviewed version and records the native solved artifact and lock hash.
+This development runner does not claim to execute the frozen Linux package when running
+on macOS. Raw pilot evidence remains local until persistent Cloudflare storage is added;
+the public website currently publishes only normalized summaries.
 
 Results also carry a `result_kind`. Contract checks use the normal outcome vocabulary;
 successful observational checks are presented as `MEASURED`, because completing a

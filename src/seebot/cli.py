@@ -781,10 +781,6 @@ def report_build(ctx: typer.Context) -> None:
                     "description": manifest["classification"]["notes"],
                     "upstream_url": manifest["upstream"]["repository_url"],
                     "run_id": run_id,
-                    "artifact_url": (
-                        "https://github.com/happykhan/seebot/releases/download/"
-                        f"{run_id}/{run_id}-evidence.tar.gz"
-                    ),
                 }
             )
         package_target = target.parent / "packages.json"
