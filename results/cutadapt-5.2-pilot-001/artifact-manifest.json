@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "run_id": "cutadapt-5.2-pilot-001",
+  "artifact": {
+    "filename": "cutadapt-5.2-pilot-001-evidence.tar.gz",
+    "url": "https://github.com/happykhan/seecode/releases/download/cutadapt-5.2-pilot-001/cutadapt-5.2-pilot-001-evidence.tar.gz",
+    "sha256": "eb0cfb18287316c96cbcec0644d1b686393a1724ce361cbd1a63fec68047eae2",
+    "size_bytes": 85860
+  },
+  "audit_code_commit": "a33481df589d3360eccbfab31e519c65098dcb83",
+  "package_manifest_sha256": "780c6db6fa5a01697ed8f2d49c98fd0c644a04800786fffb0f799411cbdc779d",
+  "package_sha256": "5d8d959585c5527bd947bb693f5285db1fc1afc088c38d878e6099ae4af86424",
+  "source_sha256": "2394deead42ecae5fe0fdf369e35f3e2afed770e14059582272779c2e8295d3c",
+  "container_digest": "sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2"
+}

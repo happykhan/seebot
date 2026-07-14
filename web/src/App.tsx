@@ -143,7 +143,7 @@ export default function App() {
             <div className="result-header"><span>Status</span><span>Package</span><span>Check</span><span>Domain</span></div>
             {loading && <p className="empty">Loading results…</p>}
             {error && <p className="empty error">Could not load results: {error}</p>}
-            {!loading && !error && filtered.map((result) => <ResultRow key={`${result.package_id}-${result.check_id}`} result={result} />)}
+            {!loading && !error && filtered.map((result) => <ResultRow key={`${result.run_id}-${result.package_id}-${result.check_id}`} result={result} />)}
             {!loading && !error && filtered.length === 0 && <p className="empty">No checks match these filters.</p>}
           </div>
         </section>
@@ -160,4 +160,3 @@ export default function App() {
     </>
   )
 }
-

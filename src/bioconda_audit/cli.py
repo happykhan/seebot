@@ -24,7 +24,7 @@ from bioconda_audit.evidence import (
     sha256_file,
 )
 from bioconda_audit.manifests import load_yaml, validate_manifest, write_template
-from bioconda_audit.normalize.results import normalize_run
+from bioconda_audit.normalize.results import normalize_run, rebuild_global_results
 from bioconda_audit.recipes.checkout import fetch_recipe_file
 from bioconda_audit.recipes.test_depth import write_recipe_test_observation
 from bioconda_audit.source.fetch import download_verified, extract_safe
@@ -583,15 +583,28 @@ def results_normalize(ctx: typer.Context) -> None:
         opts.output_directory / "evidence", opts.output_directory / "results", opts.run_id
     )
     console.print(f"Wrote {json_path} and {csv_path}")
+    global_json, global_csv = rebuild_global_results(opts.output_directory / "results")
+    console.print(f"Updated global table: {global_json} and {global_csv}")
+
+
+@results_app.command("rebuild-global")
+def results_rebuild_global(ctx: typer.Context) -> None:
+    """Rebuild the global check fact table from all normalized runs."""
+    opts = options(ctx)
+    if opts.dry_run:
+        console.print("Would rebuild the global table from normalized runs")
+        return
+    json_path, csv_path = rebuild_global_results(opts.output_directory / "results")
+    console.print(f"Wrote {json_path} and {csv_path}")
 
 
 @report_app.command("build")
 def report_build(ctx: typer.Context) -> None:
     opts = options(ctx)
-    source = opts.output_directory / "results" / opts.run_id / "checks.json"
+    source = opts.output_directory / "results" / "global" / "check-results.json"
     target = ROOT / "web" / "public" / "data" / "checks.json"
     if not source.exists():
-        raise typer.BadParameter(f"Normalize the run first: {source}")
+        raise typer.BadParameter(f"Normalize a run or rebuild the global table first: {source}")
     if not opts.dry_run:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)

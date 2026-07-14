@@ -30,6 +30,20 @@ uv run bcqa --run-id demo audit cli fixtures/cli-tools/healthy-tool.yaml
 uv run bcqa --run-id demo results normalize
 ```
 
+Normalizing a run also rebuilds `results/global/check-results.json` and
+`results/global/check-results.csv` from every immutable run. To rebuild those tables
+without executing an audit:
+
+```bash
+uv run bcqa results rebuild-global
+uv run bcqa report build
+```
+
+The first real pilot package is Cutadapt 5.2. Its reviewed manifest, functional FASTQ
+fixture, normalized results, and evidence artifact manifest are committed. Static-analysis
+checks report measurements such as finding counts and coverage; a `PASS` means the
+measurement completed, not that the source had zero findings.
+
 ## Repository map
 
 - `src/bioconda_audit/`: audit engine and `bcqa` CLI

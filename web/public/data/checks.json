@@ -38,10 +38,10 @@
       "/work/trimmed.fastq",
       "/fixtures/input.fastq"
     ],
-    "started_at": "2026-07-14T19:38:31.149974Z",
-    "duration_seconds": 0.7399773749057204,
+    "started_at": "2026-07-14T19:43:06.481717Z",
+    "duration_seconds": 0.6728116669692099,
     "environment_id": "container:quay.io/biocontainers/cutadapt@sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2",
-    "config_sha256": "1e65c2467da8871b27809967acb68a8f22d94cf8dcce604ea142b638bfcb2672",
+    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-FUNCTIONAL-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-FUNCTIONAL-001/stderr.txt",
@@ -78,10 +78,10 @@
       "cutadapt",
       "--help"
     ],
-    "started_at": "2026-07-14T19:38:29.125641Z",
-    "duration_seconds": 0.681393374921754,
+    "started_at": "2026-07-14T19:43:04.207438Z",
+    "duration_seconds": 0.6730239170137793,
     "environment_id": "container:quay.io/biocontainers/cutadapt@sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2",
-    "config_sha256": "1e65c2467da8871b27809967acb68a8f22d94cf8dcce604ea142b638bfcb2672",
+    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-001/stderr.txt",
@@ -120,10 +120,10 @@
       "cutadapt",
       "--definitely-not-a-real-option"
     ],
-    "started_at": "2026-07-14T19:38:30.481935Z",
-    "duration_seconds": 0.6364640411920846,
+    "started_at": "2026-07-14T19:43:05.709414Z",
+    "duration_seconds": 0.6851934590376914,
     "environment_id": "container:quay.io/biocontainers/cutadapt@sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2",
-    "config_sha256": "1e65c2467da8871b27809967acb68a8f22d94cf8dcce604ea142b638bfcb2672",
+    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-INVALID-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-INVALID-001/stderr.txt",
@@ -161,10 +161,10 @@
       "cutadapt",
       "--version"
     ],
-    "started_at": "2026-07-14T19:38:29.818343Z",
-    "duration_seconds": 0.6488884999416769,
+    "started_at": "2026-07-14T19:43:04.981748Z",
+    "duration_seconds": 0.6327329999767244,
     "environment_id": "container:quay.io/biocontainers/cutadapt@sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2",
-    "config_sha256": "1e65c2467da8871b27809967acb68a8f22d94cf8dcce604ea142b638bfcb2672",
+    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-VERSION-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-VERSION-001/stderr.txt",
@@ -202,10 +202,10 @@
       "cutadapt",
       "--version"
     ],
-    "started_at": "2026-07-14T19:38:28.307934Z",
-    "duration_seconds": 0.7570894171949476,
+    "started_at": "2026-07-14T19:43:03.385436Z",
+    "duration_seconds": 0.718905207933858,
     "environment_id": "container:quay.io/biocontainers/cutadapt@sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2",
-    "config_sha256": "1e65c2467da8871b27809967acb68a8f22d94cf8dcce604ea142b638bfcb2672",
+    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/PKG-IDENTITY-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/PKG-IDENTITY-001/stderr.txt",
@@ -250,8 +250,8 @@
       "json",
       "work/cutadapt__5.2__py313hd978853_2__linux-64/source/cutadapt-5.2/src/cutadapt"
     ],
-    "started_at": "2026-07-14T19:38:40.783663Z",
-    "duration_seconds": 0.5903027500025928,
+    "started_at": "2026-07-14T19:43:15.762977Z",
+    "duration_seconds": 0.5724569580052048,
     "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
     "config_sha256": "66b08e62c56107a72b9a722d16fa09b35725f911dfa2e42bd77a193549dcfab1",
     "evidence": {
@@ -293,8 +293,8 @@
       "config/interrogate-standard.toml",
       "work/cutadapt__5.2__py313hd978853_2__linux-64/source/cutadapt-5.2/src/cutadapt"
     ],
-    "started_at": "2026-07-14T19:38:39.170253Z",
-    "duration_seconds": 0.5018350000027567,
+    "started_at": "2026-07-14T19:43:14.343134Z",
+    "duration_seconds": 0.361061834031716,
     "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
     "config_sha256": "0434c60f7da1b365ca8e9856ae6d58b805a3d6a1aaebd56ea37005c65e777ba8",
     "evidence": {
@@ -387,8 +387,8 @@
       "config/pylint-standard.toml",
       "work/cutadapt__5.2__py313hd978853_2__linux-64/source/cutadapt-5.2/src/cutadapt"
     ],
-    "started_at": "2026-07-14T19:38:32.060335Z",
-    "duration_seconds": 5.185331291984767,
+    "started_at": "2026-07-14T19:43:07.398589Z",
+    "duration_seconds": 5.00488654198125,
     "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
     "config_sha256": "5d11606d40ca302b981ecef25173728cf32229a3a8765fbfa2482e7f02dc3254",
     "evidence": {
@@ -436,8 +436,8 @@
       "-s",
       "work/cutadapt__5.2__py313hd978853_2__linux-64/source/cutadapt-5.2/src/cutadapt"
     ],
-    "started_at": "2026-07-14T19:38:38.471648Z",
-    "duration_seconds": 0.21029795915819705,
+    "started_at": "2026-07-14T19:43:13.606420Z",
+    "duration_seconds": 0.21458745817653835,
     "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
     "config_sha256": "66b08e62c56107a72b9a722d16fa09b35725f911dfa2e42bd77a193549dcfab1",
     "evidence": {
@@ -496,8 +496,8 @@
       "config/ruff-standard.toml",
       "work/cutadapt__5.2__py313hd978853_2__linux-64/source/cutadapt-5.2/src/cutadapt"
     ],
-    "started_at": "2026-07-14T19:38:31.949211Z",
-    "duration_seconds": 0.06132170790806413,
+    "started_at": "2026-07-14T19:43:07.261532Z",
+    "duration_seconds": 0.034679584205150604,
     "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
     "config_sha256": "59a64ea3b691004e3b4aaf2579aad9a88c1c5d0c40b37f325b0500d8cfa3f34c",
     "evidence": {
@@ -538,14 +538,97 @@
       "60",
       "work/cutadapt__5.2__py313hd978853_2__linux-64/source/cutadapt-5.2/src/cutadapt"
     ],
-    "started_at": "2026-07-14T19:38:40.134961Z",
-    "duration_seconds": 0.3185351670254022,
+    "started_at": "2026-07-14T19:43:15.158015Z",
+    "duration_seconds": 0.26223754114471376,
     "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
     "config_sha256": "66b08e62c56107a72b9a722d16fa09b35725f911dfa2e42bd77a193549dcfab1",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/PY-VULTURE-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/PY-VULTURE-001/stderr.txt",
       "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/PY-VULTURE-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "cutadapt-5.2-pilot-001",
+    "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
+    "check_id": "RECIPE-TEST-DEPTH-001",
+    "domain": "recipe",
+    "status": "PASS",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "recipes_commit": "7674dbab3aaa145b356baeff810dc7d3c705f4c5",
+      "recipe_path": "recipes/cutadapt",
+      "recipe_sha256": "eff5059271957a19ab6c79ebc5585587be8cb24967a0a50428ef104ef52cab73",
+      "depth": 1,
+      "has_import_test": true,
+      "has_help_test": false,
+      "has_version_test": true,
+      "has_command_test": true,
+      "uses_test_data": false,
+      "runs_analysis": false,
+      "asserts_output_exists": false,
+      "asserts_output_content": false,
+      "asserts_output_format": false
+    },
+    "tool": {
+      "name": "bcqa",
+      "version": "0.1.0"
+    },
+    "command": null,
+    "started_at": "2026-07-14T19:43:03.279049Z",
+    "duration_seconds": 0.003798082936555147,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "evidence": {
+      "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/RECIPE-TEST-DEPTH-001/observation.json",
+      "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/RECIPE-TEST-DEPTH-001/stderr.txt",
+      "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/RECIPE-TEST-DEPTH-001/metadata.json"
+    },
+    "notes": "The recipe imports cutadapt and runs cutadapt --version; this is an installation test, not upstream functional validation."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "cutadapt-5.2-pilot-001",
+    "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
+    "check_id": "REPO-PRACTICES-001",
+    "domain": "repository",
+    "status": "PASS",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "file_count": 325,
+      "licence_file_present": true,
+      "contribution_guide_present": true,
+      "citation_metadata_present": true,
+      "ci_workflow_present": true,
+      "test_path_present": true,
+      "documentation_path_present": true,
+      "repository_url": "https://github.com/marcelm/cutadapt",
+      "observed_commit": "50e9fb8d35b606196ae88d63252fc35674c0eda1",
+      "tree_truncated": false
+    },
+    "tool": {
+      "name": "GitHub REST API",
+      "version": "2022-11-28"
+    },
+    "command": null,
+    "started_at": "2026-07-14T19:43:17.059881Z",
+    "duration_seconds": 0.3330454998649657,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "66b08e62c56107a72b9a722d16fa09b35725f911dfa2e42bd77a193549dcfab1",
+    "evidence": {
+      "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/REPO-PRACTICES-001/stdout.json",
+      "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/REPO-PRACTICES-001/stderr.txt",
+      "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/REPO-PRACTICES-001/metadata.json"
     },
     "notes": null
   }

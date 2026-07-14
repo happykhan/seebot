@@ -19,3 +19,14 @@
 - `ERROR`: audit machinery failed; excluded from failure counts.
 - `NOT_RUN`: deliberately or not yet executed.
 
+## Global result table
+
+`results/global/check-results.json` is the lossless input to the web application.
+`results/global/check-results.csv` is the analysis-ready export; structured fields are
+JSON-encoded within CSV cells. Each row is one check observation and has the natural key
+`(run_id, package_id, check_id)`.
+
+The table is rebuilt from immutable per-run `checks.json` files. A conflicting duplicate
+key is an error. Re-running a package therefore creates a new `run_id`; it never edits its
+history. A “latest result” is a derived view, not stored truth. Raw stdout, stderr, and
+metadata remain in evidence storage and are referenced by each row rather than embedded.

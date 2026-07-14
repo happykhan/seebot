@@ -43,3 +43,9 @@ Downloads are a package-installation signal and may include dependency resolutio
 
 Commands run without network access unless the manifest explicitly declares it, with a fixed timeout and isolated working directory. A result records the exact command, environment identity, configuration hash, start time, duration, exit code or signal, and stdout/stderr paths. Resume never replaces completed evidence unless `--force` is supplied.
 
+## Result aggregation
+
+Normalization updates an append-only global fact table with one row per package, run, and
+rubric check. The web application reads the lossless JSON form; statistical workflows may
+read the CSV export. The table preserves every explicit state, including `ERROR` and
+`UNTESTABLE`, and never collapses domains into a composite quality score.
