@@ -592,14 +592,18 @@ def audit_python(ctx: typer.Context, package: Path) -> None:
     production_roots = manifest["source_layout"]["production_roots"]
     if not production_roots:
         raise typer.BadParameter("Manifest has no reviewed production source root.")
-    source_root = extracted / production_roots[0]
-    if not source_root.exists():
-        raise typer.BadParameter(f"Fetch packaged release source first: {source_root}")
+    source_roots = [extracted / root for root in production_roots]
+    missing_roots = [root for root in source_roots if not root.exists()]
+    if missing_roots:
+        raise typer.BadParameter(
+            "Fetch packaged release source first; missing: "
+            + ", ".join(str(root) for root in missing_roots)
+        )
     if opts.dry_run:
-        console.print(f"Would run the fixed Python toolchain against {source_root}")
+        console.print(f"Would run the fixed Python toolchain against {len(source_roots)} roots")
         return
     results = run_python_analyzers(
-        source_root=source_root,
+        source_roots=source_roots,
         package_id=package_id(manifest),
         run_id=opts.run_id,
         evidence_root=opts.output_directory / "evidence",

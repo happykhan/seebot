@@ -86,8 +86,8 @@ def _tool_version(executable: str) -> str:
     return (completed.stdout or completed.stderr).strip().splitlines()[0]
 
 
-def _source_denominator(source_root: Path) -> dict[str, int]:
-    files = sorted(source_root.rglob("*.py"))
+def _source_denominator(source_roots: list[Path]) -> dict[str, int]:
+    files = sorted({path for root in source_roots for path in root.rglob("*.py")})
     lines = 0
     for path in files:
         for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -99,7 +99,7 @@ def _source_denominator(source_root: Path) -> dict[str, int]:
 
 def run_python_analyzers(
     *,
-    source_root: Path,
+    source_roots: list[Path],
     package_id: str,
     run_id: str,
     evidence_root: Path,
@@ -108,13 +108,14 @@ def run_python_analyzers(
     force: bool = False,
 ) -> list[CheckResult]:
     """Run the fixed pilot toolchain and retain each tool's unmodified output."""
-    denominator = _source_denominator(source_root)
+    denominator = _source_denominator(source_roots)
     try:
-        command_source_root = source_root.relative_to(Path.cwd())
+        command_source_roots = [root.relative_to(Path.cwd()) for root in source_roots]
         command_config_root = config_root.relative_to(Path.cwd())
     except ValueError:
-        command_source_root = source_root
+        command_source_roots = source_roots
         command_config_root = config_root
+    source_arguments = [str(path) for path in command_source_roots]
     specs: list[tuple[str, str, list[str], set[int], Path, Parser]] = [
         (
             "PY-RUFF-001",
@@ -125,7 +126,7 @@ def run_python_analyzers(
                 "--output-format=json",
                 "--config",
                 str(command_config_root / "ruff-standard.toml"),
-                str(command_source_root),
+                *source_arguments,
             ],
             {0, 1},
             config_root / "ruff-standard.toml",
@@ -140,7 +141,7 @@ def run_python_analyzers(
                 "--recursive=y",
                 "--rcfile",
                 str(command_config_root / "pylint-standard.toml"),
-                str(command_source_root),
+                *source_arguments,
             ],
             set(range(32)),
             config_root / "pylint-standard.toml",
@@ -149,7 +150,7 @@ def run_python_analyzers(
         (
             "PY-RADON-001",
             "radon",
-            ["radon", "cc", "-j", "-s", str(command_source_root)],
+            ["radon", "cc", "-j", "-s", *source_arguments],
             {0},
             config_root / "audit.yaml",
             _radon,
@@ -165,7 +166,7 @@ def run_python_analyzers(
                 "0",
                 "-c",
                 str(command_config_root / "interrogate-standard.toml"),
-                str(command_source_root),
+                *source_arguments,
             ],
             {0},
             config_root / "interrogate-standard.toml",
@@ -174,7 +175,7 @@ def run_python_analyzers(
         (
             "PY-VULTURE-001",
             "vulture",
-            ["vulture", "--min-confidence", "60", str(command_source_root)],
+            ["vulture", "--min-confidence", "60", *source_arguments],
             {0, 1, 3},
             config_root / "audit.yaml",
             _vulture,
@@ -182,7 +183,7 @@ def run_python_analyzers(
         (
             "PY-BANDIT-001",
             "bandit",
-            ["bandit", "-r", "-q", "-f", "json", str(command_source_root)],
+            ["bandit", "-r", "-q", "-f", "json", *source_arguments],
             {0, 1},
             config_root / "audit.yaml",
             _bandit,
@@ -230,7 +231,7 @@ def run_python_analyzers(
                 {
                     "schema_version": 1,
                     "command": command,
-                    "source_root": command_source_root.as_posix(),
+                    "source_roots": [path.as_posix() for path in command_source_roots],
                     "started_at": started.isoformat().replace("+00:00", "Z"),
                     "duration_seconds": duration,
                     "environment_id": environment_id(),
