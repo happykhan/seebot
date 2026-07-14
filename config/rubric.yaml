@@ -1,0 +1,37 @@
+schema_version: 1
+version: 0.1.0-pilot
+frozen: false
+checks:
+  - id: CLI-HELP-001
+    domain: cli
+    title: Documented help command terminates successfully
+    description: The primary executable exposes a documented help invocation.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected:
+      allowed_exit_codes: [0]
+      timeout_seconds: 30
+    evidence_required: [command, exit_code, stdout, stderr]
+    source:
+      - https://doi.org/10.1186/2047-217X-2-15
+  - id: CLI-VERSION-001
+    domain: cli
+    title: Documented version command terminates successfully
+    description: The primary executable exposes the reviewed version invocation.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected:
+      allowed_exit_codes: [0]
+      timeout_seconds: 30
+    evidence_required: [command, exit_code, stdout, stderr]
+  - id: CLI-INVALID-001
+    domain: cli
+    title: Invalid option is rejected without timeout
+    description: The executable rejects a deliberately invalid option with a non-zero exit code.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected:
+      allowed_exit_codes: [1, 2, 64]
+      timeout_seconds: 30
+    evidence_required: [command, exit_code, stdout, stderr]
+

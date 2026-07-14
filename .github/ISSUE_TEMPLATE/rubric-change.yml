@@ -1,0 +1,22 @@
+name: Rubric or protocol change
+description: Propose a versioned semantic change
+title: "protocol: "
+labels: [protocol-change]
+body:
+  - type: input
+    id: check
+    attributes: { label: Check ID or schema }
+    validations: { required: true }
+  - type: textarea
+    id: current
+    attributes: { label: Current semantics }
+    validations: { required: true }
+  - type: textarea
+    id: proposed
+    attributes: { label: Proposed semantics and comparability impact }
+    validations: { required: true }
+  - type: textarea
+    id: evidence
+    attributes: { label: Rationale and sources }
+    validations: { required: true }
+

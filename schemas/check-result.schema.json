@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seecode/schemas/check-result.schema.json",
+  "title": "SeeCode individual check result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "package_id", "check_id", "domain", "status", "applicability", "method", "expected", "observed", "tool", "command", "started_at", "duration_seconds", "environment_id", "config_sha256", "evidence", "notes"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "package_id": {"type": "string", "minLength": 1},
+    "check_id": {"type": "string", "pattern": "^[A-Z]+-[A-Z0-9]+-[0-9]{3}$"},
+    "domain": {"enum": ["cohort", "package", "recipe", "repository", "source", "python", "cli", "robustness", "reproducibility", "security", "manual"]},
+    "status": {"enum": ["PASS", "FAIL", "PARTIAL", "NOT_APPLICABLE", "UNTESTABLE", "ERROR", "NOT_RUN"]},
+    "applicability": {"enum": ["APPLICABLE", "NOT_APPLICABLE", "UNKNOWN"]},
+    "method": {"enum": ["automated", "automated_with_manifest", "manual", "agent", "adjudicated"]},
+    "expected": {"type": "object"},
+    "observed": {"type": "object"},
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {"name": {"type": "string"}, "version": {"type": "string"}}
+    },
+    "command": {"type": ["array", "null"], "items": {"type": "string"}},
+    "started_at": {"type": "string", "format": "date-time"},
+    "duration_seconds": {"type": "number", "minimum": 0},
+    "environment_id": {"type": "string", "minLength": 1},
+    "config_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stdout", "stderr", "metadata"],
+      "properties": {"stdout": {"type": "string"}, "stderr": {"type": "string"}, "metadata": {"type": "string"}}
+    },
+    "notes": {"type": ["string", "null"]}
+  }
+}
+

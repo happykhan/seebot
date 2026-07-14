@@ -1,0 +1,60 @@
+schema_version: 1
+package:
+  name: multiqc
+  cohort_rank: null
+  download_count: null
+  download_period: {start: null, end: null}
+bioconda:
+  recipes_commit: null
+  recipe_path: recipes/multiqc
+  version: null
+  build: null
+  subdir: linux-64
+  package_url: null
+  package_sha256: null
+  primary_executables: [multiqc]
+classification:
+  include: true
+  package_type: cli_tool
+  tool_category: quality_control
+  exclusion_code: null
+  notes: Pilot placeholder; package identity must be frozen before execution.
+release_source:
+  source_url: null
+  source_sha256: null
+  extracted_root: null
+  source_ref: null
+upstream:
+  repository_url: https://github.com/MultiQC/MultiQC
+  forge: github
+  release_tag: null
+  release_commit: null
+  default_branch_commit_at_audit: null
+  mapping_confidence: high
+  mapping_evidence: recipe_home_url
+source_layout:
+  production_roots: []
+  test_roots: []
+  documentation_roots: []
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths: []
+cli:
+  no_argument_policy: help_or_usage_error
+  help_commands: [[multiqc, --help]]
+  version_commands: [[multiqc, --version]]
+  invalid_option_command: [multiqc, --definitely-not-a-real-option]
+  requires_stdin: false
+  expected_network_access: false
+  timeout_seconds: 30
+functional_test:
+  status: not_designed
+  fixture_directory: null
+  command: null
+  expected_outputs: []
+curation:
+  status: unreviewed
+  reviewer: null
+  reviewed_at: null
+  notes: null
+

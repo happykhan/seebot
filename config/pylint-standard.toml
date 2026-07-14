@@ -1,0 +1,8 @@
+[MAIN]
+py-version = 3.12
+jobs = 1
+[FORMAT]
+max-line-length = 100
+[REPORTS]
+score = no
+

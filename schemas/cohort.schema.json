@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seecode/schemas/cohort.schema.json",
+  "title": "SeeCode cohort record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["candidate_rank", "pkg_name", "download_count", "period_start", "period_end", "source_dataset_version_or_snapshot", "query_sha256", "curation_status", "include", "exclusion_code", "exclusion_note", "upstream_project_id"],
+  "properties": {
+    "candidate_rank": {"type": "integer", "minimum": 1},
+    "pkg_name": {"type": "string"},
+    "download_count": {"type": "integer", "minimum": 0},
+    "period_start": {"type": "string", "format": "date"},
+    "period_end": {"type": "string", "format": "date"},
+    "source_dataset_version_or_snapshot": {"type": "string"},
+    "query_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "curation_status": {"enum": ["unreviewed", "suggested", "reviewed", "excluded", "adjudication_required"]},
+    "include": {"type": ["boolean", "null"]},
+    "exclusion_code": {"type": ["string", "null"]},
+    "exclusion_note": {"type": ["string", "null"]},
+    "upstream_project_id": {"type": ["string", "null"]}
+  }
+}
+

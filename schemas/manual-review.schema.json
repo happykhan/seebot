@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seecode/schemas/manual-review.schema.json",
+  "title": "SeeCode manual or agent review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "package_id", "source_commit", "review_type", "reviewer_id", "review_round", "sampling_seed", "sample", "assessment", "confidence", "evidence_notes", "adjudication_required"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "package_id": {"type": "string"},
+    "source_commit": {"type": "string"},
+    "review_type": {"type": "string"},
+    "reviewer_id": {"type": "string"},
+    "review_round": {"type": "integer", "minimum": 1},
+    "sampling_seed": {"type": "integer", "minimum": 0},
+    "sample": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["file", "start_line", "end_line", "item_type", "item_name"],
+        "properties": {
+          "file": {"type": "string"},
+          "start_line": {"type": "integer", "minimum": 1},
+          "end_line": {"type": "integer", "minimum": 1},
+          "item_type": {"type": "string"},
+          "item_name": {"type": "string"}
+        }
+      }
+    },
+    "assessment": {"type": "object"},
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "evidence_notes": {"type": "string", "maxLength": 2000},
+    "adjudication_required": {"type": "boolean"}
+  }
+}
+

@@ -1,0 +1,1 @@
+"""Analysis-ready tabular outputs."""

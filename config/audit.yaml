@@ -1,0 +1,21 @@
+schema_version: 1
+project: seecode
+protocol_phase: pilot
+pilot_size: 10
+target_cohort_size: 200
+candidate_pool_size: 300
+default_download_window:
+  start: 2025-07-01
+  end: 2026-06-30
+  months: 12
+execution:
+  timeout_seconds: 30
+  network_access: false
+  jobs: 4
+  resume_overwrites_completed: false
+storage:
+  evidence_directory: evidence
+  results_directory: results
+  commit_raw_download_data: false
+  commit_third_party_source: false
+

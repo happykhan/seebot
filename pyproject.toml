@@ -1,0 +1,64 @@
+[project]
+name = "seecode"
+version = "0.1.0"
+description = "A reproducible software-engineering audit of widely downloaded Bioconda tools"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "SeeCode contributors" }]
+dependencies = [
+  "httpx>=0.28,<1",
+  "jsonschema>=4.25,<5",
+  "pydantic>=2.11,<3",
+  "pyyaml>=6.0,<7",
+  "rich>=14.0,<15",
+  "typer>=0.16,<1",
+]
+
+[project.optional-dependencies]
+cohort = ["duckdb>=1.3,<2", "pyarrow>=20,<23"]
+analysis = [
+  "bandit>=1.8,<2",
+  "interrogate>=1.7,<2",
+  "pylint>=3.3,<5",
+  "radon>=6.0,<7",
+  "ruff>=0.12,<1",
+  "vulture>=2.14,<3",
+]
+
+[dependency-groups]
+dev = [
+  "mypy>=1.16,<2",
+  "pre-commit>=4.2,<5",
+  "pytest>=8.4,<10",
+  "pytest-cov>=6.2,<8",
+  "ruff>=0.12,<1",
+  "types-jsonschema>=4.25,<5",
+  "types-pyyaml>=6.0,<7",
+]
+
+[project.scripts]
+bcqa = "bioconda_audit.cli:app"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bioconda_audit"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config -q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["bioconda_audit"]

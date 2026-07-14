@@ -1,0 +1,20 @@
+name: Package curation
+description: Review candidate eligibility or upstream mapping
+title: "curation: "
+labels: [curation]
+body:
+  - type: input
+    id: package
+    attributes: { label: Package name }
+    validations: { required: true }
+  - type: dropdown
+    id: decision
+    attributes:
+      label: Proposed decision
+      options: [Include, Exclude, Adjudication required]
+    validations: { required: true }
+  - type: textarea
+    id: evidence
+    attributes: { label: Evidence, description: Link recipe and primary upstream documentation. }
+    validations: { required: true }
+

@@ -1,0 +1,12 @@
+schema_version: 1
+note: Resolved versions are also preserved in uv.lock and each run metadata record.
+tools:
+  bcqa: 0.1.0
+  python: ">=3.12"
+  ruff: ">=0.12,<1"
+  pylint: ">=3.3,<5"
+  radon: ">=6,<7"
+  interrogate: ">=1.7,<2"
+  vulture: ">=2.14,<3"
+  bandit: ">=1.8,<2"
+

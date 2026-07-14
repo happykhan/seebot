@@ -1,0 +1,1 @@
+"""Pinned Ruff observation adapter."""

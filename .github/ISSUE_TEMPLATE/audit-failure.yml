@@ -1,0 +1,18 @@
+name: Audit machinery failure
+description: Report an ERROR in SeeCode execution
+title: "audit error: "
+labels: [audit-error]
+body:
+  - type: input
+    id: run
+    attributes: { label: Run ID }
+    validations: { required: true }
+  - type: input
+    id: check
+    attributes: { label: Package and check ID }
+    validations: { required: true }
+  - type: textarea
+    id: evidence
+    attributes: { label: Evidence metadata and logs, description: Provide paths or artifact links; do not paste credentials. }
+    validations: { required: true }
+

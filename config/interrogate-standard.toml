@@ -1,0 +1,6 @@
+[tool.interrogate]
+ignore-init-method = true
+ignore-magic = true
+ignore-module = false
+verbose = 0
+

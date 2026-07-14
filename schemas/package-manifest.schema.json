@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seecode/schemas/package-manifest.schema.json",
+  "title": "SeeCode package manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "package", "bioconda", "classification", "release_source", "upstream", "source_layout", "cli", "functional_test", "curation"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "cohort_rank", "download_count", "download_period"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z0-9_.-]+$"},
+        "cohort_rank": {"type": ["integer", "null"], "minimum": 1},
+        "download_count": {"type": ["integer", "null"], "minimum": 0},
+        "download_period": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start", "end"],
+          "properties": {
+            "start": {"type": ["string", "null"], "format": "date"},
+            "end": {"type": ["string", "null"], "format": "date"}
+          }
+        }
+      }
+    },
+    "bioconda": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recipes_commit", "recipe_path", "version", "build", "subdir", "package_url", "package_sha256", "primary_executables"],
+      "properties": {
+        "recipes_commit": {"$ref": "#/$defs/nullableString"},
+        "recipe_path": {"$ref": "#/$defs/nullableString"},
+        "version": {"$ref": "#/$defs/nullableString"},
+        "build": {"$ref": "#/$defs/nullableString"},
+        "subdir": {"enum": ["linux-64", "noarch"]},
+        "package_url": {"$ref": "#/$defs/nullableString"},
+        "package_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "primary_executables": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["include", "package_type", "tool_category", "exclusion_code", "notes"],
+      "properties": {
+        "include": {"type": "boolean"},
+        "package_type": {"enum": ["cli_tool", "programmatic_tool", "graphical_tool", "other", "unknown"]},
+        "tool_category": {"$ref": "#/$defs/nullableString"},
+        "exclusion_code": {"type": ["string", "null"]},
+        "notes": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "release_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_url", "source_sha256", "extracted_root", "source_ref"],
+      "properties": {
+        "source_url": {"$ref": "#/$defs/nullableString"},
+        "source_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "extracted_root": {"$ref": "#/$defs/nullableString"},
+        "source_ref": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_url", "forge", "release_tag", "release_commit", "default_branch_commit_at_audit", "mapping_confidence", "mapping_evidence"],
+      "properties": {
+        "repository_url": {"$ref": "#/$defs/nullableString"},
+        "forge": {"enum": ["github", "gitlab", "bitbucket", "other", "unknown"]},
+        "release_tag": {"$ref": "#/$defs/nullableString"},
+        "release_commit": {"$ref": "#/$defs/nullableString"},
+        "default_branch_commit_at_audit": {"$ref": "#/$defs/nullableString"},
+        "mapping_confidence": {"enum": ["high", "medium", "low", "unknown"]},
+        "mapping_evidence": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "source_layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_roots", "test_roots", "documentation_roots", "generated_paths", "vendored_paths", "excluded_paths"],
+      "properties": {
+        "production_roots": {"$ref": "#/$defs/pathList"},
+        "test_roots": {"$ref": "#/$defs/pathList"},
+        "documentation_roots": {"$ref": "#/$defs/pathList"},
+        "generated_paths": {"$ref": "#/$defs/pathList"},
+        "vendored_paths": {"$ref": "#/$defs/pathList"},
+        "excluded_paths": {"$ref": "#/$defs/pathList"}
+      }
+    },
+    "cli": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["no_argument_policy", "help_commands", "version_commands", "invalid_option_command", "requires_stdin", "expected_network_access", "timeout_seconds"],
+      "properties": {
+        "no_argument_policy": {"enum": ["help_or_usage_error", "successful_noop", "requires_input", "unknown"]},
+        "help_commands": {"$ref": "#/$defs/commands"},
+        "version_commands": {"$ref": "#/$defs/commands"},
+        "invalid_option_command": {"type": ["array", "null"], "items": {"type": "string"}, "minItems": 1},
+        "requires_stdin": {"type": "boolean"},
+        "expected_network_access": {"type": "boolean"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 600}
+      }
+    },
+    "functional_test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "fixture_directory", "command", "expected_outputs"],
+      "properties": {
+        "status": {"enum": ["not_designed", "draft", "reviewed", "untestable"]},
+        "fixture_directory": {"$ref": "#/$defs/nullableString"},
+        "command": {"type": ["array", "null"], "items": {"type": "string"}, "minItems": 1},
+        "expected_outputs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "curation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewer", "reviewed_at", "notes"],
+      "properties": {
+        "status": {"enum": ["unreviewed", "in_review", "reviewed", "adjudication_required"]},
+        "reviewer": {"$ref": "#/$defs/nullableString"},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"$ref": "#/$defs/nullableString"}
+      }
+    }
+  },
+  "$defs": {
+    "nullableString": {"type": ["string", "null"]},
+    "nullableSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "pathList": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "commands": {"type": "array", "items": {"type": "array", "items": {"type": "string"}, "minItems": 1}}
+  }
+}
+

@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use SeeCode or its audit dataset, please cite the archived release."
+title: "SeeCode: a reproducible audit of software-engineering practices in widely downloaded Bioconda tools"
+type: software
+version: 0.1.0
+date-released: 2026-07-14
+license: MIT
+repository-code: "https://github.com/happykhan/seecode"
+
