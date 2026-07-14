@@ -4,7 +4,7 @@
   "title": "Seebot individual check result",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "run_id", "package_id", "check_id", "domain", "status", "applicability", "method", "expected", "observed", "tool", "command", "started_at", "duration_seconds", "environment_id", "config_sha256", "evidence", "notes"],
+  "required": ["schema_version", "run_id", "package_id", "check_id", "domain", "status", "result_kind", "applicability", "method", "expected", "observed", "tool", "command", "started_at", "duration_seconds", "environment_id", "config_sha256", "evidence", "notes"],
   "properties": {
     "schema_version": {"const": 1},
     "run_id": {"type": "string", "minLength": 1},
@@ -12,6 +12,7 @@
     "check_id": {"type": "string", "pattern": "^[A-Z]+(?:-[A-Z0-9]+)+-[0-9]{3}$"},
     "domain": {"enum": ["cohort", "package", "recipe", "repository", "source", "python", "cli", "functional", "robustness", "reproducibility", "security", "manual"]},
     "status": {"enum": ["PASS", "FAIL", "PARTIAL", "NOT_APPLICABLE", "UNTESTABLE", "ERROR", "NOT_RUN"]},
+    "result_kind": {"enum": ["CONTRACT", "MEASUREMENT"]},
     "applicability": {"enum": ["APPLICABLE", "NOT_APPLICABLE", "UNKNOWN"]},
     "method": {"enum": ["automated", "automated_with_manifest", "manual", "agent", "adjudicated"]},
     "expected": {"type": "object"},

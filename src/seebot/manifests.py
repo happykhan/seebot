@@ -97,6 +97,8 @@ def manifest_template(name: str) -> dict[str, Any]:
         },
         "runtime": {
             "backend": "unknown",
+            "pixi_package": None,
+            "pixi_channels": ["conda-forge", "bioconda"],
             "container_image": None,
             "container_digest": None,
             "platform": None,

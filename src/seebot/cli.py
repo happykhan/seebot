@@ -27,6 +27,12 @@ from seebot.manifests import load_yaml, validate_manifest, write_template
 from seebot.normalize.results import normalize_run, rebuild_global_results
 from seebot.recipes.checkout import fetch_recipe_file
 from seebot.recipes.test_depth import write_recipe_test_observation
+from seebot.runtime.pixi import (
+    PixiEnvironment,
+    PixiProbeSpec,
+    prepare_environment,
+    run_pixi_probe,
+)
 from seebot.source.fetch import download_verified, extract_safe
 from seebot.source.inventory import inventory_tree
 
@@ -292,6 +298,48 @@ def container_probe(
     )
 
 
+def package_pixi_environment(manifest: dict[str, Any], opts: Options) -> PixiEnvironment:
+    runtime = manifest["runtime"]
+    package_name = runtime["pixi_package"] or manifest["package"]["name"]
+    version = manifest["bioconda"]["version"]
+    if not version:
+        raise typer.BadParameter("A reviewed package version is required for Pixi.")
+    return prepare_environment(
+        opts.output_directory / "work" / package_id(manifest) / "pixi-environment",
+        package_name=package_name,
+        version=str(version),
+        channels=runtime["pixi_channels"],
+    )
+
+
+def pixi_probe(
+    manifest: dict[str, Any],
+    environment: PixiEnvironment,
+    *,
+    check_id: str,
+    domain: str,
+    command: list[str],
+    allowed_exit_codes: list[int],
+    fixture_directory: Path | None = None,
+    expected_stdout_contains: str | None = None,
+    expected_output_sha256: dict[str, str] | None = None,
+    manifest_path: Path | None = None,
+) -> PixiProbeSpec:
+    return PixiProbeSpec(
+        package_id=package_id(manifest),
+        check_id=check_id,
+        domain=domain,
+        command=command,
+        allowed_exit_codes=allowed_exit_codes,
+        timeout_seconds=manifest["cli"]["timeout_seconds"],
+        environment=environment,
+        fixture_directory=fixture_directory,
+        expected_stdout_contains=expected_stdout_contains,
+        expected_output_sha256=expected_output_sha256,
+        manifest_sha256=sha256_file(manifest_path) if manifest_path else None,
+    )
+
+
 def execute_container_probes(probes: list[ContainerProbeSpec], opts: Options) -> list[Any]:
     table = Table("Check", "Status", "Exit code")
     results = []
@@ -300,6 +348,26 @@ def execute_container_probes(probes: list[ContainerProbeSpec], opts: Options) ->
             table.add_row(probe.check_id, "NOT_RUN", "-")
             continue
         result = run_container_probe(
+            probe,
+            run_id=opts.run_id,
+            evidence_root=opts.output_directory / "evidence",
+            config_path=ROOT / "config" / "rubric.yaml",
+            force=opts.force,
+        )
+        results.append(result)
+        table.add_row(result.check_id, result.status.value, str(result.observed.get("exit_code")))
+    console.print(table)
+    return results
+
+
+def execute_pixi_probes(probes: list[PixiProbeSpec], opts: Options) -> list[Any]:
+    table = Table("Check", "Status", "Exit code")
+    results = []
+    for probe in probes:
+        if opts.dry_run:
+            table.add_row(probe.check_id, "NOT_RUN", "-")
+            continue
+        result = run_pixi_probe(
             probe,
             run_id=opts.run_id,
             evidence_root=opts.output_directory / "evidence",
@@ -321,6 +389,48 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
     if errors:
         raise typer.BadParameter("Manifest is invalid: " + "; ".join(errors))
     cli = manifest["cli"]
+    if manifest["runtime"]["backend"] == "pixi":
+        environment = package_pixi_environment(manifest, opts)
+        probes: list[PixiProbeSpec] = []
+        for command in cli["help_commands"]:
+            probes.append(
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-HELP-001",
+                    domain="cli",
+                    command=command,
+                    allowed_exit_codes=[0],
+                    manifest_path=manifest_path,
+                )
+            )
+        for command in cli["version_commands"]:
+            probes.append(
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-VERSION-001",
+                    domain="cli",
+                    command=command,
+                    allowed_exit_codes=[0],
+                    expected_stdout_contains=str(manifest["bioconda"]["version"]),
+                    manifest_path=manifest_path,
+                )
+            )
+        if cli["invalid_option_command"]:
+            probes.append(
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-INVALID-001",
+                    domain="cli",
+                    command=cli["invalid_option_command"],
+                    allowed_exit_codes=[1, 2, 64],
+                    manifest_path=manifest_path,
+                )
+            )
+        execute_pixi_probes(probes, opts)
+        return
     if manifest["runtime"]["backend"] == "container":
         container_probes: list[ContainerProbeSpec] = []
         for command in cli["help_commands"]:
@@ -360,10 +470,10 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
         execute_container_probes(container_probes, opts)
         return
 
-    probes: list[ProbeSpec] = []
+    native_probes: list[ProbeSpec] = []
     pkg_id = package_id(manifest)
     for command in cli["help_commands"]:
-        probes.append(
+        native_probes.append(
             ProbeSpec(
                 pkg_id,
                 "CLI-HELP-001",
@@ -373,7 +483,7 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
             )
         )
     for command in cli["version_commands"]:
-        probes.append(
+        native_probes.append(
             ProbeSpec(
                 pkg_id,
                 "CLI-VERSION-001",
@@ -383,7 +493,7 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
             )
         )
     if cli["invalid_option_command"]:
-        probes.append(
+        native_probes.append(
             ProbeSpec(
                 pkg_id,
                 "CLI-INVALID-001",
@@ -393,7 +503,7 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
             )
         )
     table = Table("Check", "Status", "Exit code")
-    for probe in probes:
+    for probe in native_probes:
         if opts.dry_run:
             table.add_row(probe.check_id, "NOT_RUN", "-")
             continue
@@ -518,6 +628,24 @@ def audit_install(ctx: typer.Context, package: Path) -> None:
     manifest = load_yaml(manifest_path)
     executable = manifest["bioconda"]["primary_executables"][0]
     version = str(manifest["bioconda"]["version"])
+    if manifest["runtime"]["backend"] == "pixi":
+        environment = package_pixi_environment(manifest, opts)
+        execute_pixi_probes(
+            [
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="PKG-IDENTITY-001",
+                    domain="package",
+                    command=[executable, "--version"],
+                    allowed_exit_codes=[0],
+                    expected_stdout_contains=version,
+                    manifest_path=manifest_path,
+                )
+            ],
+            opts,
+        )
+        return
     execute_container_probes(
         [
             container_probe(
@@ -546,6 +674,25 @@ def audit_functional(ctx: typer.Context, package: Path) -> None:
     fixture = Path(functional["fixture_directory"])
     if not fixture.is_absolute():
         fixture = ROOT / fixture
+    if manifest["runtime"]["backend"] == "pixi":
+        environment = package_pixi_environment(manifest, opts)
+        execute_pixi_probes(
+            [
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-FUNCTIONAL-001",
+                    domain="functional",
+                    command=functional["command"],
+                    allowed_exit_codes=[0],
+                    fixture_directory=fixture,
+                    expected_output_sha256=functional["expected_output_sha256"],
+                    manifest_path=manifest_path,
+                )
+            ],
+            opts,
+        )
+        return
     execute_container_probes(
         [
             container_probe(

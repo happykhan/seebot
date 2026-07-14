@@ -17,7 +17,7 @@ from seebot.evidence import (
     evidence_path,
     sha256_file,
 )
-from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.models import CheckResult, EvidencePaths, ResultKind, Status, ToolIdentity
 
 
 def repository_facts(paths: list[str]) -> dict[str, bool | int]:
@@ -113,6 +113,7 @@ def run_repository_observation(
         check_id=check_id,
         domain="repository",
         status=status,
+        result_kind=ResultKind.MEASUREMENT,
         method="automated_with_manifest",
         expected={"measurement_only": True},
         observed=observed,

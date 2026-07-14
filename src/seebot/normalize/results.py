@@ -13,6 +13,7 @@ CORE_COLUMNS = [
     "check_id",
     "domain",
     "status",
+    "result_kind",
     "applicability",
     "method",
     "started_at",

@@ -14,6 +14,7 @@ export interface CheckResult {
   check_id: string
   domain: string
   status: Status
+  result_kind: 'CONTRACT' | 'MEASUREMENT'
   applicability: string
   method: string
   expected: Record<string, unknown>
@@ -27,4 +28,3 @@ export interface CheckResult {
   evidence: { stdout: string; stderr: string; metadata: string }
   notes: string | null
 }
-

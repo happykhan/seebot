@@ -120,9 +120,11 @@
     "runtime": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["backend", "container_image", "container_digest", "platform"],
+      "required": ["backend", "pixi_package", "pixi_channels", "container_image", "container_digest", "platform"],
       "properties": {
-        "backend": {"enum": ["container", "native", "unknown"]},
+        "backend": {"enum": ["pixi", "container", "native", "unknown"]},
+        "pixi_package": {"$ref": "#/$defs/nullableString"},
+        "pixi_channels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "container_image": {"$ref": "#/$defs/nullableString"},
         "container_digest": {"$ref": "#/$defs/nullableString"},
         "platform": {"$ref": "#/$defs/nullableString"}

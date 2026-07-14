@@ -18,7 +18,7 @@ from seebot.evidence import (
     evidence_path,
     sha256_file,
 )
-from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.models import CheckResult, EvidencePaths, ResultKind, Status, ToolIdentity
 
 Parser = Callable[[str], dict[str, Any]]
 
@@ -249,6 +249,7 @@ def run_python_analyzers(
             check_id=check_id,
             domain="python",
             status=status,
+            result_kind=ResultKind.MEASUREMENT,
             method="automated",
             expected={"measurement_only": True},
             observed=observed,

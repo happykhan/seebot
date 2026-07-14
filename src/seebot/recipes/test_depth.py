@@ -16,7 +16,7 @@ from seebot.evidence import (
     evidence_path,
     sha256_file,
 )
-from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
+from seebot.models import CheckResult, EvidencePaths, ResultKind, Status, ToolIdentity
 
 
 @dataclass(frozen=True)
@@ -107,6 +107,7 @@ def write_recipe_test_observation(
         check_id=check_id,
         domain="recipe",
         status=Status.PASS,
+        result_kind=ResultKind.MEASUREMENT,
         method="automated_with_manifest",
         expected={"measurement_only": True},
         observed=observed,

@@ -26,6 +26,11 @@ class Applicability(StrEnum):
     UNKNOWN = "UNKNOWN"
 
 
+class ResultKind(StrEnum):
+    CONTRACT = "CONTRACT"
+    MEASUREMENT = "MEASUREMENT"
+
+
 class ToolIdentity(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str
@@ -48,6 +53,7 @@ class CheckResult(BaseModel):
     check_id: str
     domain: str
     status: Status
+    result_kind: ResultKind = ResultKind.CONTRACT
     applicability: Applicability = Applicability.APPLICABLE
     method: str = "automated_with_manifest"
     expected: dict[str, Any] = Field(default_factory=dict)

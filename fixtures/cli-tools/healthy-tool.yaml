@@ -55,6 +55,8 @@ source_layout:
   excluded_paths: []
 runtime:
   backend: native
+  pixi_package: null
+  pixi_channels: [conda-forge, bioconda]
   container_image: null
   container_digest: null
   platform: null

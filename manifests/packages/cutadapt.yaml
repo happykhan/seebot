@@ -60,7 +60,9 @@ source_layout:
   vendored_paths: []
   excluded_paths: []
 runtime:
-  backend: container
+  backend: pixi
+  pixi_package: cutadapt
+  pixi_channels: [conda-forge, bioconda]
   container_image: quay.io/biocontainers/cutadapt
   container_digest: sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2
   platform: linux/amd64
