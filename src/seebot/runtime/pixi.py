@@ -52,6 +52,7 @@ class PixiProbeSpec:
     expected_stdout_contains: str | None = None
     expected_output_sha256: dict[str, str] | None = None
     manifest_sha256: str | None = None
+    repeat_count: int = 1
 
 
 def _run_json(command: list[str]) -> Any:
@@ -162,6 +163,11 @@ def run_pixi_probe(
     notes: str | None = None
     clean_env = {key: value for key, value in os.environ.items() if key != "PYTHONPATH"}
     try:
+        before_files = {
+            path.relative_to(check_dir).as_posix()
+            for path in check_dir.rglob("*")
+            if path.is_file()
+        }
         completed = subprocess.run(
             runner_command,
             cwd=check_dir,
@@ -174,6 +180,31 @@ def run_pixi_probe(
         stdout_path.write_bytes(completed.stdout)
         stderr_path.write_bytes(completed.stderr)
         observed = {"exit_code": completed.returncode, "timed_out": False}
+        combined_text = (completed.stdout + completed.stderr).decode(errors="replace")
+        observed["traceback_detected"] = "Traceback (most recent call last)" in combined_text
+        observed["usage_or_help_text_detected"] = any(
+            token in combined_text.lower() for token in ("usage", "options", "help")
+        )
+        after_files = {
+            path.relative_to(check_dir).as_posix()
+            for path in check_dir.rglob("*")
+            if path.is_file()
+        }
+        observed["files_created"] = sorted(after_files - before_files)
+        if spec.repeat_count > 1:
+            repeated = subprocess.run(
+                runner_command,
+                cwd=check_dir,
+                env=clean_env,
+                stdin=subprocess.DEVNULL,
+                capture_output=True,
+                timeout=spec.timeout_seconds,
+                check=False,
+            )
+            observed["repeat_count"] = spec.repeat_count
+            observed["repeatable_exit_code"] = repeated.returncode == completed.returncode
+            observed["repeatable_stdout"] = repeated.stdout == completed.stdout
+            observed["repeatable_stderr"] = repeated.stderr == completed.stderr
         status = Status.PASS if completed.returncode in spec.allowed_exit_codes else Status.FAIL
         decoded_stdout = completed.stdout.decode(errors="replace")
         if spec.expected_stdout_contains:
@@ -237,6 +268,7 @@ def run_pixi_probe(
             "timeout_seconds": spec.timeout_seconds,
             "stdout_contains": spec.expected_stdout_contains,
             "output_sha256": spec.expected_output_sha256 or {},
+            "repeat_count": spec.repeat_count,
         },
         observed=observed
         | {

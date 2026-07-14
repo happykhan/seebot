@@ -52,6 +52,22 @@ checks:
       allowed_exit_codes: [1, 2, 64]
       timeout_seconds: 30
     evidence_required: [command, exit_code, stdout, stderr]
+  - id: CLI-NOARGS-001
+    domain: cli
+    title: No-argument behaviour is observed
+    description: Record whether the primary executable shows help, performs a no-op, or returns a usage error under its reviewed policy.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected: {policy_from_manifest: true}
+    evidence_required: [command, exit_code, stdout, stderr, files_created]
+  - id: CLI-REPEAT-001
+    domain: robustness
+    title: Help behaviour is repeatable
+    description: Execute the bounded help command twice and compare exit code, stdout, and stderr.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected: {repeat_count: 2}
+    evidence_required: [command, repeatable_exit_code, repeatable_stdout, repeatable_stderr]
   - id: CLI-FUNCTIONAL-001
     domain: functional
     title: Reviewed miniature analysis produces the frozen output
@@ -115,6 +131,224 @@ checks:
     title: Bandit security indicators
     description: Count static security indicators without treating absence as proof of security.
     applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: PERL-COMPILE-001
+    domain: perl
+    title: Perl source syntax observation
+    description: Run perl syntax checks across reviewed production scripts and modules.
+    applicability: perl_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: PERL-CRITIC-001
+    domain: perl
+    title: Perl::Critic findings
+    description: Count findings using the frozen Seebot policy without treating them as defects.
+    applicability: perl_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: PERL-COMPLEXITY-001
+    domain: perl
+    title: Perl complexity observations
+    description: Record Perl::Metrics::Simple observations for reviewed production source.
+    applicability: perl_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: PERL-POD-001
+    domain: perl
+    title: Perl POD coverage observation
+    description: Record public-module documentation coverage where Pod::Coverage applies.
+    applicability: perl_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: C-CLANGTIDY-001
+    domain: c
+    title: C clang-tidy diagnostics
+    description: Record diagnostics from reviewed C roots and a captured compile database where available.
+    applicability: c_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: C-CPPCHECK-001
+    domain: c
+    title: Cppcheck findings for C source
+    description: Record source-only Cppcheck findings under the frozen profile.
+    applicability: c_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: C-COMPLEXITY-001
+    domain: c
+    title: C complexity observations
+    description: Record pmccabe observations for reviewed C production roots.
+    applicability: c_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: C-DOXYGEN-001
+    domain: c
+    title: C API documentation observation
+    description: Record Doxygen parser output without inferring documentation usefulness.
+    applicability: c_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: CPP-CLANGTIDY-001
+    domain: cpp
+    title: C++ clang-tidy diagnostics
+    applicability: cpp_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: CPP-CPPCHECK-001
+    domain: cpp
+    title: Cppcheck findings for C++ source
+    applicability: cpp_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: CPP-COMPLEXITY-001
+    domain: cpp
+    title: C++ complexity observations
+    applicability: cpp_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: CPP-DOXYGEN-001
+    domain: cpp
+    title: C++ API documentation observation
+    applicability: cpp_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: RS-CHECK-001
+    domain: rust
+    title: Cargo check observation
+    description: Record whether exact Rust release source checks against locked offline dependencies.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: RS-FMT-001
+    domain: rust
+    title: Rustfmt observation
+    description: Record cargo fmt check output without turning formatting into an award score.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: RS-CLIPPY-001
+    domain: rust
+    title: Clippy diagnostics
+    description: Record Clippy diagnostics for locked release source.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: RS-COMPLEXITY-001
+    domain: rust
+    title: Rust complexity observations
+    description: Record rust-code-analysis measurements for reviewed production roots.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: RS-DOCS-001
+    domain: rust
+    title: Rust documentation build observation
+    description: Record rustdoc completion and diagnostics for the frozen release.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: RS-UNSAFE-001
+    domain: rust
+    title: Rust unsafe-code indicators
+    description: Count unsafe-code indicators without inferring unsafety of the software.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: RS-AUDIT-001
+    domain: rust
+    title: Rust dependency advisory indicators
+    description: Match Cargo.lock against the frozen advisory snapshot without treating no matches as proof of security.
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-PYTHON-SLOC-001
+    domain: source
+    title: Python source-line inventory
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-PYTHON-DUPLICATION-001
+    domain: source
+    title: Python duplication indicators
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-PERL-SLOC-001
+    domain: source
+    title: Perl source-line inventory
+    applicability: perl_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-PERL-DUPLICATION-001
+    domain: source
+    title: Perl duplication indicators
+    applicability: perl_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-C-SLOC-001
+    domain: source
+    title: C source-line inventory
+    applicability: c_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-C-DUPLICATION-001
+    domain: source
+    title: C duplication indicators
+    applicability: c_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-CPP-SLOC-001
+    domain: source
+    title: C++ source-line inventory
+    applicability: cpp_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-CPP-DUPLICATION-001
+    domain: source
+    title: C++ duplication indicators
+    applicability: cpp_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-RUST-SLOC-001
+    domain: source
+    title: Rust source-line inventory
+    applicability: rust_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: SRC-RUST-DUPLICATION-001
+    domain: source
+    title: Rust duplication indicators
+    applicability: rust_source
     method: automated
     expected: {measurement_only: true}
     evidence_required: [command, stdout, stderr, tool_version]

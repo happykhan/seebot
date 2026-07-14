@@ -51,6 +51,11 @@ source_layout:
     - nanoplot-1.47.1/nanoplot
     - nanoplot-1.47.1/nanoplotter
     - nanoplot-1.47.1/nanomath
+  language_roots:
+    python:
+      - nanoplot-1.47.1/nanoplot
+      - nanoplot-1.47.1/nanoplotter
+      - nanoplot-1.47.1/nanomath
   test_roots: [nanoplot-1.47.1/nanomath/test_nanomath.py]
   documentation_roots: []
   generated_paths: [nanoplot-1.47.1/nanoplot.egg-info]

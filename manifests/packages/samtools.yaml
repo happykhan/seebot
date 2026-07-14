@@ -1,0 +1,12 @@
+schema_version: 1
+package: {name: samtools, cohort_rank: null, download_count: null, download_period: {start: null, end: null}}
+bioconda: {recipes_commit: null, recipe_path: recipes/samtools, version: null, build: null, subdir: linux-64, package_url: null, package_sha256: null, primary_executables: [samtools]}
+classification: {include: true, package_type: cli_tool, tool_category: alignment_processing, exclusion_code: null, notes: Command-line utilities for manipulating sequence alignment files.}
+release_source: {source_url: null, source_sha256: null, extracted_root: null, source_ref: null}
+recipe_test: {status: unreviewed, depth: null, facts: {has_import_test: null, has_help_test: null, has_version_test: null, has_command_test: null, uses_test_data: null, runs_analysis: null, asserts_output_exists: null, asserts_output_content: null, asserts_output_format: null}, notes: null}
+upstream: {repository_url: https://github.com/samtools/samtools, forge: github, release_tag: null, release_commit: null, default_branch_commit_at_audit: null, mapping_confidence: high, mapping_evidence: project_repository}
+source_layout: {production_roots: [], language_roots: {c: []}, test_roots: [], documentation_roots: [], generated_paths: [], vendored_paths: [], excluded_paths: []}
+runtime: {backend: pixi, pixi_package: samtools, pixi_channels: [conda-forge, bioconda], container_image: null, container_digest: null, platform: null}
+cli: {no_argument_policy: unknown, help_commands: [[samtools, --help]], version_commands: [[samtools, --version]], invalid_option_command: [samtools, --definitely-not-a-real-option], requires_stdin: false, expected_network_access: false, timeout_seconds: 60}
+functional_test: {status: not_designed, fixture_directory: null, command: null, expected_outputs: [], expected_output_sha256: {}}
+curation: {status: in_review, reviewer: null, reviewed_at: null, notes: Pilot package selected; release and build configuration require review.}

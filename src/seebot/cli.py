@@ -12,6 +12,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from seebot.analyzers.languages import reviewed_language_roots, run_language_analyzers
 from seebot.analyzers.python import run_python_analyzers
 from seebot.analyzers.repository import run_repository_observation
 from seebot.cohort.downloads import fetch_window
@@ -28,6 +29,7 @@ from seebot.normalize.results import normalize_run, rebuild_global_results
 from seebot.recipes.checkout import fetch_recipe_file
 from seebot.recipes.test_depth import write_recipe_test_observation
 from seebot.report.awards import load_award_config, rank_packages, write_badges
+from seebot.report.profiles import build_profiles
 from seebot.runtime.pixi import (
     PixiEnvironment,
     PixiProbeSpec,
@@ -248,7 +250,15 @@ def source_inventory(ctx: typer.Context, package: Path) -> None:
     if not root.exists():
         raise typer.BadParameter(f"No extracted release source: {root}")
     excluded = [Path(value) for value in manifest["source_layout"]["excluded_paths"]]
-    rows = inventory_tree(root, excluded)
+    layout = manifest["source_layout"]
+    rows = inventory_tree(
+        root,
+        excluded,
+        test_paths=[Path(value) for value in layout["test_roots"]],
+        documentation_paths=[Path(value) for value in layout["documentation_roots"]],
+        generated_paths=[Path(value) for value in layout["generated_paths"]],
+        vendored_paths=[Path(value) for value in layout["vendored_paths"]],
+    )
     target = root.parent / "source-inventory.json"
     if not opts.dry_run:
         target.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
@@ -323,6 +333,7 @@ def pixi_probe(
     expected_stdout_contains: str | None = None,
     expected_output_sha256: dict[str, str] | None = None,
     manifest_path: Path | None = None,
+    repeat_count: int = 1,
 ) -> PixiProbeSpec:
     return PixiProbeSpec(
         package_id=package_id(manifest),
@@ -336,6 +347,7 @@ def pixi_probe(
         expected_stdout_contains=expected_stdout_contains,
         expected_output_sha256=expected_output_sha256,
         manifest_sha256=sha256_file(manifest_path) if manifest_path else None,
+        repeat_count=repeat_count,
     )
 
 
@@ -391,6 +403,19 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
     if manifest["runtime"]["backend"] == "pixi":
         environment = package_pixi_environment(manifest, opts)
         probes: list[PixiProbeSpec] = []
+        executable = manifest["bioconda"]["primary_executables"][0]
+        no_argument_codes = [0, 1, 2, 64] if cli["no_argument_policy"] != "successful_noop" else [0]
+        probes.append(
+            pixi_probe(
+                manifest,
+                environment,
+                check_id="CLI-NOARGS-001",
+                domain="cli",
+                command=[executable],
+                allowed_exit_codes=no_argument_codes,
+                manifest_path=manifest_path,
+            )
+        )
         for command in cli["help_commands"]:
             probes.append(
                 pixi_probe(
@@ -426,6 +451,19 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
                     command=cli["invalid_option_command"],
                     allowed_exit_codes=[1, 2, 64],
                     manifest_path=manifest_path,
+                )
+            )
+        if cli["help_commands"]:
+            probes.append(
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-REPEAT-001",
+                    domain="robustness",
+                    command=cli["help_commands"][0],
+                    allowed_exit_codes=[0],
+                    manifest_path=manifest_path,
+                    repeat_count=2,
                 )
             )
         execute_pixi_probes(probes, opts)
@@ -588,7 +626,11 @@ def audit_python(ctx: typer.Context, package: Path) -> None:
     manifest = load_yaml(resolve_manifest(package))
     manifest_path = resolve_manifest(package)
     extracted = opts.output_directory / "work" / package_id(manifest) / "source"
-    production_roots = manifest["source_layout"]["production_roots"]
+    production_roots = (
+        manifest["source_layout"]
+        .get("language_roots", {})
+        .get("python", manifest["source_layout"]["production_roots"])
+    )
     if not production_roots:
         raise typer.BadParameter("Manifest has no reviewed production source root.")
     source_roots = [extracted / root for root in production_roots]
@@ -621,6 +663,42 @@ def audit_python(ctx: typer.Context, package: Path) -> None:
             "-",
         )
         table.add_row(result.check_id, result.status.value, str(count))
+    console.print(table)
+
+
+@audit_app.command("source")
+def audit_source(ctx: typer.Context, package: Path) -> None:
+    """Run every analyzer for the manifest's reviewed language roots."""
+    opts = options(ctx)
+    manifest_path = resolve_manifest(package)
+    manifest = load_yaml(manifest_path)
+    extracted = opts.output_directory / "work" / package_id(manifest) / "source"
+    languages = reviewed_language_roots(manifest, extracted)
+    if not languages:
+        console.print("[yellow]NOT_RUN[/yellow]: no reviewed language roots.")
+        return
+    missing = [root for roots in languages.values() for root in roots if not root.exists()]
+    if missing:
+        raise typer.BadParameter(
+            "Fetch packaged release source first; missing: " + ", ".join(map(str, missing))
+        )
+    table = Table("Language", "Measurements", "Measured", "Unavailable/Error")
+    for language, roots in languages.items():
+        if opts.dry_run:
+            table.add_row(language, "planned", "-", "-")
+            continue
+        results = run_language_analyzers(
+            language=language,
+            source_roots=roots,
+            package_id=package_id(manifest),
+            run_id=opts.run_id,
+            evidence_root=opts.output_directory / "evidence",
+            config_root=ROOT / "config",
+            manifest_sha256=sha256_file(manifest_path),
+            force=opts.force,
+        )
+        measured = sum(result.status.value == "PASS" for result in results)
+        table.add_row(language, str(len(results)), str(measured), str(len(results) - measured))
     console.print(table)
 
 
@@ -719,7 +797,7 @@ def audit_all(ctx: typer.Context, package: Path) -> None:
     audit_install(ctx, package)
     audit_cli(ctx, package)
     audit_functional(ctx, package)
-    audit_python(ctx, package)
+    audit_source(ctx, package)
     audit_repository(ctx, package)
 
 
@@ -782,6 +860,7 @@ def report_build(ctx: typer.Context) -> None:
                     "description": manifest["classification"]["notes"],
                     "upstream_url": manifest["upstream"]["repository_url"],
                     "run_id": run_id,
+                    "languages": sorted(manifest["source_layout"].get("language_roots", {})),
                 }
             )
         package_target = target.parent / "packages.json"
@@ -796,12 +875,24 @@ def report_build(ctx: typer.Context) -> None:
                     "rubric_version": award_config["version"],
                     "title": award_config["title"],
                     "scope_note": award_config["scope_note"],
+                    "provisional": True,
                     "rankings": rankings,
                 },
                 indent=2,
             )
             + "\n",
             encoding="utf-8",
+        )
+        interpretation = load_yaml(ROOT / "config" / "interpretation.yaml")
+        profiles = build_profiles(
+            packages,
+            rows,
+            minimum_provisional=int(interpretation["minimum_provisional_cohort"]),
+            minimum_classified=int(interpretation["minimum_classified_cohort"]),
+            version=str(interpretation["version"]),
+        )
+        (target.parent / "profiles.json").write_text(
+            json.dumps(profiles, indent=2) + "\n", encoding="utf-8"
         )
         write_badges(rankings, ROOT / "web" / "public" / "badges")
     console.print(f"Prepared web application dataset: {target}")

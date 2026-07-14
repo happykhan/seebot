@@ -8,7 +8,11 @@
     "category": "read_preprocessing",
     "description": "Performs adapter and primer trimming directly on sequencing reads.",
     "upstream_url": "https://github.com/marcelm/cutadapt",
-    "run_id": "cutadapt-5.2-pilot-001"
+    "run_id": "cutadapt-5.2-pilot-001",
+    "languages": [
+      "cython",
+      "python"
+    ]
   },
   {
     "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
@@ -19,7 +23,10 @@
     "category": "long_read_quality_control",
     "description": "Generates quality-control statistics and plots from long-read sequencing data.",
     "upstream_url": "https://github.com/wdecoster/NanoPlot",
-    "run_id": "nanoplot-1.47.1-pilot-001"
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "languages": [
+      "python"
+    ]
   },
   {
     "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
@@ -30,6 +37,10 @@
     "category": "sequence_comparison",
     "description": "Creates and compares MinHash sketches of genomic and metagenomic sequence data.",
     "upstream_url": "https://github.com/sourmash-bio/sourmash",
-    "run_id": "sourmash-4.9.4-pilot-001"
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "languages": [
+      "python",
+      "rust"
+    ]
   }
 ]

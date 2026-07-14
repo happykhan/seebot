@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seebot/schemas/profiles.schema.json",
+  "title": "Seebot language profile view",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "interpretation_version", "comparison_policy", "minimum_provisional_cohort", "minimum_classified_cohort", "profiles"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "interpretation_version": {"type": "string", "minLength": 1},
+    "comparison_policy": {"const": "same-language-and-config-only"},
+    "minimum_provisional_cohort": {"type": "integer", "minimum": 1},
+    "minimum_classified_cohort": {"type": "integer", "minimum": 1},
+    "profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["package_id", "languages"],
+        "properties": {
+          "package_id": {"type": "string", "minLength": 1},
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["language", "metrics", "measured_count"],
+              "properties": {
+                "language": {"enum": ["python", "perl", "c", "cpp", "rust", "cython"]},
+                "measured_count": {"type": "integer", "minimum": 0},
+                "metrics": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["check_id", "label", "value", "unit", "higher_is_better", "cohort_size", "percentile", "interpretation"],
+                    "properties": {
+                      "check_id": {"type": "string"},
+                      "label": {"type": "string"},
+                      "value": {"type": "number"},
+                      "unit": {"type": "string"},
+                      "higher_is_better": {"type": "boolean"},
+                      "cohort_size": {"type": "integer", "minimum": 1},
+                      "percentile": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+                      "interpretation": {"enum": ["favourable", "unfavourable", "typical", "provisional", "insufficient"]}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

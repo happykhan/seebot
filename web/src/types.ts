@@ -39,6 +39,7 @@ export interface PackageSummary {
   description: string
   upstream_url: string
   run_id: string
+  languages: string[]
 }
 
 export interface AwardRanking extends PackageSummary {
@@ -57,5 +58,34 @@ export interface RankingData {
   rubric_version: string
   title: string
   scope_note: string
+  provisional: boolean
   rankings: AwardRanking[]
+}
+
+export interface ProfileMetric {
+  check_id: string
+  label: string
+  value: number
+  unit: string
+  higher_is_better: boolean
+  cohort_size: number
+  percentile: number | null
+  interpretation: 'favourable' | 'unfavourable' | 'typical' | 'provisional' | 'insufficient'
+}
+
+export interface LanguageProfile {
+  language: string
+  metrics: ProfileMetric[]
+  measured_count: number
+}
+
+export interface PackageProfileData { package_id: string; languages: LanguageProfile[] }
+
+export interface ProfilesData {
+  schema_version: number
+  interpretation_version: string
+  comparison_policy: string
+  minimum_provisional_cohort: number
+  minimum_classified_cohort: number
+  profiles: PackageProfileData[]
 }

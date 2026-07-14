@@ -4,18 +4,19 @@
   "title": "Seebot award ranking view",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "rubric_version", "title", "scope_note", "rankings"],
+  "required": ["schema_version", "rubric_version", "title", "scope_note", "provisional", "rankings"],
   "properties": {
     "schema_version": {"const": 1},
     "rubric_version": {"type": "string", "minLength": 1},
     "title": {"type": "string", "minLength": 1},
     "scope_note": {"type": "string", "minLength": 1},
+    "provisional": {"type": "boolean"},
     "rankings": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["package_id", "name", "version", "build", "subdir", "category", "description", "upstream_url", "run_id", "score", "maximum_points", "eligible", "missing_checks", "tier", "tier_colour", "breakdown", "rank"],
+        "required": ["package_id", "name", "version", "build", "subdir", "category", "description", "upstream_url", "run_id", "languages", "score", "maximum_points", "eligible", "missing_checks", "tier", "tier_colour", "breakdown", "rank"],
         "properties": {
           "package_id": {"type": "string", "minLength": 1},
           "name": {"type": "string", "minLength": 1},
@@ -26,6 +27,7 @@
           "description": {"type": "string", "minLength": 1},
           "upstream_url": {"type": "string", "format": "uri"},
           "run_id": {"type": "string", "minLength": 1},
+          "languages": {"type": "array", "items": {"enum": ["python", "perl", "c", "cpp", "rust", "cython"]}, "uniqueItems": true},
           "score": {"type": "number", "minimum": 0, "maximum": 100},
           "maximum_points": {"const": 100},
           "eligible": {"type": "boolean"},

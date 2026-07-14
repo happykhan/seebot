@@ -107,9 +107,21 @@
     "source_layout": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["production_roots", "test_roots", "documentation_roots", "generated_paths", "vendored_paths", "excluded_paths"],
+      "required": ["production_roots", "language_roots", "test_roots", "documentation_roots", "generated_paths", "vendored_paths", "excluded_paths"],
       "properties": {
         "production_roots": {"$ref": "#/$defs/pathList"},
+        "language_roots": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "python": {"$ref": "#/$defs/pathList"},
+            "perl": {"$ref": "#/$defs/pathList"},
+            "c": {"$ref": "#/$defs/pathList"},
+            "cpp": {"$ref": "#/$defs/pathList"},
+            "rust": {"$ref": "#/$defs/pathList"},
+            "cython": {"$ref": "#/$defs/pathList"}
+          }
+        },
         "test_roots": {"$ref": "#/$defs/pathList"},
         "documentation_roots": {"$ref": "#/$defs/pathList"},
         "generated_paths": {"$ref": "#/$defs/pathList"},

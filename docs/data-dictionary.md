@@ -42,3 +42,11 @@ award rubric version used to generate it.
 Reusable badges are generated at `web/public/badges/{package}.svg`. A badge links back to
 the package profile where the score breakdown, rubric version, and scope warning are
 visible.
+
+## Language profile view
+
+`web/public/data/profiles.json` contains active-run source profiles. Every metric records
+its raw value, unit, comparison direction, compatible cohort size, observed-value
+percentile, and interpretation. `insufficient` means fewer than three comparable projects
+and `provisional` means three to nine. Favourable, typical, and unfavourable labels require
+at least ten.

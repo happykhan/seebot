@@ -43,8 +43,10 @@ uv run seebot results rebuild-global
 uv run seebot report build
 ```
 
-The three-package mini-pilot covers Cutadapt 5.2, NanoPlot 1.47.1, and sourmash
-4.9.4. Each has a reviewed manifest, a small functional fixture, and normalized results.
+The first three completed pilot records cover Cutadapt 5.2, NanoPlot 1.47.1, and
+sourmash 4.9.4. The ten-package pilot queue additionally contains deepTools, BUSCO,
+samtools, minimap2, rasusa, ABRicate, and Prokka. In-review manifests retain null release
+fields until recipe and artifact curation is complete.
 Pixi installs the reviewed version and records the native solved artifact and lock hash.
 This development runner does not claim to execute the frozen Linux package when running
 on macOS. Raw pilot evidence remains local until persistent Cloudflare storage is added;
@@ -55,9 +57,20 @@ successful observational checks are presented as `MEASURED`, because completing 
 static-analysis measurement is not a claim that the software has no findings.
 
 The results website is designed for the final cohort: a searchable, sortable, paginated
-tool directory; an award leaderboard; cohort-level Python metric distributions; detailed
-package profiles; and reusable SVG badges. Static-analysis findings are comparative
-observations and do not contribute to the award score.
+tool directory; an award leaderboard; same-language source profiles; strengths and watch
+areas once cohorts are large enough; up-to-three-tool comparison; and reusable SVG
+badges. Badges remain provisional until the pilot rubric is frozen. Static-analysis
+findings do not contribute to the award score.
+
+Run every configured language adapter for one exact release source:
+
+```bash
+uv run seebot source fetch PACKAGE
+uv run seebot --run-id RUN audit source PACKAGE
+```
+
+Python, Perl, C, C++, and Rust use separate adapters. Missing analyzers or build
+prerequisites are `UNTESTABLE`; analyzer machinery failures are `ERROR`.
 
 ## Repository map
 

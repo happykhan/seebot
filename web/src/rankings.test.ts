@@ -7,6 +7,7 @@ function ranking(index: number): AwardRanking {
     package_id: `tool-${index}__1__0__noarch`, name: `tool-${String(index).padStart(3, '0')}`,
     version: '1', build: '0', subdir: 'noarch', category: index % 2 ? 'assembly' : 'qc',
     description: `Tool ${index}`, upstream_url: 'https://example.test', run_id: 'pilot',
+    languages: ['python'],
     score: index, maximum_points: 100, eligible: true, missing_checks: [], tier: 'Reviewed',
     tier_colour: '#000', breakdown: { contracts: index, repository: 0, recipe_test: 0 }, rank: index,
   }

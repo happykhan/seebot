@@ -1,0 +1,12 @@
+version: 0.1.0-pilot
+minimum_provisional_cohort: 3
+minimum_classified_cohort: 10
+labels:
+  favourable: Strength
+  unfavourable: Watch area
+  typical: Typical for cohort
+  insufficient: Raw observation
+notes:
+  - Percentiles are calculated only within the same source language.
+  - Three to nine packages produce provisional relative positions, not categorical judgements.
+  - Static-analysis findings do not affect the Engineering Practice Award.

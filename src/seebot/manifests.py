@@ -89,6 +89,7 @@ def manifest_template(name: str) -> dict[str, Any]:
         },
         "source_layout": {
             "production_roots": [],
+            "language_roots": {},
             "test_roots": [],
             "documentation_roots": [],
             "generated_paths": [],

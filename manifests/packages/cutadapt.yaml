@@ -52,6 +52,9 @@ upstream:
 source_layout:
   production_roots:
     - cutadapt-5.2/src/cutadapt
+  language_roots:
+    python: [cutadapt-5.2/src/cutadapt]
+    cython: [cutadapt-5.2/src/cutadapt]
   test_roots:
     - cutadapt-5.2/tests
   documentation_roots:

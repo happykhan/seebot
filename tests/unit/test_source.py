@@ -39,3 +39,16 @@ def test_inventory_is_sorted_and_honours_exclusions(tmp_path: Path) -> None:
     (tmp_path / "vendor" / "lib.py").write_text("vendor")
     rows = inventory_tree(tmp_path, [Path("vendor")])
     assert [row["path"] for row in rows] == ["src/a.py", "src/b.py"]
+
+
+def test_inventory_classifies_languages_and_reviewed_roles(tmp_path: Path) -> None:
+    (tmp_path / "src").mkdir()
+    (tmp_path / "tests").mkdir()
+    (tmp_path / "src" / "main.rs").write_text("fn main() {}\n")
+    (tmp_path / "tests" / "check.py").write_text("assert True\n")
+    rows = inventory_tree(tmp_path, test_paths=[Path("tests")])
+    indexed = {row["path"]: row for row in rows}
+    assert indexed["src/main.rs"]["language"] == "rust"
+    assert indexed["src/main.rs"]["source_role"] == "production"
+    assert indexed["tests/check.py"]["language"] == "python"
+    assert indexed["tests/check.py"]["source_role"] == "test"

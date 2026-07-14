@@ -48,6 +48,7 @@ upstream:
   mapping_evidence: null
 source_layout:
   production_roots: []
+  language_roots: {}
   test_roots: []
   documentation_roots: []
   generated_paths: []

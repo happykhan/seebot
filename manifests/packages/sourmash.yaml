@@ -48,6 +48,9 @@ upstream:
   mapping_evidence: recipe_dev_url
 source_layout:
   production_roots: [sourmash-4.9.4/src/sourmash]
+  language_roots:
+    python: [sourmash-4.9.4/src/sourmash]
+    rust: [sourmash-4.9.4/src/core]
   test_roots: [sourmash-4.9.4/tests]
   documentation_roots: []
   generated_paths: []

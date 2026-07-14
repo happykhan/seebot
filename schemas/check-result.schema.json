@@ -10,7 +10,7 @@
     "run_id": {"type": "string", "minLength": 1},
     "package_id": {"type": "string", "minLength": 1},
     "check_id": {"type": "string", "pattern": "^[A-Z]+(?:-[A-Z0-9]+)+-[0-9]{3}$"},
-    "domain": {"enum": ["cohort", "package", "recipe", "repository", "source", "python", "cli", "functional", "robustness", "reproducibility", "security", "manual"]},
+    "domain": {"enum": ["cohort", "package", "recipe", "repository", "source", "python", "perl", "c", "cpp", "rust", "cli", "functional", "robustness", "reproducibility", "security", "manual"]},
     "status": {"enum": ["PASS", "FAIL", "PARTIAL", "NOT_APPLICABLE", "UNTESTABLE", "ERROR", "NOT_RUN"]},
     "result_kind": {"enum": ["CONTRACT", "MEASUREMENT"]},
     "applicability": {"enum": ["APPLICABLE", "NOT_APPLICABLE", "UNKNOWN"]},

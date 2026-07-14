@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import subprocess
 import time
 from collections import Counter
@@ -80,9 +81,12 @@ def _bandit(stdout: str) -> dict[str, Any]:
 
 
 def _tool_version(executable: str) -> str:
-    completed = subprocess.run(
-        [executable, "--version"], capture_output=True, text=True, check=False
-    )
+    try:
+        completed = subprocess.run(
+            [executable, "--version"], capture_output=True, text=True, check=False
+        )
+    except OSError:
+        return "UNAVAILABLE"
     return (completed.stdout or completed.stderr).strip().splitlines()[0]
 
 
@@ -204,22 +208,29 @@ def run_python_analyzers(
         observed: dict[str, Any] = {}
         stdout = ""
         stderr = ""
-        try:
-            completed = subprocess.run(command, capture_output=True, text=True, check=False)
-            stdout, stderr = completed.stdout, completed.stderr
-            if completed.returncode in measurement_codes:
-                parser_input = stdout if stdout.strip() else stderr
-                observed = (
-                    parser(parser_input) | denominator | {"tool_exit_code": completed.returncode}
-                )
-                status = Status.PASS
-            else:
-                observed = {"tool_exit_code": completed.returncode}
-                notes = "Static-analysis tool failed; no package judgement was inferred."
-        except (OSError, ValueError, json.JSONDecodeError) as exc:
-            stderr = f"{type(exc).__name__}: {exc}\n"
-            observed = {"audit_error": type(exc).__name__}
-            notes = "Static-analysis machinery failed; no package judgement was inferred."
+        if shutil.which(command[0]) is None:
+            status = Status.UNTESTABLE
+            observed = {"language": "python", "missing_executable": command[0]}
+            notes = "Required pinned analyzer is unavailable; no package judgement was inferred."
+        else:
+            try:
+                completed = subprocess.run(command, capture_output=True, text=True, check=False)
+                stdout, stderr = completed.stdout, completed.stderr
+                if completed.returncode in measurement_codes:
+                    parser_input = stdout if stdout.strip() else stderr
+                    observed = (
+                        parser(parser_input)
+                        | denominator
+                        | {"language": "python", "tool_exit_code": completed.returncode}
+                    )
+                    status = Status.PASS
+                else:
+                    observed = {"language": "python", "tool_exit_code": completed.returncode}
+                    notes = "Static-analysis tool failed; no package judgement was inferred."
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                stderr = f"{type(exc).__name__}: {exc}\n"
+                observed = {"language": "python", "audit_error": type(exc).__name__}
+                notes = "Static-analysis machinery failed; no package judgement was inferred."
         duration = time.monotonic() - clock
         stdout_path = check_dir / "stdout.txt"
         stderr_path = check_dir / "stderr.txt"

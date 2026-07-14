@@ -2,9 +2,14 @@
 
 The canonical machine-readable rubric is `config/rubric.yaml`. Stable check identifiers preserve comparability when wording changes.
 
-Domains are reported separately: cohort, package, recipe, repository, source, Python
-analysis, CLI behaviour, robustness, reproducibility, security indicators, and manual
-review.
+Domains are reported separately: cohort, package, recipe, repository, source, Python,
+Perl, C/C++, Rust, CLI behaviour, robustness, reproducibility, security indicators, and
+manual review.
+
+Shared source concepts are parseability/buildability, normalized static findings,
+complexity, documentation, duplication, dead-code indicators, security indicators, and
+test execution. Language adapters retain their own semantics and within-language
+baselines.
 
 The dashboard additionally calculates the versioned **Seebot Engineering Practice
 Award** defined in `config/awards.yaml`. This is not a general software-quality or

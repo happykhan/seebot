@@ -55,3 +55,16 @@ public formula in `config/awards.yaml`. It ranks only observable CLI contracts,
 repository signals, and recipe-test depth. It is presented alongside—not instead of—the
 domain results and is explicitly not a ranking of scientific correctness, algorithmic
 quality, security, or maintainability.
+
+## Multi-language source analysis
+
+Manifests define reviewed source roots separately for Python, Perl, C, C++, Rust, and
+Cython. One package may produce several language profiles. Each observation records the
+language, analyzer version, configuration hash, denominator, and raw value. Numeric
+comparison requires the same language and compatible configuration; findings from Ruff,
+Perl::Critic, clang-tidy, cppcheck, or Clippy are never treated as equivalent counts.
+
+Three to nine comparable projects produce provisional relative positions. Strength,
+typical, and watch-area labels require at least ten. Cython remains explicitly unassessed
+until its adapter is validated. Source metrics never affect the Engineering Practice
+Award.
