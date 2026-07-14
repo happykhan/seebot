@@ -1,14 +1,14 @@
-# SeeCode
+# SeeBot
 
-**Study title:** *SeeCode: a reproducible audit of software-engineering practices in widely downloaded Bioconda tools*
+**Study title:** *SeeBot: a reproducible audit of software-engineering practices in widely downloaded Bioconda tools*
 
-SeeCode is a code-first research project for selecting a frozen cohort of Bioconda packages, retrieving the exact packaged source, running conservative and reproducible checks, preserving evidence, and publishing analysis-ready results through a web application.
+SeeBot is a code-first research project for selecting a frozen cohort of Bioconda packages, retrieving the exact packaged source, running conservative and reproducible checks, preserving evidence, and publishing analysis-ready results through a web application.
 
 The project measures observable properties. It does not label software as “good” or “bad”, infer scientific validity from engineering signals, or collapse distinct domains into a single quality score.
 
 ## Current phase
 
-SeeCode is in the **10-package pilot** phase. The 200-package study must not start until the pilot is reproducible and its schemas, exclusion vocabulary, and rubric have been frozen through a recorded protocol change.
+SeeBot is in the **10-package pilot** phase. The 200-package study must not start until the pilot is reproducible and its schemas, exclusion vocabulary, and rubric have been frozen through a recorded protocol change.
 
 ## Quick start
 

@@ -2,5 +2,5 @@
 
 ## Unreleased pilot
 
-- Established SeeCode naming, separated units of analysis, conservative status semantics, ten-package pilot gate, and first CLI-help rubric item.
-
+- Established the original project naming, separated units of analysis, conservative status semantics, ten-package pilot gate, and first CLI-help rubric item.
+- Renamed the project to SeeBot during the unfrozen pilot phase.

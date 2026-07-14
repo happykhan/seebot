@@ -30,7 +30,7 @@ def test_missing_executable_is_audit_error(tmp_path: Path) -> None:
     config = tmp_path / "config.yaml"
     config.write_text("version: 1\n")
     result = run_probe(
-        ProbeSpec("fixture__1__0__noarch", "CLI-HELP-001", ["does-not-exist-seecode"], [0], 5),
+        ProbeSpec("fixture__1__0__noarch", "CLI-HELP-001", ["does-not-exist-seebot"], [0], 5),
         run_id="test",
         evidence_root=tmp_path / "evidence",
         config_path=config,

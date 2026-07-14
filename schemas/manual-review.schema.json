@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://happykhan.github.io/seecode/schemas/manual-review.schema.json",
-  "title": "SeeCode manual or agent review",
+  "title": "SeeBot manual or agent review",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "package_id", "source_commit", "review_type", "reviewer_id", "review_round", "sampling_seed", "sample", "assessment", "confidence", "evidence_notes", "adjudication_required"],
@@ -34,4 +34,3 @@
     "adjudication_required": {"type": "boolean"}
   }
 }
-

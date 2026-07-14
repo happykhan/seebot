@@ -1,3 +1,3 @@
-"""SeeCode's reproducible Bioconda software audit engine."""
+"""SeeBot's reproducible Bioconda software audit engine."""
 
 __version__ = "0.1.0"

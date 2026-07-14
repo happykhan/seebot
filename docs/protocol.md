@@ -1,8 +1,8 @@
-# SeeCode protocol
+# SeeBot protocol
 
 ## Objective
 
-SeeCode audits observable software-engineering practices in widely downloaded Bioconda tools. It links frozen download data, an exact Bioconda package build and recipe, the recipe's verified source release, an upstream repository snapshot, executable-level black-box probes, and normalized evidence-backed results.
+SeeBot audits observable software-engineering practices in widely downloaded Bioconda tools. It links frozen download data, an exact Bioconda package build and recipe, the recipe's verified source release, an upstream repository snapshot, executable-level black-box probes, and normalized evidence-backed results.
 
 Scientific algorithm validation is outside version 1 and requires later tool-class-specific protocols.
 

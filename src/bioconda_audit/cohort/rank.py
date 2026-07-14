@@ -24,7 +24,7 @@ def rank_downloads(raw_directory: Path, output: Path, channel: str, top: int) ->
     try:
         import duckdb
     except ImportError as exc:  # pragma: no cover - exercised without cohort extra
-        raise RuntimeError("Install SeeCode's cohort extra: uv sync --extra cohort") from exc
+        raise RuntimeError("Install SeeBot's cohort extra: uv sync --extra cohort") from exc
     files = sorted(str(path) for path in raw_directory.rglob("*.parquet"))
     if not files:
         raise ValueError(f"No Parquet inputs found under {raw_directory}")

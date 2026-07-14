@@ -1,4 +1,4 @@
-"""Deterministic CLI fixture used to test SeeCode itself."""
+"""Deterministic CLI fixture used to test SeeBot itself."""
 
 from __future__ import annotations
 
@@ -14,4 +14,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

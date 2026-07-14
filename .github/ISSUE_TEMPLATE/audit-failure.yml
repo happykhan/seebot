@@ -1,5 +1,5 @@
 name: Audit machinery failure
-description: Report an ERROR in SeeCode execution
+description: Report an ERROR in SeeBot execution
 title: "audit error: "
 labels: [audit-error]
 body:
@@ -15,4 +15,3 @@ body:
     id: evidence
     attributes: { label: Evidence metadata and logs, description: Provide paths or artifact links; do not paste credentials. }
     validations: { required: true }
-

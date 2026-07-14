@@ -74,6 +74,6 @@ functional_test:
   expected_output_sha256: {}
 curation:
   status: reviewed
-  reviewer: seecode-fixture
+  reviewer: seebot-fixture
   reviewed_at: "2026-07-14T00:00:00Z"
   notes: Deterministic internal fixture.

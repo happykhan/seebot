@@ -1,11 +1,11 @@
 [project]
-name = "seecode"
+name = "seebot"
 version = "0.1.0"
 description = "A reproducible software-engineering audit of widely downloaded Bioconda tools"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
-authors = [{ name = "SeeCode contributors" }]
+authors = [{ name = "SeeBot contributors" }]
 dependencies = [
   "httpx>=0.28,<1",
   "jsonschema>=4.25,<5",

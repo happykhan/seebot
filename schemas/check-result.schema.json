@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://happykhan.github.io/seecode/schemas/check-result.schema.json",
-  "title": "SeeCode individual check result",
+  "title": "SeeBot individual check result",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "run_id", "package_id", "check_id", "domain", "status", "applicability", "method", "expected", "observed", "tool", "command", "started_at", "duration_seconds", "environment_id", "config_sha256", "evidence", "notes"],
