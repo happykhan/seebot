@@ -1,1 +1,1 @@
-"""Export normalized results for the SeeBot web application."""
+"""Export normalized results for the Seebot web application."""

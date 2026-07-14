@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://happykhan.github.io/seecode/schemas/package-manifest.schema.json",
-  "title": "SeeBot package manifest",
+  "title": "Seebot package manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "package", "bioconda", "classification", "release_source", "recipe_test", "upstream", "source_layout", "runtime", "cli", "functional_test", "curation"],

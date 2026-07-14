@@ -1,4 +1,4 @@
-"""Deterministic CLI fixture used to test SeeBot itself."""
+"""Deterministic CLI fixture used to test Seebot itself."""
 
 from __future__ import annotations
 

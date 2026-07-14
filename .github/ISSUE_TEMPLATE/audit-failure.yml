@@ -1,5 +1,5 @@
 name: Audit machinery failure
-description: Report an ERROR in SeeBot execution
+description: Report an ERROR in Seebot execution
 title: "audit error: "
 labels: [audit-error]
 body:

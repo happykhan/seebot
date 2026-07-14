@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://happykhan.github.io/seecode/schemas/cohort.schema.json",
-  "title": "SeeBot cohort record",
+  "title": "Seebot cohort record",
   "type": "object",
   "additionalProperties": false,
   "required": ["candidate_rank", "pkg_name", "download_count", "period_start", "period_end", "source_dataset_version_or_snapshot", "query_sha256", "curation_status", "include", "exclusion_code", "exclusion_note", "upstream_project_id"],

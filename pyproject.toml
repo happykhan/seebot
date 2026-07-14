@@ -5,7 +5,7 @@ description = "A reproducible software-engineering audit of widely downloaded Bi
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
-authors = [{ name = "SeeBot contributors" }]
+authors = [{ name = "Seebot contributors" }]
 dependencies = [
   "httpx>=0.28,<1",
   "jsonschema>=4.25,<5",

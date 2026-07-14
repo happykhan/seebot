@@ -86,9 +86,9 @@ export default function App() {
   return (
     <>
       <header className="site-header">
-        <a className="brand" href={import.meta.env.BASE_URL} aria-label="SeeBot home">
+        <a className="brand" href={import.meta.env.BASE_URL} aria-label="Seebot home">
           <span className="brand-mark" aria-hidden="true"><i /><i /><i /></span>
-          SeeBot
+          Seebot
         </a>
         <nav aria-label="Primary navigation">
           <a href="#results">Results</a>
@@ -101,7 +101,7 @@ export default function App() {
         <section className="hero">
           <div className="eyebrow"><span /> Reproducible Bioconda software audit</div>
           <h1>Engineering evidence,<br /><em>without the league table.</em></h1>
-          <p className="hero-copy">SeeBot publishes observable, evidence-backed results for widely downloaded Bioconda tools. Domains stay separate. Audit errors stay separate from software failures.</p>
+          <p className="hero-copy">Seebot publishes observable, evidence-backed results for widely downloaded Bioconda tools. Domains stay separate. Audit errors stay separate from software failures.</p>
           <div className="hero-meta">
             <div><strong>{packages}</strong><span>packages in this dataset</span></div>
             <div><strong>{results.length}</strong><span>individual checks</span></div>
@@ -151,12 +151,12 @@ export default function App() {
         <section className="method-note">
           <p className="kicker">How to read this site</p>
           <h2>An <code>ERROR</code> is ours,<br />not the package’s.</h2>
-          <p>If SeeBot cannot start or supervise an audit, the outcome is <code>ERROR</code> and is excluded from package-failure counts. <code>UNTESTABLE</code> and <code>NOT_APPLICABLE</code> remain visible rather than disappearing from denominators.</p>
+          <p>If Seebot cannot start or supervise an audit, the outcome is <code>ERROR</code> and is excluded from package-failure counts. <code>UNTESTABLE</code> and <code>NOT_APPLICABLE</code> remain visible rather than disappearing from denominators.</p>
           <a href="https://github.com/happykhan/seecode/blob/main/docs/protocol.md">Read the full protocol →</a>
         </section>
       </main>
 
-      <footer><span>SeeBot · open methods, inspectable evidence</span><span>Code: MIT · Data and docs: CC BY 4.0</span></footer>
+      <footer><span>Seebot · open methods, inspectable evidence</span><span>Code: MIT · Data and docs: CC BY 4.0</span></footer>
     </>
   )
 }
