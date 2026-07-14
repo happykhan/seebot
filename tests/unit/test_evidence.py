@@ -22,6 +22,8 @@ def test_non_matching_exit_code_is_package_fail(tmp_path: Path) -> None:
     )
     assert result.status is Status.FAIL
     assert result.observed["exit_code"] == 7
+    assert result.evidence.stdout.startswith("evidence/test/")
+    assert not Path(result.evidence.stdout).is_absolute()
 
 
 def test_missing_executable_is_audit_error(tmp_path: Path) -> None:

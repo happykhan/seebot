@@ -2,6 +2,24 @@ schema_version: 1
 version: 0.1.0-pilot
 frozen: false
 checks:
+  - id: PKG-IDENTITY-001
+    domain: package
+    title: Installed executable reports the frozen package version
+    description: The executable in the content-addressed package environment reports the reviewed version.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected:
+      allowed_exit_codes: [0]
+      stdout_contains_manifest_version: true
+    evidence_required: [command, exit_code, stdout, stderr, environment_id]
+  - id: RECIPE-TEST-DEPTH-001
+    domain: recipe
+    title: Bioconda recipe test-depth observation
+    description: Record the reviewed ordinal depth and all component facts without labelling shallow installation tests poor.
+    applicability: bioconda_package
+    method: automated_with_manifest
+    expected: {measurement_only: true}
+    evidence_required: [recipe_commit, recipe_path, depth, component_facts]
   - id: CLI-HELP-001
     domain: cli
     title: Documented help command terminates successfully
@@ -34,4 +52,69 @@ checks:
       allowed_exit_codes: [1, 2, 64]
       timeout_seconds: 30
     evidence_required: [command, exit_code, stdout, stderr]
-
+  - id: CLI-FUNCTIONAL-001
+    domain: functional
+    title: Reviewed miniature analysis produces the frozen output
+    description: A reviewed synthetic fixture completes and its declared output hashes match.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected:
+      allowed_exit_codes: [0]
+      output_hashes_from_manifest: true
+    evidence_required: [command, exit_code, stdout, stderr, output_sha256]
+  - id: REPO-PRACTICES-001
+    domain: repository
+    title: Repository practice files at the frozen upstream commit
+    description: Observe tests, CI, licence, contribution, citation, and documentation paths without claiming effectiveness.
+    applicability: upstream_repository
+    method: automated_with_manifest
+    expected: {measurement_only: true}
+    evidence_required: [repository_url, observed_commit, response, config_sha256]
+  - id: PY-RUFF-001
+    domain: python
+    title: Ruff findings in packaged production source
+    description: Count fixed-rule Ruff findings without interpreting them as defects.
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: PY-PYLINT-001
+    domain: python
+    title: Pylint messages in packaged production source
+    description: Count Pylint messages by category and symbol without using its aggregate score.
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: PY-RADON-001
+    domain: python
+    title: Radon cyclomatic-complexity observations
+    description: Record block counts and complexity distribution in packaged production source.
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: PY-INTERROGATE-001
+    domain: python
+    title: Public API docstring coverage observation
+    description: Measure docstring coverage using the frozen Interrogate configuration.
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
+  - id: PY-VULTURE-001
+    domain: python
+    title: Vulture dead-code candidates
+    description: Count candidates at the frozen confidence threshold without labelling them dead code.
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]
+  - id: PY-BANDIT-001
+    domain: python
+    title: Bandit security indicators
+    description: Count static security indicators without treating absence as proof of security.
+    applicability: python_source
+    method: automated
+    expected: {measurement_only: true}
+    evidence_required: [command, stdout, stderr, tool_version]

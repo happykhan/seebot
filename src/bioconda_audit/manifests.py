@@ -62,6 +62,22 @@ def manifest_template(name: str) -> dict[str, Any]:
             "extracted_root": None,
             "source_ref": None,
         },
+        "recipe_test": {
+            "status": "unreviewed",
+            "depth": None,
+            "facts": {
+                "has_import_test": None,
+                "has_help_test": None,
+                "has_version_test": None,
+                "has_command_test": None,
+                "uses_test_data": None,
+                "runs_analysis": None,
+                "asserts_output_exists": None,
+                "asserts_output_content": None,
+                "asserts_output_format": None,
+            },
+            "notes": None,
+        },
         "upstream": {
             "repository_url": None,
             "forge": "unknown",
@@ -79,6 +95,12 @@ def manifest_template(name: str) -> dict[str, Any]:
             "vendored_paths": [],
             "excluded_paths": [],
         },
+        "runtime": {
+            "backend": "unknown",
+            "container_image": None,
+            "container_digest": None,
+            "platform": None,
+        },
         "cli": {
             "no_argument_policy": "unknown",
             "help_commands": [[name, "--help"]],
@@ -93,6 +115,7 @@ def manifest_template(name: str) -> dict[str, Any]:
             "fixture_directory": None,
             "command": None,
             "expected_outputs": [],
+            "expected_output_sha256": {},
         },
         "curation": {
             "status": "unreviewed",

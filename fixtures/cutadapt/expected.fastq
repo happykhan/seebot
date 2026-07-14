@@ -1,0 +1,8 @@
+@read_with_adapter
+ACGTACGT
++
+IIIIIIII
+@read_without_adapter
+TTTTCCCC
++
+IIIIIIII

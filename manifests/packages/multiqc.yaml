@@ -24,6 +24,20 @@ release_source:
   source_sha256: null
   extracted_root: null
   source_ref: null
+recipe_test:
+  status: unreviewed
+  depth: null
+  facts:
+    has_import_test: null
+    has_help_test: null
+    has_version_test: null
+    has_command_test: null
+    uses_test_data: null
+    runs_analysis: null
+    asserts_output_exists: null
+    asserts_output_content: null
+    asserts_output_format: null
+  notes: null
 upstream:
   repository_url: https://github.com/MultiQC/MultiQC
   forge: github
@@ -39,6 +53,11 @@ source_layout:
   generated_paths: []
   vendored_paths: []
   excluded_paths: []
+runtime:
+  backend: unknown
+  container_image: null
+  container_digest: null
+  platform: null
 cli:
   no_argument_policy: help_or_usage_error
   help_commands: [[multiqc, --help]]
@@ -52,9 +71,9 @@ functional_test:
   fixture_directory: null
   command: null
   expected_outputs: []
+  expected_output_sha256: {}
 curation:
   status: unreviewed
   reviewer: null
   reviewed_at: null
   notes: null
-

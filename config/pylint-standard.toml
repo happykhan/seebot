@@ -1,8 +1,12 @@
-[MAIN]
-py-version = 3.12
+[tool.pylint.main]
+py-version = "3.12"
 jobs = 1
-[FORMAT]
-max-line-length = 100
-[REPORTS]
-score = no
 
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pylint.reports]
+score = false
+
+[tool.pylint.messages_control]
+disable = ["import-error", "no-name-in-module"]

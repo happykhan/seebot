@@ -4,7 +4,7 @@
   "title": "SeeCode package manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "package", "bioconda", "classification", "release_source", "upstream", "source_layout", "cli", "functional_test", "curation"],
+  "required": ["schema_version", "package", "bioconda", "classification", "release_source", "recipe_test", "upstream", "source_layout", "runtime", "cli", "functional_test", "curation"],
   "properties": {
     "schema_version": {"const": 1},
     "package": {
@@ -64,6 +64,32 @@
         "source_ref": {"$ref": "#/$defs/nullableString"}
       }
     },
+    "recipe_test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "depth", "facts", "notes"],
+      "properties": {
+        "status": {"enum": ["unreviewed", "reviewed", "adjudication_required"]},
+        "depth": {"type": ["integer", "null"], "minimum": 0, "maximum": 4},
+        "facts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["has_import_test", "has_help_test", "has_version_test", "has_command_test", "uses_test_data", "runs_analysis", "asserts_output_exists", "asserts_output_content", "asserts_output_format"],
+          "properties": {
+            "has_import_test": {"type": ["boolean", "null"]},
+            "has_help_test": {"type": ["boolean", "null"]},
+            "has_version_test": {"type": ["boolean", "null"]},
+            "has_command_test": {"type": ["boolean", "null"]},
+            "uses_test_data": {"type": ["boolean", "null"]},
+            "runs_analysis": {"type": ["boolean", "null"]},
+            "asserts_output_exists": {"type": ["boolean", "null"]},
+            "asserts_output_content": {"type": ["boolean", "null"]},
+            "asserts_output_format": {"type": ["boolean", "null"]}
+          }
+        },
+        "notes": {"$ref": "#/$defs/nullableString"}
+      }
+    },
     "upstream": {
       "type": "object",
       "additionalProperties": false,
@@ -91,6 +117,17 @@
         "excluded_paths": {"$ref": "#/$defs/pathList"}
       }
     },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["backend", "container_image", "container_digest", "platform"],
+      "properties": {
+        "backend": {"enum": ["container", "native", "unknown"]},
+        "container_image": {"$ref": "#/$defs/nullableString"},
+        "container_digest": {"$ref": "#/$defs/nullableString"},
+        "platform": {"$ref": "#/$defs/nullableString"}
+      }
+    },
     "cli": {
       "type": "object",
       "additionalProperties": false,
@@ -108,12 +145,16 @@
     "functional_test": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "fixture_directory", "command", "expected_outputs"],
+      "required": ["status", "fixture_directory", "command", "expected_outputs", "expected_output_sha256"],
       "properties": {
         "status": {"enum": ["not_designed", "draft", "reviewed", "untestable"]},
         "fixture_directory": {"$ref": "#/$defs/nullableString"},
         "command": {"type": ["array", "null"], "items": {"type": "string"}, "minItems": 1},
-        "expected_outputs": {"type": "array", "items": {"type": "string"}}
+        "expected_outputs": {"type": "array", "items": {"type": "string"}},
+        "expected_output_sha256": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
       }
     },
     "curation": {
@@ -135,4 +176,3 @@
     "commands": {"type": "array", "items": {"type": "array", "items": {"type": "string"}, "minItems": 1}}
   }
 }
-

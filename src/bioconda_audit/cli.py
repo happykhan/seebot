@@ -12,11 +12,21 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from bioconda_audit.analyzers.python import run_python_analyzers
+from bioconda_audit.analyzers.repository import run_repository_observation
 from bioconda_audit.cohort.downloads import fetch_window
 from bioconda_audit.cohort.rank import rank_downloads
-from bioconda_audit.evidence import ProbeSpec, run_probe
+from bioconda_audit.evidence import (
+    ContainerProbeSpec,
+    ProbeSpec,
+    run_container_probe,
+    run_probe,
+    sha256_file,
+)
 from bioconda_audit.manifests import load_yaml, validate_manifest, write_template
 from bioconda_audit.normalize.results import normalize_run
+from bioconda_audit.recipes.checkout import fetch_recipe_file
+from bioconda_audit.recipes.test_depth import write_recipe_test_observation
 from bioconda_audit.source.fetch import download_verified, extract_safe
 from bioconda_audit.source.inventory import inventory_tree
 
@@ -188,16 +198,22 @@ def manifest_validate_all() -> None:
 
 @recipe_app.command("fetch")
 def recipe_fetch(ctx: typer.Context, package: Path) -> None:
-    """Record the bounded recipe checkout task without guessing render semantics."""
-    del ctx
+    """Preserve the original recipe from its reviewed immutable commit."""
+    opts = options(ctx)
     manifest = load_yaml(resolve_manifest(package))
     commit = manifest["bioconda"]["recipes_commit"]
     if not commit:
         console.print("[yellow]NOT_RUN[/yellow]: manifest has no reviewed recipes_commit.")
         raise typer.Exit(2)
-    console.print(
-        f"Recipe fetch is pinned to {commit}; use the source-resolver workflow for the pilot."
-    )
+    target = opts.output_directory / "work" / package_id(manifest) / "recipe" / "meta.yaml"
+    if target.exists() and not opts.force:
+        console.print(f"Using preserved recipe: {target}")
+        return
+    if opts.dry_run:
+        console.print(f"Would fetch {manifest['bioconda']['recipe_path']} at {commit}")
+        return
+    fetch_recipe_file(commit, manifest["bioconda"]["recipe_path"], target)
+    console.print(f"Preserved pinned recipe: {target}")
 
 
 @source_app.command("fetch")
@@ -242,6 +258,60 @@ def resolved_command(command: list[str], manifest_path: Path) -> list[str]:
     return resolved
 
 
+def container_probe(
+    manifest: dict[str, Any],
+    *,
+    check_id: str,
+    domain: str,
+    command: list[str],
+    allowed_exit_codes: list[int],
+    fixture_directory: Path | None = None,
+    expected_stdout_contains: str | None = None,
+    expected_output_sha256: dict[str, str] | None = None,
+    manifest_path: Path | None = None,
+) -> ContainerProbeSpec:
+    runtime = manifest["runtime"]
+    if runtime["backend"] != "container":
+        raise typer.BadParameter("Manifest does not define a container runtime.")
+    if not runtime["container_image"] or not runtime["container_digest"]:
+        raise typer.BadParameter("Container image and digest must both be reviewed.")
+    return ContainerProbeSpec(
+        package_id=package_id(manifest),
+        check_id=check_id,
+        domain=domain,
+        command=command,
+        allowed_exit_codes=allowed_exit_codes,
+        timeout_seconds=manifest["cli"]["timeout_seconds"],
+        image=runtime["container_image"],
+        digest=runtime["container_digest"],
+        platform=runtime["platform"],
+        fixture_directory=fixture_directory,
+        expected_stdout_contains=expected_stdout_contains,
+        expected_output_sha256=expected_output_sha256,
+        manifest_sha256=sha256_file(manifest_path) if manifest_path else None,
+    )
+
+
+def execute_container_probes(probes: list[ContainerProbeSpec], opts: Options) -> list[Any]:
+    table = Table("Check", "Status", "Exit code")
+    results = []
+    for probe in probes:
+        if opts.dry_run:
+            table.add_row(probe.check_id, "NOT_RUN", "-")
+            continue
+        result = run_container_probe(
+            probe,
+            run_id=opts.run_id,
+            evidence_root=opts.output_directory / "evidence",
+            config_path=ROOT / "config" / "rubric.yaml",
+            force=opts.force,
+        )
+        results.append(result)
+        table.add_row(result.check_id, result.status.value, str(result.observed.get("exit_code")))
+    console.print(table)
+    return results
+
+
 @audit_app.command("cli")
 def audit_cli(ctx: typer.Context, package: Path) -> None:
     opts = options(ctx)
@@ -251,6 +321,45 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
     if errors:
         raise typer.BadParameter("Manifest is invalid: " + "; ".join(errors))
     cli = manifest["cli"]
+    if manifest["runtime"]["backend"] == "container":
+        container_probes: list[ContainerProbeSpec] = []
+        for command in cli["help_commands"]:
+            container_probes.append(
+                container_probe(
+                    manifest,
+                    check_id="CLI-HELP-001",
+                    domain="cli",
+                    command=command,
+                    allowed_exit_codes=[0],
+                    manifest_path=manifest_path,
+                )
+            )
+        for command in cli["version_commands"]:
+            container_probes.append(
+                container_probe(
+                    manifest,
+                    check_id="CLI-VERSION-001",
+                    domain="cli",
+                    command=command,
+                    allowed_exit_codes=[0],
+                    expected_stdout_contains=str(manifest["bioconda"]["version"]),
+                    manifest_path=manifest_path,
+                )
+            )
+        if cli["invalid_option_command"]:
+            container_probes.append(
+                container_probe(
+                    manifest,
+                    check_id="CLI-INVALID-001",
+                    domain="cli",
+                    command=cli["invalid_option_command"],
+                    allowed_exit_codes=[1, 2, 64],
+                    manifest_path=manifest_path,
+                )
+            )
+        execute_container_probes(container_probes, opts)
+        return
+
     probes: list[ProbeSpec] = []
     pkg_id = package_id(manifest)
     for command in cli["help_commands"]:
@@ -307,27 +416,161 @@ def not_run(domain: str) -> None:
 
 
 @audit_app.command("repository")
-def audit_repository(package: Path) -> None:
-    del package
-    not_run("repository")
+def audit_repository(ctx: typer.Context, package: Path) -> None:
+    opts = options(ctx)
+    manifest_path = resolve_manifest(package)
+    manifest = load_yaml(manifest_path)
+    upstream = manifest["upstream"]
+    if not upstream["repository_url"] or not upstream["default_branch_commit_at_audit"]:
+        console.print("[yellow]NOT_RUN[/yellow]: upstream repository mapping is incomplete.")
+        return
+    if opts.dry_run:
+        console.print(
+            f"Would inspect {upstream['repository_url']} at "
+            f"{upstream['default_branch_commit_at_audit']}"
+        )
+        return
+    result = run_repository_observation(
+        repository_url=upstream["repository_url"],
+        commit=upstream["default_branch_commit_at_audit"],
+        package_id=package_id(manifest),
+        run_id=opts.run_id,
+        evidence_root=opts.output_directory / "evidence",
+        config_path=ROOT / "config" / "audit.yaml",
+        manifest_sha256=sha256_file(manifest_path),
+        force=opts.force,
+    )
+    console.print(f"{result.check_id}: {result.status.value}")
+
+
+@audit_app.command("recipe")
+def audit_recipe(ctx: typer.Context, package: Path) -> None:
+    opts = options(ctx)
+    manifest_path = resolve_manifest(package)
+    manifest = load_yaml(manifest_path)
+    recipe_test = manifest["recipe_test"]
+    if recipe_test["status"] != "reviewed":
+        console.print("[yellow]NOT_RUN[/yellow]: recipe test depth has not been reviewed.")
+        return
+    preserved = opts.output_directory / "work" / package_id(manifest) / "recipe" / "meta.yaml"
+    if not preserved.exists():
+        raise typer.BadParameter(f"Fetch the pinned recipe first: {preserved}")
+    if opts.dry_run:
+        console.print(f"Would record reviewed recipe test depth {recipe_test['depth']}")
+        return
+    result = write_recipe_test_observation(
+        package_id=package_id(manifest),
+        run_id=opts.run_id,
+        recipe_test=recipe_test,
+        recipes_commit=manifest["bioconda"]["recipes_commit"],
+        recipe_path=manifest["bioconda"]["recipe_path"],
+        preserved_recipe=preserved,
+        evidence_root=opts.output_directory / "evidence",
+        config_path=ROOT / "config" / "rubric.yaml",
+        manifest_sha256=sha256_file(manifest_path),
+        force=opts.force,
+    )
+    console.print(f"{result.check_id}: {result.status.value} (depth {recipe_test['depth']})")
 
 
 @audit_app.command("python")
-def audit_python(package: Path) -> None:
-    del package
-    not_run("Python")
+def audit_python(ctx: typer.Context, package: Path) -> None:
+    opts = options(ctx)
+    manifest = load_yaml(resolve_manifest(package))
+    manifest_path = resolve_manifest(package)
+    extracted = opts.output_directory / "work" / package_id(manifest) / "source"
+    production_roots = manifest["source_layout"]["production_roots"]
+    if not production_roots:
+        raise typer.BadParameter("Manifest has no reviewed production source root.")
+    source_root = extracted / production_roots[0]
+    if not source_root.exists():
+        raise typer.BadParameter(f"Fetch packaged release source first: {source_root}")
+    if opts.dry_run:
+        console.print(f"Would run the fixed Python toolchain against {source_root}")
+        return
+    results = run_python_analyzers(
+        source_root=source_root,
+        package_id=package_id(manifest),
+        run_id=opts.run_id,
+        evidence_root=opts.output_directory / "evidence",
+        config_root=ROOT / "config",
+        manifest_sha256=sha256_file(manifest_path),
+        force=opts.force,
+    )
+    table = Table("Check", "Status", "Observation count")
+    for result in results:
+        count = next(
+            (
+                value
+                for key, value in result.observed.items()
+                if key.endswith("_count") and isinstance(value, int)
+            ),
+            "-",
+        )
+        table.add_row(result.check_id, result.status.value, str(count))
+    console.print(table)
 
 
 @audit_app.command("install")
-def audit_install(package: Path) -> None:
-    del package
-    not_run("installation")
+def audit_install(ctx: typer.Context, package: Path) -> None:
+    opts = options(ctx)
+    manifest_path = resolve_manifest(package)
+    manifest = load_yaml(manifest_path)
+    executable = manifest["bioconda"]["primary_executables"][0]
+    version = str(manifest["bioconda"]["version"])
+    execute_container_probes(
+        [
+            container_probe(
+                manifest,
+                check_id="PKG-IDENTITY-001",
+                domain="package",
+                command=[executable, "--version"],
+                allowed_exit_codes=[0],
+                expected_stdout_contains=version,
+                manifest_path=manifest_path,
+            )
+        ],
+        opts,
+    )
+
+
+@audit_app.command("functional")
+def audit_functional(ctx: typer.Context, package: Path) -> None:
+    opts = options(ctx)
+    manifest_path = resolve_manifest(package)
+    manifest = load_yaml(manifest_path)
+    functional = manifest["functional_test"]
+    if functional["status"] != "reviewed" or functional["command"] is None:
+        console.print("[yellow]NOT_RUN[/yellow]: functional test has not been reviewed.")
+        return
+    fixture = Path(functional["fixture_directory"])
+    if not fixture.is_absolute():
+        fixture = ROOT / fixture
+    execute_container_probes(
+        [
+            container_probe(
+                manifest,
+                check_id="CLI-FUNCTIONAL-001",
+                domain="functional",
+                command=functional["command"],
+                allowed_exit_codes=[0],
+                fixture_directory=fixture,
+                expected_output_sha256=functional["expected_output_sha256"],
+                manifest_path=manifest_path,
+            )
+        ],
+        opts,
+    )
 
 
 @audit_app.command("all")
 def audit_all(ctx: typer.Context, package: Path) -> None:
+    audit_recipe(ctx, package)
+    audit_install(ctx, package)
     audit_cli(ctx, package)
-    not_run("remaining pilot domains")
+    audit_functional(ctx, package)
+    audit_python(ctx, package)
+    audit_repository(ctx, package)
 
 
 @results_app.command("normalize")
