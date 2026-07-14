@@ -18,7 +18,7 @@ schemas:
 	uv run seebot manifest validate-all
 
 web:
-	cd web && npm run build
+	cd web && npm test && npm run build
 
 check: lint typecheck test schemas web
 

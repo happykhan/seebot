@@ -111,11 +111,9 @@ def package_id(manifest: dict[str, Any]) -> str:
 @cohort_app.command("fetch")
 def cohort_fetch(
     ctx: typer.Context,
-    latest_complete_month: Annotated[bool, typer.Option("--latest-complete-month")] = True,
     months: Annotated[int, typer.Option(min=1, max=60)] = 12,
 ) -> None:
     """Fetch exactly N complete months from the official Anaconda dataset."""
-    del latest_complete_month  # only conservative discovery is implemented
     opts = options(ctx)
     output = opts.output_directory / "data" / "raw" / "anaconda-downloads"
     manifest = fetch_window(output, months=months, dry_run=opts.dry_run)
@@ -759,6 +757,38 @@ def report_build(ctx: typer.Context) -> None:
     if not opts.dry_run:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
+        rows = json.loads(source.read_text(encoding="utf-8"))
+        runs_by_package: dict[str, list[dict[str, Any]]] = {}
+        for row in rows:
+            runs_by_package.setdefault(row["package_id"], []).append(row)
+        packages: list[dict[str, Any]] = []
+        for manifest_path in sorted((ROOT / "manifests" / "packages").glob("*.yaml")):
+            manifest = load_yaml(manifest_path)
+            identifier = package_id(manifest)
+            package_rows = runs_by_package.get(identifier)
+            if not package_rows:
+                continue
+            latest = max(package_rows, key=lambda row: row["started_at"])
+            run_id = latest["run_id"]
+            packages.append(
+                {
+                    "package_id": identifier,
+                    "name": manifest["package"]["name"],
+                    "version": manifest["bioconda"]["version"],
+                    "build": manifest["bioconda"]["build"],
+                    "subdir": manifest["bioconda"]["subdir"],
+                    "category": manifest["classification"]["tool_category"],
+                    "description": manifest["classification"]["notes"],
+                    "upstream_url": manifest["upstream"]["repository_url"],
+                    "run_id": run_id,
+                    "artifact_url": (
+                        "https://github.com/happykhan/seebot/releases/download/"
+                        f"{run_id}/{run_id}-evidence.tar.gz"
+                    ),
+                }
+            )
+        package_target = target.parent / "packages.json"
+        package_target.write_text(json.dumps(packages, indent=2) + "\n", encoding="utf-8")
     console.print(f"Prepared web application dataset: {target}")
 
 

@@ -20,6 +20,7 @@ uv run pytest
 
 cd web
 npm ci
+npm test
 npm run build
 ```
 
@@ -39,10 +40,15 @@ uv run seebot results rebuild-global
 uv run seebot report build
 ```
 
-The first real pilot package is Cutadapt 5.2. Its reviewed manifest, functional FASTQ
-fixture, normalized results, and evidence artifact manifest are committed. Static-analysis
-checks report measurements such as finding counts and coverage; a `PASS` means the
-measurement completed, not that the source had zero findings.
+The three-package mini-pilot covers Cutadapt 5.2, NanoPlot 1.47.1, and sourmash
+4.9.4. Each has a reviewed manifest, a small functional fixture, normalized results,
+and public evidence. Pixi installs the reviewed version and records the native solved
+artifact and lock hash. This development runner does not claim to execute the frozen
+Linux package when running on macOS.
+
+Results also carry a `result_kind`. Contract checks use the normal outcome vocabulary;
+successful observational checks are presented as `MEASURED`, because completing a
+static-analysis measurement is not a claim that the software has no findings.
 
 ## Repository map
 
@@ -57,7 +63,10 @@ measurement completed, not that the source had zero findings.
 
 ## Status semantics
 
-Every check uses one of `PASS`, `FAIL`, `PARTIAL`, `NOT_APPLICABLE`, `UNTESTABLE`, `ERROR`, or `NOT_RUN`. `ERROR` means the audit machinery failed and is never counted as a package failure.
+Every check uses one of `PASS`, `FAIL`, `PARTIAL`, `NOT_APPLICABLE`, `UNTESTABLE`,
+`ERROR`, or `NOT_RUN`. `ERROR` means the audit machinery failed and is never counted
+as a package failure. The website renders a successful measurement as `MEASURED`
+while preserving its machine status as `PASS`.
 
 ## Licensing
 

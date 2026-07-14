@@ -28,3 +28,16 @@ export interface CheckResult {
   evidence: { stdout: string; stderr: string; metadata: string }
   notes: string | null
 }
+
+export interface PackageSummary {
+  package_id: string
+  name: string
+  version: string
+  build: string
+  subdir: string
+  category: string
+  description: string
+  upstream_url: string
+  run_id: string
+  artifact_url: string
+}
