@@ -50,11 +50,12 @@ rubric check. The web application reads the lossless JSON form; statistical work
 read the CSV export. The table preserves every explicit state, including `ERROR` and
 `UNTESTABLE`.
 
-The website derives a separate Engineering Practice Award view using the versioned,
-public formula in `config/awards.yaml`. It ranks only observable CLI contracts,
-repository signals, and recipe-test depth. It is presented alongside—not instead of—the
-domain results and is explicitly not a ranking of scientific correctness, algorithmic
-quality, security, or maintainability.
+The website derives a separate Upstream Engineering Practice Award view using the
+versioned, public formula in `config/awards.yaml`. It ranks observable testing,
+automation, documentation, stewardship, and reproducibility signals in the pinned
+upstream repository. Installed-tool behaviour and source-analysis measurements are
+presented separately. The award is explicitly not a ranking of scientific correctness,
+algorithmic quality, security, or maintainability.
 
 ## Multi-language source analysis
 

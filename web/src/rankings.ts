@@ -1,6 +1,6 @@
 import type { AwardRanking } from './types'
 
-export type RankingSort = 'score' | 'name' | 'contracts' | 'repository' | 'recipe'
+export type RankingSort = 'score' | 'name' | 'testing' | 'automation' | 'documentation'
 
 export function filterAndSortRankings(
   rankings: AwardRanking[],
@@ -16,9 +16,7 @@ export function filterAndSortRankings(
     )
     .sort((a, b) => {
       if (sort === 'name') return a.name.localeCompare(b.name)
-      if (sort === 'contracts') return b.breakdown.contracts - a.breakdown.contracts || a.name.localeCompare(b.name)
-      if (sort === 'repository') return b.breakdown.repository - a.breakdown.repository || a.name.localeCompare(b.name)
-      if (sort === 'recipe') return b.breakdown.recipe_test - a.breakdown.recipe_test || a.name.localeCompare(b.name)
+      if (sort !== 'score') return b.breakdown[sort] - a.breakdown[sort] || a.name.localeCompare(b.name)
       return b.score - a.score || a.name.localeCompare(b.name)
     })
 }

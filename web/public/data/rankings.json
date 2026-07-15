@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "rubric_version": "0.1.0-pilot",
-  "title": "Seebot Engineering Practice Award",
-  "scope_note": "This award concerns observable engineering practices, not scientific validity or algorithmic quality.",
+  "rubric_version": "0.2.0-pilot",
+  "title": "Seebot Upstream Engineering Practice Award",
+  "scope_note": "This award concerns files visible in the pinned upstream repository. It does not measure test effectiveness, current CI success, scientific validity, or algorithmic quality.",
   "provisional": true,
   "rankings": [
     {
@@ -19,16 +19,18 @@
         "cython",
         "python"
       ],
-      "score": 85.0,
+      "score": 79.0,
       "maximum_points": 100,
       "eligible": true,
       "missing_checks": [],
-      "tier": "Gold",
-      "tier_colour": "#9a6a00",
+      "tier": "Silver",
+      "tier_colour": "#68717a",
       "breakdown": {
-        "contracts": 50.0,
-        "repository": 30.0,
-        "recipe_test": 5.0
+        "testing": 25.0,
+        "automation": 15.0,
+        "documentation": 15.0,
+        "stewardship": 17.0,
+        "reproducibility": 7.0
       },
       "rank": 1
     },
@@ -46,16 +48,18 @@
         "python",
         "rust"
       ],
-      "score": 85.0,
+      "score": 79.0,
       "maximum_points": 100,
       "eligible": true,
       "missing_checks": [],
-      "tier": "Gold",
-      "tier_colour": "#9a6a00",
+      "tier": "Silver",
+      "tier_colour": "#68717a",
       "breakdown": {
-        "contracts": 50.0,
-        "repository": 30.0,
-        "recipe_test": 5.0
+        "testing": 20.0,
+        "automation": 15.0,
+        "documentation": 15.0,
+        "stewardship": 18.0,
+        "reproducibility": 11.0
       },
       "rank": 1
     },
@@ -72,16 +76,18 @@
       "languages": [
         "python"
       ],
-      "score": 65.0,
+      "score": 40.0,
       "maximum_points": 100,
       "eligible": true,
       "missing_checks": [],
-      "tier": "Bronze",
-      "tier_colour": "#925f36",
+      "tier": "Reviewed",
+      "tier_colour": "#50635c",
       "breakdown": {
-        "contracts": 50.0,
-        "repository": 10.0,
-        "recipe_test": 5.0
+        "testing": 0,
+        "automation": 15.0,
+        "documentation": 10.0,
+        "stewardship": 8.0,
+        "reproducibility": 7.0
       },
       "rank": 3
     }

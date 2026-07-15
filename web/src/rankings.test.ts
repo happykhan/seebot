@@ -9,7 +9,7 @@ function ranking(index: number): AwardRanking {
     description: `Tool ${index}`, upstream_url: 'https://example.test', run_id: 'pilot',
     languages: ['python'],
     score: index, maximum_points: 100, eligible: true, missing_checks: [], tier: 'Reviewed',
-    tier_colour: '#000', breakdown: { contracts: index, repository: 0, recipe_test: 0 }, rank: index,
+    tier_colour: '#000', breakdown: { testing: index, automation: 0, documentation: 0, stewardship: 0, reproducibility: 0 }, rank: index,
   }
 }
 

@@ -17,40 +17,24 @@ def load_award_config(path: Path) -> dict[str, Any]:
 
 def score_package(rows: list[dict[str, Any]], config: Mapping[str, Any]) -> dict[str, Any]:
     by_check = {row["check_id"]: row for row in rows}
-    contract_points = 0.0
     missing: list[str] = []
-    for check_id, points in config["contracts"].items():
-        row = by_check.get(check_id)
-        if row is None or row["status"] in {"ERROR", "NOT_RUN", "UNTESTABLE"}:
-            missing.append(check_id)
-            continue
-        if row["status"] == "PASS":
-            contract_points += points
-        elif row["status"] == "PARTIAL":
-            contract_points += points / 2
-
-    repository_points = 0.0
     repository = by_check.get("REPO-PRACTICES-001")
     if repository is None or repository["status"] != "PASS":
         missing.append("REPO-PRACTICES-001")
-    else:
-        for signal, points in config["repository_signals"].items():
-            if repository["observed"].get(signal) is True:
-                repository_points += points
-
-    recipe_points = 0.0
-    recipe = by_check.get("RECIPE-TEST-DEPTH-001")
-    if recipe is None or recipe["status"] != "PASS":
-        missing.append("RECIPE-TEST-DEPTH-001")
-    else:
-        recipe_config = config["recipe_test"]
-        depth = min(
-            int(recipe["observed"].get("depth", 0)),
-            int(recipe_config["maximum_level"]),
+    breakdown = {
+        category: round(
+            sum(
+                float(points)
+                for signal, points in definition["signals"].items()
+                if repository is not None
+                and repository["status"] == "PASS"
+                and repository["observed"].get(signal) is True
+            ),
+            1,
         )
-        recipe_points = depth * float(recipe_config["points_per_level"])
-
-    score = contract_points + repository_points + recipe_points
+        for category, definition in config["categories"].items()
+    }
+    score = sum(breakdown.values())
     tier = next(tier for tier in config["tiers"] if score >= float(tier["minimum_points"]))
     return {
         "score": round(score, 1),
@@ -59,11 +43,7 @@ def score_package(rows: list[dict[str, Any]], config: Mapping[str, Any]) -> dict
         "missing_checks": sorted(set(missing)),
         "tier": tier["name"],
         "tier_colour": tier["colour"],
-        "breakdown": {
-            "contracts": round(contract_points, 1),
-            "repository": round(repository_points, 1),
-            "recipe_test": round(recipe_points, 1),
-        },
+        "breakdown": breakdown,
     }
 
 

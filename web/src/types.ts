@@ -49,7 +49,13 @@ export interface AwardRanking extends PackageSummary {
   missing_checks: string[]
   tier: string
   tier_colour: string
-  breakdown: { contracts: number; repository: number; recipe_test: number }
+  breakdown: {
+    testing: number
+    automation: number
+    documentation: number
+    stewardship: number
+    reproducibility: number
+  }
   rank: number | null
 }
 

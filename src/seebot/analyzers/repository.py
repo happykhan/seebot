@@ -20,20 +20,122 @@ from seebot.evidence import (
 from seebot.models import CheckResult, EvidencePaths, ResultKind, Status, ToolIdentity
 
 
-def repository_facts(paths: list[str]) -> dict[str, bool | int]:
+def repository_facts(paths: list[str]) -> dict[str, bool | int | dict[str, int]]:
     lowered = [path.lower() for path in paths]
     names = {Path(path).name.lower() for path in paths}
+    workflow_paths = [path for path in lowered if path.startswith(".github/workflows/")]
+    test_paths = [
+        path
+        for path in lowered
+        if path.startswith(("test/", "tests/")) or "/tests/" in path or "/test/" in path
+    ]
+    suffix_groups = {
+        "python": {".py", ".pyx"},
+        "perl": {".pl", ".pm", ".t"},
+        "c": {".c", ".h"},
+        "cpp": {".cc", ".cpp", ".cxx", ".hh", ".hpp", ".hxx"},
+        "rust": {".rs"},
+    }
+    language_file_counts = {
+        language: sum(Path(path).suffix.lower() in suffixes for path in lowered)
+        for language, suffixes in suffix_groups.items()
+    }
+    language_file_counts = {key: value for key, value in language_file_counts.items() if value}
+    test_configs = {
+        "pytest.ini",
+        "tox.ini",
+        "noxfile.py",
+        "conftest.py",
+        "jest.config.js",
+        "jest.config.ts",
+        "phpunit.xml",
+    }
+    dependency_manifests = {
+        "pyproject.toml",
+        "setup.py",
+        "setup.cfg",
+        "requirements.txt",
+        "environment.yml",
+        "environment.yaml",
+        "cargo.toml",
+        "cpanfile",
+        "makefile.pl",
+        "package.json",
+        "cmakelists.txt",
+        "configure.ac",
+        "meson.build",
+    }
+    lockfiles = {
+        "uv.lock",
+        "poetry.lock",
+        "pipfile.lock",
+        "cargo.lock",
+        "package-lock.json",
+        "yarn.lock",
+        "pnpm-lock.yaml",
+        "conda-lock.yml",
+        "conda-lock.yaml",
+    }
     return {
         "file_count": len(paths),
-        "licence_file_present": bool(names & {"license", "license.md", "license.rst", "copying"}),
+        "source_file_count": sum(language_file_counts.values()),
+        "language_file_counts": language_file_counts,
+        "readme_present": any(name.startswith("readme") for name in names),
+        "licence_file_present": bool(
+            names
+            & {
+                "license",
+                "license.md",
+                "license.rst",
+                "license.txt",
+                "licence",
+                "licence.md",
+                "licence.txt",
+                "copying",
+            }
+        ),
         "contribution_guide_present": any(name.startswith("contributing") for name in names),
         "citation_metadata_present": "citation.cff" in names,
-        "ci_workflow_present": any(path.startswith(".github/workflows/") for path in lowered),
-        "test_path_present": any(
-            path.startswith(("test/", "tests/")) or "/tests/" in path for path in lowered
+        "code_of_conduct_present": any(name.startswith("code_of_conduct") for name in names),
+        "issue_templates_present": any(
+            path.startswith(".github/issue_template/") for path in lowered
+        ),
+        "changelog_present": any(
+            name.startswith(("changelog", "changes", "history")) for name in names
+        ),
+        "ci_workflow_present": bool(workflow_paths),
+        "ci_workflow_count": len(workflow_paths),
+        "dependency_automation_present": any(
+            path
+            in {".github/dependabot.yml", ".github/dependabot.yaml", "renovate.json", ".renovaterc"}
+            or Path(path).name.startswith("renovate")
+            for path in lowered
+        ),
+        "release_automation_present": any(
+            any(token in Path(path).stem for token in ("release", "publish", "deploy"))
+            for path in workflow_paths
+        ),
+        "test_path_present": bool(test_paths),
+        "test_file_count": len(test_paths),
+        "test_config_present": bool(names & test_configs),
+        "test_data_present": any(
+            path.startswith(("test/data/", "tests/data/", "test/fixtures/", "tests/fixtures/"))
+            or "/testdata/" in path
+            or "/test_data/" in path
+            for path in lowered
         ),
         "documentation_path_present": any(
             path.startswith(("doc/", "docs/", "documentation/")) for path in lowered
+        ),
+        "examples_present": any(
+            path.startswith(("example/", "examples/", "tutorial/", "tutorials/"))
+            for path in lowered
+        ),
+        "dependency_manifest_present": bool(names & dependency_manifests),
+        "lockfile_present": bool(names & lockfiles),
+        "container_spec_present": any(
+            name.startswith("dockerfile") or path.startswith(".devcontainer/")
+            for path, name in zip(lowered, (Path(path).name for path in lowered), strict=True)
         ),
     }
 

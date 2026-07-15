@@ -7,9 +7,13 @@ from seebot.report.awards import badge_svg, rank_packages, score_package
 
 CONFIG = {
     "maximum_points": 100,
-    "contracts": {"CLI-A": 25, "CLI-B": 25},
-    "repository_signals": {"licence": 10, "tests": 10, "ci": 10},
-    "recipe_test": {"points_per_level": 5, "maximum_level": 4},
+    "categories": {
+        "testing": {"signals": {"tests": 25}},
+        "automation": {"signals": {"ci": 20}},
+        "documentation": {"signals": {"docs": 20}},
+        "stewardship": {"signals": {"licence": 20}},
+        "reproducibility": {"signals": {"manifest": 15}},
+    },
     "tiers": [
         {"name": "Gold", "minimum_points": 85, "colour": "gold"},
         {"name": "Reviewed", "minimum_points": 0, "colour": "grey"},
@@ -17,29 +21,33 @@ CONFIG = {
 }
 
 
-def rows(package_id: str, recipe_depth: int = 1) -> list[dict[str, object]]:
+def rows(package_id: str) -> list[dict[str, object]]:
     return [
-        {"package_id": package_id, "check_id": "CLI-A", "status": "PASS", "observed": {}},
-        {"package_id": package_id, "check_id": "CLI-B", "status": "PASS", "observed": {}},
         {
             "package_id": package_id,
             "check_id": "REPO-PRACTICES-001",
             "status": "PASS",
-            "observed": {"licence": True, "tests": True, "ci": True},
-        },
-        {
-            "package_id": package_id,
-            "check_id": "RECIPE-TEST-DEPTH-001",
-            "status": "PASS",
-            "observed": {"depth": recipe_depth},
+            "observed": {
+                "licence": True,
+                "tests": True,
+                "ci": True,
+                "docs": True,
+                "manifest": True,
+            },
         },
     ]
 
 
 def test_scores_transparent_components() -> None:
-    score = score_package(rows("tool", recipe_depth=2), CONFIG)
-    assert score["score"] == 90
-    assert score["breakdown"] == {"contracts": 50, "repository": 30, "recipe_test": 10}
+    score = score_package(rows("tool"), CONFIG)
+    assert score["score"] == 100
+    assert score["breakdown"] == {
+        "testing": 25,
+        "automation": 20,
+        "documentation": 20,
+        "stewardship": 20,
+        "reproducibility": 15,
+    }
     assert score["tier"] == "Gold"
     assert score["eligible"] is True
 

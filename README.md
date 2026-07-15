@@ -56,11 +56,12 @@ Results also carry a `result_kind`. Contract checks use the normal outcome vocab
 successful observational checks are presented as `MEASURED`, because completing a
 static-analysis measurement is not a claim that the software has no findings.
 
-The results website is designed for the final cohort: a searchable, sortable, paginated
-tool directory; an award leaderboard; same-language source profiles; strengths and watch
-areas once cohorts are large enough; up-to-three-tool comparison; and reusable SVG
-badges. Badges remain provisional until the pilot rubric is frozen. Static-analysis
-findings do not contribute to the award score.
+The results website is designed for the final cohort: a searchable and paginated project
+directory, an upstream-engineering leaderboard, direct answers about whether tests are
+present, category report cards, same-language source profiles, installed-tool behaviour,
+and reusable SVG badges. The award covers upstream testing, automation, documentation,
+stewardship, and reproducibility signals. Static-analysis findings and runtime behaviour
+remain separate and do not contribute to the award score.
 
 Run every configured language adapter for one exact release source:
 

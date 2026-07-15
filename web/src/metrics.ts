@@ -8,8 +8,7 @@ const titles: Record<string, string> = {
   'CLI-NOARGS-001': 'No-argument behaviour observed',
   'CLI-REPEAT-001': 'Help behaviour repeated',
   'CLI-FUNCTIONAL-001': 'Miniature analysis reproduced',
-  'RECIPE-TEST-DEPTH-001': 'Bioconda recipe test depth',
-  'REPO-PRACTICES-001': 'Repository practice files',
+  'REPO-PRACTICES-001': 'Upstream project practices',
   'PY-RUFF-001': 'Ruff observations',
   'PY-PYLINT-001': 'Pylint observations',
   'PY-RADON-001': 'Cyclomatic complexity',
@@ -83,7 +82,6 @@ export function packageMetrics(results: CheckResult[]) {
   const vulture = observed(results, 'PY-VULTURE-001')
   const bandit = observed(results, 'PY-BANDIT-001')
   const repository = observed(results, 'REPO-PRACTICES-001')
-  const recipe = observed(results, 'RECIPE-TEST-DEPTH-001')
   const lines = number(ruff.nonblank_noncomment_lines)
   const severity = bandit.indicators_by_severity as Record<string, number> | undefined
   return Object.assign([
@@ -94,14 +92,6 @@ export function packageMetrics(results: CheckResult[]) {
     { value: `${rate(number(vulture.candidate_count), lines)}`, label: 'Vulture candidates / 1k lines', note: `${number(vulture.candidate_count)} candidates` },
     { value: `${number(bandit.indicator_count)}`, label: 'Bandit indicators', note: `${severity?.MEDIUM ?? 0} medium · ${severity?.HIGH ?? 0} high` },
   ], {
-    repository: {
-      Licence: Boolean(repository.licence_file_present),
-      Contributing: Boolean(repository.contribution_guide_present),
-      Citation: Boolean(repository.citation_metadata_present),
-      CI: Boolean(repository.ci_workflow_present),
-      Tests: Boolean(repository.test_path_present),
-      Documentation: Boolean(repository.documentation_path_present),
-    },
-    recipeDepth: number(recipe.depth),
+    repository,
   })
 }

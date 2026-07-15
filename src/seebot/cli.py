@@ -30,6 +30,7 @@ from seebot.recipes.checkout import fetch_recipe_file
 from seebot.recipes.test_depth import write_recipe_test_observation
 from seebot.report.awards import load_award_config, rank_packages, write_badges
 from seebot.report.profiles import build_profiles
+from seebot.report.site import enrich_repository_rows
 from seebot.runtime.pixi import (
     PixiEnvironment,
     PixiProbeSpec,
@@ -835,8 +836,9 @@ def report_build(ctx: typer.Context) -> None:
         raise typer.BadParameter(f"Normalize a run or rebuild the global table first: {source}")
     if not opts.dry_run:
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
         rows = json.loads(source.read_text(encoding="utf-8"))
+        rows = enrich_repository_rows(rows, ROOT)
+        target.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
         runs_by_package: dict[str, list[dict[str, Any]]] = {}
         for row in rows:
             runs_by_package.setdefault(row["package_id"], []).append(row)

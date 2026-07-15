@@ -1,5 +1,16 @@
 # Protocol changelog
 
+## 2026-07-15 — upstream-focused public report (pilot, unfrozen)
+
+- Removed the public comparison interface and recipe-test presentation.
+- Replaced the award formula with five upstream-project categories: testing,
+  automation, documentation, stewardship, and reproducibility.
+- Added conservative repository-tree observations for test files and data, CI and
+  maintenance automation, project guidance, dependency manifests, lock files,
+  containers, source-language counts, and worked examples.
+- Kept source static analysis and installed-tool behaviour visible but outside the
+  upstream award.
+
 ## Unreleased pilot
 
 - Established the original project naming, separated units of analysis, conservative status semantics, ten-package pilot gate, and first CLI-help rubric item.

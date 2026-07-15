@@ -37,11 +37,13 @@
           "breakdown": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["contracts", "repository", "recipe_test"],
+            "required": ["testing", "automation", "documentation", "stewardship", "reproducibility"],
             "properties": {
-              "contracts": {"type": "number", "minimum": 0, "maximum": 50},
-              "repository": {"type": "number", "minimum": 0, "maximum": 30},
-              "recipe_test": {"type": "number", "minimum": 0, "maximum": 20}
+              "testing": {"type": "number", "minimum": 0, "maximum": 25},
+              "automation": {"type": "number", "minimum": 0, "maximum": 20},
+              "documentation": {"type": "number", "minimum": 0, "maximum": 20},
+              "stewardship": {"type": "number", "minimum": 0, "maximum": 20},
+              "reproducibility": {"type": "number", "minimum": 0, "maximum": 15}
             }
           },
           "rank": {"type": ["integer", "null"], "minimum": 1}

@@ -1,27 +1,55 @@
 schema_version: 1
-version: 0.1.0-pilot
-title: Seebot Engineering Practice Award
-description: Transparent points for observed CLI contracts, repository signals, and Bioconda recipe-test depth.
+version: 0.2.0-pilot
+title: Seebot Upstream Engineering Practice Award
+description: Transparent points for observable practices in the upstream software project.
 maximum_points: 100
-contracts:
-  PKG-IDENTITY-001: 10
-  CLI-HELP-001: 10
-  CLI-VERSION-001: 10
-  CLI-INVALID-001: 10
-  CLI-FUNCTIONAL-001: 10
-repository_signals:
-  licence_file_present: 5
-  contribution_guide_present: 5
-  citation_metadata_present: 5
-  ci_workflow_present: 5
-  test_path_present: 5
-  documentation_path_present: 5
-recipe_test:
-  points_per_level: 5
-  maximum_level: 4
+categories:
+  testing:
+    title: Tests
+    maximum_points: 25
+    description: Evidence that the upstream codebase contains tests, test configuration, and test data.
+    signals:
+      test_path_present: 15
+      test_config_present: 5
+      test_data_present: 5
+  automation:
+    title: Automation
+    maximum_points: 20
+    description: Continuous integration, dependency maintenance, and release automation files.
+    signals:
+      ci_workflow_present: 10
+      dependency_automation_present: 5
+      release_automation_present: 5
+  documentation:
+    title: Documentation
+    maximum_points: 20
+    description: A project README, a documentation tree, and worked examples or tutorials.
+    signals:
+      readme_present: 5
+      documentation_path_present: 10
+      examples_present: 5
+  stewardship:
+    title: Project stewardship
+    maximum_points: 20
+    description: Files that support licensing, contribution, community conduct, citation, and change tracking.
+    signals:
+      licence_file_present: 5
+      contribution_guide_present: 4
+      code_of_conduct_present: 3
+      issue_templates_present: 2
+      citation_metadata_present: 3
+      changelog_present: 3
+  reproducibility:
+    title: Reproducibility
+    maximum_points: 15
+    description: Dependency manifests, lock files, and container or development-environment definitions.
+    signals:
+      dependency_manifest_present: 7
+      lockfile_present: 4
+      container_spec_present: 4
 tiers:
   - {name: Gold, minimum_points: 85, colour: "#9a6a00"}
   - {name: Silver, minimum_points: 70, colour: "#68717a"}
   - {name: Bronze, minimum_points: 55, colour: "#925f36"}
   - {name: Reviewed, minimum_points: 0, colour: "#50635c"}
-scope_note: This award concerns observable engineering practices, not scientific validity or algorithmic quality.
+scope_note: This award concerns files visible in the pinned upstream repository. It does not measure test effectiveness, current CI success, scientific validity, or algorithmic quality.
