@@ -3,6 +3,60 @@
     "schema_version": 1,
     "run_id": "cutadapt-5.2-pilot-001",
     "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
+    "check_id": "CLI-ERROR-QUALITY-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 30,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "diagnostic_text_detected": true,
+      "resolved_package": {
+        "name": "cutadapt",
+        "version": "5.2",
+        "build": "py313hf513372_2",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "cutadapt",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T07:34:24.175629Z",
+    "duration_seconds": 0.39722154196351767,
+    "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-ERROR-QUALITY-001/stdout.txt",
+      "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-ERROR-QUALITY-001/stderr.txt",
+      "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-ERROR-QUALITY-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "cutadapt-5.2-pilot-001",
+    "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
     "check_id": "CLI-FUNCTIONAL-001",
     "domain": "functional",
     "status": "PASS",
@@ -72,11 +126,15 @@
       ],
       "timeout_seconds": 30,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "cutadapt",
         "version": "5.2",
@@ -92,14 +150,67 @@
       "cutadapt",
       "--help"
     ],
-    "started_at": "2026-07-14T20:17:04.420868Z",
-    "duration_seconds": 0.2773789169732481,
+    "started_at": "2026-07-15T07:34:22.299544Z",
+    "duration_seconds": 0.34501279098913074,
     "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-001/stderr.txt",
       "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "cutadapt-5.2-pilot-001",
+    "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
+    "check_id": "CLI-HELP-CONTENT-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 30,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "required_text_detected": true,
+      "interface_detail_detected": true,
+      "resolved_package": {
+        "name": "cutadapt",
+        "version": "5.2",
+        "build": "py313hf513372_2",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "cutadapt",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:34:22.772227Z",
+    "duration_seconds": 0.423398083075881,
+    "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-CONTENT-001/stdout.txt",
+      "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-CONTENT-001/stderr.txt",
+      "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-HELP-CONTENT-001/metadata.json"
     },
     "notes": null
   },
@@ -121,11 +232,15 @@
       ],
       "timeout_seconds": 30,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 2,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "cutadapt",
         "version": "5.2",
@@ -141,14 +256,122 @@
       "cutadapt",
       "--definitely-not-a-real-option"
     ],
-    "started_at": "2026-07-14T20:17:05.063033Z",
-    "duration_seconds": 0.23560654208995402,
+    "started_at": "2026-07-15T07:34:23.696137Z",
+    "duration_seconds": 0.3892335419077426,
     "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-INVALID-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-INVALID-001/stderr.txt",
       "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-INVALID-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "cutadapt-5.2-pilot-001",
+    "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
+    "check_id": "CLI-NOARGS-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0,
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 30,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "cutadapt",
+        "version": "5.2",
+        "build": "py313hf513372_2",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "cutadapt"
+    ],
+    "started_at": "2026-07-15T07:34:21.808482Z",
+    "duration_seconds": 0.4070581670384854,
+    "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-NOARGS-001/stdout.txt",
+      "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-NOARGS-001/stderr.txt",
+      "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-NOARGS-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "cutadapt-5.2-pilot-001",
+    "package_id": "cutadapt__5.2__py313hd978853_2__linux-64",
+    "check_id": "CLI-REPEAT-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 30,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 2
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "repeat_count": 2,
+      "repeatable_exit_code": true,
+      "repeatable_stdout": true,
+      "repeatable_stderr": true,
+      "resolved_package": {
+        "name": "cutadapt",
+        "version": "5.2",
+        "build": "py313hf513372_2",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "cutadapt",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:34:24.678772Z",
+    "duration_seconds": 0.7869668749626726,
+    "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-REPEAT-001/stdout.txt",
+      "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-REPEAT-001/stderr.txt",
+      "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-REPEAT-001/metadata.json"
     },
     "notes": null
   },
@@ -168,11 +391,15 @@
       ],
       "timeout_seconds": 30,
       "stdout_contains": "5.2",
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "stdout_contains_expected": true,
       "resolved_package": {
         "name": "cutadapt",
@@ -189,10 +416,10 @@
       "cutadapt",
       "--version"
     ],
-    "started_at": "2026-07-14T20:17:04.762276Z",
-    "duration_seconds": 0.23067825008183718,
+    "started_at": "2026-07-15T07:34:23.294410Z",
+    "duration_seconds": 0.3183589158579707,
     "environment_id": "pixi-lock:sha256:850402ead7c9fe63cc9afe168253782c814176304950b17ec93b680efb63ddd1",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-VERSION-001/stdout.txt",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/CLI-VERSION-001/stderr.txt",
@@ -666,12 +893,31 @@
     },
     "observed": {
       "file_count": 325,
+      "source_file_count": 51,
+      "language_file_counts": {
+        "python": 50,
+        "c": 1
+      },
+      "readme_present": true,
       "licence_file_present": true,
       "contribution_guide_present": true,
       "citation_metadata_present": true,
+      "code_of_conduct_present": false,
+      "issue_templates_present": true,
+      "changelog_present": true,
       "ci_workflow_present": true,
+      "ci_workflow_count": 2,
+      "dependency_automation_present": true,
+      "release_automation_present": false,
       "test_path_present": true,
+      "test_file_count": 260,
+      "test_config_present": true,
+      "test_data_present": true,
       "documentation_path_present": true,
+      "examples_present": false,
+      "dependency_manifest_present": true,
+      "lockfile_present": false,
+      "container_spec_present": false,
       "repository_url": "https://github.com/marcelm/cutadapt",
       "observed_commit": "50e9fb8d35b606196ae88d63252fc35674c0eda1",
       "tree_truncated": false
@@ -681,14 +927,68 @@
       "version": "2022-11-28"
     },
     "command": null,
-    "started_at": "2026-07-14T20:17:27.096429Z",
-    "duration_seconds": 0.5652704162057489,
+    "started_at": "2026-07-15T04:37:09.197644Z",
+    "duration_seconds": 0.531483749859035,
     "environment_id": "sha256:8269f9db9b46a1d858cdc95aa6ce29811d359ddd8cb7e626438a65bb9fef7000",
     "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
     "evidence": {
       "stdout": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/REPO-PRACTICES-001/stdout.json",
       "stderr": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/REPO-PRACTICES-001/stderr.txt",
       "metadata": "evidence/cutadapt-5.2-pilot-001/cutadapt__5.2__py313hd978853_2__linux-64/REPO-PRACTICES-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-ERROR-QUALITY-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "diagnostic_text_detected": true,
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T07:34:50.641088Z",
+    "duration_seconds": 3.846313958056271,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-ERROR-QUALITY-001/metadata.json"
     },
     "notes": null
   },
@@ -763,11 +1063,15 @@
       ],
       "timeout_seconds": 120,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "nanoplot",
         "version": "1.47.1",
@@ -783,14 +1087,67 @@
       "NanoPlot",
       "--help"
     ],
-    "started_at": "2026-07-14T20:32:05.148534Z",
-    "duration_seconds": 2.088529999833554,
+    "started_at": "2026-07-15T07:34:32.212162Z",
+    "duration_seconds": 4.935978916008025,
     "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-001/stdout.txt",
       "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-001/stderr.txt",
       "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-HELP-CONTENT-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "required_text_detected": true,
+      "interface_detail_detected": true,
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:34:37.222406Z",
+    "duration_seconds": 5.2415095418691635,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-CONTENT-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-CONTENT-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-CONTENT-001/metadata.json"
     },
     "notes": null
   },
@@ -812,11 +1169,15 @@
       ],
       "timeout_seconds": 120,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 2,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "nanoplot",
         "version": "1.47.1",
@@ -832,14 +1193,122 @@
       "NanoPlot",
       "--definitely-not-a-real-option"
     ],
-    "started_at": "2026-07-14T20:32:09.482736Z",
-    "duration_seconds": 2.3915594168938696,
+    "started_at": "2026-07-15T07:34:46.706571Z",
+    "duration_seconds": 3.8541033749934286,
     "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-INVALID-001/stdout.txt",
       "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-INVALID-001/stderr.txt",
       "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-INVALID-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-NOARGS-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0,
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot"
+    ],
+    "started_at": "2026-07-15T07:34:27.527628Z",
+    "duration_seconds": 4.599061999935657,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-NOARGS-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-NOARGS-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-NOARGS-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-REPEAT-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 2
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "repeat_count": 2,
+      "repeatable_exit_code": true,
+      "repeatable_stdout": true,
+      "repeatable_stderr": true,
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:34:54.568905Z",
+    "duration_seconds": 8.703175249975175,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-REPEAT-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-REPEAT-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-REPEAT-001/metadata.json"
     },
     "notes": null
   },
@@ -859,11 +1328,15 @@
       ],
       "timeout_seconds": 120,
       "stdout_contains": "1.47.1",
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "stdout_contains_expected": true,
       "resolved_package": {
         "name": "nanoplot",
@@ -880,10 +1353,10 @@
       "NanoPlot",
       "--version"
     ],
-    "started_at": "2026-07-14T20:32:07.295982Z",
-    "duration_seconds": 2.125359124969691,
+    "started_at": "2026-07-15T07:34:42.541188Z",
+    "duration_seconds": 4.085797457955778,
     "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-VERSION-001/stdout.txt",
       "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-VERSION-001/stderr.txt",
@@ -1398,6 +1871,60 @@
     "schema_version": 1,
     "run_id": "sourmash-4.9.4-pilot-001",
     "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-ERROR-QUALITY-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
+      "diagnostic_text_detected": true,
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T07:35:18.650145Z",
+    "duration_seconds": 2.653952792054042,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-ERROR-QUALITY-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
     "check_id": "CLI-FUNCTIONAL-001",
     "domain": "functional",
     "status": "PASS",
@@ -1466,11 +1993,15 @@
       ],
       "timeout_seconds": 60,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "sourmash",
         "version": "4.9.4",
@@ -1486,14 +2017,67 @@
       "sourmash",
       "--help"
     ],
-    "started_at": "2026-07-14T20:32:04.104503Z",
-    "duration_seconds": 1.1961590838618577,
+    "started_at": "2026-07-15T07:35:08.435959Z",
+    "duration_seconds": 2.376960833091289,
     "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-001/stdout.txt",
       "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-001/stderr.txt",
       "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-HELP-CONTENT-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "required_text_detected": true,
+      "interface_detail_detected": true,
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:35:10.894668Z",
+    "duration_seconds": 2.3028869999106973,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-CONTENT-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-CONTENT-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-CONTENT-001/metadata.json"
     },
     "notes": null
   },
@@ -1515,11 +2099,15 @@
       ],
       "timeout_seconds": 60,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 2,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "resolved_package": {
         "name": "sourmash",
         "version": "4.9.4",
@@ -1535,14 +2123,122 @@
       "sourmash",
       "--definitely-not-a-real-option"
     ],
-    "started_at": "2026-07-14T20:32:06.599955Z",
-    "duration_seconds": 1.1163253330159932,
+    "started_at": "2026-07-15T07:35:16.022184Z",
+    "duration_seconds": 2.5495401250664145,
     "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-INVALID-001/stdout.txt",
       "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-INVALID-001/stderr.txt",
       "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-INVALID-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-NOARGS-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0,
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 1,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash"
+    ],
+    "started_at": "2026-07-15T07:35:05.348284Z",
+    "duration_seconds": 3.0016176658682525,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-NOARGS-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-NOARGS-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-NOARGS-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-REPEAT-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 2
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "repeat_count": 2,
+      "repeatable_exit_code": true,
+      "repeatable_stdout": true,
+      "repeatable_stderr": true,
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:35:21.380301Z",
+    "duration_seconds": 5.249788915971294,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-REPEAT-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-REPEAT-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-REPEAT-001/metadata.json"
     },
     "notes": null
   },
@@ -1562,11 +2258,15 @@
       ],
       "timeout_seconds": 60,
       "stdout_contains": "4.9.4",
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "stdout_contains_expected": true,
       "resolved_package": {
         "name": "sourmash",
@@ -1583,10 +2283,10 @@
       "sourmash",
       "--version"
     ],
-    "started_at": "2026-07-14T20:32:05.360676Z",
-    "duration_seconds": 1.1819372908212245,
+    "started_at": "2026-07-15T07:35:13.282873Z",
+    "duration_seconds": 2.654830207815394,
     "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-VERSION-001/stdout.txt",
       "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-VERSION-001/stderr.txt",

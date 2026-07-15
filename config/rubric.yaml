@@ -32,6 +32,16 @@ checks:
     evidence_required: [command, exit_code, stdout, stderr]
     source:
       - https://doi.org/10.1186/2047-217X-2-15
+  - id: CLI-HELP-CONTENT-001
+    domain: cli
+    title: Help describes usage and interface elements
+    description: The documented help invocation contains usage plus options, arguments, or commands and creates no files.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected: {usage_text: true, interface_detail: true, files_created: []}
+    evidence_required: [command, exit_code, stdout, stderr, files_created]
+    source:
+      - https://doi.org/10.1371/journal.pcbi.1006561
   - id: CLI-VERSION-001
     domain: cli
     title: Documented version command terminates successfully
@@ -52,6 +62,16 @@ checks:
       allowed_exit_codes: [1, 2, 64]
       timeout_seconds: 30
     evidence_required: [command, exit_code, stdout, stderr]
+  - id: CLI-ERROR-QUALITY-001
+    domain: robustness
+    title: Invalid option produces a bounded diagnostic
+    description: A user input error returns a diagnostic without an internal traceback or filesystem side effects.
+    applicability: cli_tool
+    method: automated_with_manifest
+    expected: {nonempty_diagnostic: true, traceback: false, files_created: []}
+    evidence_required: [command, exit_code, stdout, stderr, files_created]
+    source:
+      - https://doi.org/10.1371/journal.pcbi.1006561
   - id: CLI-NOARGS-001
     domain: cli
     title: No-argument behaviour is observed

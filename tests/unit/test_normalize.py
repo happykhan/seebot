@@ -61,3 +61,20 @@ def test_rebuild_global_results_rejects_conflicting_natural_key(tmp_path: Path) 
 
     with pytest.raises(ValueError, match="Conflicting global result key"):
         rebuild_global_results(tmp_path / "results")
+
+
+def test_normalize_incrementally_preserves_existing_checks(tmp_path: Path) -> None:
+    target = tmp_path / "results" / "pilot"
+    target.mkdir(parents=True)
+    existing = [{"run_id": "pilot", "package_id": "tool", "check_id": "OLD"}]
+    (target / "checks.json").write_text(json.dumps(existing), encoding="utf-8")
+    evidence = tmp_path / "evidence" / "pilot" / "tool" / "NEW"
+    evidence.mkdir(parents=True)
+    (evidence / "result.json").write_text(
+        json.dumps({"run_id": "pilot", "package_id": "tool", "check_id": "NEW"}),
+        encoding="utf-8",
+    )
+
+    json_path, _ = normalize_run(tmp_path / "evidence", tmp_path / "results", "pilot")
+
+    assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW", "OLD"]

@@ -51,11 +51,14 @@ export interface AwardRanking extends PackageSummary {
   tier_colour: string
   breakdown: {
     testing: number
-    automation: number
     documentation: number
-    stewardship: number
     reproducibility: number
+    automation: number
+    reuse_attribution: number
   }
+  assessment_coverage: number
+  category_coverage: Record<string, number>
+  unknown_signals: string[]
   rank: number | null
 }
 

@@ -21,26 +21,49 @@ def score_package(rows: list[dict[str, Any]], config: Mapping[str, Any]) -> dict
     repository = by_check.get("REPO-PRACTICES-001")
     if repository is None or repository["status"] != "PASS":
         missing.append("REPO-PRACTICES-001")
-    breakdown = {
-        category: round(
-            sum(
-                float(points)
-                for signal, points in definition["signals"].items()
-                if repository is not None
+    breakdown: dict[str, float] = {}
+    category_coverage: dict[str, float] = {}
+    unknown_signals: list[str] = []
+    for category, definition in config["categories"].items():
+        earned = 0.0
+        assessed = 0.0
+        for signal in definition["signals"]:
+            points = float(signal["points"])
+            value: bool | None = None
+            if (
+                signal["source"] == "repository"
+                and repository is not None
                 and repository["status"] == "PASS"
-                and repository["observed"].get(signal) is True
-            ),
-            1,
-        )
-        for category, definition in config["categories"].items()
-    }
+            ):
+                observed_value = repository["observed"].get(signal["key"])
+                value = observed_value if isinstance(observed_value, bool) else None
+            elif signal["source"] == "check":
+                row = by_check.get(signal["check_id"])
+                if row is not None and row["status"] not in {"ERROR", "NOT_RUN", "UNTESTABLE"}:
+                    value = row["status"] == "PASS"
+            if value is None:
+                unknown_signals.append(f"{category}.{signal['id']}")
+                continue
+            assessed += points
+            if value:
+                earned += points
+        breakdown[category] = round(earned, 1)
+        category_coverage[category] = round(assessed / float(definition["maximum_points"]), 3)
     score = sum(breakdown.values())
+    assessed_points = sum(
+        category_coverage[key] * float(config["categories"][key]["maximum_points"])
+        for key in category_coverage
+    )
+    coverage = assessed_points / float(config["maximum_points"])
     tier = next(tier for tier in config["tiers"] if score >= float(tier["minimum_points"]))
     return {
         "score": round(score, 1),
         "maximum_points": config["maximum_points"],
-        "eligible": not missing,
+        "eligible": not missing and coverage >= float(config["minimum_coverage"]),
         "missing_checks": sorted(set(missing)),
+        "assessment_coverage": round(coverage, 3),
+        "category_coverage": category_coverage,
+        "unknown_signals": sorted(unknown_signals),
         "tier": tier["name"],
         "tier_colour": tier["colour"],
         "breakdown": breakdown,

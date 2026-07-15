@@ -3,6 +3,60 @@
     "schema_version": 1,
     "run_id": "sourmash-4.9.4-pilot-001",
     "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-ERROR-QUALITY-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
+      "diagnostic_text_detected": true,
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T07:35:18.650145Z",
+    "duration_seconds": 2.653952792054042,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-ERROR-QUALITY-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
     "check_id": "CLI-FUNCTIONAL-001",
     "domain": "functional",
     "status": "PASS",
@@ -71,11 +125,15 @@
       ],
       "timeout_seconds": 60,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "sourmash",
         "version": "4.9.4",
@@ -91,14 +149,67 @@
       "sourmash",
       "--help"
     ],
-    "started_at": "2026-07-14T20:32:04.104503Z",
-    "duration_seconds": 1.1961590838618577,
+    "started_at": "2026-07-15T07:35:08.435959Z",
+    "duration_seconds": 2.376960833091289,
     "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-001/stdout.txt",
       "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-001/stderr.txt",
       "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-HELP-CONTENT-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "required_text_detected": true,
+      "interface_detail_detected": true,
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:35:10.894668Z",
+    "duration_seconds": 2.3028869999106973,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-CONTENT-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-CONTENT-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-HELP-CONTENT-001/metadata.json"
     },
     "notes": null
   },
@@ -120,11 +231,15 @@
       ],
       "timeout_seconds": 60,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 2,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "resolved_package": {
         "name": "sourmash",
         "version": "4.9.4",
@@ -140,14 +255,122 @@
       "sourmash",
       "--definitely-not-a-real-option"
     ],
-    "started_at": "2026-07-14T20:32:06.599955Z",
-    "duration_seconds": 1.1163253330159932,
+    "started_at": "2026-07-15T07:35:16.022184Z",
+    "duration_seconds": 2.5495401250664145,
     "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-INVALID-001/stdout.txt",
       "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-INVALID-001/stderr.txt",
       "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-INVALID-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-NOARGS-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0,
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 1,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash"
+    ],
+    "started_at": "2026-07-15T07:35:05.348284Z",
+    "duration_seconds": 3.0016176658682525,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-NOARGS-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-NOARGS-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-NOARGS-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "sourmash-4.9.4-pilot-001",
+    "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
+    "check_id": "CLI-REPEAT-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 2
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "repeat_count": 2,
+      "repeatable_exit_code": true,
+      "repeatable_stdout": true,
+      "repeatable_stderr": true,
+      "resolved_package": {
+        "name": "sourmash",
+        "version": "4.9.4",
+        "build": "hdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "sourmash",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:35:21.380301Z",
+    "duration_seconds": 5.249788915971294,
+    "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-REPEAT-001/stdout.txt",
+      "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-REPEAT-001/stderr.txt",
+      "metadata": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-REPEAT-001/metadata.json"
     },
     "notes": null
   },
@@ -167,11 +390,15 @@
       ],
       "timeout_seconds": 60,
       "stdout_contains": "4.9.4",
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "stdout_contains_expected": true,
       "resolved_package": {
         "name": "sourmash",
@@ -188,10 +415,10 @@
       "sourmash",
       "--version"
     ],
-    "started_at": "2026-07-14T20:32:05.360676Z",
-    "duration_seconds": 1.1819372908212245,
+    "started_at": "2026-07-15T07:35:13.282873Z",
+    "duration_seconds": 2.654830207815394,
     "environment_id": "pixi-lock:sha256:4efdd17241919ad844f597e71e3d46ef69d8fe52491f36f246dd1eb1f7a84eda",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-VERSION-001/stdout.txt",
       "stderr": "evidence/sourmash-4.9.4-pilot-001/sourmash__4.9.4__hdfd78af_0__noarch/CLI-VERSION-001/stderr.txt",

@@ -7,12 +7,30 @@ from seebot.report.awards import badge_svg, rank_packages, score_package
 
 CONFIG = {
     "maximum_points": 100,
+    "minimum_coverage": 0.8,
     "categories": {
-        "testing": {"signals": {"tests": 25}},
-        "automation": {"signals": {"ci": 20}},
-        "documentation": {"signals": {"docs": 20}},
-        "stewardship": {"signals": {"licence": 20}},
-        "reproducibility": {"signals": {"manifest": 15}},
+        "testing": {
+            "maximum_points": 30,
+            "signals": [{"id": "tests", "source": "repository", "key": "tests", "points": 30}],
+        },
+        "documentation": {
+            "maximum_points": 25,
+            "signals": [{"id": "docs", "source": "repository", "key": "docs", "points": 25}],
+        },
+        "reproducibility": {
+            "maximum_points": 20,
+            "signals": [
+                {"id": "manifest", "source": "repository", "key": "manifest", "points": 20}
+            ],
+        },
+        "automation": {
+            "maximum_points": 15,
+            "signals": [{"id": "ci", "source": "repository", "key": "ci", "points": 15}],
+        },
+        "reuse_attribution": {
+            "maximum_points": 10,
+            "signals": [{"id": "licence", "source": "repository", "key": "licence", "points": 10}],
+        },
     },
     "tiers": [
         {"name": "Gold", "minimum_points": 85, "colour": "gold"},
@@ -42,14 +60,26 @@ def test_scores_transparent_components() -> None:
     score = score_package(rows("tool"), CONFIG)
     assert score["score"] == 100
     assert score["breakdown"] == {
-        "testing": 25,
-        "automation": 20,
-        "documentation": 20,
-        "stewardship": 20,
-        "reproducibility": 15,
+        "testing": 30,
+        "documentation": 25,
+        "reproducibility": 20,
+        "automation": 15,
+        "reuse_attribution": 10,
     }
+    assert score["assessment_coverage"] == 1
     assert score["tier"] == "Gold"
     assert score["eligible"] is True
+
+
+def test_unknown_signal_reduces_coverage_without_becoming_failure() -> None:
+    incomplete = rows("tool")
+    incomplete[0]["observed"].pop("docs")
+    score = score_package(incomplete, CONFIG)
+    assert score["breakdown"]["documentation"] == 0
+    assert score["category_coverage"]["documentation"] == 0
+    assert "documentation.docs" in score["unknown_signals"]
+    assert score["assessment_coverage"] == 0.75
+    assert score["eligible"] is False
 
 
 def test_competition_ranking_preserves_ties() -> None:

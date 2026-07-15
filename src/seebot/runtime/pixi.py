@@ -53,6 +53,11 @@ class PixiProbeSpec:
     expected_output_sha256: dict[str, str] | None = None
     manifest_sha256: str | None = None
     repeat_count: int = 1
+    required_text_tokens: tuple[str, ...] = ()
+    required_any_text_tokens: tuple[str, ...] = ()
+    forbid_traceback: bool = False
+    require_diagnostic: bool = False
+    forbid_created_files: bool = False
 
 
 def _run_json(command: list[str]) -> Any:
@@ -180,6 +185,7 @@ def run_pixi_probe(
         stdout_path.write_bytes(completed.stdout)
         stderr_path.write_bytes(completed.stderr)
         observed = {"exit_code": completed.returncode, "timed_out": False}
+        status = Status.PASS if completed.returncode in spec.allowed_exit_codes else Status.FAIL
         combined_text = (completed.stdout + completed.stderr).decode(errors="replace")
         observed["traceback_detected"] = "Traceback (most recent call last)" in combined_text
         observed["usage_or_help_text_detected"] = any(
@@ -189,8 +195,28 @@ def run_pixi_probe(
             path.relative_to(check_dir).as_posix()
             for path in check_dir.rglob("*")
             if path.is_file()
+            and path.name not in {"stdout.txt", "stderr.txt", "metadata.json", "result.json"}
         }
         observed["files_created"] = sorted(after_files - before_files)
+        lowered_text = combined_text.lower()
+        if spec.required_text_tokens:
+            matched = all(token.lower() in lowered_text for token in spec.required_text_tokens)
+            observed["required_text_detected"] = matched
+            if status is Status.PASS and not matched:
+                status = Status.FAIL
+        if spec.required_any_text_tokens:
+            matched = any(token.lower() in lowered_text for token in spec.required_any_text_tokens)
+            observed["interface_detail_detected"] = matched
+            if status is Status.PASS and not matched:
+                status = Status.FAIL
+        if spec.forbid_traceback and observed["traceback_detected"]:
+            status = Status.FAIL
+        if spec.require_diagnostic:
+            observed["diagnostic_text_detected"] = bool(combined_text.strip())
+            if status is Status.PASS and not observed["diagnostic_text_detected"]:
+                status = Status.FAIL
+        if spec.forbid_created_files and observed["files_created"]:
+            status = Status.FAIL
         if spec.repeat_count > 1:
             repeated = subprocess.run(
                 runner_command,
@@ -205,7 +231,6 @@ def run_pixi_probe(
             observed["repeatable_exit_code"] = repeated.returncode == completed.returncode
             observed["repeatable_stdout"] = repeated.stdout == completed.stdout
             observed["repeatable_stderr"] = repeated.stderr == completed.stderr
-        status = Status.PASS if completed.returncode in spec.allowed_exit_codes else Status.FAIL
         decoded_stdout = completed.stdout.decode(errors="replace")
         if spec.expected_stdout_contains:
             matched = spec.expected_stdout_contains in decoded_stdout

@@ -3,6 +3,60 @@
     "schema_version": 1,
     "run_id": "nanoplot-1.47.1-pilot-001",
     "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-ERROR-QUALITY-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "diagnostic_text_detected": true,
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T07:34:50.641088Z",
+    "duration_seconds": 3.846313958056271,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-ERROR-QUALITY-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-ERROR-QUALITY-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
     "check_id": "CLI-FUNCTIONAL-001",
     "domain": "functional",
     "status": "PASS",
@@ -70,11 +124,15 @@
       ],
       "timeout_seconds": 120,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "nanoplot",
         "version": "1.47.1",
@@ -90,14 +148,67 @@
       "NanoPlot",
       "--help"
     ],
-    "started_at": "2026-07-14T20:32:05.148534Z",
-    "duration_seconds": 2.088529999833554,
+    "started_at": "2026-07-15T07:34:32.212162Z",
+    "duration_seconds": 4.935978916008025,
     "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-001/stdout.txt",
       "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-001/stderr.txt",
       "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-HELP-CONTENT-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "required_text_detected": true,
+      "interface_detail_detected": true,
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:34:37.222406Z",
+    "duration_seconds": 5.2415095418691635,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-CONTENT-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-CONTENT-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-HELP-CONTENT-001/metadata.json"
     },
     "notes": null
   },
@@ -119,11 +230,15 @@
       ],
       "timeout_seconds": 120,
       "stdout_contains": null,
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 2,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
       "resolved_package": {
         "name": "nanoplot",
         "version": "1.47.1",
@@ -139,14 +254,122 @@
       "NanoPlot",
       "--definitely-not-a-real-option"
     ],
-    "started_at": "2026-07-14T20:32:09.482736Z",
-    "duration_seconds": 2.3915594168938696,
+    "started_at": "2026-07-15T07:34:46.706571Z",
+    "duration_seconds": 3.8541033749934286,
     "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-INVALID-001/stdout.txt",
       "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-INVALID-001/stderr.txt",
       "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-INVALID-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-NOARGS-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0,
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot"
+    ],
+    "started_at": "2026-07-15T07:34:27.527628Z",
+    "duration_seconds": 4.599061999935657,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-NOARGS-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-NOARGS-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-NOARGS-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "nanoplot-1.47.1-pilot-001",
+    "package_id": "nanoplot__1.47.1__pyhdfd78af_0__noarch",
+    "check_id": "CLI-REPEAT-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 120,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 2
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "repeat_count": 2,
+      "repeatable_exit_code": true,
+      "repeatable_stdout": true,
+      "repeatable_stderr": true,
+      "resolved_package": {
+        "name": "nanoplot",
+        "version": "1.47.1",
+        "build": "pyhdfd78af_0",
+        "subdir": "noarch"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "NanoPlot",
+      "--help"
+    ],
+    "started_at": "2026-07-15T07:34:54.568905Z",
+    "duration_seconds": 8.703175249975175,
+    "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-REPEAT-001/stdout.txt",
+      "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-REPEAT-001/stderr.txt",
+      "metadata": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-REPEAT-001/metadata.json"
     },
     "notes": null
   },
@@ -166,11 +389,15 @@
       ],
       "timeout_seconds": 120,
       "stdout_contains": "1.47.1",
-      "output_sha256": {}
+      "output_sha256": {},
+      "repeat_count": 1
     },
     "observed": {
       "exit_code": 0,
       "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
       "stdout_contains_expected": true,
       "resolved_package": {
         "name": "nanoplot",
@@ -187,10 +414,10 @@
       "NanoPlot",
       "--version"
     ],
-    "started_at": "2026-07-14T20:32:07.295982Z",
-    "duration_seconds": 2.125359124969691,
+    "started_at": "2026-07-15T07:34:42.541188Z",
+    "duration_seconds": 4.085797457955778,
     "environment_id": "pixi-lock:sha256:ceb0b94c50c0882a4fd0143ce7fde25c7989fac67f029253d23cef4d6f58c774",
-    "config_sha256": "055599a78e434def9d99fd5904bd8f1c7ef558a1c61ce099f0721a11f57bf4c8",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
     "evidence": {
       "stdout": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-VERSION-001/stdout.txt",
       "stderr": "evidence/nanoplot-1.47.1-pilot-001/nanoplot__1.47.1__pyhdfd78af_0__noarch/CLI-VERSION-001/stderr.txt",

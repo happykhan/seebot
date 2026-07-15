@@ -16,3 +16,5 @@
   releases are safe.
 - Award ranks depend on the frozen cohort and rubric version. Pilot badges are
   provisional and promotional copy is disabled until the ten-package rubric is frozen.
+- The award is literature-informed, not empirically validated as a predictor of defects.
+  Repository presence signals cannot establish the effectiveness of a practice.

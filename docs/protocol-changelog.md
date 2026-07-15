@@ -1,5 +1,15 @@
 # Protocol changelog
 
+## 2026-07-15 — literature-backed rubric and dedicated reports (pilot, unfrozen)
+
+- Replaced weak convenience metrics with testing, documentation/usability,
+  reproducibility/releases, automation/maintenance, and reuse/attribution domains.
+- Added assessment coverage; unknown audit evidence no longer masquerades as failure.
+- Added executable checks for substantive help output, clean diagnostics, filesystem
+  side effects, and repeatable interface behaviour.
+- Split the overview, project directory, and tool reports into dedicated routes, with
+  report views for summary, upstream practices, testing, code health, behaviour, and methods.
+
 ## 2026-07-15 — upstream-focused public report (pilot, unfrozen)
 
 - Removed the public comparison interface and recipe-test presentation.

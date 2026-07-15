@@ -1,6 +1,6 @@
 import type { AwardRanking } from './types'
 
-export type RankingSort = 'score' | 'name' | 'testing' | 'automation' | 'documentation'
+export type RankingSort = 'score' | 'name' | 'testing' | 'automation' | 'documentation' | 'reproducibility'
 
 export function filterAndSortRankings(
   rankings: AwardRanking[],

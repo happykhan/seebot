@@ -335,6 +335,11 @@ def pixi_probe(
     expected_output_sha256: dict[str, str] | None = None,
     manifest_path: Path | None = None,
     repeat_count: int = 1,
+    required_text_tokens: tuple[str, ...] = (),
+    required_any_text_tokens: tuple[str, ...] = (),
+    forbid_traceback: bool = False,
+    require_diagnostic: bool = False,
+    forbid_created_files: bool = False,
 ) -> PixiProbeSpec:
     return PixiProbeSpec(
         package_id=package_id(manifest),
@@ -349,6 +354,11 @@ def pixi_probe(
         expected_output_sha256=expected_output_sha256,
         manifest_sha256=sha256_file(manifest_path) if manifest_path else None,
         repeat_count=repeat_count,
+        required_text_tokens=required_text_tokens,
+        required_any_text_tokens=required_any_text_tokens,
+        forbid_traceback=forbid_traceback,
+        require_diagnostic=require_diagnostic,
+        forbid_created_files=forbid_created_files,
     )
 
 
@@ -429,6 +439,20 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
                     manifest_path=manifest_path,
                 )
             )
+            probes.append(
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-HELP-CONTENT-001",
+                    domain="cli",
+                    command=command,
+                    allowed_exit_codes=[0],
+                    manifest_path=manifest_path,
+                    required_text_tokens=("usage",),
+                    required_any_text_tokens=("options", "arguments", "commands"),
+                    forbid_created_files=True,
+                )
+            )
         for command in cli["version_commands"]:
             probes.append(
                 pixi_probe(
@@ -452,6 +476,20 @@ def audit_cli(ctx: typer.Context, package: Path) -> None:
                     command=cli["invalid_option_command"],
                     allowed_exit_codes=[1, 2, 64],
                     manifest_path=manifest_path,
+                )
+            )
+            probes.append(
+                pixi_probe(
+                    manifest,
+                    environment,
+                    check_id="CLI-ERROR-QUALITY-001",
+                    domain="robustness",
+                    command=cli["invalid_option_command"],
+                    allowed_exit_codes=[1, 2, 64],
+                    manifest_path=manifest_path,
+                    forbid_traceback=True,
+                    require_diagnostic=True,
+                    forbid_created_files=True,
                 )
             )
         if cli["help_commands"]:

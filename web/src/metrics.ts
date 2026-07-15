@@ -3,8 +3,10 @@ import type { CheckResult } from './types'
 const titles: Record<string, string> = {
   'PKG-IDENTITY-001': 'Installed version identified',
   'CLI-HELP-001': 'Help command terminates',
+  'CLI-HELP-CONTENT-001': 'Help explains the interface',
   'CLI-VERSION-001': 'Version command terminates',
   'CLI-INVALID-001': 'Invalid option rejected',
+  'CLI-ERROR-QUALITY-001': 'Invalid option gives a clean diagnostic',
   'CLI-NOARGS-001': 'No-argument behaviour observed',
   'CLI-REPEAT-001': 'Help behaviour repeated',
   'CLI-FUNCTIONAL-001': 'Miniature analysis reproduced',

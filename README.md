@@ -57,11 +57,11 @@ successful observational checks are presented as `MEASURED`, because completing 
 static-analysis measurement is not a claim that the software has no findings.
 
 The results website is designed for the final cohort: a searchable and paginated project
-directory, an upstream-engineering leaderboard, direct answers about whether tests are
-present, category report cards, same-language source profiles, installed-tool behaviour,
-and reusable SVG badges. The award covers upstream testing, automation, documentation,
-stewardship, and reproducibility signals. Static-analysis findings and runtime behaviour
-remain separate and do not contribute to the award score.
+directory, a literature-informed engineering leaderboard, direct answers about whether
+tests are present, dedicated category report views, same-language source profiles,
+installed-tool behaviour, and reusable SVG badges. The award covers testing and
+verification, documentation and usability, reproducibility and releases, automation and
+maintenance, and reuse and attribution. Every score includes assessment coverage.
 
 Run every configured language adapter for one exact release source:
 

@@ -11,19 +11,24 @@ complexity, documentation, duplication, dead-code indicators, security indicator
 test execution. Language adapters retain their own semantics and within-language
 baselines.
 
-The dashboard additionally calculates the versioned **Seebot Upstream Engineering
+The dashboard additionally calculates the versioned **Seebot Engineering
 Practice Award** defined in `config/awards.yaml`. This is not a general software-quality
-or scientific-validity score. Its 100 transparent points are limited to:
+or scientific-validity score. Its 100 literature-informed points are limited to:
 
-- 25 points for upstream test-suite, test-configuration, and test-data signals;
-- 20 points for CI, dependency-update, and release automation;
-- 20 points for README, documentation-tree, and example signals;
-- 20 points for licensing, contribution, conduct, citation, issue, and changelog files;
-- 15 points for dependency manifests, lock files, and container or development setup.
+- 30 points for testing and independent functional verification;
+- 25 points for documentation and command-line usability;
+- 20 points for reproducibility and identifiable releases;
+- 15 points for automation and maintenance;
+- 10 points for reuse and attribution.
 
 Gold begins at 85 points, silver at 70, and bronze at 55. Ties retain the same competition
-rank. A missing or errored repository observation makes a package ineligible rather than
-silently awarding zero. Static-analysis counts and installed-tool behaviour are excluded
-from the award because combining them into one number would overstate their semantics.
+rank. Assessment coverage is published with every score. Unknown, errored, or untestable
+evidence reduces coverage rather than silently becoming zero; coverage below 80% makes
+the award ineligible. `NOT_APPLICABLE` evidence is excluded from its denominator.
+Static-analysis counts remain outside the award.
+
+Package size, installation duration, dependency count, lockfiles, containers, dependency
+bots, issue templates, and code-of-conduct files do not earn points. They are mechanisms
+or contextual facts, not general evidence of software quality.
 
 Automated observations are not judgements. A linter finding is not necessarily a bug; a test directory does not establish test effectiveness; a CI file does not establish a passing build; absence of a detected vulnerability does not prove security.

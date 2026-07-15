@@ -41,12 +41,18 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], *, analysis_ready: bool) 
 
 
 def normalize_run(evidence_root: Path, results_root: Path, run_id: str) -> tuple[Path, Path]:
-    rows: list[dict[str, Any]] = []
-    for path in sorted((evidence_root / run_id).rglob("result.json")):
-        rows.append(json.loads(path.read_text(encoding="utf-8")))
-    if not rows:
-        raise ValueError(f"No completed check results found for run {run_id}")
     target = results_root / run_id
+    existing_path = target / "checks.json"
+    indexed: dict[tuple[str, str, str], dict[str, Any]] = {}
+    if existing_path.exists():
+        for row in json.loads(existing_path.read_text(encoding="utf-8")):
+            indexed[(row["run_id"], row["package_id"], row["check_id"])] = row
+    for path in sorted((evidence_root / run_id).rglob("result.json")):
+        row = json.loads(path.read_text(encoding="utf-8"))
+        indexed[(row["run_id"], row["package_id"], row["check_id"])] = row
+    if not indexed:
+        raise ValueError(f"No completed check results found for run {run_id}")
+    rows = [indexed[key] for key in sorted(indexed)]
     target.mkdir(parents=True, exist_ok=True)
     json_path = target / "checks.json"
     json_path.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")

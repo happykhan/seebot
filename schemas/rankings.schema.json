@@ -16,7 +16,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["package_id", "name", "version", "build", "subdir", "category", "description", "upstream_url", "run_id", "languages", "score", "maximum_points", "eligible", "missing_checks", "tier", "tier_colour", "breakdown", "rank"],
+        "required": ["package_id", "name", "version", "build", "subdir", "category", "description", "upstream_url", "run_id", "languages", "score", "maximum_points", "eligible", "missing_checks", "assessment_coverage", "category_coverage", "unknown_signals", "tier", "tier_colour", "breakdown", "rank"],
         "properties": {
           "package_id": {"type": "string", "minLength": 1},
           "name": {"type": "string", "minLength": 1},
@@ -32,18 +32,21 @@
           "maximum_points": {"const": 100},
           "eligible": {"type": "boolean"},
           "missing_checks": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "assessment_coverage": {"type": "number", "minimum": 0, "maximum": 1},
+          "category_coverage": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+          "unknown_signals": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
           "tier": {"enum": ["Gold", "Silver", "Bronze", "Reviewed"]},
           "tier_colour": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"},
           "breakdown": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["testing", "automation", "documentation", "stewardship", "reproducibility"],
+            "required": ["testing", "documentation", "reproducibility", "automation", "reuse_attribution"],
             "properties": {
-              "testing": {"type": "number", "minimum": 0, "maximum": 25},
-              "automation": {"type": "number", "minimum": 0, "maximum": 20},
-              "documentation": {"type": "number", "minimum": 0, "maximum": 20},
-              "stewardship": {"type": "number", "minimum": 0, "maximum": 20},
-              "reproducibility": {"type": "number", "minimum": 0, "maximum": 15}
+              "testing": {"type": "number", "minimum": 0, "maximum": 30},
+              "documentation": {"type": "number", "minimum": 0, "maximum": 25},
+              "reproducibility": {"type": "number", "minimum": 0, "maximum": 20},
+              "automation": {"type": "number", "minimum": 0, "maximum": 15},
+              "reuse_attribution": {"type": "number", "minimum": 0, "maximum": 10}
             }
           },
           "rank": {"type": ["integer", "null"], "minimum": 1}
