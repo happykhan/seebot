@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavBar } from '@genomicx/ui'
 import { useLocation } from 'react-router-dom'
+import { loadPublishedDataset } from './dataset'
 import type {
   ContractObservation, Dataset, ExemplarLabels, MetricPoint, ObservationStatus,
   ProjectSummary, SourceSnapshot,
@@ -245,7 +246,7 @@ export default function App() {
   const location = useLocation()
   const [dataset, setDataset] = useState<Dataset | null>(null)
   const [error, setError] = useState<string | null>(null)
-  useEffect(() => { fetch(`${import.meta.env.BASE_URL}data/dataset.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Dataset returned ${response.status}`))).then(setDataset).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Unknown data error')) }, [])
+  useEffect(() => { loadPublishedDataset().then(setDataset).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Unknown data error')) }, [])
   const parts = location.pathname.split('/').filter(Boolean)
   const view = parts[0] || 'overview'
   const project = view === 'projects' && parts[1] ? dataset?.projects.find((item) => item.id === parts[1]) : undefined
