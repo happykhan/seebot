@@ -34,6 +34,11 @@ def _active_month_count(dates: list[datetime]) -> int:
     return len({date.strftime("%Y-%m") for date in dates if ACTIVE_MONTH_START <= date <= CUTOFF})
 
 
+def _dates_at_or_before_cutoff(dates: list[datetime]) -> list[datetime]:
+    """Apply the canonical cutoff independently of GitHub API date semantics."""
+    return [date for date in dates if date <= CUTOFF]
+
+
 def clone_snapshot(repository_url: str, commit: str, target: Path) -> Path:
     """Create a disposable checkout containing only the audited commit."""
     if target.exists():
@@ -336,7 +341,8 @@ def github_activity(repository_url: str) -> dict[str, Any]:
         for row in non_bot_commits
         if row.get("commit", {}).get("author", {}).get("date")
     ]
-    dates = [date for date in all_dates if date >= ACTIVITY_START]
+    cutoff_dates = _dates_at_or_before_cutoff(all_dates)
+    dates = [date for date in cutoff_dates if date >= ACTIVITY_START]
     all_release_dates = [
         datetime.fromisoformat(row["published_at"].replace("Z", "+00:00"))
         for row in releases
@@ -344,7 +350,7 @@ def github_activity(repository_url: str) -> dict[str, Any]:
         and datetime.fromisoformat(row["published_at"].replace("Z", "+00:00")) <= CUTOFF
     ]
     release_dates = [date for date in all_release_dates if date >= RELEASE_START]
-    latest_commit = max(all_dates, default=None)
+    latest_commit = max(cutoff_dates, default=None)
     latest_release = max(all_release_dates, default=None)
     return {
         "archived": bool(repository_payload.get("archived")),

@@ -1,6 +1,10 @@
 from datetime import UTC, datetime
 
-from seebot.analyzers.repository import _active_month_count, repository_facts
+from seebot.analyzers.repository import (
+    _active_month_count,
+    _dates_at_or_before_cutoff,
+    repository_facts,
+)
 
 
 def test_repository_facts_are_presence_observations() -> None:
@@ -58,3 +62,11 @@ def test_active_months_use_exactly_twelve_calendar_buckets() -> None:
         datetime(2026, 7, 1, tzinfo=UTC),
     ]
     assert _active_month_count(dates) == 2
+
+
+def test_commit_dates_after_canonical_cutoff_are_excluded() -> None:
+    dates = [
+        datetime(2026, 7, 1, 23, 59, 59, tzinfo=UTC),
+        datetime(2026, 7, 2, tzinfo=UTC),
+    ]
+    assert _dates_at_or_before_cutoff(dates) == dates[:1]
