@@ -4,8 +4,8 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from seebot.cohort.downloads import complete_window, month_urls
-from seebot.cohort.rank import rank_downloads
+from seebot.cohort.downloads import complete_window, month_urls, window_urls
+from seebot.cohort.rank import rank_downloads, rank_remote_downloads
 
 
 def test_complete_window_is_chronological_across_year_boundary() -> None:
@@ -16,6 +16,10 @@ def test_complete_window_is_chronological_across_year_boundary() -> None:
         date(2026, 2, 1),
     ]
     assert len(month_urls(2024, 2)) == 29
+    fixed = window_urls(date(2025, 7, 1), date(2026, 6, 30))
+    assert len(fixed) == 365
+    assert fixed[0][0] == date(2025, 7, 1)
+    assert fixed[-1][0] == date(2026, 6, 30)
 
 
 def test_rank_aggregates_across_package_dimensions(tmp_path: Path) -> None:
@@ -38,3 +42,20 @@ def test_rank_aggregates_across_package_dimensions(tmp_path: Path) -> None:
     lines = output.read_text().splitlines()
     assert lines[1].startswith("1,alpha,15")
     assert lines[2].startswith("2,beta,7")
+
+    remote_output = tmp_path / "cohort-remote.csv"
+    remote_hash = rank_remote_downloads(
+        [
+            {
+                "day": "2026-06-30",
+                "url": (raw / "day.parquet").resolve().as_uri(),
+                "etag": "fixture",
+                "size_bytes": (raw / "day.parquet").stat().st_size,
+            }
+        ],
+        remote_output,
+        "bioconda",
+        300,
+    )
+    assert len(remote_hash) == 64
+    assert remote_output.read_text().splitlines()[1].startswith("1,alpha,15")

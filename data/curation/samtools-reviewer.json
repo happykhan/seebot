@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "samtools",
+  "source_commit": "4169f3343b7b20ea55fa415ce0c5eeb40f19d038",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "doc/samtools-view.1",
+      "start_line": 1,
+      "end_line": 55,
+      "item_type": "interface_and_source_scope",
+      "item_name": "samtools"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "f297b794ea89e55d1a007d4c736dc1ca3f4d5f832a17108d56c5dfba9572aa96",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

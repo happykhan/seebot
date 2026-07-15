@@ -8,12 +8,35 @@ from seebot.models import Applicability, CheckResult, EvidencePaths, Status, Too
 from seebot.normalize.results import normalize_run, rebuild_global_results
 
 
+def result_row(run_id: str, project_id: str, check_id: str, status: Status = Status.PASS):
+    return CheckResult(
+        run_id=run_id,
+        project_id=project_id,
+        snapshot_date="2026-07-01",
+        check_id=check_id,
+        probe_id=f"probe:{check_id}",
+        domain="usage",
+        status=status,
+        expected={},
+        observed={},
+        tool=ToolIdentity(name="seebot", version="2"),
+        command=["tool"],
+        started_at=datetime.now(UTC),
+        duration_seconds=0.1,
+        environment_id="sha256:test",
+        config_sha256="0" * 64,
+        evidence=EvidencePaths(stdout="stdout.txt", stderr="stderr.txt", metadata="metadata.json"),
+    ).model_dump(mode="json")
+
+
 def test_normalize_writes_json_and_csv(tmp_path: Path) -> None:
     result = CheckResult(
         run_id="pilot",
-        package_id="tool__1__0__linux-64",
+        project_id="tool",
+        snapshot_date="2026-07-01",
         check_id="CLI-HELP-001",
-        domain="cli",
+        probe_id="cli-help-001:tool-help",
+        domain="usage",
         status=Status.PASS,
         applicability=Applicability.APPLICABLE,
         expected={"exit_codes": [0]},
@@ -29,12 +52,12 @@ def test_normalize_writes_json_and_csv(tmp_path: Path) -> None:
     result.write(tmp_path / "evidence" / "pilot" / "tool" / "check" / "result.json")
     json_path, csv_path = normalize_run(tmp_path / "evidence", tmp_path / "results", "pilot")
     assert json_path.exists()
-    assert csv_path.read_text().splitlines()[1].startswith("pilot,tool__1__0__linux-64")
+    assert csv_path.read_text().splitlines()[1].startswith("pilot,tool,")
 
 
 def test_rebuild_global_results_combines_runs_deterministically(tmp_path: Path) -> None:
-    first = [{"run_id": "run-b", "package_id": "z__1__0__linux-64", "check_id": "B"}]
-    second = [{"run_id": "run-a", "package_id": "a__1__0__linux-64", "check_id": "A"}]
+    first = [result_row("run-b", "z", "B")]
+    second = [result_row("run-a", "a", "A")]
     for run_id, rows in (("run-b", first), ("run-a", second)):
         target = tmp_path / "results" / run_id
         target.mkdir(parents=True)
@@ -51,30 +74,24 @@ def test_rebuild_global_results_rejects_conflicting_natural_key(tmp_path: Path) 
     for directory, status in (("one", "PASS"), ("two", "FAIL")):
         target = tmp_path / "results" / directory
         target.mkdir(parents=True)
-        row = {
-            "run_id": "same-run",
-            "package_id": "tool__1__0__linux-64",
-            "check_id": "CLI-HELP-001",
-            "status": status,
-        }
+        row = result_row("same-run", "tool", "CLI-HELP-001", Status(status))
         (target / "checks.json").write_text(json.dumps([row]), encoding="utf-8")
 
     with pytest.raises(ValueError, match="Conflicting global result key"):
         rebuild_global_results(tmp_path / "results")
 
 
-def test_normalize_incrementally_preserves_existing_checks(tmp_path: Path) -> None:
+def test_normalize_overwrites_existing_checks_from_evidence(tmp_path: Path) -> None:
     target = tmp_path / "results" / "pilot"
     target.mkdir(parents=True)
-    existing = [{"run_id": "pilot", "package_id": "tool", "check_id": "OLD"}]
+    existing = [result_row("pilot", "tool", "OLD")]
     (target / "checks.json").write_text(json.dumps(existing), encoding="utf-8")
     evidence = tmp_path / "evidence" / "pilot" / "tool" / "NEW"
     evidence.mkdir(parents=True)
     (evidence / "result.json").write_text(
-        json.dumps({"run_id": "pilot", "package_id": "tool", "check_id": "NEW"}),
-        encoding="utf-8",
+        json.dumps(result_row("pilot", "tool", "NEW")), encoding="utf-8"
     )
 
     json_path, _ = normalize_run(tmp_path / "evidence", tmp_path / "results", "pilot")
 
-    assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW", "OLD"]
+    assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW"]

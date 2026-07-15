@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "minced",
+  "source_commit": "10f0a26eaedad0f5969e79def0721b20db2626cd",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 20,
+      "end_line": 55,
+      "item_type": "interface_and_source_scope",
+      "item_name": "minced"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "51a135f1a9b37665aad10a2ced2fd58ac60819b6f293ccb99171861866e4ea44",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

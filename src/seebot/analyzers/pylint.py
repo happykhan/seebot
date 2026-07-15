@@ -1,1 +1,0 @@
-"""Pinned Pylint observation adapter."""

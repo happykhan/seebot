@@ -13,11 +13,13 @@ from pydantic import BaseModel, ConfigDict, Field
 class Status(StrEnum):
     PASS = "PASS"
     FAIL = "FAIL"
-    PARTIAL = "PARTIAL"
+    OBSERVED = "OBSERVED"
+    NOT_OBSERVED = "NOT_OBSERVED"
     NOT_APPLICABLE = "NOT_APPLICABLE"
     UNTESTABLE = "UNTESTABLE"
     ERROR = "ERROR"
     NOT_RUN = "NOT_RUN"
+    NOT_EXISTING = "NOT_EXISTING"
 
 
 class Applicability(StrEnum):
@@ -47,10 +49,17 @@ class EvidencePaths(BaseModel):
 class CheckResult(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    schema_version: int = 1
+    schema_version: int = 2
     run_id: str
-    package_id: str
+    project_id: str
+    repository_id: str | None = None
+    snapshot_date: str
+    snapshot_commit: str | None = None
+    source_component_id: str | None = None
+    executable_id: str | None = None
+    installation_id: str | None = None
     check_id: str
+    probe_id: str
     domain: str
     status: Status
     result_kind: ResultKind = ResultKind.CONTRACT

@@ -49,13 +49,13 @@ Historical analysis is limited to source-derived measurements under one frozen a
 configuration. Current-only observations include repository practices, executable
 behaviour, dependency advisories, CI state, and other external-state measurements.
 
-## Survey and pilot gates
+## Survey and reproducibility gates
 
 The 200-candidate interface and fixture survey must complete before the shared fixture
 catalogue is frozen. The survey is metadata-first and does not install or execute every
 candidate.
 
-A newly selected ten-project pilot must then demonstrate:
+The newly selected ten-project reproducibility cohort must demonstrate:
 
 - deterministic reruns from a clean checkout;
 - schema validation for every manifest, fixture, observation, and normalized result;
@@ -65,7 +65,9 @@ A newly selected ten-project pilot must then demonstrate:
 - coverage of supported languages, common input types, and different output models;
 - bounded disk, CPU, memory, network, and runtime behaviour.
 
-The 200-project execution remains locked until the revised pilot is reproducible.
+The survey and ten-project gate are complete and the rubric, schemas, exclusions, fixture
+catalogue, and analyzer versions are frozen. The 200-project execution remains locked until
+it is separately authorized; completing this gate does not trigger a bulk run.
 
 ## Repository-practice observations
 
@@ -135,8 +137,8 @@ Code-health values never qualify or disqualify a project.
 
 Each observation records commands, versions, hashes, timestamps, environment identity,
 duration, and evidence paths. Completed evidence is reused unless `--force` is supplied.
-During this development phase a forced run overwrites the current generated result rather
-than publishing parallel result versions.
+A forced run overwrites the current generated result rather than publishing parallel result
+versions.
 
 Pixi uses a Seebot-specific cache. The default total Seebot storage budget is 20 GB and
 the per-tool workspace limit is 5 GB. Tool environments and temporary checkouts are

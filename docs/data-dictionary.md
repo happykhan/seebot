@@ -28,6 +28,7 @@ assessment; missing, errored, or untestable required evidence cannot.
 ## Public evidence
 
 The website publishes normalized observations, commands with normalized paths, hashes,
-tool versions, compact stdout/stderr, and output inventories. It does not publish complete
+tool versions, status details, and output inventories. Raw stdout/stderr remains in the
+local evidence tree referenced by relative paths. The site does not publish complete
 third-party repositories, source excerpts, large raw analyzer dumps, absolute local paths,
 credentials, caches, or large generated outputs.

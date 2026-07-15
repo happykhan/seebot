@@ -6,6 +6,7 @@ import csv
 import json
 import shutil
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -13,19 +14,22 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from seebot.cohort.downloads import fetch_window
-from seebot.cohort.rank import rank_downloads
+from seebot.cohort.downloads import fetch_window, inspect_window, write_object_manifest
+from seebot.cohort.rank import rank_downloads, rank_remote_downloads
+from seebot.cohort.survey import collect_candidate_survey, resolve_historical_commits
 from seebot.fixtures import validate_catalogue
-from seebot.manifests import load_yaml, validate_manifest, write_template
+from seebot.manifests import validate_manifest, write_template
 from seebot.normalize.results import normalize_run, rebuild_global_results
+from seebot.reporting import build_public_dataset
+from seebot.runner import run_repository_and_source
+from seebot.runtime.analyzers import prepare_analyzer_environment
+from seebot.runtime.assessment import run_project_usage
 from seebot.selection import select_manifests
 from seebot.storage import directory_size, format_bytes, prune_owned_directory
 from seebot.survey import SURVEY_FIELDS, survey_rows
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_DIRECTORY = ROOT / "manifests" / "packages"
-SNAPSHOT_DATE = "2026-07-01"
-
 console = Console()
 app = typer.Typer(no_args_is_help=True, help="Evidence-based scientific software observations.")
 cohort_app = typer.Typer(no_args_is_help=True)
@@ -148,6 +152,48 @@ def cohort_rank(
     console.print(f"Wrote discovery candidates to {output} (query {query_hash}).")
 
 
+@cohort_app.command("collect")
+def cohort_collect(
+    ctx: typer.Context,
+    top: Annotated[int, typer.Option(min=300)] = 300,
+) -> None:
+    """Stream the frozen official discovery window into a ranked candidate table."""
+    opts = options(ctx)
+    manifest_path = (
+        opts.output_directory / "data" / "raw" / "anaconda-downloads" / "download-manifest.json"
+    )
+    ranked_path = opts.output_directory / "data" / "cohort" / "cohort-ranked.csv"
+    if opts.dry_run:
+        console.print(
+            "Would inspect 2025-07-01 through 2026-06-30 and rank at least "
+            f"{top} Bioconda package names into {ranked_path}"
+        )
+        return
+    if manifest_path.exists() and not opts.force:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if (
+            manifest.get("period_start") != "2025-07-01"
+            or manifest.get("period_end") != "2026-06-30"
+        ):
+            raise RuntimeError("Existing official-object manifest has the wrong window")
+        raw_objects = manifest.get("objects")
+        if not isinstance(raw_objects, list):
+            raise RuntimeError("Existing official-object manifest is malformed")
+        objects_count = len(raw_objects)
+    else:
+        objects = inspect_window(date(2025, 7, 1), date(2026, 6, 30))
+        manifest = write_object_manifest(objects, manifest_path)
+        objects_count = len(objects)
+    rows = manifest["objects"]
+    if not isinstance(rows, list):
+        raise RuntimeError("Official-object manifest did not contain a list")
+    query_hash = rank_remote_downloads(rows, ranked_path, "bioconda", top)
+    ranked_path.with_suffix(".query.sha256").write_text(query_hash + "\n", encoding="utf-8")
+    console.print(
+        f"Wrote {top} discovery candidates to {ranked_path} from {objects_count} official objects."
+    )
+
+
 @cohort_app.command("freeze")
 def cohort_freeze(
     ctx: typer.Context,
@@ -165,6 +211,57 @@ def cohort_freeze(
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
     console.print(f"Frozen candidate table: {target}")
+
+
+@cohort_app.command("survey")
+def cohort_survey(
+    ctx: typer.Context,
+    limit: Annotated[int, typer.Option(min=300)] = 350,
+    workers: Annotated[int, typer.Option(min=1, max=16)] = 8,
+) -> None:
+    """Enrich ranked candidates without installing or executing their software."""
+    opts = options(ctx)
+    ranked = opts.output_directory / "data" / "cohort" / "cohort-ranked.csv"
+    output_json = opts.output_directory / "data" / "cohort" / "candidate-survey.json"
+    output_csv = opts.output_directory / "data" / "cohort" / "candidate-survey.csv"
+    if opts.dry_run:
+        console.print(f"Would survey {limit} ranked candidates into {output_csv}")
+        return
+    if not ranked.exists():
+        raise typer.BadParameter(f"Collect ranked candidates first: {ranked}")
+    rows = collect_candidate_survey(
+        ranked,
+        output_json,
+        output_csv,
+        opts.output_directory / ".seebot-cache" / "survey",
+        limit=limit,
+        workers=workers,
+    )
+    eligible = sum(bool(row["provisionally_eligible"]) for row in rows)
+    console.print(
+        f"Surveyed {len(rows)} candidates; {eligible} have explicit end-user CLI evidence."
+    )
+
+
+@cohort_app.command("resolve-history")
+def cohort_resolve_history(
+    ctx: typer.Context,
+    tool: Annotated[list[str], typer.Option("--tool")],
+) -> None:
+    """Resolve the five frozen source-only snapshots for selected projects."""
+    opts = options(ctx)
+    survey_path = opts.output_directory / "data" / "cohort" / "candidate-survey.json"
+    output_path = opts.output_directory / "data" / "cohort" / "selected-history.json"
+    if opts.dry_run:
+        console.print(f"Would resolve history for {', '.join(sorted(tool))} into {output_path}")
+        return
+    resolved = resolve_historical_commits(
+        survey_path,
+        output_path,
+        opts.output_directory / ".seebot-cache" / "survey" / "github-history",
+        set(tool),
+    )
+    console.print(f"Resolved five historical dates for {len(resolved)} projects.")
 
 
 @manifest_app.command("init")
@@ -329,6 +426,92 @@ def audit_plan(
     console.print(table)
 
 
+@audit_app.command("run")
+def audit_run(
+    ctx: typer.Context,
+    tool: Annotated[list[str] | None, typer.Option("--tool")] = None,
+    category: Annotated[list[str] | None, typer.Option("--category")] = None,
+    language: Annotated[list[str] | None, typer.Option("--language")] = None,
+    check: Annotated[list[str] | None, typer.Option("--check")] = None,
+    keep_environment: Annotated[bool, typer.Option("--keep-environment")] = False,
+) -> None:
+    """Run reviewed installed-interface probes; never execute upstream test suites."""
+    opts = options(ctx)
+    selected = selected_projects(tool, category, language)
+    requested = set(check or ["repository", "source", "history", "usage", "robustness"])
+    if opts.dry_run:
+        audit_plan(tool, category, language, check)
+        return
+    needs_source = bool(requested & {"repository", "source", "history"})
+    analyzer_environment = (
+        prepare_analyzer_environment(
+            opts.output_directory / "work" / "source-analyzers",
+            opts.output_directory / ".seebot-cache" / "pixi",
+        )
+        if needs_source
+        else None
+    )
+    table = Table("Project", "Passed", "Failed", "Untestable", "Errors")
+    failed = False
+    for manifest_path, manifest in selected:
+        used = directory_size(opts.output_directory / ".seebot-cache") + directory_size(
+            opts.output_directory / "work"
+        )
+        if used > 20 * 1024**3:
+            raise RuntimeError("Seebot storage budget exceeded before starting another project")
+        try:
+            results = []
+            if analyzer_environment is not None:
+                results.extend(
+                    run_repository_and_source(
+                        manifest_path=manifest_path,
+                        manifest=manifest,
+                        analyzer_environment=analyzer_environment,
+                        run_id=opts.run_id,
+                        output_root=opts.output_directory,
+                        config_root=ROOT / "config",
+                        include_history="history" in requested,
+                        include_repository="repository" in requested,
+                        include_source=bool(requested & {"source", "history"}),
+                        force=opts.force,
+                        cleanup=not keep_environment,
+                    )
+                )
+            if requested & {"usage", "robustness"}:
+                results.extend(
+                    run_project_usage(
+                        manifest_path,
+                        manifest,
+                        run_id=opts.run_id,
+                        output_root=opts.output_directory,
+                        fixture_directory=ROOT / "fixtures",
+                        config_path=ROOT / "config" / "rubric.yaml",
+                        checks=requested,
+                        force=opts.force,
+                        cleanup=not keep_environment,
+                    )
+                )
+        except (OSError, RuntimeError, ValueError, NotImplementedError) as exc:
+            failed = True
+            table.add_row(manifest["project"]["id"], "0", "0", "0", f"1 ({exc})")
+            continue
+        counts = {
+            status: sum(row.status.value == status for row in results)
+            for status in ("PASS", "FAIL", "UNTESTABLE", "ERROR")
+        }
+        failed = failed or bool(counts["ERROR"])
+        table.add_row(
+            manifest["project"]["id"],
+            str(counts["PASS"]),
+            str(counts["FAIL"]),
+            str(counts["UNTESTABLE"]),
+            str(counts["ERROR"]),
+        )
+    console.print(table)
+    if failed:
+        raise typer.Exit(1)
+
+
 @history_app.command("plan")
 def history_plan(
     tool: Annotated[list[str] | None, typer.Option("--tool")] = None,
@@ -371,62 +554,14 @@ def results_rebuild_global(ctx: typer.Context) -> None:
     console.print(f"Wrote {json_path} and {csv_path}")
 
 
-def build_dataset() -> dict[str, Any]:
-    projects: list[dict[str, Any]] = []
-    language_counts: dict[str, int] = {}
-    for manifest_path in sorted(MANIFEST_DIRECTORY.glob("*.yaml")):
-        manifest = load_yaml(manifest_path)
-        project = manifest["project"]
-        languages = sorted(manifest["source"]["language_roots"])
-        for language in languages:
-            language_counts[language] = language_counts.get(language, 0) + 1
-        projects.append(
-            {
-                "id": project["id"],
-                "name": project["name"],
-                "description": project["description"],
-                "category": project["primary_category"],
-                "tags": project["tags"],
-                "included": project["include"],
-                "exclusion_code": project["exclusion_code"],
-                "repository_url": manifest["repository"]["url"],
-                "snapshot_date": manifest["repository"]["snapshot_date"],
-                "languages": languages,
-                "primary_executable": manifest["interfaces"]["primary"],
-                "valid_run_status": manifest["valid_run"]["status"],
-                "curation_status": manifest["curation"]["status"],
-                "labels": {
-                    "usage_exemplar": False,
-                    "repository_practice_exemplar": False,
-                    "complete_assessment": False,
-                    "practice_exemplar": False,
-                },
-            }
-        )
-    return {
-        "schema_version": 2,
-        "snapshot_date": SNAPSHOT_DATE,
-        "projects": projects,
-        "summary": {
-            "catalogued_projects": len(projects),
-            "included_projects": sum(project["included"] for project in projects),
-            "language_counts": dict(sorted(language_counts.items())),
-            "labels": {
-                "usage_exemplars": 0,
-                "repository_practice_exemplars": 0,
-                "complete_assessments": 0,
-                "practice_exemplars": 0,
-            },
-        },
-    }
-
-
 @report_app.command("build")
 def report_build(ctx: typer.Context) -> None:
-    """Overwrite the current website dataset from validated project manifests."""
+    """Overwrite the website dataset from normalized observations."""
     opts = options(ctx)
-    target = ROOT / "web" / "public" / "data" / "dataset.json"
-    dataset = build_dataset()
+    target = opts.output_directory / "web" / "public" / "data" / "dataset.json"
+    dataset = build_public_dataset(
+        MANIFEST_DIRECTORY, opts.output_directory / "results" / opts.run_id / "checks.json"
+    )
     if opts.dry_run:
         console.print(f"Would write {len(dataset['projects'])} projects to {target}")
         return

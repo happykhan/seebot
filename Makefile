@@ -1,4 +1,4 @@
-.PHONY: install test lint typecheck schemas web check pilot
+.PHONY: install test lint typecheck schemas web check gate
 
 install:
 	uv sync --all-extras
@@ -23,5 +23,5 @@ web:
 
 check: lint typecheck test schemas web
 
-pilot:
-	./scripts/run_pilot.sh
+gate:
+	./scripts/run_cohort.sh --dry-run

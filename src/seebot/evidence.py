@@ -69,16 +69,20 @@ def audit_code_identity(repository: Path | None = None) -> dict[str, str | bool 
 
 @dataclass(frozen=True)
 class ProbeSpec:
-    package_id: str
+    project_id: str
     check_id: str
     command: list[str]
     allowed_exit_codes: list[int]
     timeout_seconds: int
+    snapshot_date: str = "2026-07-01"
+    snapshot_commit: str | None = None
+    executable_id: str | None = None
+    installation_id: str | None = None
 
 
 @dataclass(frozen=True)
 class ContainerProbeSpec:
-    package_id: str
+    project_id: str
     check_id: str
     domain: str
     command: list[str]
@@ -91,6 +95,10 @@ class ContainerProbeSpec:
     expected_stdout_contains: str | None = None
     expected_output_sha256: dict[str, str] | None = None
     manifest_sha256: str | None = None
+    snapshot_date: str = "2026-07-01"
+    snapshot_commit: str | None = None
+    executable_id: str | None = None
+    installation_id: str | None = None
 
 
 def run_probe(
@@ -106,7 +114,7 @@ def run_probe(
     Failure to start or supervise a command is ERROR. A successfully supervised
     command whose exit code violates the declared contract is FAIL.
     """
-    check_dir = evidence_root / run_id / spec.package_id / spec.check_id
+    check_dir = evidence_root / run_id / spec.project_id / spec.check_id
     result_path = check_dir / "result.json"
     if result_path.exists() and not force:
         return CheckResult.model_validate_json(result_path.read_text(encoding="utf-8"))
@@ -140,8 +148,8 @@ def run_probe(
         stdout_path.write_bytes(exc.stdout or b"")
         stderr_path.write_bytes(exc.stderr or b"")
         observed = {"exit_code": None, "timed_out": True}
-        status = Status.FAIL
-        notes = "Command exceeded the declared interface timeout."
+        status = Status.UNTESTABLE
+        notes = "Command exceeded the declared resource budget."
     except OSError as exc:
         stdout_path.write_text("", encoding="utf-8")
         stderr_path.write_text(str(exc) + "\n", encoding="utf-8")
@@ -165,9 +173,14 @@ def run_probe(
 
     result = CheckResult(
         run_id=run_id,
-        package_id=spec.package_id,
+        project_id=spec.project_id,
+        snapshot_date=spec.snapshot_date,
+        snapshot_commit=spec.snapshot_commit,
+        executable_id=spec.executable_id,
+        installation_id=spec.installation_id,
         check_id=spec.check_id,
-        domain="cli",
+        probe_id=spec.check_id,
+        domain="usage",
         status=status,
         expected={"exit_codes": spec.allowed_exit_codes, "timeout_seconds": spec.timeout_seconds},
         observed=observed,
@@ -197,7 +210,7 @@ def run_container_probe(
     force: bool = False,
 ) -> CheckResult:
     """Execute a package command in a content-addressed, networkless container."""
-    check_dir = evidence_root / run_id / spec.package_id / spec.check_id
+    check_dir = evidence_root / run_id / spec.project_id / spec.check_id
     result_path = check_dir / "result.json"
     if result_path.exists() and not force:
         return CheckResult.model_validate_json(result_path.read_text(encoding="utf-8"))
@@ -274,8 +287,8 @@ def run_container_probe(
         stdout_path.write_bytes(exc.stdout or b"")
         stderr_path.write_bytes(exc.stderr or b"")
         observed = {"exit_code": None, "timed_out": True}
-        status = Status.FAIL
-        notes = "Command exceeded the declared interface timeout."
+        status = Status.UNTESTABLE
+        notes = "Command exceeded the declared resource budget."
     except OSError as exc:
         stdout_path.write_text("", encoding="utf-8")
         stderr_path.write_text(str(exc) + "\n", encoding="utf-8")
@@ -300,8 +313,13 @@ def run_container_probe(
     metadata_path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     result = CheckResult(
         run_id=run_id,
-        package_id=spec.package_id,
+        project_id=spec.project_id,
+        snapshot_date=spec.snapshot_date,
+        snapshot_commit=spec.snapshot_commit,
+        executable_id=spec.executable_id,
+        installation_id=spec.installation_id,
         check_id=spec.check_id,
+        probe_id=spec.check_id,
         domain=spec.domain,
         status=status,
         expected={

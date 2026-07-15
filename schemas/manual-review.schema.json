@@ -4,10 +4,10 @@
   "title": "Seebot manual or agent review",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "package_id", "source_commit", "review_type", "reviewer_id", "review_round", "sampling_seed", "sample", "assessment", "confidence", "evidence_notes", "adjudication_required"],
+  "required": ["schema_version", "project_id", "source_commit", "review_type", "reviewer_id", "review_round", "sampling_seed", "sample", "assessment", "confidence", "evidence_notes", "adjudication_required"],
   "properties": {
-    "schema_version": {"const": 1},
-    "package_id": {"type": "string"},
+    "schema_version": {"const": 2},
+    "project_id": {"type": "string"},
     "source_commit": {"type": "string"},
     "review_type": {"type": "string"},
     "reviewer_id": {"type": "string"},

@@ -32,7 +32,12 @@ def test_selectable_audit_plan_does_not_execute_tools() -> None:
     assert "repository" in result.stdout
 
 
-def test_report_build_overwrites_current_dataset(tmp_path: Path) -> None:
+def test_report_build_overwrites_current_dataset(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        "seebot.cli.build_public_dataset",
+        lambda manifest_directory, checks_path: {"projects": [], "schema_version": 2},
+    )
     result = runner.invoke(app, ["--output-directory", str(tmp_path), "report", "build"])
     assert result.exit_code == 0, result.stdout
     assert "dataset.json" in result.stdout
+    assert (tmp_path / "web" / "public" / "data" / "dataset.json").exists()

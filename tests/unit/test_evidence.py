@@ -51,7 +51,7 @@ def test_resume_preserves_completed_evidence(tmp_path: Path) -> None:
     )
     first = run_probe(spec, run_id="test", evidence_root=tmp_path / "evidence", config_path=config)
     second = run_probe(
-        ProbeSpec(spec.package_id, spec.check_id, [executable, "-c", "print('second')"], [0], 5),
+        ProbeSpec(spec.project_id, spec.check_id, [executable, "-c", "print('second')"], [0], 5),
         run_id="test",
         evidence_root=tmp_path / "evidence",
         config_path=config,

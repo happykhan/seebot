@@ -36,3 +36,28 @@ def rank_downloads(raw_directory: Path, output: Path, channel: str, top: int) ->
     )
     query_identity = QUERY + "\n" + "\n".join(files) + f"\n{channel}\n{top}\n"
     return hashlib.sha256(query_identity.encode()).hexdigest()
+
+
+def rank_remote_downloads(
+    objects: list[dict[str, object]], output: Path, channel: str, top: int
+) -> str:
+    """Aggregate official Parquet URLs without retaining their large payloads."""
+    try:
+        import duckdb
+    except ImportError as exc:  # pragma: no cover
+        raise RuntimeError("Install Seebot's cohort extra: uv sync --extra cohort") from exc
+    urls = [str(row["url"]) for row in objects]
+    if not urls:
+        raise ValueError("Official-object manifest contains no URLs")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    connection = duckdb.connect()
+    connection.execute(
+        QUERY,
+        {"files": urls, "channel": channel, "top": top, "output": str(output)},
+    )
+    identities = [
+        f"{row.get('day')}|{row.get('url')}|{row.get('etag')}|{row.get('size_bytes')}"
+        for row in objects
+    ]
+    query_identity = QUERY + "\n" + "\n".join(identities) + f"\n{channel}\n{top}\n"
+    return hashlib.sha256(query_identity.encode()).hexdigest()

@@ -1,6 +1,6 @@
 # Cohort
 
-Rank Bioconda package names using official download records from 2025-07-01 through
+Seebot ranked Bioconda package names using official download records from 2025-07-01 through
 2026-06-30, aggregated across versions, builds, variants, and platforms. Inspect at least
 300 candidates and preserve every rank and exclusion reason.
 
@@ -9,10 +9,18 @@ provide an end-user command-line interface and use a supported primary productio
 language. Primary-R projects are excluded in this phase. Popularity selects candidates but
 is never a health metric.
 
-Before installation, the metadata-first survey records repository mapping, executable
+The completed metadata-first survey contains 1,000 ranked package names. It found 272
+de-duplicated projects with explicit eligible end-user CLI evidence; the 200th eligible
+project was reached at rank 816. The survey records repository mapping, executable
 surface, primary language, project category, input/output formats, reference-data needs,
 runtime class, and likely shared or bespoke fixture requirements.
 
-The new ten-project pilot is selected from that survey to cover supported languages,
-common input types, and different interface/output patterns. The 200-project execution is
-locked until all ten pilot projects rerun reproducibly from a clean checkout.
+The ten-project reproducibility cohort was selected from the first 200 eligible projects to
+cover every supported language profile, common genomics formats, file and stream interfaces,
+and different output models. Each manifest has two recorded review passes. The cohort is
+SAMtools, BCFtools, FastTree, Cutadapt, fastp, FAMSA, yacrd, Pyrodigal, MinCED, and
+any2fasta.
+
+The broader 200-project execution remains intentionally locked. The ten current reports
+are the published assessment dataset; the remaining survey rows are discovery evidence,
+not partial project reports.

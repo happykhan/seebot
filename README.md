@@ -1,98 +1,88 @@
 # Seebot
 
-Seebot is an evidence-based observatory for scientific software. It records public GitHub
-repository practices, language-specific production-source measurements, and the behaviour
-of installed command-line interfaces.
+Seebot is a reproducible observatory for scientific command-line software. It publishes
+separate observations about public GitHub repositories, production source code, installed
+interfaces, and deliberately awkward input. It does not produce an overall quality score,
+ranking, medal, or scientific-validity judgement.
 
-Seebot does **not** produce an overall quality score, ranking, medal, or scientific-validity
-judgement. It can apply factual labels when evidence is complete:
+The current published dataset contains ten independently curated projects spanning Python,
+Cython, Perl, C, C++, Rust, and Java. Their canonical repository snapshot is the commit at
+or before 1 July 2026. Source-only history uses the commits at or before 1 July from 2021
+through 2025 where each project existed.
 
-- Usage exemplar
-- Repository-practice exemplar
-- Complete assessment
-- Practice exemplar
+Bioconda download records are used only to discover candidate tools, and Pixi is the first
+generic installation adapter. Packages, recipes, download counts, and installer behaviour
+are not project-health metrics.
 
-## Current development state
+## What Seebot records
 
-The assessment model is being rebuilt from an earlier package-oriented pilot. The revised
-workflow is gated:
+- Repository practices: activity and release recency, documentation, licence, citation,
+  recognized standard tests, and verification CI.
+- Production source: source and file sizes, function structure, complexity, duplication,
+  documentation coverage, native linter rules, source-security indicators, dead-code
+  candidates, and current supported dependency advisories.
+- Installed behaviour: help and version interfaces, no-argument behaviour, one miniature
+  valid run, stdin/stdout support where applicable, and seven invalid-input scenarios.
 
-1. Survey the 200 most-downloaded eligible Bioconda-discovered candidates without bulk
-   installation.
-2. Freeze the project categories and shared fixture catalogue.
-3. Select and independently review a new ten-project pilot.
-4. Demonstrate clean, deterministic reruns of the pilot.
-5. Only then unlock the 200-project execution.
+Seebot detects standard upstream tests but never executes them. Test source, generated
+code, vendored code, build output, examples, documentation, fixtures, and data are excluded
+from code-health denominators.
 
-Bioconda downloads provide candidate discovery and Pixi provides the first installation
-adapter. Neither Bioconda recipes nor package metadata are project-health metrics.
-
-## Commands
-
-Install the development environment:
+## Install and validate Seebot
 
 ```bash
 make install
+make check
 ```
 
-Validate project manifests and shared fixtures:
+`make check` runs Seebot's own tests and validators. It does not run assessed projects'
+test suites.
 
-```bash
-make schemas
-```
+## Select exactly what to rerun
 
-List or export the metadata-first interface survey:
-
-```bash
-uv run seebot survey list
-uv run seebot survey list --language rust
-uv run seebot survey export
-```
-
-Plan selectable current and historical work without execution:
+Plan work without installing or executing an assessed tool:
 
 ```bash
 uv run seebot audit plan --tool cutadapt --check usage --check robustness
 uv run seebot history plan --tool cutadapt --year 2023
 ```
 
-Inspect and safely prune only Seebot-owned cache/work directories:
+Run one project or repeat `--tool` to run a chosen set:
+
+```bash
+uv run seebot --force audit run --tool cutadapt --check usage --check robustness
+uv run seebot --force audit run --tool samtools --tool bcftools --check repository --check source
+```
+
+Without `--force`, completed evidence is reused. A forced run overwrites current generated
+evidence; Seebot does not maintain parallel result versions during this phase.
+
+Normalize observations and rebuild the website dataset:
+
+```bash
+uv run seebot results normalize
+uv run seebot report build
+cd web && npm run build
+```
+
+Inspect or remove only Seebot-owned temporary storage:
 
 ```bash
 uv run seebot cache status
 uv run seebot cache prune --yes
 ```
 
-Run all repository checks:
+## Factual exemplar labels
 
-```bash
-make check
-```
+Seebot can derive four transparent labels: Usage exemplar, Repository-practice exemplar,
+Complete assessment, and Practice exemplar. Code-health values never qualify or disqualify
+a project. Labels are derived observations, not prizes or editorial judgements.
 
-## Assessment sections
-
-### Repository health
-
-Activity and release recency, verification CI, recognized standard test patterns,
-documentation, installation and usage instructions, licence, citation, and contribution
-infrastructure. Upstream tests are never executed.
-
-### Code health
-
-Production source only: language composition, source and file sizes, function structure,
-complexity, duplication, documentation coverage, native linter findings, native security
-indicators, and current dependency advisories. Tests, generated code, vendored code,
-fixtures, documentation, and data are excluded from denominators.
-
-### Usage and robustness
-
-Help/version discovery, one curated miniature valid run, stream behaviour where applicable,
-and seven invalid-input scenarios. Probes run with bounded resources and no network.
-
-## Key documentation
+## Documentation
 
 - [Protocol](docs/protocol.md)
 - [Assessment catalogue](docs/rubric.md)
-- [Agreed implementation specification](docs/assessment-specification.md)
+- [Assessment specification](docs/assessment-specification.md)
+- [Cohort and discovery evidence](docs/cohort.md)
+- [Data dictionary](docs/data-dictionary.md)
 - [Limitations](docs/limitations.md)
-- [Cohort policy](docs/cohort.md)

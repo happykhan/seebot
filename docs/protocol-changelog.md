@@ -1,5 +1,31 @@
 # Protocol changelog
 
+## 2026-07-15 — assessment model v2 frozen
+
+- Replaced the package/recipe-oriented model with upstream project, repository snapshot,
+  production source component, executable interface, and installation identifiers.
+- Completed the metadata-first survey of 1,000 download-ranked discovery candidates. It
+  found 272 explicit eligible CLIs; the first 200 were reached at rank 816.
+- Selected and double-reviewed a fresh ten-project reproducibility cohort spanning Python,
+  Cython, Perl, C, C++, Rust, and Java. Primary-R projects remain excluded; Cython uses a
+  limited profile rather than being excluded.
+- Froze the current snapshot at 1 July 2026 and source-only snapshots at 1 July 2021–2025.
+  Repository, dependency, and executable observations are current only.
+- Froze production-source exclusions: all test source, generated and vendored code, build
+  output, documentation, examples, fixtures, and data are outside code-health denominators.
+- Froze native analyzer identities and rule codes. Cross-language synthetic finding
+  categories and aggregate quality scores are prohibited.
+- Added one curated valid run, stdin/stdout observation where applicable, and seven bounded
+  invalid-input scenarios. Resource exhaustion is `UNTESTABLE`; audit machinery failure is
+  `ERROR`; neither is converted to project failure.
+- Confirmed that Seebot detects standard upstream tests and verification CI but never runs
+  upstream test suites.
+- Replaced temporary public progress language and placeholder metrics with current project
+  reports, compatible aggregate distributions, native-rule tables, robustness outcomes,
+  language use, repository practices, and source history.
+- Kept the broader 200-project execution locked. Freeze completion does not authorize or
+  trigger that run.
+
 ## 2026-07-15 — first Rust-only pilot package (pilot, unfrozen)
 
 - Added Rasusa 4.1.0 as the fourth completed pilot package, pinned to the shared
@@ -30,7 +56,7 @@
 - Kept source static analysis and installed-tool behaviour visible but outside the
   upstream award.
 
-## Unreleased pilot
+## Earlier unfrozen development
 
 - Established the original project naming, separated units of analysis, conservative status semantics, ten-package pilot gate, and first CLI-help rubric item.
 - Renamed the project to Seebot during the unfrozen pilot phase.

@@ -1,0 +1,155 @@
+schema_version: 2
+project:
+  id: any2fasta
+  name: any2fasta
+  description: Converts common biological sequence formats to FASTA.
+  primary_language: perl
+  primary_category: format conversion
+  tags:
+  - FASTA
+  - FASTQ
+  - conversion
+  include: true
+  exclusion_code: null
+repository:
+  id: tseemann-any2fasta
+  url: https://github.com/tseemann/any2fasta
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 70ba375452568dc005102aadd95064ec8b8dbdc1
+  historical_commits:
+    '2021-07-01': cdec1f06c580c966a7a18874bf5c6e048bbe597f
+    '2022-07-01': cdec1f06c580c966a7a18874bf5c6e048bbe597f
+    '2023-07-01': cdec1f06c580c966a7a18874bf5c6e048bbe597f
+    '2024-07-01': cdec1f06c580c966a7a18874bf5c6e048bbe597f
+    '2025-07-01': cdec1f06c580c966a7a18874bf5c6e048bbe597f
+  archived: false
+discovery:
+  source: bioconda
+  package_name: any2fasta
+  rank: 555
+  download_count: 37367
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-any2fasta-0.8.1
+  adapter: pixi
+  artifact: any2fasta
+  version: 0.8.1
+  build: hdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/any2fasta-0.8.1-hdfd78af_0.conda
+  artifact_sha256: 35c10e5bdb85f157fa40b4d646ba80652c9c40de996a3917151617796e801a83
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - any2fasta
+  language_roots:
+    perl:
+    - any2fasta
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+interfaces:
+  primary: any2fasta
+  executables:
+  - any2fasta
+  help_commands:
+  - - any2fasta
+    - -h
+  version_commands:
+  - - any2fasta
+    - -v
+  no_argument_policy: help_or_usage_error
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: Dash is the documented standard-input sentinel and converted FASTA is written to standard output.
+  command:
+  - any2fasta
+  - '-'
+  fixture_ids:
+  - core-reads-r1-fastq
+  stdin_fixture_id: core-reads-r1-fastq
+  expect_stdout: true
+  stdout_parser: fasta
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reads-r1-fastq
+  command:
+  - any2fasta
+  - /fixtures/core/reads_R1.fastq
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: fasta
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: A readable sequence input is required.
+    command:
+    - any2fasta
+    - /fixtures/bad/missing.fastq
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte sequence file is supplied.
+    command:
+    - any2fasta
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: The FASTQ quality string is truncated.
+    command:
+    - any2fasta
+    - /fixtures/bad/truncated.fastq
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: VCF is a valid biological format not supported by this converter.
+    command:
+    - any2fasta
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - any2fasta
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: The reviewed interface has boolean switches but no bounded option-value parameter.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: The documented primary interface writes FASTA to standard output and has no output-path argument.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-15T21:30:00Z'
+  curator_record: data/curation/any2fasta-curator.json
+  reviewer_record: data/curation/any2fasta-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

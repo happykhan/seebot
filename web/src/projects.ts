@@ -19,7 +19,7 @@ export function filterProjects(
 ): ProjectSummary[] {
   const normalizedQuery = query.trim().toLowerCase()
   return projects.filter((project) => {
-    const text = `${project.name} ${project.description ?? ''} ${project.category ?? ''}`.toLowerCase()
+    const text = `${project.name} ${project.description ?? ''} ${project.category ?? ''} ${project.tags.join(' ')}`.toLowerCase()
     return (
       text.includes(normalizedQuery)
       && (language === 'all' || project.languages.includes(language))

@@ -4,17 +4,18 @@
   "title": "Seebot project manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "project", "repository", "discovery", "installation", "source", "interfaces", "valid_run", "robustness", "curation"],
+  "required": ["schema_version", "project", "repository", "discovery", "installation", "source", "interfaces", "streams", "valid_run", "robustness", "curation"],
   "properties": {
     "schema_version": {"const": 2},
     "project": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "description", "primary_category", "tags", "include", "exclusion_code"],
+      "required": ["id", "name", "description", "primary_language", "primary_category", "tags", "include", "exclusion_code"],
       "properties": {
         "id": {"$ref": "#/$defs/identifier"},
         "name": {"type": "string", "minLength": 1},
         "description": {"$ref": "#/$defs/nullableString"},
+        "primary_language": {"enum": ["python", "perl", "c", "cpp", "rust", "java", "cython"]},
         "primary_category": {"$ref": "#/$defs/nullableString"},
         "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "include": {"type": "boolean"},
@@ -24,12 +25,25 @@
     "repository": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["url", "forge", "snapshot_date", "snapshot_commit", "archived"],
+      "required": ["id", "url", "forge", "snapshot_date", "snapshot_commit", "historical_commits", "archived"],
       "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
         "url": {"$ref": "#/$defs/nullableString"},
         "forge": {"enum": ["github", "unknown"]},
         "snapshot_date": {"const": "2026-07-01"},
         "snapshot_commit": {"$ref": "#/$defs/nullableString"},
+        "historical_commits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["2021-07-01", "2022-07-01", "2023-07-01", "2024-07-01", "2025-07-01"],
+          "properties": {
+            "2021-07-01": {"$ref": "#/$defs/nullableString"},
+            "2022-07-01": {"$ref": "#/$defs/nullableString"},
+            "2023-07-01": {"$ref": "#/$defs/nullableString"},
+            "2024-07-01": {"$ref": "#/$defs/nullableString"},
+            "2025-07-01": {"$ref": "#/$defs/nullableString"}
+          }
+        },
         "archived": {"type": ["boolean", "null"]}
       }
     },
@@ -56,11 +70,16 @@
     "installation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["adapter", "artifact", "version", "channels", "platform"],
+      "required": ["id", "adapter", "artifact", "version", "build", "subdir", "artifact_url", "artifact_sha256", "channels", "platform"],
       "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
         "adapter": {"enum": ["pixi", "pip", "cargo", "release_binary", "source", "unknown"]},
         "artifact": {"$ref": "#/$defs/nullableString"},
         "version": {"$ref": "#/$defs/nullableString"},
+        "build": {"$ref": "#/$defs/nullableString"},
+        "subdir": {"enum": ["linux-64", "noarch", "unknown"]},
+        "artifact_url": {"$ref": "#/$defs/nullableString"},
+        "artifact_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
         "channels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "platform": {"enum": ["linux-64", "unknown"]}
       }
@@ -103,12 +122,28 @@
         "stdout_support": {"$ref": "#/$defs/supportState"}
       }
     },
+    "streams": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "reason", "command", "fixture_ids", "stdin_fixture_id", "expect_stdout", "stdout_parser", "timeout_seconds"],
+      "properties": {
+        "applicability": {"enum": ["applicable", "not_applicable", "unknown"]},
+        "reason": {"$ref": "#/$defs/nullableString"},
+        "command": {"$ref": "#/$defs/nullableCommand"},
+        "fixture_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "stdin_fixture_id": {"$ref": "#/$defs/nullableString"},
+        "expect_stdout": {"type": "boolean"},
+        "stdout_parser": {"$ref": "#/$defs/nullableString"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300}
+      }
+    },
     "valid_run": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "fixture_ids", "command", "expected_outputs", "timeout_seconds"],
+      "required": ["status", "untestable_reason", "fixture_ids", "command", "expected_outputs", "expect_stdout", "stdout_parser", "timeout_seconds"],
       "properties": {
         "status": {"enum": ["not_designed", "draft", "reviewed", "untestable"]},
+        "untestable_reason": {"$ref": "#/$defs/nullableString"},
         "fixture_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "command": {"$ref": "#/$defs/nullableCommand"},
         "expected_outputs": {
@@ -124,6 +159,8 @@
             }
           }
         },
+        "expect_stdout": {"type": "boolean"},
+        "stdout_parser": {"$ref": "#/$defs/nullableString"},
         "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300}
       }
     },
@@ -144,12 +181,14 @@
     "curation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "curator", "reviewer", "reviewed_at", "notes"],
+      "required": ["status", "curator", "reviewer", "reviewed_at", "curator_record", "reviewer_record", "notes"],
       "properties": {
         "status": {"enum": ["unreviewed", "in_review", "reviewed", "adjudication_required"]},
         "curator": {"$ref": "#/$defs/nullableString"},
         "reviewer": {"$ref": "#/$defs/nullableString"},
         "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "curator_record": {"$ref": "#/$defs/nullableString"},
+        "reviewer_record": {"$ref": "#/$defs/nullableString"},
         "notes": {"$ref": "#/$defs/nullableString"}
       }
     }
@@ -164,9 +203,10 @@
     "robustnessProbe": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["applicability", "command", "fixture_id", "diagnostic_expectation"],
+      "required": ["applicability", "reason", "command", "fixture_id", "diagnostic_expectation"],
       "properties": {
         "applicability": {"enum": ["applicable", "not_applicable", "unknown"]},
+        "reason": {"$ref": "#/$defs/nullableString"},
         "command": {"$ref": "#/$defs/nullableCommand"},
         "fixture_id": {"$ref": "#/$defs/nullableString"},
         "diagnostic_expectation": {"enum": ["specific", "specific_or_generic", "not_applicable", "unknown"]}

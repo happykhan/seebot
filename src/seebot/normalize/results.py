@@ -7,10 +7,19 @@ import json
 from pathlib import Path
 from typing import Any
 
+from seebot.models import CheckResult
+
 CORE_COLUMNS = [
     "run_id",
-    "package_id",
+    "project_id",
+    "repository_id",
+    "snapshot_date",
+    "snapshot_commit",
+    "source_component_id",
+    "executable_id",
+    "installation_id",
     "check_id",
+    "probe_id",
     "domain",
     "status",
     "result_kind",
@@ -23,6 +32,21 @@ CORE_COLUMNS = [
     "notes",
 ]
 NESTED_COLUMNS = ["expected", "observed", "tool", "command", "evidence"]
+
+
+def _natural_key(row: dict[str, Any]) -> tuple[str, ...]:
+    return tuple(
+        str(row.get(column) or "")
+        for column in (
+            "run_id",
+            "project_id",
+            "snapshot_date",
+            "source_component_id",
+            "executable_id",
+            "check_id",
+            "probe_id",
+        )
+    )
 
 
 def _write_csv(path: Path, rows: list[dict[str, Any]], *, analysis_ready: bool) -> None:
@@ -42,14 +66,12 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], *, analysis_ready: bool) 
 
 def normalize_run(evidence_root: Path, results_root: Path, run_id: str) -> tuple[Path, Path]:
     target = results_root / run_id
-    existing_path = target / "checks.json"
-    indexed: dict[tuple[str, str, str], dict[str, Any]] = {}
-    if existing_path.exists():
-        for row in json.loads(existing_path.read_text(encoding="utf-8")):
-            indexed[(row["run_id"], row["package_id"], row["check_id"])] = row
+    indexed: dict[tuple[str, ...], dict[str, Any]] = {}
     for path in sorted((evidence_root / run_id).rglob("result.json")):
-        row = json.loads(path.read_text(encoding="utf-8"))
-        indexed[(row["run_id"], row["package_id"], row["check_id"])] = row
+        row = CheckResult.model_validate_json(path.read_text(encoding="utf-8")).model_dump(
+            mode="json"
+        )
+        indexed[_natural_key(row)] = row
     if not indexed:
         raise ValueError(f"No completed check results found for run {run_id}")
     rows = [indexed[key] for key in sorted(indexed)]
@@ -64,10 +86,10 @@ def normalize_run(evidence_root: Path, results_root: Path, run_id: str) -> tuple
 def rebuild_global_results(results_root: Path) -> tuple[Path, Path]:
     """Build a deterministic fact table from immutable normalized runs.
 
-    The natural key is (run_id, package_id, check_id). Conflicting duplicate
+    The natural key is (run_id, project_id, check_id). Conflicting duplicate
     keys are rejected instead of silently selecting one observation.
     """
-    indexed: dict[tuple[str, str, str], dict[str, Any]] = {}
+    indexed: dict[tuple[str, ...], dict[str, Any]] = {}
     for path in sorted(results_root.glob("*/checks.json")):
         if path.parent.name == "global":
             continue
@@ -75,7 +97,8 @@ def rebuild_global_results(results_root: Path) -> tuple[Path, Path]:
         if not isinstance(payload, list):
             raise ValueError(f"Expected a result list in {path}")
         for row in payload:
-            key = (row["run_id"], row["package_id"], row["check_id"])
+            row = CheckResult.model_validate(row).model_dump(mode="json")
+            key = _natural_key(row)
             previous = indexed.get(key)
             if previous is not None and previous != row:
                 raise ValueError(f"Conflicting global result key {key} in {path}")

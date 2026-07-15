@@ -23,7 +23,7 @@ const projects: ProjectSummary[] = [
       complete_assessment: true,
       practice_exemplar: false,
     },
-  },
+  } as unknown as ProjectSummary,
   {
     id: 'trimmer',
     name: 'Read trimmer',
@@ -44,7 +44,7 @@ const projects: ProjectSummary[] = [
       complete_assessment: false,
       practice_exemplar: false,
     },
-  },
+  } as unknown as ProjectSummary,
 ]
 
 describe('filterProjects', () => {

@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "cutadapt",
+  "source_commit": "50e9fb8d35b606196ae88d63252fc35674c0eda1",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "doc/reference.rst",
+      "start_line": 130,
+      "end_line": 170,
+      "item_type": "interface_and_source_scope",
+      "item_name": "cutadapt"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "f82d209b6c03dc336a4f83578197be64d8fcebdb115ce055697438477cb5af38",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

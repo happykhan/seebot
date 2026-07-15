@@ -1,9 +1,9 @@
 name: schemas
 on:
   push:
-    paths: ['schemas/**', 'manifests/**', 'config/**', 'src/seebot/manifests.py']
+    paths: ['schemas/**', 'manifests/**', 'fixtures/**', 'data/curation/**', 'config/**', 'src/seebot/manifests.py']
   pull_request:
-    paths: ['schemas/**', 'manifests/**', 'config/**', 'src/seebot/manifests.py']
+    paths: ['schemas/**', 'manifests/**', 'fixtures/**', 'data/curation/**', 'config/**', 'src/seebot/manifests.py']
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,3 +12,4 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: uv sync
       - run: uv run seebot manifest validate-all
+      - run: uv run seebot fixture validate

@@ -1,17 +1,185 @@
 schema_version: 2
-project: {id: cutadapt, name: cutadapt, description: Performs adapter and primer trimming on sequencing reads, primary_category: read_preprocessing, tags: [fastq, adapter_trimming], include: true, exclusion_code: null}
-repository: {url: https://github.com/marcelm/cutadapt, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
-discovery: {source: bioconda, package_name: cutadapt, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
-installation: {adapter: pixi, artifact: cutadapt, version: '5.2', channels: [conda-forge, bioconda], platform: linux-64}
-source: {production_roots: [], language_roots: {python: [], cython: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
-interfaces: {primary: cutadapt, executables: [cutadapt], help_commands: [[cutadapt, --help]], version_commands: [[cutadapt, --version]], no_argument_policy: help_or_usage_error, stdin_support: unknown, stdout_support: unknown}
-valid_run: {status: draft, fixture_ids: [legacy-cutadapt-fastq], command: [cutadapt, --cores=1, -a, AGATCGGAAGAGC, -o, /work/trimmed.fastq, /fixtures/input.fastq], expected_outputs: [{path: trimmed.fastq, nonempty: true, parser: fastq}], timeout_seconds: 300}
+project:
+  id: cutadapt
+  name: Cutadapt
+  description: Removes adapters and primers from sequencing reads.
+  primary_language: python
+  primary_category: read preprocessing
+  tags:
+  - FASTQ
+  - adapter trimming
+  include: true
+  exclusion_code: null
+repository:
+  id: marcelm-cutadapt
+  url: https://github.com/marcelm/cutadapt
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 50e9fb8d35b606196ae88d63252fc35674c0eda1
+  historical_commits:
+    '2021-07-01': 2e3cfa672b8ae1f757e6538811fb347227fb3743
+    '2022-07-01': ac33d9a5c8a9d4e400ca4656d482b461664f6b83
+    '2023-07-01': f592fa2e47240252f956f69fa531c3404f8ed015
+    '2024-07-01': adfbc18aa2b2ae6208fad854e6b32b66cdfa1440
+    '2025-07-01': 8162db66bc65056829f3c581bdd7b2d9bcc91c51
+  archived: false
+discovery:
+  source: bioconda
+  package_name: cutadapt
+  rank: 93
+  download_count: 275692
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-cutadapt-5.2
+  adapter: pixi
+  artifact: cutadapt
+  version: '5.2'
+  build: py313h8c92656_1
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/cutadapt-5.2-py313h8c92656_1.conda
+  artifact_sha256: d11d66f8fad6beee28483f62b20e784332fe3561d281ad49e8fcb235d93bc174
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src/cutadapt
+  language_roots:
+    python:
+    - src/cutadapt
+    cython:
+    - src/cutadapt
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - doc
+interfaces:
+  primary: cutadapt
+  executables:
+  - cutadapt
+  help_commands:
+  - - cutadapt
+    - --help
+  version_commands:
+  - - cutadapt
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: Cutadapt documents dash as standard input and standard output.
+  command:
+  - cutadapt
+  - -a
+  - AGATCGGAAGAGC
+  - -o
+  - '-'
+  - '-'
+  fixture_ids:
+  - core-reads-r1-fastq
+  stdin_fixture_id: core-reads-r1-fastq
+  expect_stdout: true
+  stdout_parser: fastq
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reads-r1-fastq
+  command:
+  - cutadapt
+  - --cores=1
+  - -a
+  - AGATCGGAAGAGC
+  - -o
+  - trimmed.fastq
+  - /fixtures/core/reads_R1.fastq
+  expected_outputs:
+  - path: trimmed.fastq
+    nonempty: true
+    parser: fastq
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
 robustness:
-  missing_input: &cutadapt_unknown {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
-  empty_input: *cutadapt_unknown
-  malformed_input: *cutadapt_unknown
-  wrong_format: *cutadapt_unknown
-  invalid_option: {applicability: applicable, command: [cutadapt, --definitely-not-a-real-option], fixture_id: null, diagnostic_expectation: specific}
-  invalid_value: *cutadapt_unknown
-  unwritable_output: *cutadapt_unknown
-curation: {status: in_review, curator: codex:bioinformatics-dev, reviewer: null, reviewed_at: null, notes: Old valid run retained as a draft only; snapshot and robustness probes require recuration.}
+  missing_input:
+    applicability: applicable
+    reason: A reads input path is required.
+    command:
+    - cutadapt
+    - -o
+    - out.fastq
+    - /fixtures/bad/missing.fastq
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte reads file is supplied.
+    command:
+    - cutadapt
+    - -o
+    - out.fastq
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: The FASTQ quality string is truncated.
+    command:
+    - cutadapt
+    - -o
+    - out.fastq
+    - /fixtures/bad/truncated.fastq
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid VCF is supplied instead of reads.
+    command:
+    - cutadapt
+    - -o
+    - out.fastq
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - cutadapt
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: The core-count value is deliberately invalid.
+    command:
+    - cutadapt
+    - --cores
+    - not-an-integer
+    - /fixtures/core/reads_R1.fastq
+    fixture_id: core-reads-r1-fastq
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The fixture mount is read-only.
+    command:
+    - cutadapt
+    - -o
+    - /fixtures/forbidden.fastq
+    - /fixtures/core/reads_R1.fastq
+    fixture_id: core-reads-r1-fastq
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-15T21:30:00Z'
+  curator_record: data/curation/cutadapt-curator.json
+  reviewer_record: data/curation/cutadapt-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

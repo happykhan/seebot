@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "famsa",
+  "source_commit": "d03b85c3eba5da1f44991404b745ef6ad1235102",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 94,
+      "end_line": 130,
+      "item_type": "interface_and_source_scope",
+      "item_name": "famsa"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "9373c6f6a7c7fb289ae84c412178f8902df0fe5dc9abb1584c8033bcbfe3b049",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

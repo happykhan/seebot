@@ -1,0 +1,166 @@
+schema_version: 2
+project:
+  id: fasttree
+  name: FastTree
+  description: Infers phylogenetic trees from sequence alignments.
+  primary_language: c
+  primary_category: phylogenetics
+  tags:
+  - FASTA
+  - Newick
+  - alignment
+  include: true
+  exclusion_code: null
+repository:
+  id: morgannprice-fasttree
+  url: https://github.com/morgannprice/fasttree
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: a5a2723ea1e64faf3da7ea514521cfa348891add
+  historical_commits:
+    '2021-07-01': null
+    '2022-07-01': null
+    '2023-07-01': null
+    '2024-07-01': null
+    '2025-07-01': 29c5e62fbcd93230ee325f9c6a17b81f00e3c72a
+  archived: false
+discovery:
+  source: bioconda
+  package_name: fasttree
+  rank: 26
+  download_count: 638721
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-fasttree-2.2.0
+  adapter: pixi
+  artifact: fasttree
+  version: 2.2.0
+  build: h7b50bb2_1
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/fasttree-2.2.0-h7b50bb2_1.conda
+  artifact_sha256: d9a6d06fab5f22e5d6a0dfcaf2d51fa07fd9b080f12794ab53e60b1ea1d3ac97
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - FastTree.c
+  language_roots:
+    c:
+    - FastTree.c
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - old
+interfaces:
+  primary: fasttree
+  executables:
+  - fasttree
+  help_commands:
+  - - fasttree
+    - -help
+  version_commands:
+  - - fasttree
+    - -help
+  no_argument_policy: stdin_filter
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: FastTree writes its inferred tree to standard output.
+  command:
+  - fasttree
+  - -nt
+  - /fixtures/core/alignment.fasta
+  fixture_ids:
+  - core-alignment-fasta
+  stdin_fixture_id: null
+  expect_stdout: true
+  stdout_parser: newick
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-alignment-fasta
+  command:
+  - fasttree
+  - -nt
+  - /fixtures/core/alignment.fasta
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: newick
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: An alignment path is required.
+    command:
+    - fasttree
+    - -nt
+    - /fixtures/bad/missing.fasta
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte alignment contains no sequences.
+    command:
+    - fasttree
+    - -nt
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: The FASTA structure is malformed.
+    command:
+    - fasttree
+    - -nt
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid VCF is supplied instead of an alignment.
+    command:
+    - fasttree
+    - -nt
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - fasttree
+    - -seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: The bootstrap-count value is deliberately invalid.
+    command:
+    - fasttree
+    - -boot
+    - not-an-integer
+    - /fixtures/core/alignment.fasta
+    fixture_id: core-alignment-fasta
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The documented primary interface writes the tree to standard output and has no output-path
+      argument.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-15T21:30:00Z'
+  curator_record: data/curation/fasttree-curator.json
+  reviewer_record: data/curation/fasttree-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

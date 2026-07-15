@@ -1,4 +1,6 @@
 schema_version: 2
+frozen: true
+frozen_at: '2026-07-15'
 codes:
   - PRIMARY_LANGUAGE_R
   - NO_PUBLIC_GITHUB_REPOSITORY
@@ -22,4 +24,3 @@ non_exclusions:
   - RESOURCE_LIMIT
   - NO_MEANINGFUL_SMALL_RUN
   - INSTALLATION_MACHINERY_ERROR
-

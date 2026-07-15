@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "bcftools",
+  "source_commit": "7813ff9933ae6d56ae29330adbe4d49e7792a550",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "doc/bcftools.txt",
+      "start_line": 3652,
+      "end_line": 3690,
+      "item_type": "interface_and_source_scope",
+      "item_name": "bcftools"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "c38d23d3c43eba0593fb83d1920691cce84a93bbb608930c29ebce6f80e1a28f",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

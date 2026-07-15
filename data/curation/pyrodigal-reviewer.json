@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "pyrodigal",
+  "source_commit": "a722ee3bc591bbff68544c9c052974d616be278a",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "src/pyrodigal/cli.py",
+      "start_line": 45,
+      "end_line": 150,
+      "item_type": "interface_and_source_scope",
+      "item_name": "pyrodigal"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "04512964c0ad2929040e5bd7f49181d1466e22b0669ae4c84d92b7e0e89fac2c",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

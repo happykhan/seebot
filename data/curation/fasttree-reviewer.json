@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "fasttree",
+  "source_commit": "a5a2723ea1e64faf3da7ea514521cfa348891add",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 12,
+      "item_type": "interface_and_source_scope",
+      "item_name": "fasttree"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "9546777d228799319e912e5ecbc1d919a956e91b2742fdaa6c54e000c9f9e3d1",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

@@ -1,6 +1,6 @@
 # Revised assessment specification
 
-This file records the implementation decisions agreed before rebuilding the pilot.
+This file records the frozen implementation decisions for the current assessment model.
 
 ## Product claim
 
@@ -63,4 +63,3 @@ source roots, executable interfaces, fixtures, probes, applicability, and curati
 Python runners collect deterministic evidence. Users can select project, category,
 language, check family, check, and historical year. Accepted manifests rerun without an
 agent. Agents are limited to initial curation, ambiguity review, and adjudication.
-

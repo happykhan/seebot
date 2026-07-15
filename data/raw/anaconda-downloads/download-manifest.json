@@ -1,0 +1,2199 @@
+{
+  "schema_version": 2,
+  "period_start": "2025-07-01",
+  "period_end": "2026-06-30",
+  "retrieved_at": "2026-07-15T18:39:09.300417Z",
+  "objects": [
+    {
+      "day": "2025-07-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-01.parquet",
+      "etag": "1f519a0d8b7e61c8f3db337f8cfd4492-2",
+      "size_bytes": 14291835
+    },
+    {
+      "day": "2025-07-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-02.parquet",
+      "etag": "ab72c95ce117fbc7e24976bbe1a90f80-2",
+      "size_bytes": 12122908
+    },
+    {
+      "day": "2025-07-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-03.parquet",
+      "etag": "da99be48fe5a2358e63e15f5186aff39-2",
+      "size_bytes": 13035338
+    },
+    {
+      "day": "2025-07-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-04.parquet",
+      "etag": "15340a23e3dc9bd9a17219c1164ed6b6-2",
+      "size_bytes": 12695637
+    },
+    {
+      "day": "2025-07-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-05.parquet",
+      "etag": "e99b22f28945126971dce5dc7ace77b0-2",
+      "size_bytes": 9078282
+    },
+    {
+      "day": "2025-07-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-06.parquet",
+      "etag": "62a404b9d1031118563685759758895b-2",
+      "size_bytes": 9092954
+    },
+    {
+      "day": "2025-07-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-07.parquet",
+      "etag": "77f27acb82d58a01aa33419353fd3b18-2",
+      "size_bytes": 12124964
+    },
+    {
+      "day": "2025-07-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-08.parquet",
+      "etag": "448671d90672b7bbf5b7a50d5e09f201-2",
+      "size_bytes": 12273551
+    },
+    {
+      "day": "2025-07-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-09.parquet",
+      "etag": "dd869af7909e35aa992eddb420eb35ea-2",
+      "size_bytes": 13538551
+    },
+    {
+      "day": "2025-07-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-10.parquet",
+      "etag": "ab611d48bec679a4088d19364efb5dee-2",
+      "size_bytes": 13981510
+    },
+    {
+      "day": "2025-07-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-11.parquet",
+      "etag": "2236c72e6bdb5cc4a74153487532c97d-2",
+      "size_bytes": 12991858
+    },
+    {
+      "day": "2025-07-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-12.parquet",
+      "etag": "5af0e901cee3274001e4829ee3fd9ffd-2",
+      "size_bytes": 9368186
+    },
+    {
+      "day": "2025-07-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-13.parquet",
+      "etag": "5e28c1e52b8a7433a1206391baf0c774",
+      "size_bytes": 8320834
+    },
+    {
+      "day": "2025-07-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-14.parquet",
+      "etag": "328c727fe21bc2cdc5178204c2ca11cc-2",
+      "size_bytes": 10973853
+    },
+    {
+      "day": "2025-07-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-15.parquet",
+      "etag": "71fbd4db8a01daf16c7ea4de13cde29a-2",
+      "size_bytes": 12882622
+    },
+    {
+      "day": "2025-07-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-16.parquet",
+      "etag": "96c94381ca562d10efde4ba65109c3f0-2",
+      "size_bytes": 12826550
+    },
+    {
+      "day": "2025-07-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-17.parquet",
+      "etag": "40eb04bd4914b2e2026f98ea496fd180-2",
+      "size_bytes": 14373357
+    },
+    {
+      "day": "2025-07-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-18.parquet",
+      "etag": "fa37477c68e1f7bf93edcdeffba7b7ec-2",
+      "size_bytes": 13077103
+    },
+    {
+      "day": "2025-07-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-19.parquet",
+      "etag": "bb2799cd3aa6412e9df2c44036b36b11-2",
+      "size_bytes": 11258002
+    },
+    {
+      "day": "2025-07-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-20.parquet",
+      "etag": "62538112a3ea4e888af6685fbc30f2f4-2",
+      "size_bytes": 10876485
+    },
+    {
+      "day": "2025-07-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-21.parquet",
+      "etag": "e1e648a99c2dd705f6af6b7afcfd0476-2",
+      "size_bytes": 11188133
+    },
+    {
+      "day": "2025-07-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-22.parquet",
+      "etag": "88b07b9cf47e7be914fb3b247aaf76cf-2",
+      "size_bytes": 12673200
+    },
+    {
+      "day": "2025-07-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-23.parquet",
+      "etag": "b8ada474bad154a879e08e9e677f0a87-2",
+      "size_bytes": 12779637
+    },
+    {
+      "day": "2025-07-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-24.parquet",
+      "etag": "b933fc0151d7c16d945c67098409420f-2",
+      "size_bytes": 11848931
+    },
+    {
+      "day": "2025-07-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-25.parquet",
+      "etag": "96147fd6295018cf68a5c61d7dbacb05-2",
+      "size_bytes": 14369403
+    },
+    {
+      "day": "2025-07-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-26.parquet",
+      "etag": "5628469f90b60c8abc59d88973828a38-2",
+      "size_bytes": 10047496
+    },
+    {
+      "day": "2025-07-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-27.parquet",
+      "etag": "d8a314f8cdd7a442da39526d9f897107-2",
+      "size_bytes": 9593430
+    },
+    {
+      "day": "2025-07-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-28.parquet",
+      "etag": "6c7534e36b90bcc335d6906e29af7d39-2",
+      "size_bytes": 11979941
+    },
+    {
+      "day": "2025-07-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-29.parquet",
+      "etag": "e6765ec9f81fcc94290c14f49a66389a-2",
+      "size_bytes": 12238739
+    },
+    {
+      "day": "2025-07-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-30.parquet",
+      "etag": "4aa448c23d514e7177d65e2402b5f7fd-2",
+      "size_bytes": 11667579
+    },
+    {
+      "day": "2025-07-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/07/2025-07-31.parquet",
+      "etag": "153d7fe7c945868869ea4dfb3d534e7b-2",
+      "size_bytes": 12869031
+    },
+    {
+      "day": "2025-08-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-01.parquet",
+      "etag": "124ecd2402054102e3829b44e737a1fc-2",
+      "size_bytes": 16726234
+    },
+    {
+      "day": "2025-08-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-02.parquet",
+      "etag": "d3b776d13982dfba330113b418a4d04e-2",
+      "size_bytes": 9005520
+    },
+    {
+      "day": "2025-08-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-03.parquet",
+      "etag": "c294cf4223dcba4e26f0dabe7bf74182",
+      "size_bytes": 8271240
+    },
+    {
+      "day": "2025-08-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-04.parquet",
+      "etag": "9f011b9f146437e963c3edb616121896-2",
+      "size_bytes": 12833200
+    },
+    {
+      "day": "2025-08-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-05.parquet",
+      "etag": "948983c14defb186de01524b7e165d59-2",
+      "size_bytes": 13183981
+    },
+    {
+      "day": "2025-08-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-06.parquet",
+      "etag": "58acc81f2f22450d8f4a44a1094c7c4d-2",
+      "size_bytes": 13086628
+    },
+    {
+      "day": "2025-08-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-07.parquet",
+      "etag": "c8543042e0d55b6180038ff995b359d9-2",
+      "size_bytes": 14050002
+    },
+    {
+      "day": "2025-08-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-08.parquet",
+      "etag": "7150043f325e98f6bb155a6e695d8ece-2",
+      "size_bytes": 13097099
+    },
+    {
+      "day": "2025-08-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-09.parquet",
+      "etag": "d80aec3b2d83884a0cfb7aea230f705b-2",
+      "size_bytes": 8685004
+    },
+    {
+      "day": "2025-08-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-10.parquet",
+      "etag": "cf7ce8197439b651df465452e119b437-2",
+      "size_bytes": 8565399
+    },
+    {
+      "day": "2025-08-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-11.parquet",
+      "etag": "d89952b664207f69c84cb698662d0fbf-2",
+      "size_bytes": 12355575
+    },
+    {
+      "day": "2025-08-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-12.parquet",
+      "etag": "a27f58b55985fc9331cc73fb6c639d1d-2",
+      "size_bytes": 11674853
+    },
+    {
+      "day": "2025-08-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-13.parquet",
+      "etag": "6c3c8a475b95084675cba304440c3d98-2",
+      "size_bytes": 11237580
+    },
+    {
+      "day": "2025-08-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-14.parquet",
+      "etag": "af114c01b740259d7e028a68bb8aea19-2",
+      "size_bytes": 12199847
+    },
+    {
+      "day": "2025-08-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-15.parquet",
+      "etag": "fea3f1bd426d994447bfe9cb51505d8b-2",
+      "size_bytes": 13843972
+    },
+    {
+      "day": "2025-08-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-16.parquet",
+      "etag": "d49af57fad34ebca3f8013382a4a8244-2",
+      "size_bytes": 9974692
+    },
+    {
+      "day": "2025-08-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-17.parquet",
+      "etag": "1a9737299c8ed1e817ebfe804b268860-2",
+      "size_bytes": 9116172
+    },
+    {
+      "day": "2025-08-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-18.parquet",
+      "etag": "771b61926ef18d8e4b006e7bb77f93d9-2",
+      "size_bytes": 11617025
+    },
+    {
+      "day": "2025-08-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-19.parquet",
+      "etag": "868e6a5a8f8b83d630414fdfe170e398-2",
+      "size_bytes": 11956500
+    },
+    {
+      "day": "2025-08-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-20.parquet",
+      "etag": "710b0abc5c4281c577d4c77d2b9fbe2e-2",
+      "size_bytes": 11798909
+    },
+    {
+      "day": "2025-08-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-21.parquet",
+      "etag": "5a0c4efed38d329435fd3075932df3c6-2",
+      "size_bytes": 12246256
+    },
+    {
+      "day": "2025-08-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-22.parquet",
+      "etag": "bc0c01a5be7263c935906604c611b5ef-2",
+      "size_bytes": 13853493
+    },
+    {
+      "day": "2025-08-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-23.parquet",
+      "etag": "7463e3faed59d944304a699c01804739-2",
+      "size_bytes": 8420710
+    },
+    {
+      "day": "2025-08-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-24.parquet",
+      "etag": "88837035a978c3fbaea401db5adde2a2-2",
+      "size_bytes": 9130005
+    },
+    {
+      "day": "2025-08-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-25.parquet",
+      "etag": "89ac8d3f8afe95b0f6001b2272b0834e-2",
+      "size_bytes": 11668392
+    },
+    {
+      "day": "2025-08-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-26.parquet",
+      "etag": "ed46d1f33b02db8af0e896b02036883f-2",
+      "size_bytes": 12718688
+    },
+    {
+      "day": "2025-08-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-27.parquet",
+      "etag": "6a06b715f77e84c22ea697f7022bdcb1-2",
+      "size_bytes": 12078395
+    },
+    {
+      "day": "2025-08-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-28.parquet",
+      "etag": "460c934101afab002eb9ee530cd68055-2",
+      "size_bytes": 13377952
+    },
+    {
+      "day": "2025-08-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-29.parquet",
+      "etag": "9869a85ad282b97cae8998ee6336ba19-2",
+      "size_bytes": 12496828
+    },
+    {
+      "day": "2025-08-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-30.parquet",
+      "etag": "be78a6e12fa716744dab7253b2f0fbfe-2",
+      "size_bytes": 9754704
+    },
+    {
+      "day": "2025-08-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/08/2025-08-31.parquet",
+      "etag": "428a6e165a7d184d668a2076072b812c-2",
+      "size_bytes": 9548700
+    },
+    {
+      "day": "2025-09-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-01.parquet",
+      "etag": "2d08f374b2e55aa381d5225c3dee750e-2",
+      "size_bytes": 12173230
+    },
+    {
+      "day": "2025-09-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-02.parquet",
+      "etag": "dcaabd6014e5fc250028612dbe7af5aa-2",
+      "size_bytes": 13546402
+    },
+    {
+      "day": "2025-09-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-03.parquet",
+      "etag": "b7c3ee057f5fd79178d49091727a4c90-2",
+      "size_bytes": 13822217
+    },
+    {
+      "day": "2025-09-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-04.parquet",
+      "etag": "cfe7d52f895715e09930f3fcb38e870d-2",
+      "size_bytes": 14316601
+    },
+    {
+      "day": "2025-09-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-05.parquet",
+      "etag": "cb20a8dfd0901899794b5af9ea2fe333-2",
+      "size_bytes": 14660424
+    },
+    {
+      "day": "2025-09-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-06.parquet",
+      "etag": "7c0a0267740854edf472f21ce68a6d8b-2",
+      "size_bytes": 10455353
+    },
+    {
+      "day": "2025-09-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-07.parquet",
+      "etag": "150f8c8b8eac0ba5954ae7da9f730df2-2",
+      "size_bytes": 8852258
+    },
+    {
+      "day": "2025-09-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-08.parquet",
+      "etag": "bbbcd9d789984bc2510e823d701e6ae6-2",
+      "size_bytes": 12603637
+    },
+    {
+      "day": "2025-09-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-09.parquet",
+      "etag": "1c701f2029d3849cc0fd2dd286e3cdd7-2",
+      "size_bytes": 12413999
+    },
+    {
+      "day": "2025-09-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-10.parquet",
+      "etag": "f0235043c02e224e299828eeee078a9b-2",
+      "size_bytes": 14646005
+    },
+    {
+      "day": "2025-09-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-11.parquet",
+      "etag": "422551f506418060489518fb75006a09-2",
+      "size_bytes": 12836182
+    },
+    {
+      "day": "2025-09-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-12.parquet",
+      "etag": "c882ac644497128332efc1bf39a3a4eb-2",
+      "size_bytes": 14049487
+    },
+    {
+      "day": "2025-09-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-13.parquet",
+      "etag": "00c972b4e77f7c4432582dab9d2e0cd5-2",
+      "size_bytes": 9287424
+    },
+    {
+      "day": "2025-09-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-14.parquet",
+      "etag": "973d031e5756860fb48ffdc97c0f7594-2",
+      "size_bytes": 9282180
+    },
+    {
+      "day": "2025-09-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-15.parquet",
+      "etag": "56cd162f4b27ce0b4e4c3c1a399e89b8-2",
+      "size_bytes": 13002684
+    },
+    {
+      "day": "2025-09-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-16.parquet",
+      "etag": "5a51c0f5ed6a0d088b5fa7377cbcdb8d-2",
+      "size_bytes": 12473328
+    },
+    {
+      "day": "2025-09-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-17.parquet",
+      "etag": "e02e77f57798772583365e1e3a53b970-2",
+      "size_bytes": 12095745
+    },
+    {
+      "day": "2025-09-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-18.parquet",
+      "etag": "c2bf26a7ea496a7aaf0dd4ef074afb1b-2",
+      "size_bytes": 12827813
+    },
+    {
+      "day": "2025-09-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-19.parquet",
+      "etag": "8ab3e2d3826f535c5bced39ade112445-2",
+      "size_bytes": 15029958
+    },
+    {
+      "day": "2025-09-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-20.parquet",
+      "etag": "766e1aebf371fc0facf1cfd062566641-2",
+      "size_bytes": 11407934
+    },
+    {
+      "day": "2025-09-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-21.parquet",
+      "etag": "b18d25ffdc56e1b2ab3b6217f71bcaee-2",
+      "size_bytes": 9737103
+    },
+    {
+      "day": "2025-09-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-22.parquet",
+      "etag": "cd64177332771bc57a1dabfb1387c1d9-2",
+      "size_bytes": 12206224
+    },
+    {
+      "day": "2025-09-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-23.parquet",
+      "etag": "d793139cb7a0ac967751cf8b2bc41071-4",
+      "size_bytes": 25586233
+    },
+    {
+      "day": "2025-09-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-24.parquet",
+      "etag": "e27bd062306b0a9cb29b4f9a2eec3309-2",
+      "size_bytes": 13323886
+    },
+    {
+      "day": "2025-09-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-25.parquet",
+      "etag": "b1a1b5151fbca90efe20f9007f6fe43f-3",
+      "size_bytes": 17564489
+    },
+    {
+      "day": "2025-09-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-26.parquet",
+      "etag": "c45877091bb2c3f85d0117445749d3c7-3",
+      "size_bytes": 17246082
+    },
+    {
+      "day": "2025-09-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-27.parquet",
+      "etag": "942a6514bcedf67fc974d03d664ee929-2",
+      "size_bytes": 9715161
+    },
+    {
+      "day": "2025-09-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-28.parquet",
+      "etag": "eb4eb58c30c761447f0a193ad94a0893-2",
+      "size_bytes": 9889252
+    },
+    {
+      "day": "2025-09-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-29.parquet",
+      "etag": "81ae1c593a4ba1962aaef25629e2ac80-2",
+      "size_bytes": 16498641
+    },
+    {
+      "day": "2025-09-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/09/2025-09-30.parquet",
+      "etag": "88eb4b7e0440680c71ba8308a5ca9a92-2",
+      "size_bytes": 16685038
+    },
+    {
+      "day": "2025-10-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-01.parquet",
+      "etag": "2d81edd5281e43e14dc2936bf109dc1c-2",
+      "size_bytes": 15865313
+    },
+    {
+      "day": "2025-10-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-02.parquet",
+      "etag": "10b4f2b78133132ba24d2db5f39d0166-2",
+      "size_bytes": 16010864
+    },
+    {
+      "day": "2025-10-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-03.parquet",
+      "etag": "d4414b29c4df5412f1be3e23ff45ca63-2",
+      "size_bytes": 14172729
+    },
+    {
+      "day": "2025-10-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-04.parquet",
+      "etag": "7f94f837a0da6445bc24fd808eb1f0d3-2",
+      "size_bytes": 10826349
+    },
+    {
+      "day": "2025-10-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-05.parquet",
+      "etag": "3a77a76cb7d96b2a0c914d08c09a2c58-2",
+      "size_bytes": 10589266
+    },
+    {
+      "day": "2025-10-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-06.parquet",
+      "etag": "6791a28b709ed27c8ce0771a3f60b4e1-2",
+      "size_bytes": 13402883
+    },
+    {
+      "day": "2025-10-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-07.parquet",
+      "etag": "5e8b168d8214ce137a34974299c302c4-2",
+      "size_bytes": 14039558
+    },
+    {
+      "day": "2025-10-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-08.parquet",
+      "etag": "c1feb8458c6b606a11ca7e9033a80ab4-2",
+      "size_bytes": 14036164
+    },
+    {
+      "day": "2025-10-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-09.parquet",
+      "etag": "fb7c1d2bf2fc9b90e7edb5cae9b0a16b-2",
+      "size_bytes": 14892408
+    },
+    {
+      "day": "2025-10-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-10.parquet",
+      "etag": "420ce347ac9eea8d2252f6ac1fa02417-2",
+      "size_bytes": 14867224
+    },
+    {
+      "day": "2025-10-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-11.parquet",
+      "etag": "a3af3c87dd3faf109ba7083e5be3016d-2",
+      "size_bytes": 12148133
+    },
+    {
+      "day": "2025-10-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-12.parquet",
+      "etag": "6db24c70c47f9849cb2efba6f8a012ba-2",
+      "size_bytes": 10678641
+    },
+    {
+      "day": "2025-10-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-13.parquet",
+      "etag": "1cb645eda7ae0d4603088c565890cd91-2",
+      "size_bytes": 14250554
+    },
+    {
+      "day": "2025-10-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-14.parquet",
+      "etag": "f3b82c382fad6dda4a0451669bfedca6-2",
+      "size_bytes": 14106761
+    },
+    {
+      "day": "2025-10-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-15.parquet",
+      "etag": "b48cb090d0abe4796c0d5a3db090aa08-2",
+      "size_bytes": 13993477
+    },
+    {
+      "day": "2025-10-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-16.parquet",
+      "etag": "3b1878888fbc5fbb34dd62b47f9d8858-2",
+      "size_bytes": 12987861
+    },
+    {
+      "day": "2025-10-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-17.parquet",
+      "etag": "d4f94bb6869a5212c581b184c2983ab1-2",
+      "size_bytes": 13053872
+    },
+    {
+      "day": "2025-10-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-18.parquet",
+      "etag": "f74e93d2cee80508ecb401e3ee534674-2",
+      "size_bytes": 10119713
+    },
+    {
+      "day": "2025-10-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-19.parquet",
+      "etag": "08572d5435f1dad39733a2042bbf5e73-2",
+      "size_bytes": 10106721
+    },
+    {
+      "day": "2025-10-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-20.parquet",
+      "etag": "f8821974d704e16980fefe6d83d41a63-2",
+      "size_bytes": 13122182
+    },
+    {
+      "day": "2025-10-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-21.parquet",
+      "etag": "dac2112e3b3ca6ef73ee7c859fd15938-2",
+      "size_bytes": 13399200
+    },
+    {
+      "day": "2025-10-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-22.parquet",
+      "etag": "4d00ac571ba9dffae7ac32473173477a-2",
+      "size_bytes": 13707550
+    },
+    {
+      "day": "2025-10-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-23.parquet",
+      "etag": "9fb2ca635ac06264ac58e10a1ac64c5d-2",
+      "size_bytes": 15919116
+    },
+    {
+      "day": "2025-10-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-24.parquet",
+      "etag": "f6e56b601e686187e6ebc8e3ac77ef45-2",
+      "size_bytes": 14648713
+    },
+    {
+      "day": "2025-10-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-25.parquet",
+      "etag": "66a2dd5abcbdfe05e7591747c666142b-2",
+      "size_bytes": 10715541
+    },
+    {
+      "day": "2025-10-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-26.parquet",
+      "etag": "34c10274258b2a58cb2d0d3a87dbb750-2",
+      "size_bytes": 11023431
+    },
+    {
+      "day": "2025-10-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-27.parquet",
+      "etag": "7f574cee5145bfc685448462e3efc051-2",
+      "size_bytes": 13276100
+    },
+    {
+      "day": "2025-10-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-28.parquet",
+      "etag": "6d23a7e3bf41deb3fa06f57baa8402ad-2",
+      "size_bytes": 13108814
+    },
+    {
+      "day": "2025-10-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-29.parquet",
+      "etag": "f014f65fd5e508ad435bbddccb7e0983-2",
+      "size_bytes": 12676888
+    },
+    {
+      "day": "2025-10-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-30.parquet",
+      "etag": "fb5809b02433e7875cdb755dad8794c1-2",
+      "size_bytes": 14050496
+    },
+    {
+      "day": "2025-10-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/10/2025-10-31.parquet",
+      "etag": "e925d3776efbc3d2f5094228084ad552-2",
+      "size_bytes": 15895660
+    },
+    {
+      "day": "2025-11-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-01.parquet",
+      "etag": "0880145a85e589546df810aa6a9375ba-2",
+      "size_bytes": 10810788
+    },
+    {
+      "day": "2025-11-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-02.parquet",
+      "etag": "16c30ed788588e1e3a690f8d2b3edc9d-2",
+      "size_bytes": 10770100
+    },
+    {
+      "day": "2025-11-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-03.parquet",
+      "etag": "5bb4bfb9011b8ee55ed7226e57ca7925-2",
+      "size_bytes": 13696454
+    },
+    {
+      "day": "2025-11-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-04.parquet",
+      "etag": "540368897ca2aae810dedef688375d10-2",
+      "size_bytes": 14892423
+    },
+    {
+      "day": "2025-11-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-05.parquet",
+      "etag": "efc95ccba4c8cf641c15f95320e2a13e-2",
+      "size_bytes": 14881436
+    },
+    {
+      "day": "2025-11-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-06.parquet",
+      "etag": "ecc4581ad9c3e0268a8ae876ad3be720-2",
+      "size_bytes": 14467175
+    },
+    {
+      "day": "2025-11-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-07.parquet",
+      "etag": "8746c5771460387b9ccd0007a7724cb0-2",
+      "size_bytes": 16439012
+    },
+    {
+      "day": "2025-11-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-08.parquet",
+      "etag": "c6100d47e876fef00564c3beef8e83ac-2",
+      "size_bytes": 11811242
+    },
+    {
+      "day": "2025-11-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-09.parquet",
+      "etag": "94af347623ff610894f039cc6ef280f0-2",
+      "size_bytes": 11053785
+    },
+    {
+      "day": "2025-11-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-10.parquet",
+      "etag": "7e268a1b9378df498bef602a1fa56885-2",
+      "size_bytes": 16214736
+    },
+    {
+      "day": "2025-11-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-11.parquet",
+      "etag": "a892b41d105e82cba261f7218a753c67-3",
+      "size_bytes": 16974494
+    },
+    {
+      "day": "2025-11-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-12.parquet",
+      "etag": "c2cc39b19c5a47db44e6b11976dae2e6-2",
+      "size_bytes": 15916457
+    },
+    {
+      "day": "2025-11-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-13.parquet",
+      "etag": "c5100313354ef52cb134cad4874a25e9-3",
+      "size_bytes": 18641079
+    },
+    {
+      "day": "2025-11-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-14.parquet",
+      "etag": "3734b74b63167dd40068af66d1952bf0-3",
+      "size_bytes": 19745686
+    },
+    {
+      "day": "2025-11-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-15.parquet",
+      "etag": "0e32d633ad6be37be19b77f646e1dbc3-2",
+      "size_bytes": 15599605
+    },
+    {
+      "day": "2025-11-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-16.parquet",
+      "etag": "7995fd69720c2b3e9788b8127e4dbcd6-2",
+      "size_bytes": 13679029
+    },
+    {
+      "day": "2025-11-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-17.parquet",
+      "etag": "6a82d5faa57f04c4b29882f0587609f7-2",
+      "size_bytes": 16405458
+    },
+    {
+      "day": "2025-11-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-18.parquet",
+      "etag": "4c7e73c33e9fcee947c336a94154d081-3",
+      "size_bytes": 16994434
+    },
+    {
+      "day": "2025-11-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-19.parquet",
+      "etag": "1bddc51f88a49258519ca84fcbb2c396-3",
+      "size_bytes": 17189696
+    },
+    {
+      "day": "2025-11-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-20.parquet",
+      "etag": "a81917ff967858a510e0aba1ee9cfef4-2",
+      "size_bytes": 16776687
+    },
+    {
+      "day": "2025-11-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-21.parquet",
+      "etag": "e1c0f32f6f91d7283bfc91a0b2a3496e-3",
+      "size_bytes": 17193611
+    },
+    {
+      "day": "2025-11-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-22.parquet",
+      "etag": "795662e12c82ebe289c294001b4715e7-2",
+      "size_bytes": 12922190
+    },
+    {
+      "day": "2025-11-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-23.parquet",
+      "etag": "8f021496d4c38cc1586f2b1a7e4c3a50-2",
+      "size_bytes": 12580915
+    },
+    {
+      "day": "2025-11-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-24.parquet",
+      "etag": "5d57e833664fdbf72b61a4aaa404e18e-2",
+      "size_bytes": 16058077
+    },
+    {
+      "day": "2025-11-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-25.parquet",
+      "etag": "3c66949875b597935868b1d6823efbb3-3",
+      "size_bytes": 17584519
+    },
+    {
+      "day": "2025-11-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-26.parquet",
+      "etag": "f2e13f3b8493cce87e13cb3f06459545-2",
+      "size_bytes": 16495453
+    },
+    {
+      "day": "2025-11-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-27.parquet",
+      "etag": "c50b32e1e5546eb67a0b75df089130f5-2",
+      "size_bytes": 16270510
+    },
+    {
+      "day": "2025-11-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-28.parquet",
+      "etag": "22064226bc79fea0831ae6d12c970869-3",
+      "size_bytes": 17288509
+    },
+    {
+      "day": "2025-11-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-29.parquet",
+      "etag": "ed2473d0c22700e7938c2060bfbc943a-2",
+      "size_bytes": 13843265
+    },
+    {
+      "day": "2025-11-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/11/2025-11-30.parquet",
+      "etag": "c0cdb6b1e635c00f9a5ada0d8bf4ba24-2",
+      "size_bytes": 13380153
+    },
+    {
+      "day": "2025-12-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-01.parquet",
+      "etag": "5c9d57edff215d7cc2484701625a9def-3",
+      "size_bytes": 20787776
+    },
+    {
+      "day": "2025-12-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-02.parquet",
+      "etag": "df2ba62c37237d81ede9969f02db7bbe-3",
+      "size_bytes": 17376455
+    },
+    {
+      "day": "2025-12-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-03.parquet",
+      "etag": "f0fcac585112ec69309e5e8fe5590df9-3",
+      "size_bytes": 18928496
+    },
+    {
+      "day": "2025-12-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-04.parquet",
+      "etag": "77ccebd9e1cc57c38b78275a922dadc6-3",
+      "size_bytes": 19955242
+    },
+    {
+      "day": "2025-12-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-05.parquet",
+      "etag": "f15fa4fbdf3abbcd0f6ef1e1bccbba69-3",
+      "size_bytes": 23126174
+    },
+    {
+      "day": "2025-12-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-06.parquet",
+      "etag": "139b92e92fa623c82a2896b62cd057e1-2",
+      "size_bytes": 16517549
+    },
+    {
+      "day": "2025-12-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-07.parquet",
+      "etag": "aa0fad8c0aef1d3d285698c003767a20-2",
+      "size_bytes": 16042265
+    },
+    {
+      "day": "2025-12-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-08.parquet",
+      "etag": "c766e4bcd69b17e6be239063b52c2816-3",
+      "size_bytes": 18885599
+    },
+    {
+      "day": "2025-12-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-09.parquet",
+      "etag": "03bca22b93f67a3f038c8aa0bf6a13f2-3",
+      "size_bytes": 19058807
+    },
+    {
+      "day": "2025-12-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-10.parquet",
+      "etag": "38facf6dd1ec11be1a4d0f85928d4a39-3",
+      "size_bytes": 18644601
+    },
+    {
+      "day": "2025-12-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-11.parquet",
+      "etag": "dc10fcd7f4af2d9d20138430153056e6-3",
+      "size_bytes": 19174485
+    },
+    {
+      "day": "2025-12-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-12.parquet",
+      "etag": "4b440e5e4f7241b815e8315cf8f84305-3",
+      "size_bytes": 19710580
+    },
+    {
+      "day": "2025-12-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-13.parquet",
+      "etag": "85f2a736deb72ba1b1b9632c44090cc6-2",
+      "size_bytes": 13392166
+    },
+    {
+      "day": "2025-12-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-14.parquet",
+      "etag": "0d467af5bf5c0729a9a4439cc2eceb03-2",
+      "size_bytes": 9881926
+    },
+    {
+      "day": "2025-12-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-15.parquet",
+      "etag": "8522f3be2f489f0ba290fdcb5863aa37-2",
+      "size_bytes": 12740042
+    },
+    {
+      "day": "2025-12-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-16.parquet",
+      "etag": "d0f6e329c32825d38236bf151bd490ae-2",
+      "size_bytes": 13221086
+    },
+    {
+      "day": "2025-12-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-17.parquet",
+      "etag": "592bf214cd5ad686346ae55dcb21f56d-2",
+      "size_bytes": 12825680
+    },
+    {
+      "day": "2025-12-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-18.parquet",
+      "etag": "5060ebd99e7ee3e3466ba2b5d2fe1cda-2",
+      "size_bytes": 13062421
+    },
+    {
+      "day": "2025-12-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-19.parquet",
+      "etag": "fcbdefc25f756ce98aecba60d110c52d-2",
+      "size_bytes": 14200841
+    },
+    {
+      "day": "2025-12-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-20.parquet",
+      "etag": "d8501ded9677e5ca747ec7195ffb16b7-2",
+      "size_bytes": 13601920
+    },
+    {
+      "day": "2025-12-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-21.parquet",
+      "etag": "e1cc42752827e6b0307a984456ff9cca-2",
+      "size_bytes": 10180805
+    },
+    {
+      "day": "2025-12-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-22.parquet",
+      "etag": "f1cf4e09ec8ecb1d0b60d89d190b00f9-2",
+      "size_bytes": 13155687
+    },
+    {
+      "day": "2025-12-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-23.parquet",
+      "etag": "5b221763e0c719ad62b091788e38a6c7-2",
+      "size_bytes": 12842510
+    },
+    {
+      "day": "2025-12-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-24.parquet",
+      "etag": "ec4e1d51ea59cabffea72f08b926f9f8-2",
+      "size_bytes": 11972926
+    },
+    {
+      "day": "2025-12-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-25.parquet",
+      "etag": "fbfa9aec1a92bea60db89a4041699e8c-2",
+      "size_bytes": 11752460
+    },
+    {
+      "day": "2025-12-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-26.parquet",
+      "etag": "032c2690d6bb18b145dd7710924de802-2",
+      "size_bytes": 11626847
+    },
+    {
+      "day": "2025-12-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-27.parquet",
+      "etag": "c1e421fe16c59d9ff5aab77f5c5a7c60-2",
+      "size_bytes": 10027046
+    },
+    {
+      "day": "2025-12-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-28.parquet",
+      "etag": "e02a53fd6082a1ab985c2c88386883c8-2",
+      "size_bytes": 10182705
+    },
+    {
+      "day": "2025-12-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-29.parquet",
+      "etag": "fa83b8650bf46b04fba72bd015e985d7-2",
+      "size_bytes": 10642350
+    },
+    {
+      "day": "2025-12-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-30.parquet",
+      "etag": "d10a80540533c8adf64952fb39c77c5b-2",
+      "size_bytes": 10786657
+    },
+    {
+      "day": "2025-12-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2025/12/2025-12-31.parquet",
+      "etag": "4d5fd62daddbdad792c19bc64a690fdd-2",
+      "size_bytes": 11584940
+    },
+    {
+      "day": "2026-01-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-01.parquet",
+      "etag": "85e38751356a3ea0f97cfbe543f5cd2a-2",
+      "size_bytes": 11506603
+    },
+    {
+      "day": "2026-01-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-02.parquet",
+      "etag": "563156de328579cac8860aba222ff7b5-2",
+      "size_bytes": 14706973
+    },
+    {
+      "day": "2026-01-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-03.parquet",
+      "etag": "2b7e9811c335f6c162515541f8745aad-2",
+      "size_bytes": 11272065
+    },
+    {
+      "day": "2026-01-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-04.parquet",
+      "etag": "2a68b0682118b4805b8b57c76c1c86e9-2",
+      "size_bytes": 12986026
+    },
+    {
+      "day": "2026-01-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-05.parquet",
+      "etag": "5e24960adc8143a31d853f9384b87b64-2",
+      "size_bytes": 14484979
+    },
+    {
+      "day": "2026-01-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-06.parquet",
+      "etag": "75b9658aadfde89207578bc8e7c12d2d-2",
+      "size_bytes": 12783126
+    },
+    {
+      "day": "2026-01-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-07.parquet",
+      "etag": "cca63286232ba0ed8a6ca2aa580df8d1-2",
+      "size_bytes": 12703366
+    },
+    {
+      "day": "2026-01-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-08.parquet",
+      "etag": "945335c8e72f9fed581880208f6642f5-2",
+      "size_bytes": 12847261
+    },
+    {
+      "day": "2026-01-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-09.parquet",
+      "etag": "bad1285434491574aacef75fef749dd0-2",
+      "size_bytes": 12167984
+    },
+    {
+      "day": "2026-01-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-10.parquet",
+      "etag": "335c4b8e22e15683045ccefab00c86f8-2",
+      "size_bytes": 10018391
+    },
+    {
+      "day": "2026-01-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-11.parquet",
+      "etag": "b39d2b2bab93507906cbce7a6cb8108e-2",
+      "size_bytes": 9257243
+    },
+    {
+      "day": "2026-01-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-12.parquet",
+      "etag": "4d39d8c09f43f7b2085cf0e5eefb2018-2",
+      "size_bytes": 12229996
+    },
+    {
+      "day": "2026-01-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-13.parquet",
+      "etag": "0b9b18a91bf6df84fc811d2ed2de5370-2",
+      "size_bytes": 12626205
+    },
+    {
+      "day": "2026-01-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-14.parquet",
+      "etag": "e8b5abac20379e4c98b8c42420994008-2",
+      "size_bytes": 12371932
+    },
+    {
+      "day": "2026-01-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-15.parquet",
+      "etag": "b3cf5b3fd338af54298c93d7ef3c85c1-2",
+      "size_bytes": 13457220
+    },
+    {
+      "day": "2026-01-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-16.parquet",
+      "etag": "2c87740cabc7c8c4637605825c8967b4-2",
+      "size_bytes": 12999162
+    },
+    {
+      "day": "2026-01-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-17.parquet",
+      "etag": "733debe891c9c965718228242a4145bd-2",
+      "size_bytes": 11599012
+    },
+    {
+      "day": "2026-01-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-18.parquet",
+      "etag": "cf51554a4e738c3456e8c7ca39188dc4-2",
+      "size_bytes": 9516464
+    },
+    {
+      "day": "2026-01-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-19.parquet",
+      "etag": "088702dd323dfd765734e16ff5f4a484-2",
+      "size_bytes": 12621401
+    },
+    {
+      "day": "2026-01-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-20.parquet",
+      "etag": "90f5fc563bab0e7d284728de47a7d0f6-2",
+      "size_bytes": 12456493
+    },
+    {
+      "day": "2026-01-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-21.parquet",
+      "etag": "a99c040beaf732d6584af970bb0fcb0e-2",
+      "size_bytes": 13610153
+    },
+    {
+      "day": "2026-01-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-22.parquet",
+      "etag": "4fa54740c141220bcb0080f7df0a57aa-2",
+      "size_bytes": 14120207
+    },
+    {
+      "day": "2026-01-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-23.parquet",
+      "etag": "39a875195c04d68a2911311eb7c374f8-2",
+      "size_bytes": 13615154
+    },
+    {
+      "day": "2026-01-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-24.parquet",
+      "etag": "8f72b37a8e91e26fc6101dec1f85eab9-2",
+      "size_bytes": 10427239
+    },
+    {
+      "day": "2026-01-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-25.parquet",
+      "etag": "7bc0ad600dccfffb4c0f7a369dfb88d1-2",
+      "size_bytes": 10204807
+    },
+    {
+      "day": "2026-01-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-26.parquet",
+      "etag": "fa9a0e199d40462b78aee23381c16b66-2",
+      "size_bytes": 13112515
+    },
+    {
+      "day": "2026-01-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-27.parquet",
+      "etag": "dcc0ec3400dcde2606f718c1fedddc3c-2",
+      "size_bytes": 14131640
+    },
+    {
+      "day": "2026-01-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-28.parquet",
+      "etag": "0e025c2df2f86459fbb8987c5c9d0f14-2",
+      "size_bytes": 15758075
+    },
+    {
+      "day": "2026-01-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-29.parquet",
+      "etag": "a2f5a0491d89843d3c59ca3d48b08cbf-2",
+      "size_bytes": 12908001
+    },
+    {
+      "day": "2026-01-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-30.parquet",
+      "etag": "04dd57799c3f7e1a0412a36f65f277e3-2",
+      "size_bytes": 15717293
+    },
+    {
+      "day": "2026-01-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/01/2026-01-31.parquet",
+      "etag": "007587ed6f20fc98c6142dfc33d06bc2-2",
+      "size_bytes": 14504923
+    },
+    {
+      "day": "2026-02-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-01.parquet",
+      "etag": "893c9dcac97a002f5fcae6b25300e0ef-2",
+      "size_bytes": 11703860
+    },
+    {
+      "day": "2026-02-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-02.parquet",
+      "etag": "4485a91ef93db420912c0b9515a89431-2",
+      "size_bytes": 16066769
+    },
+    {
+      "day": "2026-02-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-03.parquet",
+      "etag": "edcc401cab9fe0d39b597d76759fb4a9-2",
+      "size_bytes": 15164574
+    },
+    {
+      "day": "2026-02-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-04.parquet",
+      "etag": "799b7258d05395146055954c2bc02415-3",
+      "size_bytes": 16822996
+    },
+    {
+      "day": "2026-02-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-05.parquet",
+      "etag": "4c5e9e4a94eee1f7cde12ffafd28bc9f-2",
+      "size_bytes": 13960695
+    },
+    {
+      "day": "2026-02-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-06.parquet",
+      "etag": "f7c95751a0500b6233e77174fc25a1e0-2",
+      "size_bytes": 13377770
+    },
+    {
+      "day": "2026-02-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-07.parquet",
+      "etag": "44b8b6a0697a7946d235e335f80d13e5-2",
+      "size_bytes": 11359410
+    },
+    {
+      "day": "2026-02-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-08.parquet",
+      "etag": "498cae0d31062d8b722a84e007048073-2",
+      "size_bytes": 10116613
+    },
+    {
+      "day": "2026-02-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-09.parquet",
+      "etag": "7936f2f5819447dbfc2ab0043c5afd34-2",
+      "size_bytes": 14177707
+    },
+    {
+      "day": "2026-02-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-10.parquet",
+      "etag": "a54aa64f158ab187dc39083bf27cbbe2-2",
+      "size_bytes": 13751571
+    },
+    {
+      "day": "2026-02-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-11.parquet",
+      "etag": "9c798f8e9397392d72c296414c188d31-2",
+      "size_bytes": 13393923
+    },
+    {
+      "day": "2026-02-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-12.parquet",
+      "etag": "0b2f57e12a7f32b1bb664d53ee24b704-2",
+      "size_bytes": 13198485
+    },
+    {
+      "day": "2026-02-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-13.parquet",
+      "etag": "3eb78ad1454fad20dddfee0cbbef032b-2",
+      "size_bytes": 13440534
+    },
+    {
+      "day": "2026-02-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-14.parquet",
+      "etag": "55b73940b62548f2b0a52fc4af0c9752-2",
+      "size_bytes": 9788306
+    },
+    {
+      "day": "2026-02-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-15.parquet",
+      "etag": "d98469d62b9944bfd92096bd72ab91ce-2",
+      "size_bytes": 9652618
+    },
+    {
+      "day": "2026-02-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-16.parquet",
+      "etag": "c8e877c1379e5f948be94b55a9fbdf54-2",
+      "size_bytes": 11921465
+    },
+    {
+      "day": "2026-02-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-17.parquet",
+      "etag": "18362b53f88e8fe16a1a02ac208df7bd-2",
+      "size_bytes": 12407030
+    },
+    {
+      "day": "2026-02-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-18.parquet",
+      "etag": "c9c4b5acb39fef6c15aadad5bcc44514-2",
+      "size_bytes": 14814185
+    },
+    {
+      "day": "2026-02-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-19.parquet",
+      "etag": "800b4359d9c9d35f895146d143c2cfdd-2",
+      "size_bytes": 13681991
+    },
+    {
+      "day": "2026-02-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-20.parquet",
+      "etag": "d4ffdd40de46292be7e387d09c1d86ba-2",
+      "size_bytes": 14143226
+    },
+    {
+      "day": "2026-02-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-21.parquet",
+      "etag": "a450850da80057c6a5ef78afad3986f0-2",
+      "size_bytes": 10947028
+    },
+    {
+      "day": "2026-02-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-22.parquet",
+      "etag": "87bd790466626cdcfdfa2ff0273a4804-2",
+      "size_bytes": 10929708
+    },
+    {
+      "day": "2026-02-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-23.parquet",
+      "etag": "f1554d666dc9f1d2d03d6188dbce9614-2",
+      "size_bytes": 16155309
+    },
+    {
+      "day": "2026-02-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-24.parquet",
+      "etag": "f512dc95a3709d1fbd4bc6f4505e2d10-2",
+      "size_bytes": 14755740
+    },
+    {
+      "day": "2026-02-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-25.parquet",
+      "etag": "4d1958e4c47654e02f257bfe35c50e83-2",
+      "size_bytes": 14990723
+    },
+    {
+      "day": "2026-02-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-26.parquet",
+      "etag": "06f0b92da5eaa6779b714254fa621ad0-2",
+      "size_bytes": 16582036
+    },
+    {
+      "day": "2026-02-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-27.parquet",
+      "etag": "e787902f9af68a8c87ad13f0234bc9da-2",
+      "size_bytes": 15007879
+    },
+    {
+      "day": "2026-02-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/02/2026-02-28.parquet",
+      "etag": "4654a9b49521c424747178bcc46996a4-2",
+      "size_bytes": 12075197
+    },
+    {
+      "day": "2026-03-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-01.parquet",
+      "etag": "fb340b28cbbe781edf447783d599d0bd-2",
+      "size_bytes": 12791326
+    },
+    {
+      "day": "2026-03-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-02.parquet",
+      "etag": "e818907f2fdf7c8a620c679e76c3283d-2",
+      "size_bytes": 16201745
+    },
+    {
+      "day": "2026-03-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-03.parquet",
+      "etag": "eed8b85feb6eef711895e10bfccf08f5-3",
+      "size_bytes": 16923979
+    },
+    {
+      "day": "2026-03-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-04.parquet",
+      "etag": "cb173f63c708d6b7dbc4ba1f25476453-2",
+      "size_bytes": 15121744
+    },
+    {
+      "day": "2026-03-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-05.parquet",
+      "etag": "50fee1306b53e0d47047979bf2d4bfd9-3",
+      "size_bytes": 16831638
+    },
+    {
+      "day": "2026-03-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-06.parquet",
+      "etag": "86e68f68c703c7023db7e1760ed8002e-2",
+      "size_bytes": 14844429
+    },
+    {
+      "day": "2026-03-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-07.parquet",
+      "etag": "d565ec68574508c25c06d97f1ecb7de8-2",
+      "size_bytes": 12257119
+    },
+    {
+      "day": "2026-03-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-08.parquet",
+      "etag": "6e72123e7423444513b141edbf4cefa1-2",
+      "size_bytes": 11509074
+    },
+    {
+      "day": "2026-03-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-09.parquet",
+      "etag": "db3ae2f26cc3902542e6ca9692dedab1-2",
+      "size_bytes": 14729445
+    },
+    {
+      "day": "2026-03-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-10.parquet",
+      "etag": "c5ec91d031d01c76622d669d9ffe680a-2",
+      "size_bytes": 16170351
+    },
+    {
+      "day": "2026-03-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-11.parquet",
+      "etag": "d62d2afbb5c762efd56f5c27e9c755e8-2",
+      "size_bytes": 15295507
+    },
+    {
+      "day": "2026-03-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-12.parquet",
+      "etag": "cc9dbe45b4519572e700a28329a561c3-2",
+      "size_bytes": 15114982
+    },
+    {
+      "day": "2026-03-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-13.parquet",
+      "etag": "a0b3d72cd34af6430335843304482d20-2",
+      "size_bytes": 14437029
+    },
+    {
+      "day": "2026-03-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-14.parquet",
+      "etag": "1765d57dfabfe830ba7eec4bf4db6ae2-2",
+      "size_bytes": 11271984
+    },
+    {
+      "day": "2026-03-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-15.parquet",
+      "etag": "1e5d0a86de9287bf49535cda6e06925d-2",
+      "size_bytes": 12160958
+    },
+    {
+      "day": "2026-03-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-16.parquet",
+      "etag": "c3cceec92e4641f8ee7e73111fbf9e27-2",
+      "size_bytes": 15251033
+    },
+    {
+      "day": "2026-03-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-17.parquet",
+      "etag": "3a97a77a9c6e1c6aebf7d4f4d8b4c642-2",
+      "size_bytes": 13833657
+    },
+    {
+      "day": "2026-03-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-18.parquet",
+      "etag": "ed2b1b637f556ffc7925d7a26a4401e2-2",
+      "size_bytes": 16225348
+    },
+    {
+      "day": "2026-03-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-19.parquet",
+      "etag": "2b023a35732ebecc789d0a350b755662-3",
+      "size_bytes": 16869243
+    },
+    {
+      "day": "2026-03-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-20.parquet",
+      "etag": "14d7031422cf0121fb7bb7fded9c5270-2",
+      "size_bytes": 14990026
+    },
+    {
+      "day": "2026-03-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-21.parquet",
+      "etag": "3ea24959e4901b7e4d059920073f0131-2",
+      "size_bytes": 12538550
+    },
+    {
+      "day": "2026-03-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-22.parquet",
+      "etag": "aad9e52dea94a3532b7f37e0a0317107-2",
+      "size_bytes": 11657324
+    },
+    {
+      "day": "2026-03-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-23.parquet",
+      "etag": "d60d941cc773b8c40b4b56106cc5992f-2",
+      "size_bytes": 10686627
+    },
+    {
+      "day": "2026-03-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-24.parquet",
+      "etag": "97127c827e8205d19c9b75e7b6899e2d-2",
+      "size_bytes": 15006532
+    },
+    {
+      "day": "2026-03-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-25.parquet",
+      "etag": "87069768e4f61058b5ccc7f36624f87f-3",
+      "size_bytes": 19286671
+    },
+    {
+      "day": "2026-03-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-26.parquet",
+      "etag": "6a632523b46b90a920953ccae8bbacc5-3",
+      "size_bytes": 19186658
+    },
+    {
+      "day": "2026-03-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-27.parquet",
+      "etag": "40c36e9d817a68f83f094ca573f62358-2",
+      "size_bytes": 15055174
+    },
+    {
+      "day": "2026-03-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-28.parquet",
+      "etag": "042a4c458ad3ea56a205a80ea7e550d3-3",
+      "size_bytes": 18529339
+    },
+    {
+      "day": "2026-03-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-29.parquet",
+      "etag": "2cf04e5a69defda35393f29dfd549ccc-2",
+      "size_bytes": 10627114
+    },
+    {
+      "day": "2026-03-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-30.parquet",
+      "etag": "62cdfcec425017e2f3e316ba23a39e94-2",
+      "size_bytes": 14564402
+    },
+    {
+      "day": "2026-03-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/03/2026-03-31.parquet",
+      "etag": "40f60608c7f99c524dfb471771784232-2",
+      "size_bytes": 14997132
+    },
+    {
+      "day": "2026-04-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-01.parquet",
+      "etag": "7c3d5890f37513fc36082f40396e35ec-2",
+      "size_bytes": 15989540
+    },
+    {
+      "day": "2026-04-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-02.parquet",
+      "etag": "07335f7d0aac65d24da4811da2e3d76f-2",
+      "size_bytes": 14315440
+    },
+    {
+      "day": "2026-04-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-03.parquet",
+      "etag": "987ee6de086add9c4c55a4bffe283732-2",
+      "size_bytes": 12384342
+    },
+    {
+      "day": "2026-04-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-04.parquet",
+      "etag": "ebfcba578a3580eccbd64a89e12e79ad-2",
+      "size_bytes": 11878224
+    },
+    {
+      "day": "2026-04-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-05.parquet",
+      "etag": "1dcf16720d4a5c55a2e3a258b8905fc9-2",
+      "size_bytes": 11262891
+    },
+    {
+      "day": "2026-04-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-06.parquet",
+      "etag": "50fd670d7009b59b39ad19e516c4ab00-2",
+      "size_bytes": 13534201
+    },
+    {
+      "day": "2026-04-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-07.parquet",
+      "etag": "9d3ede9f00196e0f3471108025d4f0cc-2",
+      "size_bytes": 14284428
+    },
+    {
+      "day": "2026-04-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-08.parquet",
+      "etag": "f2edb209da87c174132910a4ab0cf098-2",
+      "size_bytes": 14650121
+    },
+    {
+      "day": "2026-04-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-09.parquet",
+      "etag": "6d5eb7fdc2da98cf7467886911b0a2b9-3",
+      "size_bytes": 17248468
+    },
+    {
+      "day": "2026-04-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-10.parquet",
+      "etag": "da3424e6dda92f8c23c09044ea61f1dd-2",
+      "size_bytes": 14385330
+    },
+    {
+      "day": "2026-04-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-11.parquet",
+      "etag": "f676bc3fae61d585babf072fb742a5ea-2",
+      "size_bytes": 11753267
+    },
+    {
+      "day": "2026-04-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-12.parquet",
+      "etag": "8c559d98a0d82f4f965798b3e3b6b9e0-2",
+      "size_bytes": 11409330
+    },
+    {
+      "day": "2026-04-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-13.parquet",
+      "etag": "cec25ae150e274daf7061ac70016fe85-3",
+      "size_bytes": 16902255
+    },
+    {
+      "day": "2026-04-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-14.parquet",
+      "etag": "58d037526242f3caa658f07a302f992f-2",
+      "size_bytes": 16187291
+    },
+    {
+      "day": "2026-04-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-15.parquet",
+      "etag": "ed838846e557eae9b218202cca3711a3-2",
+      "size_bytes": 16319078
+    },
+    {
+      "day": "2026-04-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-16.parquet",
+      "etag": "6f1ccf9b2ba5807cfcaf6f94bc0ebc01-2",
+      "size_bytes": 15201049
+    },
+    {
+      "day": "2026-04-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-17.parquet",
+      "etag": "ef842729a1fb3c6101a515bdb11c4c1d-2",
+      "size_bytes": 13640708
+    },
+    {
+      "day": "2026-04-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-18.parquet",
+      "etag": "2021e006fc9287eed1ce6fad89ff6de2-2",
+      "size_bytes": 12680832
+    },
+    {
+      "day": "2026-04-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-19.parquet",
+      "etag": "a02de1812724e74e97f18af4f926f5a1-2",
+      "size_bytes": 11935557
+    },
+    {
+      "day": "2026-04-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-20.parquet",
+      "etag": "45a6ba3a98ed6251968118c0362728c4-3",
+      "size_bytes": 17268781
+    },
+    {
+      "day": "2026-04-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-21.parquet",
+      "etag": "c9efd476861d88c0b8b1da9e3f96f1ae-2",
+      "size_bytes": 16193792
+    },
+    {
+      "day": "2026-04-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-22.parquet",
+      "etag": "aad70f62422cdc19b012891b7dea2628-2",
+      "size_bytes": 14815365
+    },
+    {
+      "day": "2026-04-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-23.parquet",
+      "etag": "624a4c0cf5f56aa154f272fb433158b5-2",
+      "size_bytes": 15005568
+    },
+    {
+      "day": "2026-04-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-24.parquet",
+      "etag": "a2444c3e34ebe0c899f681e05ac7e915-2",
+      "size_bytes": 15127803
+    },
+    {
+      "day": "2026-04-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-25.parquet",
+      "etag": "96e5036dbd346fe5859dbbb99a78d433-2",
+      "size_bytes": 14825801
+    },
+    {
+      "day": "2026-04-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-26.parquet",
+      "etag": "8d2378c8a4c37415db09f0741d66e06c-2",
+      "size_bytes": 12179814
+    },
+    {
+      "day": "2026-04-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-27.parquet",
+      "etag": "1ac30e8caec53d8067a495cdaec13f5e-2",
+      "size_bytes": 15275698
+    },
+    {
+      "day": "2026-04-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-28.parquet",
+      "etag": "0df1f7a1fa8cc06d80bb3d41eb578b68-3",
+      "size_bytes": 17035456
+    },
+    {
+      "day": "2026-04-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-29.parquet",
+      "etag": "7004803e5119f7b37f26ddad09dee879-2",
+      "size_bytes": 14840848
+    },
+    {
+      "day": "2026-04-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/04/2026-04-30.parquet",
+      "etag": "0631c61f7f102e55fa508fe4f70d4e98-2",
+      "size_bytes": 14990231
+    },
+    {
+      "day": "2026-05-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-01.parquet",
+      "etag": "72771602c7e900db8064b1af3c5b50a3-2",
+      "size_bytes": 14484373
+    },
+    {
+      "day": "2026-05-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-02.parquet",
+      "etag": "86e9244b8ab04773ed458417392511c6-2",
+      "size_bytes": 12804054
+    },
+    {
+      "day": "2026-05-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-03.parquet",
+      "etag": "0540b17b9255d75e99bb40695f884c69-2",
+      "size_bytes": 11355414
+    },
+    {
+      "day": "2026-05-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-04.parquet",
+      "etag": "ea189d62a2f885ff2c1815e475db4684-2",
+      "size_bytes": 13711862
+    },
+    {
+      "day": "2026-05-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-05.parquet",
+      "etag": "12951947c8c6e2b012ca385c22d7d72a-2",
+      "size_bytes": 13785455
+    },
+    {
+      "day": "2026-05-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-06.parquet",
+      "etag": "5ab1473de2baf04933eb113c0b191a2f-2",
+      "size_bytes": 14231300
+    },
+    {
+      "day": "2026-05-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-07.parquet",
+      "etag": "2493749b97b954a17e34c31f7ee32dd7-3",
+      "size_bytes": 18652297
+    },
+    {
+      "day": "2026-05-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-08.parquet",
+      "etag": "c90eca3e6557d325c10c49c45cffe978-3",
+      "size_bytes": 18278947
+    },
+    {
+      "day": "2026-05-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-09.parquet",
+      "etag": "bac83f3b85f1100ecac7252d257238eb-2",
+      "size_bytes": 14566819
+    },
+    {
+      "day": "2026-05-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-10.parquet",
+      "etag": "9ea40b5940d8567dd0123c41d3f98a99-2",
+      "size_bytes": 12387045
+    },
+    {
+      "day": "2026-05-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-11.parquet",
+      "etag": "1e5f0dcb48b3db2cde9e7bb96e8303b9-2",
+      "size_bytes": 16387652
+    },
+    {
+      "day": "2026-05-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-12.parquet",
+      "etag": "68db054b3cffb34a0b7c3e725af35045-2",
+      "size_bytes": 15073777
+    },
+    {
+      "day": "2026-05-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-13.parquet",
+      "etag": "d0c39de3d29e12f4876ace41bfd1c079-2",
+      "size_bytes": 16140784
+    },
+    {
+      "day": "2026-05-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-14.parquet",
+      "etag": "7fbe850494de447f8c92cc8eaf676f2f-3",
+      "size_bytes": 17631049
+    },
+    {
+      "day": "2026-05-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-15.parquet",
+      "etag": "da8877b560000df21ac9f3de9e07ec73-2",
+      "size_bytes": 16493871
+    },
+    {
+      "day": "2026-05-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-16.parquet",
+      "etag": "a97315774eadec6e2b5373b20b9fc6b4-2",
+      "size_bytes": 12983973
+    },
+    {
+      "day": "2026-05-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-17.parquet",
+      "etag": "f545c9047d7a4b553a9851a2bede5a76-2",
+      "size_bytes": 10832364
+    },
+    {
+      "day": "2026-05-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-18.parquet",
+      "etag": "7e1d27031f557726a5e7ba59c53cc920-2",
+      "size_bytes": 13680072
+    },
+    {
+      "day": "2026-05-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-19.parquet",
+      "etag": "68eb7d92beb64ea1f858d2a678dba74b-2",
+      "size_bytes": 14392693
+    },
+    {
+      "day": "2026-05-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-20.parquet",
+      "etag": "9c449613b8656edc9b2b542ecfe78292-2",
+      "size_bytes": 14355197
+    },
+    {
+      "day": "2026-05-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-21.parquet",
+      "etag": "0fb8e08b2c68380616aa07a9036827db-2",
+      "size_bytes": 14613782
+    },
+    {
+      "day": "2026-05-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-22.parquet",
+      "etag": "afd02efda58e73b6b90d30194b065065-3",
+      "size_bytes": 17473224
+    },
+    {
+      "day": "2026-05-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-23.parquet",
+      "etag": "cf2a8f0fd614e69ac5ec8d4b048e6eea-2",
+      "size_bytes": 15696548
+    },
+    {
+      "day": "2026-05-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-24.parquet",
+      "etag": "a62b4f689e5ef2f8c0f9240e0a0a7872-2",
+      "size_bytes": 13644714
+    },
+    {
+      "day": "2026-05-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-25.parquet",
+      "etag": "314e78945411f2fd9b8bef5b02e2b70c-2",
+      "size_bytes": 12760167
+    },
+    {
+      "day": "2026-05-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-26.parquet",
+      "etag": "bf5721a7347b72fe2cfd8fbeb393a083-2",
+      "size_bytes": 13219737
+    },
+    {
+      "day": "2026-05-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-27.parquet",
+      "etag": "faa0ca5c871830823ed111e5fa7c68f4-2",
+      "size_bytes": 13743067
+    },
+    {
+      "day": "2026-05-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-28.parquet",
+      "etag": "302d6f897b4808d7ef88e0321d67e172-2",
+      "size_bytes": 13667533
+    },
+    {
+      "day": "2026-05-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-29.parquet",
+      "etag": "ce5099c037cb90f38db28851a54cb75d-2",
+      "size_bytes": 13435953
+    },
+    {
+      "day": "2026-05-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-30.parquet",
+      "etag": "3a9e9468b62c309e90775c7d3ee3c59e-2",
+      "size_bytes": 12269201
+    },
+    {
+      "day": "2026-05-31",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/05/2026-05-31.parquet",
+      "etag": "f1a5341937adf55adcdc1b5414920646-2",
+      "size_bytes": 10435883
+    },
+    {
+      "day": "2026-06-01",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-01.parquet",
+      "etag": "0c69fc37de9cfb56694714be9afe72b4-2",
+      "size_bytes": 14014782
+    },
+    {
+      "day": "2026-06-02",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-02.parquet",
+      "etag": "9b8d83e49238a63849914bebe47102fa-2",
+      "size_bytes": 13644519
+    },
+    {
+      "day": "2026-06-03",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-03.parquet",
+      "etag": "c97cbb5df0d256332592a1797d996fef-2",
+      "size_bytes": 13688719
+    },
+    {
+      "day": "2026-06-04",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-04.parquet",
+      "etag": "3261e496b3995815b030b3fc41bbeb9b-2",
+      "size_bytes": 13652300
+    },
+    {
+      "day": "2026-06-05",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-05.parquet",
+      "etag": "0eb5a97d8b7cdc6517e82dabf285143f-2",
+      "size_bytes": 13065961
+    },
+    {
+      "day": "2026-06-06",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-06.parquet",
+      "etag": "f431c39d308bbed1c17daad46c107785-2",
+      "size_bytes": 12172745
+    },
+    {
+      "day": "2026-06-07",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-07.parquet",
+      "etag": "055f859cf9f3d6f38655b042f7f92db2-2",
+      "size_bytes": 11273759
+    },
+    {
+      "day": "2026-06-08",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-08.parquet",
+      "etag": "48613f777306b6bd996242c7e94f73f8-2",
+      "size_bytes": 14677188
+    },
+    {
+      "day": "2026-06-09",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-09.parquet",
+      "etag": "f6bdd9a07f37ff709c95eae6c5b3aa70-2",
+      "size_bytes": 13677240
+    },
+    {
+      "day": "2026-06-10",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-10.parquet",
+      "etag": "fd0d642f2653444c7b07a597f12926f2-2",
+      "size_bytes": 13762135
+    },
+    {
+      "day": "2026-06-11",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-11.parquet",
+      "etag": "7c5ceedf4b156348709219d1bc7488e4-2",
+      "size_bytes": 13917573
+    },
+    {
+      "day": "2026-06-12",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-12.parquet",
+      "etag": "b56914eeccc7df985e60e511b535fc2d-2",
+      "size_bytes": 16299542
+    },
+    {
+      "day": "2026-06-13",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-13.parquet",
+      "etag": "b2fcc59bd2124cae6b1d0d8313871ba0-2",
+      "size_bytes": 12864938
+    },
+    {
+      "day": "2026-06-14",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-14.parquet",
+      "etag": "247f21668a33d2e5ebf119515f475d79-2",
+      "size_bytes": 10366231
+    },
+    {
+      "day": "2026-06-15",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-15.parquet",
+      "etag": "a19d97343561fee600af24eda2faaa35-2",
+      "size_bytes": 14387122
+    },
+    {
+      "day": "2026-06-16",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-16.parquet",
+      "etag": "26710873fef0ccc86c3cb9a28bc14cd2-2",
+      "size_bytes": 14367468
+    },
+    {
+      "day": "2026-06-17",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-17.parquet",
+      "etag": "e996f16da964431acd0250358098da84-2",
+      "size_bytes": 16341998
+    },
+    {
+      "day": "2026-06-18",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-18.parquet",
+      "etag": "4bb17ad7d54bc26ae798e8b6a52ee6eb-3",
+      "size_bytes": 17956161
+    },
+    {
+      "day": "2026-06-19",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-19.parquet",
+      "etag": "db4b0b18e3c3b9d441401cf49227b224-2",
+      "size_bytes": 14324889
+    },
+    {
+      "day": "2026-06-20",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-20.parquet",
+      "etag": "a70445c51232703ff69e23b5c47b6685-2",
+      "size_bytes": 12236935
+    },
+    {
+      "day": "2026-06-21",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-21.parquet",
+      "etag": "c2a3f6c7a552435a7c8a2c7cdd3e69e4-2",
+      "size_bytes": 10920659
+    },
+    {
+      "day": "2026-06-22",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-22.parquet",
+      "etag": "eb411affd82922d94704f2aea7d6a40e-2",
+      "size_bytes": 16459061
+    },
+    {
+      "day": "2026-06-23",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-23.parquet",
+      "etag": "ac5d5566b24719f35a635422a7ac5580-2",
+      "size_bytes": 16494788
+    },
+    {
+      "day": "2026-06-24",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-24.parquet",
+      "etag": "9d9b671c15f2720f0e4f16042c87ac17-2",
+      "size_bytes": 13777952
+    },
+    {
+      "day": "2026-06-25",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-25.parquet",
+      "etag": "6696faefa42c945ec6e2ed17c7a2d251-2",
+      "size_bytes": 14944908
+    },
+    {
+      "day": "2026-06-26",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-26.parquet",
+      "etag": "478a75df5d5a0093b9f4f8b7786a2816-2",
+      "size_bytes": 15093037
+    },
+    {
+      "day": "2026-06-27",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-27.parquet",
+      "etag": "65999332993a938e9d2db8c28b24f1c1-2",
+      "size_bytes": 11859499
+    },
+    {
+      "day": "2026-06-28",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-28.parquet",
+      "etag": "df0c1668211654c2a8d9943809df872e-2",
+      "size_bytes": 12230913
+    },
+    {
+      "day": "2026-06-29",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-29.parquet",
+      "etag": "6efde1b7e6962461a115ebb182129bca-2",
+      "size_bytes": 16266338
+    },
+    {
+      "day": "2026-06-30",
+      "url": "https://anaconda-package-data.s3.amazonaws.com/conda/hourly/2026/06/2026-06-30.parquet",
+      "etag": "1a763ef2a4a4f4865a17db5bbabce3b0-2",
+      "size_bytes": 16606946
+    }
+  ],
+  "manifest_sha256": "3b3663050feb220fad23f4f5e9611e85a0202745b65b74a19ce07cf15375857b"
+}

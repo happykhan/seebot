@@ -1,0 +1,177 @@
+schema_version: 2
+project:
+  id: famsa
+  name: FAMSA
+  description: Builds multiple-sequence alignments.
+  primary_language: cpp
+  primary_category: sequence alignment
+  tags:
+  - FASTA
+  - alignment
+  include: true
+  exclusion_code: null
+repository:
+  id: refresh-bio-famsa
+  url: https://github.com/refresh-bio/FAMSA
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: d03b85c3eba5da1f44991404b745ef6ad1235102
+  historical_commits:
+    '2021-07-01': 0c425589e320fe14d43941f5236cc380dce65d68
+    '2022-07-01': 760578ec0b1c8992580760c6f3c57295ab1f0f88
+    '2023-07-01': 26e61df9d0600be7cc7ce334c361dc62fc70521d
+    '2024-07-01': 624b855a69550b07a5204183fa8371686703b015
+    '2025-07-01': 45c9b2b4d15e4526212a0e968f130395eef05bb7
+  archived: false
+discovery:
+  source: bioconda
+  package_name: famsa
+  rank: 260
+  download_count: 106343
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-famsa-2.4.1
+  adapter: pixi
+  artifact: famsa
+  version: 2.4.1
+  build: h9ee0642_0
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/famsa-2.4.1-h9ee0642_0.tar.bz2
+  artifact_sha256: c4a54b4199ffa7e63b162dc3514889d3481531cdd9fd41b86e83bc049630cd93
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+  generated_paths: []
+  vendored_paths:
+  - libs
+  excluded_paths:
+  - test
+  - img
+interfaces:
+  primary: famsa
+  executables:
+  - famsa
+  help_commands:
+  - - famsa
+    - -help
+  version_commands:
+  - - famsa
+    - -help
+  no_argument_policy: help_or_usage_error
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: FAMSA documents STDIN and STDOUT sentinel arguments.
+  command:
+  - famsa
+  - -t
+  - '1'
+  - STDIN
+  - STDOUT
+  fixture_ids:
+  - core-alignment-fasta
+  stdin_fixture_id: core-alignment-fasta
+  expect_stdout: true
+  stdout_parser: fasta
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-alignment-fasta
+  command:
+  - famsa
+  - -t
+  - '1'
+  - /fixtures/core/alignment.fasta
+  - aligned.fasta
+  expected_outputs:
+  - path: aligned.fasta
+    nonempty: true
+    parser: fasta
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: An alignment input path is required.
+    command:
+    - famsa
+    - /fixtures/bad/missing.fasta
+    - out.fasta
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte sequence file is supplied.
+    command:
+    - famsa
+    - /fixtures/bad/empty.dat
+    - out.fasta
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: The FASTA structure is malformed.
+    command:
+    - famsa
+    - /fixtures/bad/malformed.fasta
+    - out.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid VCF is supplied instead of FASTA.
+    command:
+    - famsa
+    - /fixtures/core/variants.vcf
+    - out.fasta
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - famsa
+    - -seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: The thread-count value is deliberately invalid.
+    command:
+    - famsa
+    - -t
+    - not-an-integer
+    - /fixtures/core/alignment.fasta
+    - out.fasta
+    fixture_id: core-alignment-fasta
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The fixture mount is read-only.
+    command:
+    - famsa
+    - /fixtures/core/alignment.fasta
+    - /fixtures/forbidden.fasta
+    fixture_id: core-alignment-fasta
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-15T21:30:00Z'
+  curator_record: data/curation/famsa-curator.json
+  reviewer_record: data/curation/famsa-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

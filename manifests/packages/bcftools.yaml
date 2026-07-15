@@ -1,0 +1,184 @@
+schema_version: 2
+project:
+  id: bcftools
+  name: BCFtools
+  description: Views, filters, and transforms variant-call files.
+  primary_language: c
+  primary_category: variant processing
+  tags:
+  - VCF
+  - BCF
+  include: true
+  exclusion_code: null
+repository:
+  id: samtools-bcftools
+  url: https://github.com/samtools/bcftools
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 7813ff9933ae6d56ae29330adbe4d49e7792a550
+  historical_commits:
+    '2021-07-01': a2fab1ace85956e2d871bd00cd5b74c41154c25f
+    '2022-07-01': a828884e5d46afc39d34f99e929f7deb22837ec5
+    '2023-07-01': b7b2a3299cfe0a1b840df6e178eccb299b134d57
+    '2024-07-01': a06755f34e68ee6ac45b09d29b4bf71c3d8e27dd
+    '2025-07-01': 458f97a100c349243cf78f6f7961e77869b526f2
+  archived: false
+discovery:
+  source: bioconda
+  package_name: bcftools
+  rank: 10
+  download_count: 1458200
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-bcftools-1.23.1
+  adapter: pixi
+  artifact: bcftools
+  version: 1.23.1
+  build: hb2cee57_0
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/bcftools-1.23.1-hb2cee57_0.conda
+  artifact_sha256: 7a1727a4c13a30437d6dabe9aa821d0d5fd0e4a49233cc82e8b10977ceb7efb7
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  language_roots:
+    c:
+    - .
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - doc
+  - .ci_helpers
+  - mpileup_bench
+interfaces:
+  primary: bcftools
+  executables:
+  - bcftools
+  help_commands:
+  - - bcftools
+    - --help
+  - - bcftools
+    - view
+    - --help
+  version_commands:
+  - - bcftools
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: bcftools view accepts VCF from standard input and writes VCF to standard output.
+  command:
+  - bcftools
+  - view
+  - -Ov
+  - '-'
+  fixture_ids:
+  - core-variants-vcf
+  stdin_fixture_id: core-variants-vcf
+  expect_stdout: true
+  stdout_parser: vcf
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-variants-vcf
+  command:
+  - bcftools
+  - view
+  - -Ov
+  - -o
+  - filtered.vcf
+  - /fixtures/core/variants.vcf
+  expected_outputs:
+  - path: filtered.vcf
+    nonempty: true
+    parser: vcf
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The view command requires an existing variant file.
+    command:
+    - bcftools
+    - view
+    - /fixtures/bad/missing.vcf
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte VCF has no header.
+    command:
+    - bcftools
+    - view
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: The VCF position field is malformed.
+    command:
+    - bcftools
+    - view
+    - /fixtures/bad/invalid.vcf
+    fixture_id: bad-invalid-vcf
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid FASTA is supplied to a variant reader.
+    command:
+    - bcftools
+    - view
+    - /fixtures/core/reference.fasta
+    fixture_id: core-reference-fasta
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - bcftools
+    - view
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: The thread-count value is deliberately invalid.
+    command:
+    - bcftools
+    - view
+    - --threads
+    - not-an-integer
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The fixture mount is read-only.
+    command:
+    - bcftools
+    - view
+    - -o
+    - /fixtures/forbidden.vcf
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-15T21:30:00Z'
+  curator_record: data/curation/bcftools-curator.json
+  reviewer_record: data/curation/bcftools-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

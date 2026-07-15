@@ -1,5 +1,6 @@
 schema_version: 2
-frozen: false
+frozen: true
+frozen_at: '2026-07-15'
 snapshot_date: 2026-07-01
 historical_snapshot_dates:
   - 2021-07-01
@@ -103,6 +104,14 @@ checks:
     historical: true
     comparison: same language, analyzer, and configuration only
 
+  - id: SRC-DEAD-CODE-001
+    domain: source
+    kind: measurement
+    title: Dead-code candidates
+    values: [analyzer, candidate_count]
+    historical: true
+    notes: Candidates are indicators and are not treated as confirmed dead code.
+
   - id: DEP-ADVISORY-001
     domain: dependencies
     kind: measurement
@@ -120,6 +129,12 @@ checks:
     domain: usage
     kind: contract
     title: Version interface identifies the audited installation
+    timeout_seconds: 15
+
+  - id: CLI-NOARGS-001
+    domain: usage
+    kind: contract
+    title: No-argument behaviour follows the documented interface policy
     timeout_seconds: 15
 
   - id: CLI-VALID-RUN-001

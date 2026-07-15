@@ -1,0 +1,174 @@
+schema_version: 2
+project:
+  id: minced
+  name: MinCED
+  description: Finds CRISPR arrays in assembled sequences.
+  primary_language: java
+  primary_category: CRISPR detection
+  tags:
+  - FASTA
+  - GFF3
+  - CRISPR
+  include: true
+  exclusion_code: null
+repository:
+  id: ctskennerton-minced
+  url: https://github.com/ctSkennerton/minced
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 10f0a26eaedad0f5969e79def0721b20db2626cd
+  historical_commits:
+    '2021-07-01': 772d7eea0ca8d7d0b9ff717ca21f95782e4c5d40
+    '2022-07-01': 772d7eea0ca8d7d0b9ff717ca21f95782e4c5d40
+    '2023-07-01': 10f0a26eaedad0f5969e79def0721b20db2626cd
+    '2024-07-01': 10f0a26eaedad0f5969e79def0721b20db2626cd
+    '2025-07-01': 10f0a26eaedad0f5969e79def0721b20db2626cd
+  archived: false
+discovery:
+  source: bioconda
+  package_name: minced
+  rank: 327
+  download_count: 75913
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-minced-0.4.2
+  adapter: pixi
+  artifact: minced
+  version: 0.4.2
+  build: hdfd78af_1
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/minced-0.4.2-hdfd78af_1.tar.bz2
+  artifact_sha256: 4b71d7f5020b94d80effdb25c33567c51d4e98d3e80c718cd414ca0161d10bef
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  language_roots:
+    java:
+    - .
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - t
+interfaces:
+  primary: minced
+  executables:
+  - minced
+  help_commands:
+  - - minced
+    - --help
+  version_commands:
+  - - minced
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: With no output path MinCED writes its report to standard output.
+  command:
+  - minced
+  - -minNR
+  - '2'
+  - /fixtures/minced/crispr.fasta
+  fixture_ids:
+  - minced-synthetic-crispr
+  stdin_fixture_id: null
+  expect_stdout: true
+  stdout_parser: text
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - minced-synthetic-crispr
+  command:
+  - minced
+  - -minNR
+  - '2'
+  - /fixtures/minced/crispr.fasta
+  - crisprs.txt
+  - crisprs.gff
+  expected_outputs:
+  - path: crisprs.txt
+    nonempty: true
+    parser: text
+  - path: crisprs.gff
+    nonempty: true
+    parser: gff3
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: A FASTA input path is required.
+    command:
+    - minced
+    - /fixtures/bad/missing.fasta
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte FASTA is supplied.
+    command:
+    - minced
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: The FASTA structure is malformed.
+    command:
+    - minced
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid VCF is supplied instead of FASTA.
+    command:
+    - minced
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - minced
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: The minimum-repeat value is deliberately invalid.
+    command:
+    - minced
+    - -minNR
+    - not-an-integer
+    - /fixtures/minced/crispr.fasta
+    fixture_id: minced-synthetic-crispr
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The fixture mount is read-only.
+    command:
+    - minced
+    - /fixtures/minced/crispr.fasta
+    - /fixtures/forbidden.txt
+    fixture_id: minced-synthetic-crispr
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-15T21:30:00Z'
+  curator_record: data/curation/minced-curator.json
+  reviewer_record: data/curation/minced-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

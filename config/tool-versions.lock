@@ -1,24 +1,36 @@
-schema_version: 1
-note: Resolved versions are also preserved in uv.lock and each run metadata record.
-tools:
+schema_version: 2
+frozen_at: '2026-07-15'
+runtime:
   seebot: 0.1.0
-  python: ">=3.12"
-  ruff: ">=0.12,<1"
-  pylint: ">=3.3,<5"
-  radon: ">=6,<7"
-  interrogate: ">=1.7,<2"
-  vulture: ">=2.14,<3"
-  bandit: ">=1.8,<2"
-  perlcritic: "PIN_AT_PILOT_FREEZE"
-  perl_metrics_simple: "PIN_AT_PILOT_FREEZE"
-  pod_coverage: "PIN_AT_PILOT_FREEZE"
-  clang_tidy: "PIN_AT_PILOT_FREEZE"
-  cppcheck: "PIN_AT_PILOT_FREEZE"
-  pmccabe: "PIN_AT_PILOT_FREEZE"
-  doxygen: "PIN_AT_PILOT_FREEZE"
-  rust: "PIN_AT_PILOT_FREEZE"
-  rust_code_analysis: "PIN_AT_PILOT_FREEZE"
-  cargo_geiger: "PIN_AT_PILOT_FREEZE"
-  cargo_audit: "PIN_AT_PILOT_FREEZE"
-  tokei: "PIN_AT_PILOT_FREEZE"
-  jscpd: "PIN_AT_PILOT_FREEZE"
+  pixi: 0.72.2
+  container_image: ghcr.io/prefix-dev/pixi@sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e
+  platform: linux/amd64
+source_structure:
+  lizard: 1.23.0
+  duplication: seebot-exact-normalized-blocks-v1
+source_analyzers:
+  python: 3.12.*
+  ruff: 0.15.21
+  pylint: 4.0.6
+  bandit: 1.9.4
+  vulture: '2.15'
+  cppcheck: 2.21.0
+  pmd: 7.19.0
+  cython-lint: 0.21.0
+  rust: 1.97.0
+  cargo-audit: 0.22.1
+  osv-scanner: 2.4.0
+  perl: 5.32.*
+  perlcritic: '1.156'
+analyzer_environment_lock_sha256: c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40
+frozen_inputs:
+  rubric: 1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec
+  exclusions: 49d9e5aa919d585d0309e25479d2318e7182162d035ffd7dde6c71b572b9d2b9
+  audit: 88a9ff595412590cbfba4d4e4365173ef685d92eeea9001f963ab825be7730b5
+  ruff_config: 59a64ea3b691004e3b4aaf2579aad9a88c1c5d0c40b37f325b0500d8cfa3f34c
+  pylint_config: 5d11606d40ca302b981ecef25173728cf32229a3a8765fbfa2482e7f02dc3254
+  perlcritic_config: 158e837b609c24e6f6961634918c96255f3427eda503ab231bbd1fe7bdcc7997
+  check_result_schema: 50a9302184a99817567fb9185cd12035873f61664b8501ea287b38021a6bd7ea
+  fixture_catalog_schema: 0d214fc56bc6f9079b0bc6bd0588ca0f0b7a0fb8c5cff21f441a95e3692fd6eb
+  manual_review_schema: b8f8515393b77286305fd8ff5d1a14945277c311a00bc9270cf78fbef2a3fa30
+  project_manifest_schema: c71f435fd4c3167408239eda78a1c0fc0ea81cd2d4de735bf39b7bf4d42897b0

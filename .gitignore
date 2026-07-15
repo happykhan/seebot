@@ -6,6 +6,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.seebot-cache/
 .coverage
 htmlcov/
 dist/
@@ -17,5 +18,8 @@ web/vite.config.js
 web/vite.config.d.ts
 evidence/
 artifacts/
-data/raw/
+data/raw/*
+!data/raw/anaconda-downloads/
+data/raw/anaconda-downloads/*
+!data/raw/anaconda-downloads/download-manifest.json
 work/

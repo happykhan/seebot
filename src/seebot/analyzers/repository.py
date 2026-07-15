@@ -1,9 +1,10 @@
-"""Repository-practice observations at a recorded upstream commit."""
+"""Repository practices and activity at the canonical GitHub snapshot."""
 
 from __future__ import annotations
 
-import json
-import time
+import re
+import shutil
+import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -11,44 +12,80 @@ from urllib.parse import urlparse
 
 import httpx
 
-from seebot.evidence import (
-    audit_code_identity,
-    environment_id,
-    evidence_path,
-    sha256_file,
-)
-from seebot.models import CheckResult, EvidencePaths, ResultKind, Status, ToolIdentity
+from seebot.models import CheckResult, Status, ToolIdentity
+from seebot.observations import write_measurement
+
+CUTOFF = datetime(2026, 7, 1, 23, 59, 59, tzinfo=UTC)
+ACTIVITY_START = datetime(2025, 7, 2, tzinfo=UTC)
+RELEASE_START = datetime(2024, 7, 2, tzinfo=UTC)
+
+
+def github_coordinates(repository_url: str) -> tuple[str, str]:
+    parsed = urlparse(repository_url)
+    parts = parsed.path.strip("/").removesuffix(".git").split("/")
+    if parsed.hostname != "github.com" or len(parts) != 2:
+        raise ValueError(f"Unsupported GitHub repository URL: {repository_url}")
+    return parts[0], parts[1]
+
+
+def clone_snapshot(repository_url: str, commit: str, target: Path) -> Path:
+    """Create a disposable checkout containing only the audited commit."""
+    if target.exists():
+        shutil.rmtree(target)
+    target.mkdir(parents=True)
+    commands = (
+        ["git", "init", "--quiet"],
+        ["git", "remote", "add", "origin", repository_url],
+        ["git", "fetch", "--quiet", "--depth", "1", "origin", commit],
+        ["git", "checkout", "--quiet", "--detach", "FETCH_HEAD"],
+    )
+    for command in commands:
+        completed = subprocess.run(command, cwd=target, capture_output=True, text=True, check=False)
+        if completed.returncode != 0:
+            raise RuntimeError(f"Snapshot checkout failed: {completed.stderr.strip()}")
+    observed = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=target, capture_output=True, text=True, check=True
+    ).stdout.strip()
+    if observed != commit:
+        raise RuntimeError(f"Expected snapshot {commit}, checked out {observed}")
+    return target
 
 
 def repository_facts(paths: list[str]) -> dict[str, bool | int | dict[str, int]]:
+    """Path-only facts retained for deterministic inventory tests and reporting."""
     lowered = [path.lower() for path in paths]
     names = {Path(path).name.lower() for path in paths}
-    workflow_paths = [path for path in lowered if path.startswith(".github/workflows/")]
-    test_paths = [
+    workflows = [path for path in lowered if path.startswith(".github/workflows/")]
+    tests = [
         path
         for path in lowered
-        if path.startswith(("test/", "tests/")) or "/tests/" in path or "/test/" in path
+        if path.startswith(("test/", "tests/", "t/", "src/test/"))
+        or "/tests/" in path
+        or "/test/" in path
     ]
-    suffix_groups = {
+    suffixes = {
         "python": {".py", ".pyx"},
         "perl": {".pl", ".pm", ".t"},
         "c": {".c", ".h"},
         "cpp": {".cc", ".cpp", ".cxx", ".hh", ".hpp", ".hxx"},
         "rust": {".rs"},
+        "java": {".java"},
     }
-    language_file_counts = {
-        language: sum(Path(path).suffix.lower() in suffixes for path in lowered)
-        for language, suffixes in suffix_groups.items()
+    language_counts = {
+        language: sum(Path(path).suffix.lower() in endings for path in lowered)
+        for language, endings in suffixes.items()
     }
-    language_file_counts = {key: value for key, value in language_file_counts.items() if value}
+    language_counts = {key: value for key, value in language_counts.items() if value}
     test_configs = {
         "pytest.ini",
         "tox.ini",
         "noxfile.py",
         "conftest.py",
-        "jest.config.js",
-        "jest.config.ts",
-        "phpunit.xml",
+        "cargo.toml",
+        "pom.xml",
+        "build.gradle",
+        "build.gradle.kts",
+        "ctesttestfile.cmake",
     }
     dependency_manifests = {
         "pyproject.toml",
@@ -64,6 +101,8 @@ def repository_facts(paths: list[str]) -> dict[str, bool | int | dict[str, int]]
         "cmakelists.txt",
         "configure.ac",
         "meson.build",
+        "pom.xml",
+        "build.gradle",
     }
     lockfiles = {
         "uv.lock",
@@ -78,8 +117,8 @@ def repository_facts(paths: list[str]) -> dict[str, bool | int | dict[str, int]]
     }
     return {
         "file_count": len(paths),
-        "source_file_count": sum(language_file_counts.values()),
-        "language_file_counts": language_file_counts,
+        "source_file_count": sum(language_counts.values()),
+        "language_file_counts": language_counts,
         "readme_present": any(name.startswith("readme") for name in names),
         "licence_file_present": bool(
             names
@@ -103,20 +142,19 @@ def repository_facts(paths: list[str]) -> dict[str, bool | int | dict[str, int]]
         "changelog_present": any(
             name.startswith(("changelog", "changes", "history")) for name in names
         ),
-        "ci_workflow_present": bool(workflow_paths),
-        "ci_workflow_count": len(workflow_paths),
+        "ci_workflow_present": bool(workflows),
+        "ci_workflow_count": len(workflows),
         "dependency_automation_present": any(
-            path
-            in {".github/dependabot.yml", ".github/dependabot.yaml", "renovate.json", ".renovaterc"}
+            path in {".github/dependabot.yml", ".github/dependabot.yaml", "renovate.json"}
             or Path(path).name.startswith("renovate")
             for path in lowered
         ),
         "release_automation_present": any(
             any(token in Path(path).stem for token in ("release", "publish", "deploy"))
-            for path in workflow_paths
+            for path in workflows
         ),
-        "test_path_present": bool(test_paths),
-        "test_file_count": len(test_paths),
+        "test_path_present": bool(tests),
+        "test_file_count": len(tests),
         "test_config_present": bool(names & test_configs),
         "test_data_present": any(
             path.startswith(("test/data/", "tests/data/", "test/fixtures/", "tests/fixtures/"))
@@ -140,97 +178,314 @@ def repository_facts(paths: list[str]) -> dict[str, bool | int | dict[str, int]]
     }
 
 
-def run_repository_observation(
+def _text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+
+
+def repository_practices(root: Path) -> dict[str, Any]:
+    paths = sorted(
+        path.relative_to(root).as_posix()
+        for path in root.rglob("*")
+        if path.is_file() and ".git" not in path.parts
+    )
+    facts = repository_facts(paths)
+    readme_paths = [
+        path for path in root.iterdir() if path.is_file() and path.name.lower().startswith("readme")
+    ]
+    readme = "\n".join(_text(path) for path in readme_paths)
+    lowered_readme = readme.lower()
+    recognised: list[str] = []
+    frameworks: set[str] = set()
+    for relative in paths:
+        lower = relative.lower()
+        name = Path(relative).name.lower()
+        content = _text(root / relative) if (root / relative).stat().st_size < 2_000_000 else ""
+        if (
+            re.search(r"(^|/)(test_[^/]+|[^/]+_test)\.py$", lower)
+            or re.search(r"(^|/)t/[^/]+\.t$", lower)
+            or lower.startswith("src/test/java/")
+            or re.search(r"(^|/)tests?/.*\.(?:c|cc|cpp|cxx|rs)$", lower)
+            or "#[test]" in content.replace(" ", "")
+        ):
+            recognised.append(relative)
+        for framework, pattern in {
+            "pytest": r"pytest|@pytest\.",
+            "unittest": r"unittest|testcase",
+            "prove/Test::More": r"test::more|\bprove\b",
+            "CTest": r"enable_testing|add_test|\bctest\b",
+            "GoogleTest": r"gtest|google\s*test",
+            "Catch2": r"catch2|catch_test_case|test_case\s*\(",
+            "Rust test": r"#\s*\[\s*test\s*\]|cargo\s+test",
+            "JUnit": r"org\.junit|junit-jupiter|@test",
+        }.items():
+            if re.search(pattern, content, re.IGNORECASE):
+                frameworks.add(framework)
+        if name in {"pytest.ini", "tox.ini", "noxfile.py"}:
+            frameworks.add("pytest")
+    workflows = [path for path in paths if path.lower().startswith(".github/workflows/")]
+    verification: list[str] = []
+    workflow_types: set[str] = set()
+    verification_patterns = {
+        "test": (
+            r"pytest|unittest|\bprove\b|cargo\s+test|\bctest\b|mvn\s+test|"
+            r"gradle\w*\s+test|make\s+(?:check|test)"
+        ),
+        "lint": r"ruff|pylint|perlcritic|cppcheck|clang-tidy|cargo\s+clippy|checkstyle",
+        "build/check": (
+            r"cargo\s+(?:build|check)|cmake\s|make\b|mvn\s+(?:package|verify)|"
+            r"gradle\w*\s+build"
+        ),
+    }
+    for relative in workflows:
+        content = _text(root / relative)
+        matched = [
+            kind
+            for kind, pattern in verification_patterns.items()
+            if re.search(pattern, content, re.IGNORECASE)
+        ]
+        if matched:
+            verification.append(relative)
+            workflow_types.update(matched)
+    citation = bool(facts["citation_metadata_present"]) or bool(
+        re.search(r"\bcit(?:e|ation)\b|bibtex|doi\.org/", lowered_readme)
+    )
+    installation = bool(
+        re.search(
+            r"\binstall(?:ation|ing)?\b|pip\s+install|conda\s+install|cargo\s+install",
+            lowered_readme,
+        )
+    )
+    usage = bool(re.search(r"\busage\b|\bexamples?\b|```(?:bash|shell|console|sh)", lowered_readme))
+    return facts | {
+        "installation_instructions_present": installation,
+        "usage_example_present": usage,
+        "citation_instructions_present": citation,
+        "recognised_test_files": recognised,
+        "test_frameworks": sorted(frameworks),
+        "verification_workflows": verification,
+        "verification_workflow_types": sorted(workflow_types),
+    }
+
+
+def _github_headers() -> dict[str, str]:
+    token = subprocess.run(
+        ["gh", "auth", "token"], capture_output=True, text=True, check=False
+    ).stdout.strip()
+    headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    return headers
+
+
+def _pages(client: httpx.Client, url: str, *, maximum_pages: int = 20) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for page in range(1, maximum_pages + 1):
+        response = client.get(url, params={"per_page": 100, "page": page})
+        response.raise_for_status()
+        payload = response.json()
+        if not isinstance(payload, list):
+            raise ValueError("GitHub list endpoint returned a non-list payload")
+        rows.extend(payload)
+        if len(payload) < 100:
+            break
+    return rows
+
+
+def github_activity(repository_url: str) -> dict[str, Any]:
+    owner, repository = github_coordinates(repository_url)
+    base = f"https://api.github.com/repos/{owner}/{repository}"
+    with httpx.Client(headers=_github_headers(), timeout=60, follow_redirects=True) as client:
+        repository_response = client.get(base)
+        repository_response.raise_for_status()
+        repository_payload = repository_response.json()
+        activity_commits = _pages(
+            client,
+            (f"{base}/commits?since={ACTIVITY_START.isoformat()}&until={CUTOFF.isoformat()}"),
+            maximum_pages=100,
+        )
+        recent_commits = _pages(
+            client, f"{base}/commits?until={CUTOFF.isoformat()}", maximum_pages=5
+        )
+        releases = _pages(client, f"{base}/releases", maximum_pages=5)
+    non_bot_commits: list[dict[str, Any]] = []
+    seen_commits: set[str] = set()
+    for row in [*activity_commits, *recent_commits]:
+        sha = str(row.get("sha") or "")
+        if sha and sha in seen_commits:
+            continue
+        seen_commits.add(sha)
+        author = row.get("author") or {}
+        commit_author = (row.get("commit") or {}).get("author") or {}
+        identity = f"{author.get('login', '')} {commit_author.get('name', '')}".lower()
+        if any(
+            token in identity for token in ("[bot]", "dependabot", "renovate", "github-actions")
+        ):
+            continue
+        non_bot_commits.append(row)
+    all_dates = [
+        datetime.fromisoformat(row["commit"]["author"]["date"].replace("Z", "+00:00"))
+        for row in non_bot_commits
+        if row.get("commit", {}).get("author", {}).get("date")
+    ]
+    dates = [date for date in all_dates if date >= ACTIVITY_START]
+    all_release_dates = [
+        datetime.fromisoformat(row["published_at"].replace("Z", "+00:00"))
+        for row in releases
+        if row.get("published_at")
+        and datetime.fromisoformat(row["published_at"].replace("Z", "+00:00")) <= CUTOFF
+    ]
+    release_dates = [date for date in all_release_dates if date >= RELEASE_START]
+    latest_commit = max(all_dates, default=None)
+    latest_release = max(all_release_dates, default=None)
+    return {
+        "archived": bool(repository_payload.get("archived")),
+        "days_since_last_non_bot_commit": (CUTOFF - latest_commit).days if latest_commit else None,
+        "commits_last_12_months": len(dates),
+        "active_months_last_12_months": len({date.strftime("%Y-%m") for date in dates}),
+        "days_since_latest_release": (CUTOFF - latest_release).days if latest_release else None,
+        "releases_last_24_months": len(release_dates),
+        "latest_release_tag": next(
+            (
+                row.get("tag_name")
+                for row in releases
+                if row.get("published_at")
+                and datetime.fromisoformat(row["published_at"].replace("Z", "+00:00"))
+                == latest_release
+            ),
+            None,
+        ),
+    }
+
+
+def run_repository_observations(
     *,
-    repository_url: str,
-    commit: str,
-    package_id: str,
+    manifest: dict[str, Any],
+    checkout: Path,
     run_id: str,
     evidence_root: Path,
     config_path: Path,
-    manifest_sha256: str,
     force: bool = False,
-) -> CheckResult:
-    check_id = "REPO-PRACTICES-001"
-    check_dir = evidence_root / run_id / package_id / check_id
-    result_path = check_dir / "result.json"
-    if result_path.exists() and not force:
-        return CheckResult.model_validate_json(result_path.read_text(encoding="utf-8"))
-    check_dir.mkdir(parents=True, exist_ok=True)
-    stdout_path = check_dir / "stdout.json"
-    stderr_path = check_dir / "stderr.txt"
-    metadata_path = check_dir / "metadata.json"
-
-    parsed = urlparse(repository_url)
-    parts = parsed.path.strip("/").removesuffix(".git").split("/")
-    if parsed.hostname != "github.com" or len(parts) != 2:
-        raise ValueError(f"Unsupported upstream repository URL: {repository_url}")
-    owner, repository = parts
-    api_url = f"https://api.github.com/repos/{owner}/{repository}/git/trees/{commit}?recursive=1"
-    started = datetime.now(UTC)
-    clock = time.monotonic()
-    status = Status.ERROR
-    observed: dict[str, Any] = {}
-    notes: str | None = None
-    response_body = ""
-    stderr = ""
-    try:
-        response = httpx.get(api_url, follow_redirects=True, timeout=60)
-        response.raise_for_status()
-        response_body = response.text
-        payload = response.json()
-        paths = [item["path"] for item in payload.get("tree", []) if item.get("type") == "blob"]
-        observed = repository_facts(paths) | {
-            "repository_url": repository_url,
-            "observed_commit": commit,
-            "tree_truncated": bool(payload.get("truncated", False)),
-        }
-        status = Status.PASS
-    except (httpx.HTTPError, ValueError, KeyError, json.JSONDecodeError) as exc:
-        stderr = f"{type(exc).__name__}: {exc}\n"
-        observed = {"repository_url": repository_url, "observed_commit": commit}
-        notes = "Repository metadata collection failed; no project judgement was inferred."
-    duration = time.monotonic() - clock
-    stdout_path.write_text(response_body, encoding="utf-8")
-    stderr_path.write_text(stderr, encoding="utf-8")
-    metadata_path.write_text(
-        json.dumps(
-            {
-                "schema_version": 1,
-                "request_url": api_url,
-                "started_at": started.isoformat().replace("+00:00", "Z"),
-                "duration_seconds": duration,
-                "environment_id": environment_id(),
-                "manifest_sha256": manifest_sha256,
-                **audit_code_identity(),
-            },
-            indent=2,
+) -> list[CheckResult]:
+    project_id = manifest["project"]["id"]
+    repository_url = manifest["repository"]["url"]
+    commit = manifest["repository"]["snapshot_commit"]
+    snapshot_date = manifest["repository"]["snapshot_date"]
+    if not repository_url or not commit:
+        raise ValueError(f"{project_id} has no resolved repository snapshot")
+    owner, repository = github_coordinates(repository_url)
+    repository_id = f"{owner}/{repository}"
+    practices = repository_practices(checkout)
+    activity = github_activity(repository_url)
+    tool = ToolIdentity(name="Seebot repository observer", version="2")
+    documentation = {
+        key: practices[key]
+        for key in (
+            "readme_present",
+            "licence_file_present",
+            "citation_instructions_present",
+            "installation_instructions_present",
+            "usage_example_present",
+            "documentation_path_present",
+            "changelog_present",
+            "contribution_guide_present",
+            "issue_templates_present",
+            "code_of_conduct_present",
+            "dependency_automation_present",
+            "release_automation_present",
         )
-        + "\n",
-        encoding="utf-8",
-    )
-    result = CheckResult(
-        run_id=run_id,
-        package_id=package_id,
-        check_id=check_id,
-        domain="repository",
-        status=status,
-        result_kind=ResultKind.MEASUREMENT,
-        method="automated_with_manifest",
-        expected={"measurement_only": True},
-        observed=observed,
-        tool=ToolIdentity(name="GitHub REST API", version="2022-11-28"),
-        command=None,
-        started_at=started,
-        duration_seconds=duration,
-        environment_id=environment_id(),
-        config_sha256=sha256_file(config_path),
-        evidence=EvidencePaths(
-            stdout=evidence_path(stdout_path, evidence_root),
-            stderr=evidence_path(stderr_path, evidence_root),
-            metadata=evidence_path(metadata_path, evidence_root),
+    }
+    return [
+        write_measurement(
+            project_id=project_id,
+            run_id=run_id,
+            check_id="REPO-ACTIVITY-001",
+            probe_id="repository:activity",
+            domain="repository",
+            status=Status.OBSERVED,
+            observed=activity,
+            evidence_root=evidence_root,
+            config_path=config_path,
+            snapshot_date=snapshot_date,
+            snapshot_commit=commit,
+            repository_id=repository_id,
+            tool=tool,
+            force=force,
         ),
-        notes=notes,
-    )
-    result.write(result_path)
-    return result
+        write_measurement(
+            project_id=project_id,
+            run_id=run_id,
+            check_id="REPO-DOCUMENTATION-001",
+            probe_id="repository:documentation",
+            domain="repository",
+            status=Status.OBSERVED,
+            observed=documentation,
+            evidence_root=evidence_root,
+            config_path=config_path,
+            snapshot_date=snapshot_date,
+            snapshot_commit=commit,
+            repository_id=repository_id,
+            tool=tool,
+            force=force,
+        ),
+        write_measurement(
+            project_id=project_id,
+            run_id=run_id,
+            check_id="REPO-STANDARD-TESTS-001",
+            probe_id="repository:standard-tests",
+            domain="repository",
+            status=Status.OBSERVED,
+            observed={
+                "frameworks": practices["test_frameworks"],
+                "recognised_test_files": practices["recognised_test_files"],
+                "recognised_test_count": len(practices["recognised_test_files"]),
+            },
+            evidence_root=evidence_root,
+            config_path=config_path,
+            snapshot_date=snapshot_date,
+            snapshot_commit=commit,
+            repository_id=repository_id,
+            tool=tool,
+            notes="Upstream tests were detected but never executed.",
+            force=force,
+        ),
+        write_measurement(
+            project_id=project_id,
+            run_id=run_id,
+            check_id="REPO-VERIFICATION-CI-001",
+            probe_id="repository:verification-ci",
+            domain="repository",
+            status=Status.OBSERVED,
+            observed={
+                "verification_workflow_present": bool(practices["verification_workflows"]),
+                "workflow_paths": practices["verification_workflows"],
+                "workflow_types": practices["verification_workflow_types"],
+                "latest_state": "NOT_ASSESSED",
+            },
+            evidence_root=evidence_root,
+            config_path=config_path,
+            snapshot_date=snapshot_date,
+            snapshot_commit=commit,
+            repository_id=repository_id,
+            tool=tool,
+            force=force,
+        ),
+        write_measurement(
+            project_id=project_id,
+            run_id=run_id,
+            check_id="REPO-RELEASES-001",
+            probe_id="repository:releases",
+            domain="repository",
+            status=Status.OBSERVED,
+            observed={key: value for key, value in activity.items() if "release" in key},
+            evidence_root=evidence_root,
+            config_path=config_path,
+            snapshot_date=snapshot_date,
+            snapshot_commit=commit,
+            repository_id=repository_id,
+            tool=tool,
+            force=force,
+        ),
+    ]
