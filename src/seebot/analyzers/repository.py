@@ -17,6 +17,7 @@ from seebot.observations import write_measurement
 
 CUTOFF = datetime(2026, 7, 1, 23, 59, 59, tzinfo=UTC)
 ACTIVITY_START = datetime(2025, 7, 2, tzinfo=UTC)
+ACTIVE_MONTH_START = datetime(2025, 8, 1, tzinfo=UTC)
 RELEASE_START = datetime(2024, 7, 2, tzinfo=UTC)
 
 
@@ -26,6 +27,11 @@ def github_coordinates(repository_url: str) -> tuple[str, str]:
     if parsed.hostname != "github.com" or len(parts) != 2:
         raise ValueError(f"Unsupported GitHub repository URL: {repository_url}")
     return parts[0], parts[1]
+
+
+def _active_month_count(dates: list[datetime]) -> int:
+    """Count activity in the 12 calendar-month buckets ending at the cutoff."""
+    return len({date.strftime("%Y-%m") for date in dates if ACTIVE_MONTH_START <= date <= CUTOFF})
 
 
 def clone_snapshot(repository_url: str, commit: str, target: Path) -> Path:
@@ -344,7 +350,7 @@ def github_activity(repository_url: str) -> dict[str, Any]:
         "archived": bool(repository_payload.get("archived")),
         "days_since_last_non_bot_commit": (CUTOFF - latest_commit).days if latest_commit else None,
         "commits_last_12_months": len(dates),
-        "active_months_last_12_months": len({date.strftime("%Y-%m") for date in dates}),
+        "active_months_last_12_months": _active_month_count(dates),
         "days_since_latest_release": (CUTOFF - latest_release).days if latest_release else None,
         "releases_last_24_months": len(release_dates),
         "latest_release_tag": next(

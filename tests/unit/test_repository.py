@@ -1,4 +1,6 @@
-from seebot.analyzers.repository import repository_facts
+from datetime import UTC, datetime
+
+from seebot.analyzers.repository import _active_month_count, repository_facts
 
 
 def test_repository_facts_are_presence_observations() -> None:
@@ -47,3 +49,12 @@ def test_repository_facts_are_presence_observations() -> None:
         "lockfile_present": False,
         "container_spec_present": True,
     }
+
+
+def test_active_months_use_exactly_twelve_calendar_buckets() -> None:
+    dates = [
+        datetime(2025, 7, 2, tzinfo=UTC),
+        datetime(2025, 8, 1, tzinfo=UTC),
+        datetime(2026, 7, 1, tzinfo=UTC),
+    ]
+    assert _active_month_count(dates) == 2
