@@ -164,6 +164,7 @@ def run_python_analyzers(
             [
                 "ruff",
                 "check",
+                "--no-cache",
                 "--output-format=json",
                 "--config",
                 "/config/ruff-standard.toml",

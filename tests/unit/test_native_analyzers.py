@@ -1,4 +1,11 @@
+from pathlib import Path
+from typing import Any
+from unittest.mock import Mock
+
+from pytest import MonkeyPatch
+
 from seebot.analyzers.native import _cppcheck_parser, _cython_lint_parser, _perlcritic_parser
+from seebot.analyzers.python import run_python_analyzers
 from seebot.models import Status
 
 
@@ -31,3 +38,32 @@ def test_cython_lint_keeps_native_rule_ids() -> None:
     assert status is Status.OBSERVED
     assert observed["rules"][0]["rule"] == "E225"
     assert observed["findings_per_kloc"] == 10.0
+
+
+def test_ruff_disables_cache_for_read_only_source_mount(
+    tmp_path: Path, monkeypatch: MonkeyPatch
+) -> None:
+    checkout = tmp_path / "checkout"
+    source = checkout / "tool.py"
+    checkout.mkdir()
+    source.write_text("print('ok')\n")
+    commands: list[list[str]] = []
+
+    def capture_command(**kwargs: Any) -> Mock:
+        commands.append(kwargs["command"])
+        return Mock()
+
+    monkeypatch.setattr("seebot.analyzers.python._run_native", capture_command)
+
+    run_python_analyzers(
+        environment=Mock(),
+        checkout=checkout,
+        files=[source],
+        project_id="example",
+        run_id="run",
+        evidence_root=tmp_path / "evidence",
+        config_root=tmp_path / "config",
+    )
+
+    ruff_command = commands[0]
+    assert ruff_command[:3] == ["ruff", "check", "--no-cache"]
