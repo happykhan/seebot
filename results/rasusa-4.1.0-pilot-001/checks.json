@@ -1,0 +1,999 @@
+[
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-ERROR-QUALITY-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "diagnostic_text_detected": true,
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T10:37:06.360723Z",
+    "duration_seconds": 0.03896749997511506,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-ERROR-QUALITY-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-ERROR-QUALITY-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-ERROR-QUALITY-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-FUNCTIONAL-001",
+    "domain": "functional",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {
+        "subsample.fastq": "ae5b319748fbc2a37dcdd1b5bd4525d688661f175f9db4ba2bd1065f8fd78b1d"
+      },
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [
+        "subsample.fastq"
+      ],
+      "output_sha256": {
+        "subsample.fastq": "ae5b319748fbc2a37dcdd1b5bd4525d688661f175f9db4ba2bd1065f8fd78b1d"
+      },
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "reads",
+      "--num",
+      "3",
+      "--seed",
+      "42",
+      "--output",
+      "/work/subsample.fastq",
+      "/fixtures/input.fastq"
+    ],
+    "started_at": "2026-07-15T10:43:33.303142Z",
+    "duration_seconds": 0.0750702079385519,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-FUNCTIONAL-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-FUNCTIONAL-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-FUNCTIONAL-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-HELP-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--help"
+    ],
+    "started_at": "2026-07-15T10:37:05.887714Z",
+    "duration_seconds": 0.04680725000798702,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-HELP-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-HELP-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-HELP-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-HELP-CONTENT-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "required_text_detected": true,
+      "interface_detail_detected": true,
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--help"
+    ],
+    "started_at": "2026-07-15T10:37:06.022130Z",
+    "duration_seconds": 0.04891699994914234,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-HELP-CONTENT-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-HELP-CONTENT-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-HELP-CONTENT-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-INVALID-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--definitely-not-a-real-option"
+    ],
+    "started_at": "2026-07-15T10:37:06.265232Z",
+    "duration_seconds": 0.04369874997064471,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-INVALID-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-INVALID-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-INVALID-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-NOARGS-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0,
+        1,
+        2,
+        64
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 2,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa"
+    ],
+    "started_at": "2026-07-15T10:37:05.494712Z",
+    "duration_seconds": 0.30034562502987683,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-NOARGS-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-NOARGS-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-NOARGS-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-REPEAT-001",
+    "domain": "robustness",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": null,
+      "output_sha256": {},
+      "repeat_count": 2
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": true,
+      "files_created": [],
+      "repeat_count": 2,
+      "repeatable_exit_code": true,
+      "repeatable_stdout": true,
+      "repeatable_stderr": true,
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--help"
+    ],
+    "started_at": "2026-07-15T10:37:06.450927Z",
+    "duration_seconds": 0.08221187512390316,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-REPEAT-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-REPEAT-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-REPEAT-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "CLI-VERSION-001",
+    "domain": "cli",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": "4.1.0",
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
+      "stdout_contains_expected": true,
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--version"
+    ],
+    "started_at": "2026-07-15T10:37:06.158605Z",
+    "duration_seconds": 0.05232254206202924,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-VERSION-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-VERSION-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/CLI-VERSION-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "PKG-IDENTITY-001",
+    "domain": "package",
+    "status": "PASS",
+    "result_kind": "CONTRACT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "exit_codes": [
+        0
+      ],
+      "timeout_seconds": 60,
+      "stdout_contains": "4.1.0",
+      "output_sha256": {},
+      "repeat_count": 1
+    },
+    "observed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "traceback_detected": false,
+      "usage_or_help_text_detected": false,
+      "files_created": [],
+      "stdout_contains_expected": true,
+      "resolved_package": {
+        "name": "rasusa",
+        "version": "4.1.0",
+        "build": "hfc06a8d_0",
+        "subdir": "osx-arm64"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": [
+      "rasusa",
+      "--version"
+    ],
+    "started_at": "2026-07-15T10:43:32.996999Z",
+    "duration_seconds": 0.05500016687437892,
+    "environment_id": "pixi-lock:sha256:c8055e1b64e8a07b9a6adb3432fc8fc1d5a799ef49ca5086285345e438661653",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/PKG-IDENTITY-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/PKG-IDENTITY-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/PKG-IDENTITY-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RECIPE-TEST-DEPTH-001",
+    "domain": "recipe",
+    "status": "PASS",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "recipes_commit": "7674dbab3aaa145b356baeff810dc7d3c705f4c5",
+      "recipe_path": "recipes/rasusa",
+      "recipe_sha256": "2bcc685526e54a3cec07fa43f3b6abd0b2609aeddd3f31326c4c05e92c185bfe",
+      "depth": 1,
+      "has_import_test": false,
+      "has_help_test": true,
+      "has_version_test": false,
+      "has_command_test": true,
+      "uses_test_data": false,
+      "runs_analysis": false,
+      "asserts_output_exists": false,
+      "asserts_output_content": false,
+      "asserts_output_format": false,
+      "source_text_suggestion": {
+        "depth": 2,
+        "facts": {
+          "has_import_test": false,
+          "has_help_test": true,
+          "has_version_test": false,
+          "has_command_test": true,
+          "uses_test_data": false,
+          "runs_analysis": true,
+          "asserts_output_exists": false,
+          "asserts_output_content": false,
+          "asserts_output_format": false
+        },
+        "mismatches": {
+          "runs_analysis": {
+            "reviewed": false,
+            "suggested": true
+          }
+        },
+        "requires_review": true,
+        "method_limit": "high-confidence text signals only; not a rendered recipe"
+      }
+    },
+    "tool": {
+      "name": "seebot",
+      "version": "0.1.0"
+    },
+    "command": null,
+    "started_at": "2026-07-15T10:43:32.731682Z",
+    "duration_seconds": 0.006191750057041645,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "9fab92a0a163badb1948e8f013542c6061d047a54c1fc95079c348e20b6dda19",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RECIPE-TEST-DEPTH-001/observation.json",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RECIPE-TEST-DEPTH-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RECIPE-TEST-DEPTH-001/metadata.json"
+    },
+    "notes": "The recipe runs top-level and subcommand help plus the citation command; it does not execute a subsampling analysis."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "REPO-PRACTICES-001",
+    "domain": "repository",
+    "status": "PASS",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated_with_manifest",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "file_count": 67,
+      "source_file_count": 11,
+      "language_file_counts": {
+        "rust": 11
+      },
+      "readme_present": true,
+      "licence_file_present": true,
+      "contribution_guide_present": false,
+      "citation_metadata_present": true,
+      "code_of_conduct_present": false,
+      "issue_templates_present": false,
+      "changelog_present": true,
+      "ci_workflow_present": true,
+      "ci_workflow_count": 4,
+      "dependency_automation_present": true,
+      "release_automation_present": true,
+      "test_path_present": true,
+      "test_file_count": 33,
+      "test_config_present": false,
+      "test_data_present": false,
+      "documentation_path_present": false,
+      "examples_present": false,
+      "dependency_manifest_present": true,
+      "lockfile_present": true,
+      "container_spec_present": true,
+      "repository_url": "https://github.com/mbhall88/rasusa",
+      "observed_commit": "59e28930210f1a7dccffb236273c2bddb7b4fedd",
+      "tree_truncated": false
+    },
+    "tool": {
+      "name": "GitHub REST API",
+      "version": "2022-11-28"
+    },
+    "command": null,
+    "started_at": "2026-07-15T10:43:34.113799Z",
+    "duration_seconds": 0.35303708305582404,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/REPO-PRACTICES-001/stdout.json",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/REPO-PRACTICES-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/REPO-PRACTICES-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-AUDIT-001",
+    "domain": "rust",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "missing_executable": "cargo-audit"
+    },
+    "tool": {
+      "name": "cargo-audit",
+      "version": "UNAVAILABLE"
+    },
+    "command": [
+      "cargo-audit",
+      "audit",
+      "--json"
+    ],
+    "started_at": "2026-07-15T10:44:23.954830Z",
+    "duration_seconds": 6.487499922513962e-05,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-AUDIT-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-AUDIT-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-AUDIT-001/metadata.json"
+    },
+    "notes": "Required pinned analyzer is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-CHECK-001",
+    "domain": "rust",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "diagnostic_count": 0,
+      "build_succeeded": false,
+      "dependency_cache_available": false,
+      "tool_exit_code": 101
+    },
+    "tool": {
+      "name": "cargo",
+      "version": "cargo 1.93.1 (083ac5135 2025-12-15)"
+    },
+    "command": [
+      "cargo",
+      "check",
+      "--locked",
+      "--offline",
+      "--message-format=json"
+    ],
+    "started_at": "2026-07-15T10:44:21.977354Z",
+    "duration_seconds": 0.6867611669003963,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-CHECK-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-CHECK-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-CHECK-001/metadata.json"
+    },
+    "notes": "Analyzer prerequisite is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-CLIPPY-001",
+    "domain": "rust",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "diagnostic_count": 0,
+      "build_succeeded": false,
+      "dependency_cache_available": false,
+      "tool_exit_code": 101
+    },
+    "tool": {
+      "name": "cargo",
+      "version": "cargo 1.93.1 (083ac5135 2025-12-15)"
+    },
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--offline",
+      "--all-targets",
+      "--message-format=json"
+    ],
+    "started_at": "2026-07-15T10:44:23.259747Z",
+    "duration_seconds": 0.21357070794329047,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-CLIPPY-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-CLIPPY-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-CLIPPY-001/metadata.json"
+    },
+    "notes": "Analyzer prerequisite is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-COMPLEXITY-001",
+    "domain": "rust",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "missing_executable": "rust-code-analysis-cli"
+    },
+    "tool": {
+      "name": "rust-code-analysis-cli",
+      "version": "UNAVAILABLE"
+    },
+    "command": [
+      "rust-code-analysis-cli",
+      "-p",
+      "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0",
+      "-O",
+      "json"
+    ],
+    "started_at": "2026-07-15T10:44:23.624377Z",
+    "duration_seconds": 7.837498560547829e-05,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-COMPLEXITY-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-COMPLEXITY-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-COMPLEXITY-001/metadata.json"
+    },
+    "notes": "Required pinned analyzer is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-DOCS-001",
+    "domain": "rust",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "diagnostic_count": 0,
+      "build_succeeded": false,
+      "dependency_cache_available": false,
+      "tool_exit_code": 101
+    },
+    "tool": {
+      "name": "cargo",
+      "version": "cargo 1.93.1 (083ac5135 2025-12-15)"
+    },
+    "command": [
+      "cargo",
+      "rustdoc",
+      "--locked",
+      "--offline"
+    ],
+    "started_at": "2026-07-15T10:44:23.678162Z",
+    "duration_seconds": 0.11343316710554063,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-DOCS-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-DOCS-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-DOCS-001/metadata.json"
+    },
+    "notes": "Analyzer prerequisite is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-FMT-001",
+    "domain": "rust",
+    "status": "PASS",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "format_check_succeeded": true,
+      "tool_exit_code": 0
+    },
+    "tool": {
+      "name": "cargo",
+      "version": "cargo 1.93.1 (083ac5135 2025-12-15)"
+    },
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "started_at": "2026-07-15T10:44:22.838883Z",
+    "duration_seconds": 0.27973175002261996,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-FMT-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-FMT-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-FMT-001/metadata.json"
+    },
+    "notes": null
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "RS-UNSAFE-001",
+    "domain": "rust",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "missing_executable": "cargo-geiger"
+    },
+    "tool": {
+      "name": "cargo-geiger",
+      "version": "UNAVAILABLE"
+    },
+    "command": [
+      "cargo-geiger",
+      "--locked",
+      "--offline",
+      "--output-format",
+      "Json"
+    ],
+    "started_at": "2026-07-15T10:44:23.899587Z",
+    "duration_seconds": 6.712484173476696e-05,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-UNSAFE-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-UNSAFE-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/RS-UNSAFE-001/metadata.json"
+    },
+    "notes": "Required pinned analyzer is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "SRC-RUST-DUPLICATION-001",
+    "domain": "source",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "missing_executable": "jscpd"
+    },
+    "tool": {
+      "name": "jscpd",
+      "version": "UNAVAILABLE"
+    },
+    "command": [
+      "jscpd",
+      "--reporters",
+      "console",
+      "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+    ],
+    "started_at": "2026-07-15T10:44:24.067344Z",
+    "duration_seconds": 7.512490265071392e-05,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/SRC-RUST-DUPLICATION-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/SRC-RUST-DUPLICATION-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/SRC-RUST-DUPLICATION-001/metadata.json"
+    },
+    "notes": "Required pinned analyzer is unavailable; no package judgement was inferred."
+  },
+  {
+    "schema_version": 1,
+    "run_id": "rasusa-4.1.0-pilot-001",
+    "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+    "check_id": "SRC-RUST-SLOC-001",
+    "domain": "source",
+    "status": "UNTESTABLE",
+    "result_kind": "MEASUREMENT",
+    "applicability": "APPLICABLE",
+    "method": "automated",
+    "expected": {
+      "measurement_only": true
+    },
+    "observed": {
+      "language": "rust",
+      "source_roots": [
+        "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+      ],
+      "missing_executable": "tokei"
+    },
+    "tool": {
+      "name": "tokei",
+      "version": "UNAVAILABLE"
+    },
+    "command": [
+      "tokei",
+      "--output",
+      "json",
+      "/Users/nfareed/Documents/seecode/work/rasusa__4.1.0__hfa8f182_0__linux-64/source/rasusa-4.1.0/src"
+    ],
+    "started_at": "2026-07-15T10:44:24.009536Z",
+    "duration_seconds": 7.612491026520729e-05,
+    "environment_id": "sha256:e4535786e54e35a678b5fc97d16f3b6b4ad06a5c5484c93bed98bbcbf95d52ad",
+    "config_sha256": "6947f7f17fdba7ae7156aff5aca09c76aad22c4a5ab430551eec886eb169e864",
+    "evidence": {
+      "stdout": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/SRC-RUST-SLOC-001/stdout.txt",
+      "stderr": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/SRC-RUST-SLOC-001/stderr.txt",
+      "metadata": "evidence/rasusa-4.1.0-pilot-001/rasusa__4.1.0__hfa8f182_0__linux-64/SRC-RUST-SLOC-001/metadata.json"
+    },
+    "notes": "Required pinned analyzer is unavailable; no package judgement was inferred."
+  }
+]

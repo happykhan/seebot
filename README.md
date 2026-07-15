@@ -43,9 +43,9 @@ uv run seebot results rebuild-global
 uv run seebot report build
 ```
 
-The first three completed pilot records cover Cutadapt 5.2, NanoPlot 1.47.1, and
-sourmash 4.9.4. The ten-package pilot queue additionally contains deepTools, BUSCO,
-samtools, minimap2, rasusa, ABRicate, and Prokka. In-review manifests retain null release
+The first four completed pilot records cover Cutadapt 5.2, NanoPlot 1.47.1,
+sourmash 4.9.4, and Rasusa 4.1.0. The ten-package pilot queue additionally contains
+deepTools, BUSCO, samtools, minimap2, ABRicate, and Prokka. In-review manifests retain null release
 fields until recipe and artifact curation is complete.
 Pixi installs the reviewed version and records the native solved artifact and lock hash.
 This development runner does not claim to execute the frozen Linux package when running

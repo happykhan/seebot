@@ -10,6 +10,17 @@ from seebot.analyzers.command import CommandMeasurement, line_count_parser, run_
 from seebot.models import CheckResult
 
 
+def cargo_project_root(source_roots: list[Path]) -> Path:
+    """Return the nearest Cargo project containing a reviewed Rust source root."""
+    for source_root in source_roots:
+        for candidate in (source_root, *source_root.parents):
+            if candidate.name == "source":
+                break
+            if (candidate / "Cargo.toml").is_file():
+                return candidate
+    return source_roots[0]
+
+
 def _cargo_json(stdout: str, stderr: str, returncode: int) -> dict[str, Any]:
     messages = []
     for line in stdout.splitlines():
@@ -46,7 +57,7 @@ def run_rust_analyzers(
     manifest_sha256: str,
     force: bool = False,
 ) -> list[CheckResult]:
-    root = next((root for root in source_roots if (root / "Cargo.toml").exists()), source_roots[0])
+    root = cargo_project_root(source_roots)
     cargo = ["--locked", "--offline"]
     specs = [
         CommandMeasurement(

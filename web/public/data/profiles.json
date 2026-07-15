@@ -153,6 +153,16 @@
       ]
     },
     {
+      "package_id": "rasusa__4.1.0__hfa8f182_0__linux-64",
+      "languages": [
+        {
+          "language": "rust",
+          "metrics": [],
+          "measured_count": 0
+        }
+      ]
+    },
+    {
       "package_id": "sourmash__4.9.4__hdfd78af_0__noarch",
       "languages": [
         {

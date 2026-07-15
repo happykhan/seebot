@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { NavBar } from '@genomicx/ui'
+import { useLocation } from 'react-router-dom'
 import { contractTitle, displayStatus } from './metrics'
 import { filterAndSortRankings, rankingPage } from './rankings'
 import type { RankingSort } from './rankings'
@@ -121,12 +123,12 @@ function PackageProfile({ pkg, ranking, results, profiles, section }: { pkg: Pac
 }
 
 export default function App() {
+  const location = useLocation()
   const [results, setResults] = useState<CheckResult[]>([])
   const [packages, setPackages] = useState<PackageSummary[]>([])
   const [rankingData, setRankingData] = useState<RankingData | null>(null)
   const [profiles, setProfiles] = useState<ProfilesData | null>(null)
   const [selected, setSelected] = useState('')
-  const [route, setRoute] = useState(window.location.hash || '#/')
   const [error, setError] = useState<string | null>(null)
   useEffect(() => { Promise.all([
     fetch(`${import.meta.env.BASE_URL}data/checks.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Checks returned ${response.status}`))),
@@ -134,8 +136,8 @@ export default function App() {
     fetch(`${import.meta.env.BASE_URL}data/rankings.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Rankings returned ${response.status}`))),
     fetch(`${import.meta.env.BASE_URL}data/profiles.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Profiles returned ${response.status}`))),
   ] as const).then(([checkRows, packageRows, rankingRows, profileRows]: [CheckResult[], PackageSummary[], RankingData, ProfilesData]) => { setResults(checkRows); setPackages(packageRows); setRankingData(rankingRows); setProfiles(profileRows); const requested = new URLSearchParams(window.location.search).get('tool'); setSelected(packageRows.find((pkg) => pkg.name === requested)?.package_id ?? packageRows[0]?.package_id ?? '') }).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Unknown data error')) }, [])
-  useEffect(() => { const update = () => setRoute(window.location.hash || '#/'); window.addEventListener('hashchange', update); return () => window.removeEventListener('hashchange', update) }, [])
   const rankings = rankingData?.rankings ?? []
+  const route = `#${location.pathname}`
   const parts = route.replace(/^#\//, '').split('/').filter(Boolean)
   const view = parts[0] || 'home'
   const reportName = view === 'projects' && parts.length > 1 ? parts[1] : null
@@ -144,11 +146,12 @@ export default function App() {
   const activeRanking = rankings.find((ranking) => ranking.package_id === activePackage?.package_id)
   const activeResults = results.filter((result) => result.package_id === activePackage?.package_id)
   const selectPackage = (id: string) => { const pkg = packages.find((item) => item.package_id === id); if (pkg) { setSelected(id); window.location.hash = `/projects/${pkg.name}/summary` } }
-  return <><header className="site-header"><a className="brand" href="#/"><span>SB</span>Seebot</a><nav><a href="#/">Overview</a><a href="#/projects">Projects</a><a href="https://github.com/happykhan/seebot">Method & code ↗</a></nav></header><main>
+  return <><NavBar appName="SEEBOT" appSubtitle="Bioconda engineering audit" version="0.1.0" githubUrl="https://github.com/happykhan/seebot" actions={<><a className="seebot-nav-link" href="#/">Overview</a><a className="seebot-nav-link" href="#/projects">Projects</a></>} mobileActions={<><a className="gx-nav-dropdown-link" href="#/">Overview</a><a className="gx-nav-dropdown-link" href="#/projects">Projects</a></>} /><main>
     {error && <p className="load-error">Could not load the published dataset: {error}</p>}
     {view === 'home' && <><section className="hero"><div><p className="eyebrow">Bioconda software engineering audit</p><h1>What is strong?<br /><em>What needs attention?</em></h1><p>Literature-informed reports covering testing, documentation, reproducibility, automation, reuse, code signals, and installed behaviour.</p></div><aside><span>Current pilot</span><strong>{packages.length || '—'}<small>/10</small></strong><p>tools published before the rubric and cohort are frozen</p></aside></section>{rankingData && <><CohortSnapshot rankings={rankings} results={results} /><Leaderboard rankings={rankings} onSelect={selectPackage} /></>}</>}
     {view === 'projects' && !reportName && <ToolDirectory rankings={rankings} selected={selected} onSelect={selectPackage} />}
     {view === 'projects' && reportName && activePackage && <PackageProfile pkg={activePackage} ranking={activeRanking} results={activeResults} profiles={profiles?.profiles.find((row) => row.package_id === activePackage.package_id)?.languages ?? []} section={reportSection} />}
+    {view === 'about' && <section className="about-page"><p className="eyebrow">Scope and method</p><h1>Observable engineering practices, with explicit limits.</h1><p>Seebot links an exact Bioconda package build and recipe to verified release source, a pinned upstream repository snapshot, and independently observed installed behaviour. It does not claim scientific validation, security certification, or proof that tests and documentation are effective.</p><div className="about-grid"><article><h2>Reproducible evidence</h2><p>Commands, versions, hashes, timestamps, environment identities, and explicit unknown states are retained for every audit.</p></article><article><h2>Pilot first</h2><p>The rubric remains provisional until ten deliberately varied tools reproduce cleanly. The 200-tool cohort stays locked until that gate is complete.</p></article></div></section>}
     {!error && packages.length === 0 && <p className="loading">Loading published pilot data…</p>}
   </main><footer className="site-footer"><span>Seebot development pilot · rubric {rankingData?.rubric_version ?? '—'}</span><span>{rankingData?.scope_note ?? 'Observations are not scientific validation.'}</span></footer></>
 }

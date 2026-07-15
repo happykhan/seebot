@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from seebot.analyzers.command import CommandMeasurement, run_measurements
-from seebot.analyzers.rust import _cargo_json
+from seebot.analyzers.rust import _cargo_json, cargo_project_root
 from seebot.models import Status
 
 
@@ -38,3 +38,22 @@ def test_offline_cargo_cache_miss_is_not_a_source_measurement() -> None:
     )
     assert observed["_audit_status"] == "UNTESTABLE"
     assert observed["dependency_cache_available"] is False
+
+
+def test_cargo_project_root_can_contain_reviewed_source_root(tmp_path: Path) -> None:
+    extracted = tmp_path / "work" / "package" / "source"
+    project = extracted / "rasusa-4.1.0"
+    source = project / "src"
+    source.mkdir(parents=True)
+    (project / "Cargo.toml").write_text("[package]\nname = 'rasusa'\n", encoding="utf-8")
+
+    assert cargo_project_root([source]) == project
+
+
+def test_cargo_project_root_does_not_escape_extracted_source(tmp_path: Path) -> None:
+    extracted = tmp_path / "work" / "package" / "source"
+    source = extracted / "release" / "src"
+    source.mkdir(parents=True)
+    (tmp_path / "Cargo.toml").write_text("[workspace]\n", encoding="utf-8")
+
+    assert cargo_project_root([source]) == source

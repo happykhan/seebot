@@ -1,5 +1,14 @@
 # Protocol changelog
 
+## 2026-07-15 — first Rust-only pilot package (pilot, unfrozen)
+
+- Added Rasusa 4.1.0 as the fourth completed pilot package, pinned to the shared
+  Bioconda recipe snapshot and exact Linux package artifact.
+- Added a reviewed seeded subsampling test over a synthetic six-read FASTQ fixture;
+  two independent runs produced the same frozen output hash.
+- Adopted `@genomicx/ui` for shared navigation, theme controls, and design tokens on
+  the public results site without changing the rubric or award definition.
+
 ## 2026-07-15 — literature-backed rubric and dedicated reports (pilot, unfrozen)
 
 - Replaced weak convenience metrics with testing, documentation/usability,
@@ -32,6 +41,8 @@
   as execution of a different frozen Linux artifact.
 - Added Cutadapt 5.2, NanoPlot 1.47.1, and sourmash 4.9.4 as the three-package
   mini-pilot. Each has a reviewed miniature functional test with hash-checked output.
+- Expanded the active pilot with Rasusa 4.1.0 as the first standalone Rust package;
+  its seeded miniature FASTQ subsampling test has hash-checked output.
 - Added conservative recipe-test source suggestions and explicit mismatch evidence;
   the reviewed component facts remain authoritative pending rendered-recipe support.
 - Replaced the pass-count landing page with package profiles that separate executable
