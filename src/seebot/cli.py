@@ -442,7 +442,7 @@ def audit_run(
     if opts.dry_run:
         audit_plan(tool, category, language, check)
         return
-    needs_source = bool(requested & {"repository", "source", "history"})
+    needs_source = bool(requested & {"source", "history"})
     analyzer_environment = (
         prepare_analyzer_environment(
             opts.output_directory / "work" / "source-analyzers",
@@ -461,7 +461,7 @@ def audit_run(
             raise RuntimeError("Seebot storage budget exceeded before starting another project")
         try:
             results = []
-            if analyzer_environment is not None:
+            if analyzer_environment is not None or "repository" in requested:
                 results.extend(
                     run_repository_and_source(
                         manifest_path=manifest_path,

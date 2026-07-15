@@ -65,7 +65,7 @@ def run_repository_and_source(
     *,
     manifest_path: Path,
     manifest: dict[str, Any],
-    analyzer_environment: AnalyzerEnvironment,
+    analyzer_environment: AnalyzerEnvironment | None,
     run_id: str,
     output_root: Path,
     config_root: Path,
@@ -118,6 +118,8 @@ def run_repository_and_source(
                     )
                 )
             if include_source:
+                if analyzer_environment is None:
+                    raise ValueError("Source checks require an analyzer environment")
                 results.extend(
                     run_source_observations(
                         manifest_path=manifest_path,

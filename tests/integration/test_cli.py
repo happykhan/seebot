@@ -32,6 +32,20 @@ def test_selectable_audit_plan_does_not_execute_tools() -> None:
     assert "repository" in result.stdout
 
 
+def test_repository_only_audit_skips_source_analyzer_setup(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr("seebot.cli.selected_projects", lambda *args: [])
+
+    def unexpected_setup(*args, **kwargs):
+        raise AssertionError("source analyzer setup should not run")
+
+    monkeypatch.setattr("seebot.cli.prepare_analyzer_environment", unexpected_setup)
+    result = runner.invoke(
+        app,
+        ["--output-directory", str(tmp_path), "audit", "run", "--check", "repository"],
+    )
+    assert result.exit_code == 0, result.stdout
+
+
 def test_report_build_overwrites_current_dataset(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(
         "seebot.cli.build_public_dataset",
