@@ -39,5 +39,5 @@ def test_report_build_overwrites_current_dataset(tmp_path: Path, monkeypatch) ->
     )
     result = runner.invoke(app, ["--output-directory", str(tmp_path), "report", "build"])
     assert result.exit_code == 0, result.stdout
-    assert "dataset.json" in result.stdout
+    assert "Prepared web application dataset" in result.stdout
     assert (tmp_path / "web" / "public" / "data" / "dataset.json").exists()
