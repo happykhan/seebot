@@ -2711,7 +2711,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:49:12.486791Z",
+    "started_at": "2026-07-15T21:57:20.029410Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -9819,8 +9819,8 @@
     },
     "observed": {
       "archived": false,
-      "days_since_last_non_bot_commit": -12,
-      "commits_last_12_months": 138,
+      "days_since_last_non_bot_commit": 0,
+      "commits_last_12_months": 133,
       "active_months_last_12_months": 12,
       "days_since_latest_release": 105,
       "releases_last_24_months": 6,
@@ -9831,7 +9831,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:50:05.358740Z",
+    "started_at": "2026-07-15T21:57:58.861125Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -19251,7 +19251,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:50:21.845097Z",
+    "started_at": "2026-07-15T21:58:14.883111Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -25072,8 +25072,8 @@
     },
     "observed": {
       "archived": false,
-      "days_since_last_non_bot_commit": -6,
-      "commits_last_12_months": 10,
+      "days_since_last_non_bot_commit": 77,
+      "commits_last_12_months": 8,
       "active_months_last_12_months": 3,
       "days_since_latest_release": 100,
       "releases_last_24_months": 3,
@@ -25084,7 +25084,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:50:30.810416Z",
+    "started_at": "2026-07-15T21:58:23.416719Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -30186,8 +30186,8 @@
     },
     "observed": {
       "archived": false,
-      "days_since_last_non_bot_commit": -9,
-      "commits_last_12_months": 106,
+      "days_since_last_non_bot_commit": 2,
+      "commits_last_12_months": 102,
       "active_months_last_12_months": 11,
       "days_since_latest_release": 2,
       "releases_last_24_months": 17,
@@ -30198,7 +30198,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:50:40.453416Z",
+    "started_at": "2026-07-15T21:58:31.715494Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -33871,7 +33871,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:50:48.539609Z",
+    "started_at": "2026-07-15T21:58:37.647500Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -38677,7 +38677,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:50:53.269208Z",
+    "started_at": "2026-07-15T21:58:40.827227Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -46951,7 +46951,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:51:04.586116Z",
+    "started_at": "2026-07-15T21:58:49.944993Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -53140,8 +53140,8 @@
     },
     "observed": {
       "archived": false,
-      "days_since_last_non_bot_commit": -8,
-      "commits_last_12_months": 91,
+      "days_since_last_non_bot_commit": 0,
+      "commits_last_12_months": 87,
       "active_months_last_12_months": 12,
       "days_since_latest_release": 105,
       "releases_last_24_months": 7,
@@ -53152,7 +53152,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:51:26.983030Z",
+    "started_at": "2026-07-15T21:59:14.225516Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
@@ -57132,7 +57132,7 @@
       "version": "2"
     },
     "command": null,
-    "started_at": "2026-07-15T21:51:33.300278Z",
+    "started_at": "2026-07-15T21:59:19.628246Z",
     "duration_seconds": 0.0,
     "environment_id": "sha256:bf1487fbf8054f1694a2a71b98e5367f842a7701d915a29018f1b63f6c375dd8",
     "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
