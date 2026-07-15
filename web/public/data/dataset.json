@@ -155,7 +155,7 @@
         },
         {
           "project_id": "bcftools",
-          "value": 13
+          "value": 12
         },
         {
           "project_id": "cutadapt",
@@ -163,11 +163,11 @@
         },
         {
           "project_id": "famsa",
-          "value": 5
+          "value": 3
         },
         {
           "project_id": "fastp",
-          "value": 13
+          "value": 11
         },
         {
           "project_id": "fasttree",
@@ -183,7 +183,7 @@
         },
         {
           "project_id": "samtools",
-          "value": 13
+          "value": 12
         },
         {
           "project_id": "yacrd",
@@ -9490,7 +9490,7 @@
           "archived": false,
           "days_since_last_non_bot_commit": -12,
           "commits_last_12_months": 138,
-          "active_months_last_12_months": 13,
+          "active_months_last_12_months": 12,
           "days_since_latest_release": 105,
           "releases_last_24_months": 6,
           "latest_release_tag": "1.23.1"
@@ -19103,7 +19103,7 @@
             "archived": false,
             "days_since_last_non_bot_commit": -12,
             "commits_last_12_months": 138,
-            "active_months_last_12_months": 13,
+            "active_months_last_12_months": 12,
             "days_since_latest_release": 105,
             "releases_last_24_months": 6,
             "latest_release_tag": "1.23.1"
@@ -33148,7 +33148,7 @@
           "archived": false,
           "days_since_last_non_bot_commit": -6,
           "commits_last_12_months": 10,
-          "active_months_last_12_months": 5,
+          "active_months_last_12_months": 3,
           "days_since_latest_release": 100,
           "releases_last_24_months": 3,
           "latest_release_tag": "v2.5.2"
@@ -38664,7 +38664,7 @@
             "archived": false,
             "days_since_last_non_bot_commit": -6,
             "commits_last_12_months": 10,
-            "active_months_last_12_months": 5,
+            "active_months_last_12_months": 3,
             "days_since_latest_release": 100,
             "releases_last_24_months": 3,
             "latest_release_tag": "v2.5.2"
@@ -39231,7 +39231,7 @@
           "archived": false,
           "days_since_last_non_bot_commit": -9,
           "commits_last_12_months": 106,
-          "active_months_last_12_months": 13,
+          "active_months_last_12_months": 11,
           "days_since_latest_release": 2,
           "releases_last_24_months": 17,
           "latest_release_tag": "v1.3.6"
@@ -45601,7 +45601,7 @@
             "archived": false,
             "days_since_last_non_bot_commit": -9,
             "commits_last_12_months": 106,
-            "active_months_last_12_months": 13,
+            "active_months_last_12_months": 11,
             "days_since_latest_release": 2,
             "releases_last_24_months": 17,
             "latest_release_tag": "v1.3.6"
@@ -68291,7 +68291,7 @@
           "archived": false,
           "days_since_last_non_bot_commit": -8,
           "commits_last_12_months": 91,
-          "active_months_last_12_months": 13,
+          "active_months_last_12_months": 12,
           "days_since_latest_release": 105,
           "releases_last_24_months": 7,
           "latest_release_tag": "1.23.1"
@@ -74768,7 +74768,7 @@
             "archived": false,
             "days_since_last_non_bot_commit": -8,
             "commits_last_12_months": 91,
-            "active_months_last_12_months": 13,
+            "active_months_last_12_months": 12,
             "days_since_latest_release": 105,
             "releases_last_24_months": 7,
             "latest_release_tag": "1.23.1"
