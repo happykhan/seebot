@@ -1,12 +1,17 @@
-schema_version: 1
-package: {name: abricate, cohort_rank: null, download_count: null, download_period: {start: null, end: null}}
-bioconda: {recipes_commit: null, recipe_path: recipes/abricate, version: null, build: null, subdir: noarch, package_url: null, package_sha256: null, primary_executables: [abricate]}
-classification: {include: true, package_type: cli_tool, tool_category: antimicrobial_resistance, exclusion_code: null, notes: Screens assembled contigs for antimicrobial resistance and virulence genes.}
-release_source: {source_url: null, source_sha256: null, extracted_root: null, source_ref: null}
-recipe_test: {status: unreviewed, depth: null, facts: {has_import_test: null, has_help_test: null, has_version_test: null, has_command_test: null, uses_test_data: null, runs_analysis: null, asserts_output_exists: null, asserts_output_content: null, asserts_output_format: null}, notes: null}
-upstream: {repository_url: https://github.com/tseemann/abricate, forge: github, release_tag: null, release_commit: null, default_branch_commit_at_audit: null, mapping_confidence: high, mapping_evidence: project_repository}
-source_layout: {production_roots: [], language_roots: {perl: []}, test_roots: [], documentation_roots: [], generated_paths: [], vendored_paths: [], excluded_paths: []}
-runtime: {backend: pixi, pixi_package: abricate, pixi_channels: [conda-forge, bioconda], container_image: null, container_digest: null, platform: null}
-cli: {no_argument_policy: unknown, help_commands: [[abricate, --help]], version_commands: [[abricate, --version]], invalid_option_command: [abricate, --definitely-not-a-real-option], requires_stdin: false, expected_network_access: false, timeout_seconds: 60}
-functional_test: {status: not_designed, fixture_directory: null, command: null, expected_outputs: [], expected_output_sha256: {}}
-curation: {status: in_review, reviewer: null, reviewed_at: null, notes: "Pilot package selected; release, database, and Perl roots require review."}
+schema_version: 2
+project: {id: abricate, name: ABRicate, description: Screens assemblies for antimicrobial resistance and virulence genes, primary_category: antimicrobial_resistance, tags: [assembly_screening], include: true, exclusion_code: null}
+repository: {url: https://github.com/tseemann/abricate, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
+discovery: {source: bioconda, package_name: abricate, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
+installation: {adapter: pixi, artifact: abricate, version: null, channels: [conda-forge, bioconda], platform: linux-64}
+source: {production_roots: [], language_roots: {perl: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
+interfaces: {primary: abricate, executables: [abricate], help_commands: [[abricate, --help]], version_commands: [[abricate, --version]], no_argument_policy: unknown, stdin_support: unknown, stdout_support: unknown}
+valid_run: {status: not_designed, fixture_ids: [], command: null, expected_outputs: [], timeout_seconds: 300}
+robustness: &unknown_probes
+  missing_input: &unknown_probe {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
+  empty_input: *unknown_probe
+  malformed_input: *unknown_probe
+  wrong_format: *unknown_probe
+  invalid_option: *unknown_probe
+  invalid_value: *unknown_probe
+  unwritable_output: *unknown_probe
+curation: {status: unreviewed, curator: null, reviewer: null, reviewed_at: null, notes: Migrated candidate; must be resurveyed under the revised protocol.}

@@ -1,0 +1,5 @@
+##fileformat=VCFv4.3
+##contig=<ID=synthetic_reference,length=88>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+synthetic_reference	12	.	T	C	60	PASS	.
+

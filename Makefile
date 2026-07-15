@@ -16,6 +16,7 @@ typecheck:
 
 schemas:
 	uv run seebot manifest validate-all
+	uv run seebot fixture validate
 
 web:
 	cd web && npm test && npm run build

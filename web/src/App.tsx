@@ -1,157 +1,140 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavBar } from '@genomicx/ui'
 import { useLocation } from 'react-router-dom'
-import { contractTitle, displayStatus } from './metrics'
-import { filterAndSortRankings, rankingPage } from './rankings'
-import type { RankingSort } from './rankings'
-import type { AwardRanking, CheckResult, LanguageProfile, PackageSummary, ProfilesData, RankingData } from './types'
+import type { Dataset, ExemplarLabels, ProjectSummary } from './types'
+import { activeLabelKeys, filterProjects, labelNames } from './projects'
 
-const PAGE_SIZE = 25
-
-const categoryInfo = {
-  testing: { title: 'Testing and verification', maximum: 30, description: 'Automated tests, fixtures, configuration, and independent functional verification.' },
-  documentation: { title: 'Documentation and usability', maximum: 25, description: 'README, versioned documentation, examples, change history, and usable help.' },
-  reproducibility: { title: 'Reproducibility and releases', maximum: 20, description: 'Declared dependencies, identifiable versions, and repeatable interfaces and outputs.' },
-  automation: { title: 'Automation and maintenance', maximum: 15, description: 'Continuous integration and maintained release workflows.' },
-  reuse_attribution: { title: 'Reuse and attribution', maximum: 10, description: 'Explicit licensing and machine-readable citation guidance.' },
-} as const
-
-type CategoryKey = keyof typeof categoryInfo
-
-function repoObservation(results: CheckResult[]): Record<string, unknown> {
-  return results.find((result) => result.check_id === 'REPO-PRACTICES-001')?.observed ?? {}
+function pretty(value: string | null): string {
+  return value ? value.replaceAll('_', ' ') : 'Not classified'
 }
 
-function bool(value: unknown): boolean { return value === true }
-function num(value: unknown): number { return typeof value === 'number' ? value : 0 }
-
-function AwardPill({ ranking }: { ranking: AwardRanking }) {
-  return <span className={`award award-${ranking.tier.toLowerCase()}`}>{ranking.tier}</span>
+function assessmentState(project: ProjectSummary): string {
+  if (!project.included) return `Excluded · ${pretty(project.exclusion_code)}`
+  if (project.curation_status === 'reviewed') return 'Assessed'
+  if (project.curation_status === 'adjudication_required') return 'Review required'
+  return 'Not yet assessed'
 }
 
-function ResultRow({ result }: { result: CheckResult }) {
-  const label = displayStatus(result)
-  return <details className="result-row">
-    <summary><span className={`status status-${label.toLowerCase()}`}>{label}</span><span><strong>{contractTitle(result.check_id)}</strong><small>{result.check_id}</small></span><span className="domain">{result.domain}</span><span className="chevron">+</span></summary>
-    <div className="result-detail"><div><h4>Observed</h4><pre>{JSON.stringify(result.observed, null, 2)}</pre></div><div className="provenance"><h4>How it was measured</h4><dl><div><dt>Method</dt><dd>{result.method.replaceAll('_', ' ')}</dd></div><div><dt>Tool</dt><dd>{result.tool.name} {result.tool.version}</dd></div><div><dt>Duration</dt><dd>{result.duration_seconds.toFixed(2)} s</dd></div><div><dt>Command</dt><dd>{result.command?.join(' ') ?? 'Repository API observation'}</dd></div></dl></div></div>
-  </details>
+function LabelList({ labels }: { labels: ExemplarLabels }) {
+  const active = activeLabelKeys(labels)
+  if (active.length === 0) return <span className="quiet-label">No exemplar label</span>
+  return <div className="label-list">{active.map((key) => <span key={key}>{labelNames[key]}</span>)}</div>
 }
 
-function CategoryBar({ category, value }: { category: CategoryKey; value: number }) {
-  const info = categoryInfo[category]
-  const percent = value * 100 / info.maximum
-  return <div className="category-bar"><div><span>{info.title}</span><strong>{value}/{info.maximum}</strong></div><i><b style={{ width: `${percent}%` }} /></i></div>
-}
-
-function CohortSnapshot({ rankings, results }: { rankings: AwardRanking[]; results: CheckResult[] }) {
-  const repositories = results.filter((result) => result.check_id === 'REPO-PRACTICES-001' && result.status === 'PASS')
-  const count = (signal: string) => repositories.filter((result) => bool(result.observed[signal])).length
+function Overview({ dataset }: { dataset: Dataset }) {
+  const included = dataset.projects.filter((project) => project.included)
+  const measured = included.filter((project) => project.curation_status === 'reviewed').length
   const cards = [
-    ['Tests found', count('test_path_present'), 'A test directory or test files were observed. This does not assess effectiveness.'],
-    ['CI configured', count('ci_workflow_present'), 'At least one upstream CI workflow was observed. Current pass status is not inferred.'],
-    ['Documentation tree', count('documentation_path_present'), 'A dedicated docs or documentation directory was observed.'],
-    ['Dependency manifest', count('dependency_manifest_present'), 'A language or environment dependency manifest was observed.'],
-  ] as const
-  return <section className="snapshot" id="overview">
-    <div className="section-heading"><div><p className="eyebrow">What the cohort shows</p><h2>Upstream engineering at a glance</h2></div><p>Direct file-based observations from each pinned upstream repository. Missing means “not observed”, not “the project is bad”.</p></div>
-    <div className="snapshot-grid">{cards.map(([label, value, note]) => <article key={label}><strong>{value}<small>/{repositories.length || rankings.length}</small></strong><h3>{label}</h3><p>{note}</p></article>)}</div>
-  </section>
-}
-
-function Leaderboard({ rankings, onSelect }: { rankings: AwardRanking[]; onSelect: (id: string) => void }) {
-  return <section className="leaderboard" id="rankings">
-    <div className="section-heading"><div><p className="eyebrow">Upstream engineering practice award</p><h2>Which projects expose the strongest practices?</h2></div><p>The award scores five observable upstream categories. Runtime behaviour and static-analysis findings are reported separately.</p></div>
-    <div className="table-wrap"><table><thead><tr><th>Rank</th><th>Tool</th><th>Award</th><th>Total</th><th>Coverage</th><th>Tests</th><th>Docs</th><th></th></tr></thead><tbody>{rankings.slice(0, 10).map((ranking) => <tr key={ranking.package_id}><td className="rank">{ranking.rank ? `#${ranking.rank}` : '—'}</td><td><strong>{ranking.name}</strong><small>{ranking.version} · {(ranking.languages ?? []).join(' + ')}</small></td><td><AwardPill ranking={ranking} /></td><td><strong>{ranking.score}/100</strong><span className="score-bar"><i style={{ width: `${ranking.score}%` }} /></span></td><td>{Math.round(ranking.assessment_coverage * 100)}%</td><td>{ranking.breakdown.testing}/30</td><td>{ranking.breakdown.documentation}/25</td><td><button className="text-button" onClick={() => onSelect(ranking.package_id)}>Open report</button></td></tr>)}</tbody></table></div>
-    <details className="formula"><summary>What is and is not scored</summary><div className="formula-grid">{(Object.entries(categoryInfo) as [CategoryKey, typeof categoryInfo[CategoryKey]][]).map(([key, info]) => <p key={key}><strong>{info.maximum} points · {info.title}</strong>{info.description}</p>)}</div><p>File presence is a conservative, reproducible signal. It does not establish test quality, documentation accuracy, active maintenance, security, or scientific validity.</p></details>
-  </section>
-}
-
-function ToolDirectory({ rankings, selected, onSelect }: { rankings: AwardRanking[]; selected: string; onSelect: (id: string) => void }) {
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState('all')
-  const [sort, setSort] = useState<RankingSort>('score')
-  const [language, setLanguage] = useState('all')
-  const [page, setPage] = useState(1)
-  const categories = useMemo(() => [...new Set(rankings.map((item) => item.category))].sort(), [rankings])
-  const languages = useMemo(() => [...new Set(rankings.flatMap((item) => item.languages ?? []))].sort(), [rankings])
-  const filtered = useMemo(() => filterAndSortRankings(rankings, query, category, sort).filter((item) => language === 'all' || item.languages?.includes(language)), [category, language, query, rankings, sort])
-  const { currentPage, pages, items } = rankingPage(filtered, page, PAGE_SIZE)
-  const change = (action: () => void) => { action(); setPage(1) }
-  return <section className="directory" id="tools">
-    <div className="section-heading"><div><p className="eyebrow">Project directory</p><h2>Find an upstream report</h2></div><p>Search and filter will remain usable when the cohort grows to 200 tools. Each row opens one complete project report.</p></div>
-    <div className="directory-controls"><label>Search<input type="search" value={query} onChange={(event) => change(() => setQuery(event.target.value))} placeholder="Tool name or category" /></label><label>Category<select value={category} onChange={(event) => change(() => setCategory(event.target.value))}><option value="all">All categories</option>{categories.map((value) => <option key={value} value={value}>{value.replaceAll('_', ' ')}</option>)}</select></label><label>Language<select value={language} onChange={(event) => change(() => setLanguage(event.target.value))}><option value="all">All languages</option>{languages.map((value) => <option key={value}>{value}</option>)}</select></label><label>Sort<select value={sort} onChange={(event) => change(() => setSort(event.target.value as RankingSort))}><option value="score">Overall award</option><option value="testing">Tests</option><option value="automation">Automation</option><option value="documentation">Documentation</option><option value="name">Name</option></select></label></div>
-    <div className="tool-cards">{items.map((ranking) => <button className={selected === ranking.package_id ? 'selected' : ''} key={ranking.package_id} onClick={() => onSelect(ranking.package_id)}><span><strong>{ranking.name}</strong><small>{ranking.category.replaceAll('_', ' ')} · {ranking.version}</small></span><span className="tool-test-state"><em className={ranking.breakdown.testing >= 8 ? 'yes' : 'no'}>{ranking.breakdown.testing >= 8 ? 'Tests found' : 'Tests not observed'}</em><small>{ranking.breakdown.testing}/30 testing · {Math.round(ranking.assessment_coverage * 100)}% assessed</small></span><span className="tool-score"><strong>{ranking.score}</strong><small>/100</small></span><span>→</span></button>)}</div>
-    <div className="pagination"><span>{filtered.length} tools · page {currentPage} of {pages}</span><div><button disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Previous</button><button disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>Next</button></div></div>
-  </section>
-}
-
-function LanguageAssessment({ profile }: { profile: LanguageProfile }) {
-  const strengths = profile.metrics.filter((metric) => metric.interpretation === 'favourable')
-  const watch = profile.metrics.filter((metric) => metric.interpretation === 'unfavourable')
-  const format = (value: number) => Number.isInteger(value) ? String(value) : value.toFixed(1)
-  const ordinal = (value: number) => { const rounded = Math.round(value); const mod100 = rounded % 100; const suffix = mod100 >= 11 && mod100 <= 13 ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' } as Record<number, string>)[rounded % 10] ?? 'th'; return `${rounded}${suffix}` }
-  return <section className="language-profile"><div className="language-heading"><div><span className="language-chip">{profile.language}</span><strong>Static-analysis observations</strong></div><small>Compared only with compatible {profile.language} projects; no points awarded.</small></div>{(strengths.length > 0 || watch.length > 0) && <div className="signal-grid"><div className="signal strength"><span>Favourable signals</span>{strengths.map((metric) => <p key={metric.check_id}><strong>{metric.label}</strong><small>{format(metric.value)} {metric.unit}</small></p>)}</div><div className="signal watch"><span>Review signals</span>{watch.map((metric) => <p key={metric.check_id}><strong>{metric.label}</strong><small>{format(metric.value)} {metric.unit} · not necessarily a defect</small></p>)}</div></div>}<div className="profile-metrics">{profile.metrics.map((metric) => <div key={metric.check_id}><span>{metric.label}</span><strong>{format(metric.value)} <small>{metric.unit}</small></strong><em>{metric.percentile === null ? 'Cohort baseline pending' : `${ordinal(metric.percentile)} observed-value percentile`} · n={metric.cohort_size}</em></div>)}</div>{profile.metrics.length === 0 && <p className="empty-profile">No normalized analyzer measurements are available for this language yet.</p>}</section>
-}
-
-function PracticeReport({ ranking, repository }: { ranking: AwardRanking; repository: Record<string, unknown> }) {
-  const cards: { key: CategoryKey; facts: [string, boolean][] }[] = [
-    { key: 'testing', facts: [['Test suite', bool(repository.test_path_present)], ['Test configuration', bool(repository.test_config_present)], ['Test data', bool(repository.test_data_present)]] },
-    { key: 'documentation', facts: [['README', bool(repository.readme_present)], ['Documentation tree', bool(repository.documentation_path_present)], ['Examples or tutorials', bool(repository.examples_present)], ['Changelog', bool(repository.changelog_present)]] },
-    { key: 'reproducibility', facts: [['Dependency manifest', bool(repository.dependency_manifest_present)]] },
-    { key: 'automation', facts: [['Continuous integration', bool(repository.ci_workflow_present)], ['Release workflow', bool(repository.release_automation_present)]] },
-    { key: 'reuse_attribution', facts: [['Licence', bool(repository.licence_file_present)], ['Citation metadata', bool(repository.citation_metadata_present)]] },
+    ['Repository health', 'Activity, verification CI, standard test patterns, documentation, licence and citation.'],
+    ['Code health', 'Language-specific structural measurements and native analyzer findings from production source.'],
+    ['Usage health', 'A real miniature run plus bounded probes for malformed and unexpected input.'],
   ]
-  return <section className="practice-report"><div className="section-label"><span>Upstream practice report</span><small>Observed at commit {(repository.observed_commit as string)?.slice(0, 10) || 'unknown'}</small></div><div className="practice-grid">{cards.map(({ key, facts }) => { const info = categoryInfo[key]; const score = ranking.breakdown[key]; const present = facts.filter(([, value]) => value).length; return <article key={key}><header><div><h3>{info.title}</h3><p>{info.description}</p></div><strong>{score}<small>/{info.maximum}</small></strong></header><div className="fact-list">{facts.map(([label, value]) => <span className={value ? 'present' : 'absent'} key={label}>{value ? '✓' : '–'} {label}</span>)}</div><footer><span>{present}/{facts.length} signals observed</span><i><b style={{ width: `${score * 100 / info.maximum}%` }} /></i></footer></article> })}</div></section>
+  return <>
+    <section className="hero">
+      <div><p className="eyebrow">Scientific software observatory</p><h1>Evidence about code.<br /><em>Not a quality score.</em></h1><p>Seebot records how scientific tools are maintained, structured, documented and behaved when exercised with valid and deliberately awkward input.</p></div>
+      <aside><span>Canonical snapshot</span><strong>{dataset.snapshot_date}</strong><p>{dataset.summary.included_projects} eligible projects catalogued · {measured} complete reports published</p></aside>
+    </section>
+    <section className="section-block">
+      <div className="section-heading"><div><p className="eyebrow">Assessment model</p><h2>Three independent views of each project</h2></div><p>Measurements remain separate. Seebot does not collapse different practices, languages, or analyzer findings into one number.</p></div>
+      <div className="pillar-grid">{cards.map(([title, description]) => <article key={title}><span>0{cards.findIndex((card) => card[0] === title) + 1}</span><h3>{title}</h3><p>{description}</p></article>)}</div>
+    </section>
+    <section className="section-block">
+      <div className="section-heading"><div><p className="eyebrow">Factual recognition</p><h2>Exemplars require complete evidence</h2></div><p>Code-health values never qualify or disqualify a project. Labels reflect observable practices, graceful executable behaviour, and assessment coverage.</p></div>
+      <div className="summary-grid">
+        <article><strong>{dataset.summary.labels.usage_exemplars}</strong><span>Usage exemplars</span></article>
+        <article><strong>{dataset.summary.labels.repository_practice_exemplars}</strong><span>Repository-practice exemplars</span></article>
+        <article><strong>{dataset.summary.labels.complete_assessments}</strong><span>Complete assessments</span></article>
+        <article><strong>{dataset.summary.labels.practice_exemplars}</strong><span>Practice exemplars</span></article>
+      </div>
+    </section>
+    <LanguagePanel dataset={dataset} />
+  </>
 }
 
-function PackageProfile({ pkg, ranking, results, profiles, section }: { pkg: PackageSummary; ranking?: AwardRanking; results: CheckResult[]; profiles: LanguageProfile[]; section: string }) {
-  const repository = repoObservation(results)
-  const publishedResults = results.filter((result) => result.check_id !== 'RECIPE-TEST-DEPTH-001')
-  const contracts = publishedResults.filter((result) => result.result_kind === 'CONTRACT')
-  const testsFound = bool(repository.test_path_present)
-  return <article className="package-profile" id="profile">
-    <header className="package-heading"><div><p className="eyebrow">{pkg.category.replaceAll('_', ' ')}</p><h2>{pkg.name} <span>{pkg.version}</span></h2><p>{pkg.description}</p><div className="profile-links"><a href={pkg.upstream_url}>Open upstream repository ↗</a><span>Bioconda {pkg.build} · {pkg.subdir}</span></div></div>{ranking && <div className="profile-score"><AwardPill ranking={ranking} /><strong>{ranking.score}<small>/100</small></strong><span>Engineering practice score</span><small>Provisional pilot rubric</small></div>}</header>
-    <nav className="report-nav">{['summary','upstream','testing','code','behaviour','methods'].map((item) => <a className={section === item ? 'active' : ''} href={`#/projects/${pkg.name}/${item}`} key={item}>{item === 'code' ? 'Code health' : item}</a>)}</nav>
-    {section === 'summary' && ranking && <section className="report-summary"><div><p className="eyebrow">At a glance</p><h3>{ranking.tier} · {ranking.score}/100</h3><p>{Math.round(ranking.assessment_coverage * 100)}% assessment coverage. Unknown evidence is not treated as failure.</p></div><div>{(Object.keys(categoryInfo) as CategoryKey[]).map((key) => <CategoryBar key={key} category={key} value={ranking.breakdown[key]} />)}</div></section>}
-    {(section === 'summary' || section === 'testing') && <section className={`test-answer ${testsFound ? 'tests-yes' : 'tests-no'}`}><span className="test-icon">{testsFound ? '✓' : '?'}</span><div><p className="eyebrow">Does the upstream codebase have tests?</p><h3>{testsFound ? `Yes — ${num(repository.test_file_count)} files under test paths observed` : 'No test suite was observed'}</h3><p>{testsFound ? 'Presence is confirmed; execution and functional verification are reported separately.' : 'The pinned tree did not expose a conventional test path. Non-standard or external tests may still exist.'}</p></div></section>}
-    {section === 'upstream' && ranking && <PracticeReport ranking={ranking} repository={repository} />}
-    {section === 'upstream' && <section className="codebase-facts"><div className="section-label"><span>Codebase snapshot</span><small>Pinned upstream repository</small></div><div className="codebase-stat-grid"><div><strong>{num(repository.file_count).toLocaleString()}</strong><span>repository files</span></div><div><strong>{num(repository.source_file_count).toLocaleString()}</strong><span>recognised source files</span></div><div><strong>{num(repository.ci_workflow_count)}</strong><span>CI workflow files</span></div><div><strong>{Object.keys((repository.language_file_counts as Record<string, number>) ?? {}).join(' + ') || (pkg.languages ?? []).join(' + ') || '—'}</strong><span>observed source languages</span></div></div></section>}
-    {(section === 'testing' || section === 'behaviour') && <section className="runtime-section"><div className="section-label"><span>{section === 'testing' ? 'Verification evidence' : 'Installed tool behaviour'}</span><small>Independent Pixi environment · not part of the award</small></div><div className="contract-grid">{contracts.filter((result) => section === 'behaviour' || ['CLI-FUNCTIONAL-001','CLI-REPEAT-001'].includes(result.check_id)).map((result) => <div key={result.check_id}><span className={`status status-${displayStatus(result).toLowerCase()}`}>{displayStatus(result)}</span><strong>{contractTitle(result.check_id)}</strong></div>)}</div></section>}
-    {section === 'code' && <section className="assessment-section"><div className="section-label"><span>Code health signals</span><small>Language-specific static analysis · not a quality score</small></div>{profiles.map((profile) => <LanguageAssessment key={profile.language} profile={profile} />)}{profiles.length === 0 && <p className="empty-profile">No normalized source-analysis profile is published yet.</p>}</section>}
-    {section === 'methods' && <section className="checks-section"><div className="section-label"><span>Recorded observations</span><small>{publishedResults.length} checks across upstream, source, and runtime domains</small></div>{publishedResults.map((result) => <ResultRow key={result.check_id} result={result} />)}</section>}
+function LanguagePanel({ dataset }: { dataset: Dataset }) {
+  const rows = Object.entries(dataset.summary.language_counts).sort((a, b) => b[1] - a[1])
+  const maximum = Math.max(...rows.map(([, count]) => count), 1)
+  return <section className="section-block">
+    <div className="section-heading"><div><p className="eyebrow">Language inventory</p><h2>Implementation languages in the catalogue</h2></div><p>Each mixed-language project contributes to every observed production language here. Historical primary-language charts use one project, one vote.</p></div>
+    <div className="language-bars">{rows.map(([language, count]) => <div key={language}><span>{language}</span><i><b style={{ width: `${count * 100 / maximum}%` }} /></i><strong>{count}</strong></div>)}</div>
+  </section>
+}
+
+function Explorer({ dataset }: { dataset: Dataset }) {
+  const plotFamilies = [
+    ['Activity', 'Commit recency and active months'],
+    ['Source structure', 'File length, function length, complexity and duplication'],
+    ['Native findings', 'Rule frequencies and findings per 1,000 production lines'],
+    ['Documentation', 'Language-appropriate API documentation coverage'],
+    ['Robustness', 'Graceful handling by invalid-input scenario'],
+    ['History', 'Comparable source-derived measurements at each 1 July snapshot'],
+  ]
+  return <>
+    <section className="page-intro"><p className="eyebrow">Dataset explorer</p><h1>Explore compatible measurements, not synthetic grades.</h1><p>Plots retain project points and only compare analyzer-derived values within compatible language, analyzer and configuration groups.</p></section>
+    <LanguagePanel dataset={dataset} />
+    <section className="section-block"><div className="section-heading"><div><p className="eyebrow">Plot catalogue</p><h2>Aggregate views</h2></div><p>Each plot family activates when validated observations are published for enough compatible projects.</p></div><div className="plot-grid">{plotFamilies.map(([title, detail]) => <article key={title}><div className="plot-placeholder"><i /><i /><i /><i /><i /></div><h3>{title}</h3><p>{detail}</p><span>Individual points always visible</span></article>)}</div></section>
+  </>
+}
+
+function ProjectDirectory({ projects }: { projects: ProjectSummary[] }) {
+  const [query, setQuery] = useState('')
+  const [language, setLanguage] = useState('all')
+  const [category, setCategory] = useState('all')
+  const languages = [...new Set(projects.flatMap((project) => project.languages))].sort()
+  const categories = [...new Set(projects.map((project) => project.category).filter(Boolean) as string[])].sort()
+  const visible = useMemo(
+    () => filterProjects(projects, query, language, category),
+    [category, language, projects, query],
+  )
+  return <>
+    <section className="page-intro"><p className="eyebrow">Project directory</p><h1>Find a scientific software report.</h1><p>Projects are listed alphabetically. There is no score-based ordering.</p></section>
+    <section className="directory">
+      <div className="directory-controls"><label>Search<input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Project or category" /></label><label>Language<select value={language} onChange={(event) => setLanguage(event.target.value)}><option value="all">All languages</option>{languages.map((value) => <option key={value}>{value}</option>)}</select></label><label>Category<select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">All categories</option>{categories.map((value) => <option key={value}>{pretty(value)}</option>)}</select></label></div>
+      <div className="project-list">{visible.sort((a, b) => a.name.localeCompare(b.name)).map((project) => <a href={`#/projects/${project.id}`} key={project.id}><div><strong>{project.name}</strong><p>{project.description}</p><small>{pretty(project.category)} · {project.languages.join(' + ') || 'Language not classified'}</small></div><div><span className={`assessment-state ${project.included ? '' : 'excluded'}`}>{assessmentState(project)}</span><LabelList labels={project.labels} /></div><b>→</b></a>)}</div>
+      <p className="result-count">{visible.length} project{visible.length === 1 ? '' : 's'}</p>
+    </section>
+  </>
+}
+
+function ProjectReport({ project }: { project: ProjectSummary }) {
+  const sections = [
+    ['Repository health', 'Activity, releases, verification CI, recognized test patterns, documentation, licence and citation.'],
+    ['Code health', 'Production-source structure, duplication, documentation coverage, and native analyzer findings.'],
+    ['Usage and robustness', 'CLI conventions, a curated valid run, stream behaviour, and seven invalid-input scenarios.'],
+    ['Historical trends', 'Source-derived measurements at the 1 July snapshots from 2021 through 2026.'],
+  ]
+  return <article className="project-report">
+    <header><div><p className="eyebrow">{pretty(project.category)}</p><h1>{project.name}</h1><p>{project.description}</p><div className="tag-row">{project.languages.map((language) => <span key={language}>{language}</span>)}{project.tags.map((tag) => <span key={tag}>{pretty(tag)}</span>)}</div></div><aside><span>{assessmentState(project)}</span><LabelList labels={project.labels} /><small>Snapshot {project.snapshot_date}</small>{project.repository_url && <a href={project.repository_url}>Open GitHub repository ↗</a>}</aside></header>
+    <section className="report-facts"><div><span>Primary executable</span><strong>{project.primary_executable ?? 'Not identified'}</strong></div><div><span>Valid-run definition</span><strong>{pretty(project.valid_run_status)}</strong></div><div><span>Manifest review</span><strong>{pretty(project.curation_status)}</strong></div></section>
+    <div className="report-sections">{sections.map(([title, description]) => <section key={title}><div><h2>{title}</h2><p>{description}</p></div><span>Could not assess</span></section>)}</div>
   </article>
+}
+
+function Methods() {
+  return <section className="methods-page"><p className="eyebrow">Scope and methods</p><h1>Every claim is tied to a command, commit, fixture, and denominator.</h1><div className="methods-grid"><article><h2>Current snapshot</h2><p>The canonical repository snapshot is the default-branch commit at or before 1 July 2026. Repository and executable observations apply only to this snapshot.</p></article><article><h2>Historical source</h2><p>Source-derived measurements use commits at or before 1 July from 2021 onward, with one frozen analyzer configuration.</p></article><article><h2>No upstream tests</h2><p>Seebot detects recognized standard test patterns and whether verification CI appears to invoke them. It never executes upstream test suites.</p></article><article><h2>Bounded behaviour</h2><p>Usage probes run in an isolated Linux x86-64 environment with fixed CPU, memory, disk, network, and timeout limits.</p></article><article><h2>Native findings</h2><p>Linter and security rules remain native to their analyzer. Different tools and languages are not merged into one finding category.</p></article><article><h2>No quality score</h2><p>Measurements remain separate. Exemplar labels depend on observable practices, graceful behaviour, and complete evidence—not arbitrary code thresholds.</p></article></div></section>
+}
+
+function About() {
+  return <section className="methods-page"><p className="eyebrow">About Seebot</p><h1>A transparent observatory for scientific software engineering.</h1><div className="methods-grid"><article><h2>What it records</h2><p>Seebot publishes reproducible observations about repositories, production source, command-line interfaces, and deliberately awkward input.</p></article><article><h2>What it does not claim</h2><p>It does not judge scientific validity, rank projects, or turn unrelated engineering measurements into an overall quality score.</p></article><article><h2>Who can rerun it</h2><p>Project manifests, shared fixtures, selectors, environment limits, and evidence rules live with the code so individual projects or measurement families can be regenerated.</p></article><article><h2>Why exemplars exist</h2><p>Exemplar labels identify projects that meet every applicable observable contract in a category. They are factual labels, not prizes or grades.</p></article></div></section>
 }
 
 export default function App() {
   const location = useLocation()
-  const [results, setResults] = useState<CheckResult[]>([])
-  const [packages, setPackages] = useState<PackageSummary[]>([])
-  const [rankingData, setRankingData] = useState<RankingData | null>(null)
-  const [profiles, setProfiles] = useState<ProfilesData | null>(null)
-  const [selected, setSelected] = useState('')
+  const [dataset, setDataset] = useState<Dataset | null>(null)
   const [error, setError] = useState<string | null>(null)
-  useEffect(() => { Promise.all([
-    fetch(`${import.meta.env.BASE_URL}data/checks.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Checks returned ${response.status}`))),
-    fetch(`${import.meta.env.BASE_URL}data/packages.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Packages returned ${response.status}`))),
-    fetch(`${import.meta.env.BASE_URL}data/rankings.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Rankings returned ${response.status}`))),
-    fetch(`${import.meta.env.BASE_URL}data/profiles.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Profiles returned ${response.status}`))),
-  ] as const).then(([checkRows, packageRows, rankingRows, profileRows]: [CheckResult[], PackageSummary[], RankingData, ProfilesData]) => { setResults(checkRows); setPackages(packageRows); setRankingData(rankingRows); setProfiles(profileRows); const requested = new URLSearchParams(window.location.search).get('tool'); setSelected(packageRows.find((pkg) => pkg.name === requested)?.package_id ?? packageRows[0]?.package_id ?? '') }).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Unknown data error')) }, [])
-  const rankings = rankingData?.rankings ?? []
-  const route = `#${location.pathname}`
-  const parts = route.replace(/^#\//, '').split('/').filter(Boolean)
-  const view = parts[0] || 'home'
-  const reportName = view === 'projects' && parts.length > 1 ? parts[1] : null
-  const reportSection = parts[2] || 'summary'
-  const activePackage = packages.find((pkg) => pkg.name === reportName)
-  const activeRanking = rankings.find((ranking) => ranking.package_id === activePackage?.package_id)
-  const activeResults = results.filter((result) => result.package_id === activePackage?.package_id)
-  const selectPackage = (id: string) => { const pkg = packages.find((item) => item.package_id === id); if (pkg) { setSelected(id); window.location.hash = `/projects/${pkg.name}/summary` } }
-  return <><NavBar appName="SEEBOT" appSubtitle="Bioconda engineering audit" version="0.1.0" githubUrl="https://github.com/happykhan/seebot" actions={<><a className="seebot-nav-link" href="#/">Overview</a><a className="seebot-nav-link" href="#/projects">Projects</a></>} mobileActions={<><a className="gx-nav-dropdown-link" href="#/">Overview</a><a className="gx-nav-dropdown-link" href="#/projects">Projects</a></>} /><main>
+  useEffect(() => { fetch(`${import.meta.env.BASE_URL}data/dataset.json`).then((response) => response.ok ? response.json() : Promise.reject(new Error(`Dataset returned ${response.status}`))).then(setDataset).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : 'Unknown data error')) }, [])
+  const parts = location.pathname.split('/').filter(Boolean)
+  const view = parts[0] || 'overview'
+  const project = view === 'projects' && parts[1] ? dataset?.projects.find((item) => item.id === parts[1]) : undefined
+  return <><NavBar appName="SEEBOT" appSubtitle="Scientific software observatory" version="0.2.0" githubUrl="https://github.com/happykhan/seebot" actions={<><a className="seebot-nav-link" href="#/">Overview</a><a className="seebot-nav-link" href="#/explore">Explore</a><a className="seebot-nav-link" href="#/projects">Projects</a><a className="seebot-nav-link" href="#/methods">Methods</a></>} mobileActions={<><a className="gx-nav-dropdown-link" href="#/">Overview</a><a className="gx-nav-dropdown-link" href="#/explore">Explore</a><a className="gx-nav-dropdown-link" href="#/projects">Projects</a><a className="gx-nav-dropdown-link" href="#/methods">Methods</a></>} /><main>
     {error && <p className="load-error">Could not load the published dataset: {error}</p>}
-    {view === 'home' && <><section className="hero"><div><p className="eyebrow">Bioconda software engineering audit</p><h1>What is strong?<br /><em>What needs attention?</em></h1><p>Literature-informed reports covering testing, documentation, reproducibility, automation, reuse, code signals, and installed behaviour.</p></div><aside><span>Current pilot</span><strong>{packages.length || '—'}<small>/10</small></strong><p>tools published before the rubric and cohort are frozen</p></aside></section>{rankingData && <><CohortSnapshot rankings={rankings} results={results} /><Leaderboard rankings={rankings} onSelect={selectPackage} /></>}</>}
-    {view === 'projects' && !reportName && <ToolDirectory rankings={rankings} selected={selected} onSelect={selectPackage} />}
-    {view === 'projects' && reportName && activePackage && <PackageProfile pkg={activePackage} ranking={activeRanking} results={activeResults} profiles={profiles?.profiles.find((row) => row.package_id === activePackage.package_id)?.languages ?? []} section={reportSection} />}
-    {view === 'about' && <section className="about-page"><p className="eyebrow">Scope and method</p><h1>Observable engineering practices, with explicit limits.</h1><p>Seebot links an exact Bioconda package build and recipe to verified release source, a pinned upstream repository snapshot, and independently observed installed behaviour. It does not claim scientific validation, security certification, or proof that tests and documentation are effective.</p><div className="about-grid"><article><h2>Reproducible evidence</h2><p>Commands, versions, hashes, timestamps, environment identities, and explicit unknown states are retained for every audit.</p></article><article><h2>Pilot first</h2><p>The rubric remains provisional until ten deliberately varied tools reproduce cleanly. The 200-tool cohort stays locked until that gate is complete.</p></article></div></section>}
-    {!error && packages.length === 0 && <p className="loading">Loading published pilot data…</p>}
-  </main><footer className="site-footer"><span>Seebot development pilot · rubric {rankingData?.rubric_version ?? '—'}</span><span>{rankingData?.scope_note ?? 'Observations are not scientific validation.'}</span></footer></>
+    {!error && !dataset && <p className="loading">Loading software observations…</p>}
+    {dataset && view === 'overview' && <Overview dataset={dataset} />}
+    {dataset && view === 'explore' && <Explorer dataset={dataset} />}
+    {dataset && view === 'projects' && !parts[1] && <ProjectDirectory projects={dataset.projects} />}
+    {dataset && view === 'projects' && project && <ProjectReport project={project} />}
+    {dataset && view === 'projects' && parts[1] && !project && <p className="load-error">Project not found.</p>}
+    {view === 'methods' && <Methods />}
+    {view === 'about' && <About />}
+  </main><footer className="site-footer"><span>Seebot · snapshot 1 July 2026</span><span>Observable engineering evidence, not scientific validation or a quality score.</span></footer></>
 }

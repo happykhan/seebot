@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seebot/schemas/fixture-catalog.schema.json",
+  "title": "Seebot fixture catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "catalogue_id", "fixtures"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "catalogue_id": {"type": "string"},
+    "fixtures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "format", "validity", "intent", "sha256", "provenance", "licence"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_.-]+$"},
+          "path": {"type": "string"},
+          "format": {"type": "string"},
+          "validity": {"enum": ["valid", "empty", "malformed", "wrong_format"]},
+          "intent": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "provenance": {"type": "string"},
+          "licence": {"type": "string"}
+        }
+      }
+    }
+  }
+}

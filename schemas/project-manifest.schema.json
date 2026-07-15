@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://happykhan.github.io/seebot/schemas/project-manifest.schema.json",
+  "title": "Seebot project manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "repository", "discovery", "installation", "source", "interfaces", "valid_run", "robustness", "curation"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "description", "primary_category", "tags", "include", "exclusion_code"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "name": {"type": "string", "minLength": 1},
+        "description": {"$ref": "#/$defs/nullableString"},
+        "primary_category": {"$ref": "#/$defs/nullableString"},
+        "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "include": {"type": "boolean"},
+        "exclusion_code": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "forge", "snapshot_date", "snapshot_commit", "archived"],
+      "properties": {
+        "url": {"$ref": "#/$defs/nullableString"},
+        "forge": {"enum": ["github", "unknown"]},
+        "snapshot_date": {"const": "2026-07-01"},
+        "snapshot_commit": {"$ref": "#/$defs/nullableString"},
+        "archived": {"type": ["boolean", "null"]}
+      }
+    },
+    "discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "package_name", "rank", "download_count", "download_period"],
+      "properties": {
+        "source": {"enum": ["bioconda", "other"]},
+        "package_name": {"$ref": "#/$defs/nullableString"},
+        "rank": {"type": ["integer", "null"], "minimum": 1},
+        "download_count": {"type": ["integer", "null"], "minimum": 0},
+        "download_period": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start", "end"],
+          "properties": {
+            "start": {"const": "2025-07-01"},
+            "end": {"const": "2026-06-30"}
+          }
+        }
+      }
+    },
+    "installation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter", "artifact", "version", "channels", "platform"],
+      "properties": {
+        "adapter": {"enum": ["pixi", "pip", "cargo", "release_binary", "source", "unknown"]},
+        "artifact": {"$ref": "#/$defs/nullableString"},
+        "version": {"$ref": "#/$defs/nullableString"},
+        "channels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "platform": {"enum": ["linux-64", "unknown"]}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_roots", "language_roots", "generated_paths", "vendored_paths", "excluded_paths"],
+      "properties": {
+        "production_roots": {"$ref": "#/$defs/pathList"},
+        "language_roots": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "python": {"$ref": "#/$defs/pathList"},
+            "perl": {"$ref": "#/$defs/pathList"},
+            "c": {"$ref": "#/$defs/pathList"},
+            "cpp": {"$ref": "#/$defs/pathList"},
+            "rust": {"$ref": "#/$defs/pathList"},
+            "java": {"$ref": "#/$defs/pathList"},
+            "cython": {"$ref": "#/$defs/pathList"}
+          }
+        },
+        "generated_paths": {"$ref": "#/$defs/pathList"},
+        "vendored_paths": {"$ref": "#/$defs/pathList"},
+        "excluded_paths": {"$ref": "#/$defs/pathList"}
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "executables", "help_commands", "version_commands", "no_argument_policy", "stdin_support", "stdout_support"],
+      "properties": {
+        "primary": {"$ref": "#/$defs/nullableString"},
+        "executables": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "help_commands": {"$ref": "#/$defs/commands"},
+        "version_commands": {"$ref": "#/$defs/commands"},
+        "no_argument_policy": {"enum": ["help_or_usage_error", "successful_noop", "stdin_filter", "requires_input", "unknown"]},
+        "stdin_support": {"$ref": "#/$defs/supportState"},
+        "stdout_support": {"$ref": "#/$defs/supportState"}
+      }
+    },
+    "valid_run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "fixture_ids", "command", "expected_outputs", "timeout_seconds"],
+      "properties": {
+        "status": {"enum": ["not_designed", "draft", "reviewed", "untestable"]},
+        "fixture_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "command": {"$ref": "#/$defs/nullableCommand"},
+        "expected_outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "nonempty", "parser"],
+            "properties": {
+              "path": {"type": "string"},
+              "nonempty": {"type": "boolean"},
+              "parser": {"$ref": "#/$defs/nullableString"}
+            }
+          }
+        },
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300}
+      }
+    },
+    "robustness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_input", "empty_input", "malformed_input", "wrong_format", "invalid_option", "invalid_value", "unwritable_output"],
+      "properties": {
+        "missing_input": {"$ref": "#/$defs/robustnessProbe"},
+        "empty_input": {"$ref": "#/$defs/robustnessProbe"},
+        "malformed_input": {"$ref": "#/$defs/robustnessProbe"},
+        "wrong_format": {"$ref": "#/$defs/robustnessProbe"},
+        "invalid_option": {"$ref": "#/$defs/robustnessProbe"},
+        "invalid_value": {"$ref": "#/$defs/robustnessProbe"},
+        "unwritable_output": {"$ref": "#/$defs/robustnessProbe"}
+      }
+    },
+    "curation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "curator", "reviewer", "reviewed_at", "notes"],
+      "properties": {
+        "status": {"enum": ["unreviewed", "in_review", "reviewed", "adjudication_required"]},
+        "curator": {"$ref": "#/$defs/nullableString"},
+        "reviewer": {"$ref": "#/$defs/nullableString"},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"$ref": "#/$defs/nullableString"}
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z0-9_.-]+$"},
+    "nullableString": {"type": ["string", "null"]},
+    "pathList": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "commands": {"type": "array", "items": {"type": "array", "items": {"type": "string"}, "minItems": 1}, "uniqueItems": true},
+    "nullableCommand": {"type": ["array", "null"], "items": {"type": "string"}, "minItems": 1},
+    "supportState": {"enum": ["supported", "not_supported", "not_applicable", "untestable", "unknown"]},
+    "robustnessProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "command", "fixture_id", "diagnostic_expectation"],
+      "properties": {
+        "applicability": {"enum": ["applicable", "not_applicable", "unknown"]},
+        "command": {"$ref": "#/$defs/nullableCommand"},
+        "fixture_id": {"$ref": "#/$defs/nullableString"},
+        "diagnostic_expectation": {"enum": ["specific", "specific_or_generic", "not_applicable", "unknown"]}
+      }
+    }
+  }
+}

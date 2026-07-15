@@ -1,12 +1,17 @@
-schema_version: 1
-package: {name: prokka, cohort_rank: null, download_count: null, download_period: {start: null, end: null}}
-bioconda: {recipes_commit: null, recipe_path: recipes/prokka, version: null, build: null, subdir: noarch, package_url: null, package_sha256: null, primary_executables: [prokka]}
-classification: {include: true, package_type: cli_tool, tool_category: genome_annotation, exclusion_code: null, notes: "Annotates bacterial, archaeal, and viral genomes."}
-release_source: {source_url: null, source_sha256: null, extracted_root: null, source_ref: null}
-recipe_test: {status: unreviewed, depth: null, facts: {has_import_test: null, has_help_test: null, has_version_test: null, has_command_test: null, uses_test_data: null, runs_analysis: null, asserts_output_exists: null, asserts_output_content: null, asserts_output_format: null}, notes: null}
-upstream: {repository_url: https://github.com/tseemann/prokka, forge: github, release_tag: null, release_commit: null, default_branch_commit_at_audit: null, mapping_confidence: high, mapping_evidence: project_repository}
-source_layout: {production_roots: [], language_roots: {perl: []}, test_roots: [], documentation_roots: [], generated_paths: [], vendored_paths: [], excluded_paths: []}
-runtime: {backend: pixi, pixi_package: prokka, pixi_channels: [conda-forge, bioconda], container_image: null, container_digest: null, platform: null}
-cli: {no_argument_policy: unknown, help_commands: [[prokka, --help]], version_commands: [[prokka, --version]], invalid_option_command: [prokka, --definitely-not-a-real-option], requires_stdin: false, expected_network_access: false, timeout_seconds: 120}
-functional_test: {status: not_designed, fixture_directory: null, command: null, expected_outputs: [], expected_output_sha256: {}}
-curation: {status: in_review, reviewer: null, reviewed_at: null, notes: "Pilot package selected; release, dependencies, and Perl roots require review."}
+schema_version: 2
+project: {id: prokka, name: Prokka, description: Annotates bacterial archaeal and viral genomes, primary_category: genome_annotation, tags: [fasta, annotation], include: true, exclusion_code: null}
+repository: {url: https://github.com/tseemann/prokka, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
+discovery: {source: bioconda, package_name: prokka, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
+installation: {adapter: pixi, artifact: prokka, version: null, channels: [conda-forge, bioconda], platform: linux-64}
+source: {production_roots: [], language_roots: {perl: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
+interfaces: {primary: prokka, executables: [prokka], help_commands: [[prokka, --help]], version_commands: [[prokka, --version]], no_argument_policy: unknown, stdin_support: not_supported, stdout_support: not_supported}
+valid_run: {status: not_designed, fixture_ids: [], command: null, expected_outputs: [], timeout_seconds: 300}
+robustness:
+  missing_input: &prokka_unknown {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
+  empty_input: *prokka_unknown
+  malformed_input: *prokka_unknown
+  wrong_format: *prokka_unknown
+  invalid_option: *prokka_unknown
+  invalid_value: *prokka_unknown
+  unwritable_output: *prokka_unknown
+curation: {status: unreviewed, curator: null, reviewer: null, reviewed_at: null, notes: Migrated candidate; likely requires a bespoke annotation fixture.}

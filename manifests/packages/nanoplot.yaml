@@ -1,90 +1,17 @@
-schema_version: 1
-package:
-  name: nanoplot
-  cohort_rank: null
-  download_count: null
-  download_period: {start: null, end: null}
-bioconda:
-  recipes_commit: 7674dbab3aaa145b356baeff810dc7d3c705f4c5
-  recipe_path: recipes/nanoplot
-  version: "1.47.1"
-  build: pyhdfd78af_0
-  subdir: noarch
-  package_url: https://api.anaconda.org/download/bioconda/nanoplot/1.47.1/noarch/nanoplot-1.47.1-pyhdfd78af_0.conda
-  package_sha256: 31348049d0b7c77f0e02e83a47c10130044336967860e07b7cf7e805b65d98aa
-  primary_executables: [NanoPlot]
-classification:
-  include: true
-  package_type: cli_tool
-  tool_category: long_read_quality_control
-  exclusion_code: null
-  notes: Generates quality-control statistics and plots from long-read sequencing data.
-release_source:
-  source_url: https://pypi.org/packages/source/n/nanoplot/nanoplot-1.47.1.tar.gz
-  source_sha256: a104ca04d72d770ae3c52a877ed8d7cfec95b55575b6ff605388be9cd3f795b1
-  extracted_root: nanoplot-1.47.1
-  source_ref: v1.47.1
-recipe_test:
-  status: reviewed
-  depth: 1
-  facts:
-    has_import_test: true
-    has_help_test: true
-    has_version_test: false
-    has_command_test: true
-    uses_test_data: false
-    runs_analysis: false
-    asserts_output_exists: false
-    asserts_output_content: false
-    asserts_output_format: false
-  notes: The recipe imports nanoplot and runs NanoPlot --help.
-upstream:
-  repository_url: https://github.com/wdecoster/NanoPlot
-  forge: github
-  release_tag: v1.47.1
-  release_commit: ab1c3124b42d6f02e5c5f458d39381682ffa1869
-  default_branch_commit_at_audit: ab1c3124b42d6f02e5c5f458d39381682ffa1869
-  mapping_confidence: high
-  mapping_evidence: recipe_dev_url
-source_layout:
-  production_roots:
-    - nanoplot-1.47.1/nanoplot
-    - nanoplot-1.47.1/nanoplotter
-    - nanoplot-1.47.1/nanomath
-  language_roots:
-    python:
-      - nanoplot-1.47.1/nanoplot
-      - nanoplot-1.47.1/nanoplotter
-      - nanoplot-1.47.1/nanomath
-  test_roots: [nanoplot-1.47.1/nanomath/test_nanomath.py]
-  documentation_roots: []
-  generated_paths: [nanoplot-1.47.1/nanoplot.egg-info]
-  vendored_paths: []
-  excluded_paths: [nanoplot-1.47.1/nanomath/test_nanomath.py]
-runtime:
-  backend: pixi
-  pixi_package: nanoplot
-  pixi_channels: [conda-forge, bioconda]
-  container_image: null
-  container_digest: null
-  platform: native
-cli:
-  no_argument_policy: help_or_usage_error
-  help_commands: [[NanoPlot, --help]]
-  version_commands: [[NanoPlot, --version]]
-  invalid_option_command: [NanoPlot, --definitely-not-a-real-option]
-  requires_stdin: false
-  expected_network_access: false
-  timeout_seconds: 120
-functional_test:
-  status: reviewed
-  fixture_directory: fixtures/nanoplot
-  command: [NanoPlot, --fastq, /fixtures/reads.fastq, --outdir, /work/nanoplot]
-  expected_outputs: [nanoplot/NanoStats.txt]
-  expected_output_sha256:
-    nanoplot/NanoStats.txt: 76b36eb148920ff835893609e09311de68cab6c3cd332c221bdb6a956dff219c
-curation:
-  status: reviewed
-  reviewer: codex:bioinformatics-dev
-  reviewed_at: "2026-07-14T21:30:00Z"
-  notes: Frozen from the shared Bioconda recipe snapshot; miniature FASTQ statistics are hash-verified.
+schema_version: 2
+project: {id: nanoplot, name: NanoPlot, description: Visualises long-read sequencing quality metrics, primary_category: long_read_quality_control, tags: [fastq, visualisation], include: true, exclusion_code: null}
+repository: {url: https://github.com/wdecoster/NanoPlot, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
+discovery: {source: bioconda, package_name: nanoplot, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
+installation: {adapter: pixi, artifact: nanoplot, version: '1.47.1', channels: [conda-forge, bioconda], platform: linux-64}
+source: {production_roots: [], language_roots: {python: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
+interfaces: {primary: NanoPlot, executables: [NanoPlot], help_commands: [[NanoPlot, --help]], version_commands: [[NanoPlot, --version]], no_argument_policy: unknown, stdin_support: not_supported, stdout_support: not_supported}
+valid_run: {status: draft, fixture_ids: [legacy-nanoplot-fastq], command: [NanoPlot, --fastq, /fixtures/reads.fastq, --outdir, /work/nanoplot], expected_outputs: [{path: nanoplot, nonempty: true, parser: null}], timeout_seconds: 300}
+robustness:
+  missing_input: &nanoplot_unknown {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
+  empty_input: *nanoplot_unknown
+  malformed_input: *nanoplot_unknown
+  wrong_format: *nanoplot_unknown
+  invalid_option: *nanoplot_unknown
+  invalid_value: *nanoplot_unknown
+  unwritable_output: *nanoplot_unknown
+curation: {status: in_review, curator: codex:bioinformatics-dev, reviewer: null, reviewed_at: null, notes: Old valid run retained as a draft only; robustness probes require recuration.}

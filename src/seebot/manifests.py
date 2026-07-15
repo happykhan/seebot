@@ -1,4 +1,4 @@
-"""Reviewed package manifest creation and schema validation."""
+"""Reviewed project manifest creation and schema validation."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT = Path(__file__).resolve().parents[2]
-SCHEMA_PATH = ROOT / "schemas" / "package-manifest.schema.json"
+SCHEMA_PATH = ROOT / "schemas" / "project-manifest.schema.json"
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -32,96 +32,80 @@ def validate_manifest(path: Path) -> list[str]:
 
 def manifest_template(name: str) -> dict[str, Any]:
     return {
-        "schema_version": 1,
-        "package": {
+        "schema_version": 2,
+        "project": {
+            "id": name,
             "name": name,
-            "cohort_rank": None,
-            "download_count": None,
-            "download_period": {"start": None, "end": None},
-        },
-        "bioconda": {
-            "recipes_commit": None,
-            "recipe_path": f"recipes/{name}",
-            "version": None,
-            "build": None,
-            "subdir": "linux-64",
-            "package_url": None,
-            "package_sha256": None,
-            "primary_executables": [name],
-        },
-        "classification": {
+            "description": None,
+            "primary_category": None,
+            "tags": [],
             "include": True,
-            "package_type": "cli_tool",
-            "tool_category": None,
             "exclusion_code": None,
-            "notes": None,
         },
-        "release_source": {
-            "source_url": None,
-            "source_sha256": None,
-            "extracted_root": None,
-            "source_ref": None,
-        },
-        "recipe_test": {
-            "status": "unreviewed",
-            "depth": None,
-            "facts": {
-                "has_import_test": None,
-                "has_help_test": None,
-                "has_version_test": None,
-                "has_command_test": None,
-                "uses_test_data": None,
-                "runs_analysis": None,
-                "asserts_output_exists": None,
-                "asserts_output_content": None,
-                "asserts_output_format": None,
-            },
-            "notes": None,
-        },
-        "upstream": {
-            "repository_url": None,
+        "repository": {
+            "url": None,
             "forge": "unknown",
-            "release_tag": None,
-            "release_commit": None,
-            "default_branch_commit_at_audit": None,
-            "mapping_confidence": "unknown",
-            "mapping_evidence": None,
+            "snapshot_date": "2026-07-01",
+            "snapshot_commit": None,
+            "archived": None,
         },
-        "source_layout": {
+        "discovery": {
+            "source": "bioconda",
+            "package_name": name,
+            "rank": None,
+            "download_count": None,
+            "download_period": {"start": "2025-07-01", "end": "2026-06-30"},
+        },
+        "installation": {
+            "adapter": "pixi",
+            "artifact": name,
+            "version": None,
+            "channels": ["conda-forge", "bioconda"],
+            "platform": "linux-64",
+        },
+        "source": {
             "production_roots": [],
             "language_roots": {},
-            "test_roots": [],
-            "documentation_roots": [],
             "generated_paths": [],
             "vendored_paths": [],
             "excluded_paths": [],
         },
-        "runtime": {
-            "backend": "unknown",
-            "pixi_package": None,
-            "pixi_channels": ["conda-forge", "bioconda"],
-            "container_image": None,
-            "container_digest": None,
-            "platform": None,
-        },
-        "cli": {
-            "no_argument_policy": "unknown",
+        "interfaces": {
+            "primary": name,
+            "executables": [name],
             "help_commands": [[name, "--help"]],
             "version_commands": [[name, "--version"]],
-            "invalid_option_command": [name, "--definitely-not-a-real-option"],
-            "requires_stdin": False,
-            "expected_network_access": False,
-            "timeout_seconds": 30,
+            "no_argument_policy": "unknown",
+            "stdin_support": "unknown",
+            "stdout_support": "unknown",
         },
-        "functional_test": {
+        "valid_run": {
             "status": "not_designed",
-            "fixture_directory": None,
+            "fixture_ids": [],
             "command": None,
             "expected_outputs": [],
-            "expected_output_sha256": {},
+            "timeout_seconds": 300,
+        },
+        "robustness": {
+            name: {
+                "applicability": "unknown",
+                "command": None,
+                "fixture_id": None,
+                "diagnostic_expectation": "unknown",
+            }
+            for name in (
+                "missing_input",
+                "empty_input",
+                "malformed_input",
+                "wrong_format",
+                "invalid_option",
+                "invalid_value",
+                "unwritable_output",
+            )
         },
         "curation": {
             "status": "unreviewed",
+            "curator": None,
             "reviewer": None,
             "reviewed_at": None,
             "notes": None,

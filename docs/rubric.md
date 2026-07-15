@@ -1,34 +1,57 @@
-# Rubric
+# Assessment catalogue
 
-The canonical machine-readable rubric is `config/rubric.yaml`. Stable check identifiers preserve comparability when wording changes.
+The canonical machine-readable catalogue is `config/rubric.yaml`. Checks record
+observations and executable contracts; they do not award points.
 
-Domains are reported separately: cohort, package, recipe, repository, source, Python,
-Perl, C/C++, Rust, CLI behaviour, robustness, reproducibility, security indicators, and
-manual review.
+## Repository health
 
-Shared source concepts are parseability/buildability, normalized static findings,
-complexity, documentation, duplication, dead-code indicators, security indicators, and
-test execution. Language adapters retain their own semantics and within-language
-baselines.
+- archived status;
+- days since the last non-bot commit;
+- commits and active months in the preceding 12 months;
+- latest release date and releases in the preceding 24 months;
+- README, installation instructions, usage example, licence, and citation information;
+- recognized standard test patterns and test-file count;
+- verification CI and descriptive current CI state;
+- optional documentation, changelog, contribution, security, issue-template, release, and
+  dependency-automation observations.
 
-The dashboard additionally calculates the versioned **Seebot Engineering
-Practice Award** defined in `config/awards.yaml`. This is not a general software-quality
-or scientific-validity score. Its 100 literature-informed points are limited to:
+Repository-practice exemplar requires a non-archived repository, README, licence, citation
+instructions, recognized standard tests, verification CI, installation instructions, and
+at least one usage example.
 
-- 30 points for testing and independent functional verification;
-- 25 points for documentation and command-line usability;
-- 20 points for reproducibility and identifiable releases;
-- 15 points for automation and maintenance;
-- 10 points for reuse and attribution.
+## Code health
 
-Gold begins at 85 points, silver at 70, and bronze at 55. Ties retain the same competition
-rank. Assessment coverage is published with every score. Unknown, errored, or untestable
-evidence reduces coverage rather than silently becoming zero; coverage below 80% makes
-the award ineligible. `NOT_APPLICABLE` evidence is excluded from its denominator.
-Static-analysis counts remain outside the award.
+Core source-derived measurements are production source lines, language composition,
+file-length distribution, function-length distribution, cyclomatic-complexity distribution,
+nesting, parameter counts, duplication percentage, native linter findings, documentation
+coverage, native source-security findings, and current dependency advisories.
 
-Package size, installation duration, dependency count, lockfiles, containers, dependency
-bots, issue templates, and code-of-conduct files do not earn points. They are mechanisms
-or contextual facts, not general evidence of software quality.
+Dead-code candidates, unsafe-code occurrences, and build-dependent analyzers are
+supplementary. Formatting compliance is not a code-health metric. No SOLID score or other
+aggregate code-quality grade is produced.
 
-Automated observations are not judgements. A linter finding is not necessarily a bug; a test directory does not establish test effectiveness; a CI file does not establish a passing build; absence of a detected vulnerability does not prove security.
+Counts are normalized by an appropriate published denominator such as production kLOC or
+recognized functions. Tests, generated code, vendored code, fixtures, documentation, and
+data never enter production-code denominators.
+
+## Usage and robustness
+
+Required interface contracts cover help, version identity, invalid-option rejection,
+stderr diagnostics, bounded execution, absence of internal tracebacks/panics, and clean
+side effects. Stream support is recorded but is required only when applicable to the
+documented interface.
+
+A curated miniature run demonstrates only that valid input is accepted and structurally
+valid output is produced within the resource budget. It does not validate scientific
+correctness. Seven mandatory malformed-input scenarios assess graceful behaviour.
+
+## Aggregate exploration
+
+The website exposes language trends, activity, long-file and long-function distributions,
+complexity, duplication, documentation coverage, native linter-rule frequencies, native
+security findings, repository-practice prevalence, and robustness outcomes. Analyzer data
+are comparable only within compatible language/analyzer/configuration groups.
+
+Groups smaller than ten show individual points. Groups of 10–19 show boxes plus points;
+groups of at least 20 may show violins, boxes, and points. Underlying project points remain
+visible. AI-tooling milestones are optional contextual annotations and never causal claims.

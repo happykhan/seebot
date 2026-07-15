@@ -1,7 +1,8 @@
-"""The seebot command-line interface."""
+"""Command-line interface for deterministic Seebot collection and reporting."""
 
 from __future__ import annotations
 
+import csv
 import json
 import shutil
 from dataclasses import dataclass
@@ -12,59 +13,50 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from seebot.analyzers.languages import reviewed_language_roots, run_language_analyzers
-from seebot.analyzers.python import run_python_analyzers
-from seebot.analyzers.repository import run_repository_observation
 from seebot.cohort.downloads import fetch_window
 from seebot.cohort.rank import rank_downloads
-from seebot.evidence import (
-    ContainerProbeSpec,
-    ProbeSpec,
-    run_container_probe,
-    run_probe,
-    sha256_file,
-)
+from seebot.fixtures import validate_catalogue
 from seebot.manifests import load_yaml, validate_manifest, write_template
 from seebot.normalize.results import normalize_run, rebuild_global_results
-from seebot.recipes.checkout import fetch_recipe_file
-from seebot.recipes.test_depth import write_recipe_test_observation
-from seebot.report.awards import load_award_config, rank_packages, write_badges
-from seebot.report.profiles import build_profiles
-from seebot.report.site import enrich_repository_rows
-from seebot.runtime.pixi import (
-    PixiEnvironment,
-    PixiProbeSpec,
-    prepare_environment,
-    run_pixi_probe,
-)
-from seebot.source.fetch import download_verified, extract_safe
-from seebot.source.inventory import inventory_tree
+from seebot.selection import select_manifests
+from seebot.storage import directory_size, format_bytes, prune_owned_directory
+from seebot.survey import SURVEY_FIELDS, survey_rows
 
 ROOT = Path(__file__).resolve().parents[2]
+MANIFEST_DIRECTORY = ROOT / "manifests" / "packages"
+SNAPSHOT_DATE = "2026-07-01"
+
 console = Console()
-app = typer.Typer(no_args_is_help=True, help="Reproducible Bioconda software audits.")
+app = typer.Typer(no_args_is_help=True, help="Evidence-based scientific software observations.")
 cohort_app = typer.Typer(no_args_is_help=True)
 manifest_app = typer.Typer(no_args_is_help=True)
-recipe_app = typer.Typer(no_args_is_help=True)
-source_app = typer.Typer(no_args_is_help=True)
+fixture_app = typer.Typer(no_args_is_help=True)
+survey_app = typer.Typer(no_args_is_help=True)
+cache_app = typer.Typer(no_args_is_help=True)
 audit_app = typer.Typer(no_args_is_help=True)
+history_app = typer.Typer(no_args_is_help=True)
 results_app = typer.Typer(no_args_is_help=True)
 report_app = typer.Typer(no_args_is_help=True)
 batch_app = typer.Typer(no_args_is_help=True)
-app.add_typer(cohort_app, name="cohort")
-app.add_typer(manifest_app, name="manifest")
-app.add_typer(recipe_app, name="recipe")
-app.add_typer(source_app, name="source")
-app.add_typer(audit_app, name="audit")
-app.add_typer(results_app, name="results")
-app.add_typer(report_app, name="report")
-app.add_typer(batch_app, name="batch")
+
+for command_name, command_app in (
+    ("cohort", cohort_app),
+    ("manifest", manifest_app),
+    ("fixture", fixture_app),
+    ("survey", survey_app),
+    ("cache", cache_app),
+    ("audit", audit_app),
+    ("history", history_app),
+    ("results", results_app),
+    ("report", report_app),
+    ("batch", batch_app),
+):
+    app.add_typer(command_app, name=command_name)
 
 
 @dataclass
 class Options:
     dry_run: bool
-    verbose: bool
     output_directory: Path
     run_id: str
     resume: bool
@@ -77,18 +69,15 @@ def main(
     dry_run: Annotated[
         bool, typer.Option("--dry-run", help="Plan without changing files.")
     ] = False,
-    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
     output_directory: Annotated[
         Path, typer.Option("--output-directory", help="Root for generated output.")
     ] = ROOT,
-    run_id: Annotated[
-        str, typer.Option("--run-id", help="Immutable audit run identifier.")
-    ] = "local",
+    run_id: Annotated[str, typer.Option("--run-id")] = "current",
     resume: Annotated[bool, typer.Option("--resume/--no-resume")] = True,
-    force: Annotated[bool, typer.Option("--force", help="Replace completed evidence.")] = False,
+    force: Annotated[bool, typer.Option("--force", help="Overwrite current results.")] = False,
 ) -> None:
-    """Global options are inherited by every subcommand."""
-    ctx.obj = Options(dry_run, verbose, output_directory.resolve(), run_id, resume, force)
+    """Set options inherited by every subcommand."""
+    ctx.obj = Options(dry_run, output_directory.resolve(), run_id, resume, force)
 
 
 def options(ctx: typer.Context) -> Options:
@@ -98,18 +87,26 @@ def options(ctx: typer.Context) -> Options:
 def resolve_manifest(value: Path) -> Path:
     if value.exists():
         return value.resolve()
-    candidate = ROOT / "manifests" / "packages" / f"{value}.yaml"
+    candidate = MANIFEST_DIRECTORY / f"{value}.yaml"
     if candidate.exists():
         return candidate.resolve()
-    raise typer.BadParameter(f"No package manifest found for {value}")
+    raise typer.BadParameter(f"No project manifest found for {value}")
 
 
-def package_id(manifest: dict[str, Any]) -> str:
-    package = manifest["package"]["name"]
-    bioconda = manifest["bioconda"]
-    version = bioconda["version"] or "UNKNOWN"
-    build = bioconda["build"] or "UNKNOWN"
-    return f"{package}__{version}__{build}__{bioconda['subdir']}"
+def selected_projects(
+    tools: list[str] | None,
+    categories: list[str] | None,
+    languages: list[str] | None,
+) -> list[tuple[Path, dict[str, Any]]]:
+    try:
+        return select_manifests(
+            MANIFEST_DIRECTORY,
+            tools=tools,
+            categories=categories,
+            languages=languages,
+        )
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
 
 
 @cohort_app.command("fetch")
@@ -117,11 +114,12 @@ def cohort_fetch(
     ctx: typer.Context,
     months: Annotated[int, typer.Option(min=1, max=60)] = 12,
 ) -> None:
-    """Fetch exactly N complete months from the official Anaconda dataset."""
+    """Fetch complete months of official Anaconda download records."""
     opts = options(ctx)
     output = opts.output_directory / "data" / "raw" / "anaconda-downloads"
     manifest = fetch_window(output, months=months, dry_run=opts.dry_run)
-    object_count = len(manifest["objects"]) if isinstance(manifest["objects"], list) else 0
+    objects = manifest["objects"]
+    object_count = len(objects) if isinstance(objects, list) else 0
     console.print(
         f"Selected {manifest['period_start']} through {manifest['period_end']} "
         f"({object_count} daily objects)."
@@ -132,18 +130,22 @@ def cohort_fetch(
 def cohort_rank(
     ctx: typer.Context,
     channel: Annotated[str, typer.Option()] = "bioconda",
-    top: Annotated[int, typer.Option(min=1)] = 300,
+    top: Annotated[int, typer.Option(min=300)] = 300,
 ) -> None:
+    """Aggregate package downloads for discovery only; this is not a project metric."""
     opts = options(ctx)
     output = opts.output_directory / "data" / "cohort" / "cohort-ranked.csv"
     if opts.dry_run:
         console.print(f"Would aggregate local official Parquet inputs into {output}")
         return
     query_hash = rank_downloads(
-        opts.output_directory / "data" / "raw" / "anaconda-downloads", output, channel, top
+        opts.output_directory / "data" / "raw" / "anaconda-downloads",
+        output,
+        channel,
+        top,
     )
-    (output.with_suffix(".query.sha256")).write_text(query_hash + "\n", encoding="utf-8")
-    console.print(f"Wrote {output} (query {query_hash}).")
+    output.with_suffix(".query.sha256").write_text(query_hash + "\n", encoding="utf-8")
+    console.print(f"Wrote discovery candidates to {output} (query {query_hash}).")
 
 
 @cohort_app.command("freeze")
@@ -151,6 +153,7 @@ def cohort_freeze(
     ctx: typer.Context,
     output: Annotated[Path, typer.Option()] = Path("data/cohort/cohort-candidates.csv"),
 ) -> None:
+    """Copy the reviewed discovery table into the candidate input."""
     opts = options(ctx)
     source = opts.output_directory / "data" / "cohort" / "cohort-ranked.csv"
     target = output if output.is_absolute() else opts.output_directory / output
@@ -158,23 +161,23 @@ def cohort_freeze(
         console.print(f"Would freeze {source} as {target}")
         return
     if not source.exists():
-        raise typer.BadParameter(f"Ranked cohort does not exist: {source}")
+        raise typer.BadParameter(f"Ranked discovery table does not exist: {source}")
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
     console.print(f"Frozen candidate table: {target}")
 
 
 @manifest_app.command("init")
-def manifest_init(ctx: typer.Context, package: str) -> None:
+def manifest_init(ctx: typer.Context, project: str) -> None:
     opts = options(ctx)
-    target = opts.output_directory / "manifests" / "packages" / f"{package}.yaml"
+    target = opts.output_directory / "manifests" / "packages" / f"{project}.yaml"
     if target.exists() and not opts.force:
         raise typer.BadParameter(f"Manifest exists; pass --force before the command: {target}")
     if opts.dry_run:
         console.print(f"Would create {target}")
         return
-    write_template(package, target)
-    console.print(f"Created unreviewed manifest: {target}")
+    write_template(project, target)
+    console.print(f"Created unreviewed project manifest: {target}")
 
 
 @manifest_app.command("validate")
@@ -190,8 +193,8 @@ def manifest_validate(path: Path) -> None:
 
 @manifest_app.command("validate-all")
 def manifest_validate_all() -> None:
-    paths = sorted((ROOT / "manifests" / "packages").glob("*.yaml"))
     failed = 0
+    paths = sorted(MANIFEST_DIRECTORY.glob("*.yaml"))
     for path in paths:
         errors = validate_manifest(path)
         if errors:
@@ -201,643 +204,145 @@ def manifest_validate_all() -> None:
             console.print(f"[green]Valid[/green] {path}")
     if failed:
         raise typer.Exit(1)
-    console.print(f"Validated {len(paths)} package manifest(s).")
+    console.print(f"Validated {len(paths)} project manifest(s).")
 
 
-@recipe_app.command("fetch")
-def recipe_fetch(ctx: typer.Context, package: Path) -> None:
-    """Preserve the original recipe from its reviewed immutable commit."""
-    opts = options(ctx)
-    manifest = load_yaml(resolve_manifest(package))
-    commit = manifest["bioconda"]["recipes_commit"]
-    if not commit:
-        console.print("[yellow]NOT_RUN[/yellow]: manifest has no reviewed recipes_commit.")
-        raise typer.Exit(2)
-    target = opts.output_directory / "work" / package_id(manifest) / "recipe" / "meta.yaml"
-    if target.exists() and not opts.force:
-        console.print(f"Using preserved recipe: {target}")
-        return
-    if opts.dry_run:
-        console.print(f"Would fetch {manifest['bioconda']['recipe_path']} at {commit}")
-        return
-    fetch_recipe_file(commit, manifest["bioconda"]["recipe_path"], target)
-    console.print(f"Preserved pinned recipe: {target}")
-
-
-@source_app.command("fetch")
-def source_fetch(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    source = manifest["release_source"]
-    if not source["source_url"] or not source["source_sha256"]:
-        console.print("[yellow]NOT_RUN[/yellow]: source URL/checksum has not been reviewed.")
-        raise typer.Exit(2)
-    archive = opts.output_directory / "work" / package_id(manifest) / "source.archive"
-    extracted = archive.parent / "source"
-    if opts.dry_run:
-        console.print(f"Would download, verify, and safely extract {source['source_url']}")
-        return
-    download_verified(source["source_url"], archive, source["source_sha256"])
-    extract_safe(archive, extracted)
-    console.print(f"Verified and extracted source to {extracted}")
-
-
-@source_app.command("inventory")
-def source_inventory(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest = load_yaml(resolve_manifest(package))
-    root = opts.output_directory / "work" / package_id(manifest) / "source"
-    if not root.exists():
-        raise typer.BadParameter(f"No extracted release source: {root}")
-    excluded = [Path(value) for value in manifest["source_layout"]["excluded_paths"]]
-    layout = manifest["source_layout"]
-    rows = inventory_tree(
-        root,
-        excluded,
-        test_paths=[Path(value) for value in layout["test_roots"]],
-        documentation_paths=[Path(value) for value in layout["documentation_roots"]],
-        generated_paths=[Path(value) for value in layout["generated_paths"]],
-        vendored_paths=[Path(value) for value in layout["vendored_paths"]],
-    )
-    target = root.parent / "source-inventory.json"
-    if not opts.dry_run:
-        target.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
-    console.print(f"Inventoried {len(rows)} files into {target}")
-
-
-def resolved_command(command: list[str], manifest_path: Path) -> list[str]:
-    resolved: list[str] = []
-    for value in command:
-        candidate = manifest_path.parent / value
-        resolved.append(str(candidate.resolve()) if candidate.exists() else value)
-    return resolved
-
-
-def container_probe(
-    manifest: dict[str, Any],
-    *,
-    check_id: str,
-    domain: str,
-    command: list[str],
-    allowed_exit_codes: list[int],
-    fixture_directory: Path | None = None,
-    expected_stdout_contains: str | None = None,
-    expected_output_sha256: dict[str, str] | None = None,
-    manifest_path: Path | None = None,
-) -> ContainerProbeSpec:
-    runtime = manifest["runtime"]
-    if runtime["backend"] != "container":
-        raise typer.BadParameter("Manifest does not define a container runtime.")
-    if not runtime["container_image"] or not runtime["container_digest"]:
-        raise typer.BadParameter("Container image and digest must both be reviewed.")
-    return ContainerProbeSpec(
-        package_id=package_id(manifest),
-        check_id=check_id,
-        domain=domain,
-        command=command,
-        allowed_exit_codes=allowed_exit_codes,
-        timeout_seconds=manifest["cli"]["timeout_seconds"],
-        image=runtime["container_image"],
-        digest=runtime["container_digest"],
-        platform=runtime["platform"],
-        fixture_directory=fixture_directory,
-        expected_stdout_contains=expected_stdout_contains,
-        expected_output_sha256=expected_output_sha256,
-        manifest_sha256=sha256_file(manifest_path) if manifest_path else None,
-    )
-
-
-def package_pixi_environment(manifest: dict[str, Any], opts: Options) -> PixiEnvironment:
-    runtime = manifest["runtime"]
-    package_name = runtime["pixi_package"] or manifest["package"]["name"]
-    version = manifest["bioconda"]["version"]
-    if not version:
-        raise typer.BadParameter("A reviewed package version is required for Pixi.")
-    return prepare_environment(
-        opts.output_directory / "work" / package_id(manifest) / "pixi-environment",
-        package_name=package_name,
-        version=str(version),
-        channels=runtime["pixi_channels"],
-    )
-
-
-def pixi_probe(
-    manifest: dict[str, Any],
-    environment: PixiEnvironment,
-    *,
-    check_id: str,
-    domain: str,
-    command: list[str],
-    allowed_exit_codes: list[int],
-    fixture_directory: Path | None = None,
-    expected_stdout_contains: str | None = None,
-    expected_output_sha256: dict[str, str] | None = None,
-    manifest_path: Path | None = None,
-    repeat_count: int = 1,
-    required_text_tokens: tuple[str, ...] = (),
-    required_any_text_tokens: tuple[str, ...] = (),
-    forbid_traceback: bool = False,
-    require_diagnostic: bool = False,
-    forbid_created_files: bool = False,
-) -> PixiProbeSpec:
-    return PixiProbeSpec(
-        package_id=package_id(manifest),
-        check_id=check_id,
-        domain=domain,
-        command=command,
-        allowed_exit_codes=allowed_exit_codes,
-        timeout_seconds=manifest["cli"]["timeout_seconds"],
-        environment=environment,
-        fixture_directory=fixture_directory,
-        expected_stdout_contains=expected_stdout_contains,
-        expected_output_sha256=expected_output_sha256,
-        manifest_sha256=sha256_file(manifest_path) if manifest_path else None,
-        repeat_count=repeat_count,
-        required_text_tokens=required_text_tokens,
-        required_any_text_tokens=required_any_text_tokens,
-        forbid_traceback=forbid_traceback,
-        require_diagnostic=require_diagnostic,
-        forbid_created_files=forbid_created_files,
-    )
-
-
-def execute_container_probes(probes: list[ContainerProbeSpec], opts: Options) -> list[Any]:
-    table = Table("Check", "Status", "Exit code")
-    results = []
-    for probe in probes:
-        if opts.dry_run:
-            table.add_row(probe.check_id, "NOT_RUN", "-")
-            continue
-        result = run_container_probe(
-            probe,
-            run_id=opts.run_id,
-            evidence_root=opts.output_directory / "evidence",
-            config_path=ROOT / "config" / "rubric.yaml",
-            force=opts.force,
-        )
-        results.append(result)
-        table.add_row(result.check_id, result.status.value, str(result.observed.get("exit_code")))
-    console.print(table)
-    return results
-
-
-def execute_pixi_probes(probes: list[PixiProbeSpec], opts: Options) -> list[Any]:
-    table = Table("Check", "Status", "Exit code")
-    results = []
-    for probe in probes:
-        if opts.dry_run:
-            table.add_row(probe.check_id, "NOT_RUN", "-")
-            continue
-        result = run_pixi_probe(
-            probe,
-            run_id=opts.run_id,
-            evidence_root=opts.output_directory / "evidence",
-            config_path=ROOT / "config" / "rubric.yaml",
-            force=opts.force,
-        )
-        results.append(result)
-        table.add_row(result.check_id, result.status.value, str(result.observed.get("exit_code")))
-    console.print(table)
-    return results
-
-
-@audit_app.command("cli")
-def audit_cli(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    errors = validate_manifest(manifest_path)
+@fixture_app.command("validate")
+def fixture_validate() -> None:
+    errors = validate_catalogue()
     if errors:
-        raise typer.BadParameter("Manifest is invalid: " + "; ".join(errors))
-    cli = manifest["cli"]
-    if manifest["runtime"]["backend"] == "pixi":
-        environment = package_pixi_environment(manifest, opts)
-        probes: list[PixiProbeSpec] = []
-        executable = manifest["bioconda"]["primary_executables"][0]
-        no_argument_codes = [0, 1, 2, 64] if cli["no_argument_policy"] != "successful_noop" else [0]
-        probes.append(
-            pixi_probe(
-                manifest,
-                environment,
-                check_id="CLI-NOARGS-001",
-                domain="cli",
-                command=[executable],
-                allowed_exit_codes=no_argument_codes,
-                manifest_path=manifest_path,
-            )
-        )
-        for command in cli["help_commands"]:
-            probes.append(
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-HELP-001",
-                    domain="cli",
-                    command=command,
-                    allowed_exit_codes=[0],
-                    manifest_path=manifest_path,
-                )
-            )
-            probes.append(
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-HELP-CONTENT-001",
-                    domain="cli",
-                    command=command,
-                    allowed_exit_codes=[0],
-                    manifest_path=manifest_path,
-                    required_text_tokens=("usage",),
-                    required_any_text_tokens=("options", "arguments", "commands"),
-                    forbid_created_files=True,
-                )
-            )
-        for command in cli["version_commands"]:
-            probes.append(
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-VERSION-001",
-                    domain="cli",
-                    command=command,
-                    allowed_exit_codes=[0],
-                    expected_stdout_contains=str(manifest["bioconda"]["version"]),
-                    manifest_path=manifest_path,
-                )
-            )
-        if cli["invalid_option_command"]:
-            probes.append(
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-INVALID-001",
-                    domain="cli",
-                    command=cli["invalid_option_command"],
-                    allowed_exit_codes=[1, 2, 64],
-                    manifest_path=manifest_path,
-                )
-            )
-            probes.append(
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-ERROR-QUALITY-001",
-                    domain="robustness",
-                    command=cli["invalid_option_command"],
-                    allowed_exit_codes=[1, 2, 64],
-                    manifest_path=manifest_path,
-                    forbid_traceback=True,
-                    require_diagnostic=True,
-                    forbid_created_files=True,
-                )
-            )
-        if cli["help_commands"]:
-            probes.append(
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-REPEAT-001",
-                    domain="robustness",
-                    command=cli["help_commands"][0],
-                    allowed_exit_codes=[0],
-                    manifest_path=manifest_path,
-                    repeat_count=2,
-                )
-            )
-        execute_pixi_probes(probes, opts)
-        return
-    if manifest["runtime"]["backend"] == "container":
-        container_probes: list[ContainerProbeSpec] = []
-        for command in cli["help_commands"]:
-            container_probes.append(
-                container_probe(
-                    manifest,
-                    check_id="CLI-HELP-001",
-                    domain="cli",
-                    command=command,
-                    allowed_exit_codes=[0],
-                    manifest_path=manifest_path,
-                )
-            )
-        for command in cli["version_commands"]:
-            container_probes.append(
-                container_probe(
-                    manifest,
-                    check_id="CLI-VERSION-001",
-                    domain="cli",
-                    command=command,
-                    allowed_exit_codes=[0],
-                    expected_stdout_contains=str(manifest["bioconda"]["version"]),
-                    manifest_path=manifest_path,
-                )
-            )
-        if cli["invalid_option_command"]:
-            container_probes.append(
-                container_probe(
-                    manifest,
-                    check_id="CLI-INVALID-001",
-                    domain="cli",
-                    command=cli["invalid_option_command"],
-                    allowed_exit_codes=[1, 2, 64],
-                    manifest_path=manifest_path,
-                )
-            )
-        execute_container_probes(container_probes, opts)
-        return
+        for error in errors:
+            console.print(f"[red]ERROR[/red] {error}")
+        raise typer.Exit(1)
+    console.print("[green]Valid[/green] shared fixture catalogue.")
 
-    native_probes: list[ProbeSpec] = []
-    pkg_id = package_id(manifest)
-    for command in cli["help_commands"]:
-        native_probes.append(
-            ProbeSpec(
-                pkg_id,
-                "CLI-HELP-001",
-                resolved_command(command, manifest_path),
-                [0],
-                cli["timeout_seconds"],
-            )
+
+@survey_app.command("export")
+def survey_export(
+    ctx: typer.Context,
+    output: Annotated[Path, typer.Option()] = Path("data/cohort/interface-survey.csv"),
+    tool: Annotated[list[str] | None, typer.Option("--tool")] = None,
+    category: Annotated[list[str] | None, typer.Option("--category")] = None,
+    language: Annotated[list[str] | None, typer.Option("--language")] = None,
+) -> None:
+    """Export the metadata-first interface and fixture survey."""
+    opts = options(ctx)
+    target = output if output.is_absolute() else opts.output_directory / output
+    rows = survey_rows(
+        MANIFEST_DIRECTORY,
+        tools=tool,
+        categories=category,
+        languages=language,
+        include_excluded=True,
+    )
+    if opts.dry_run:
+        console.print(f"Would write {len(rows)} survey row(s) to {target}")
+        return
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with target.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=SURVEY_FIELDS)
+        writer.writeheader()
+        writer.writerows(rows)
+    console.print(f"Wrote {len(rows)} survey row(s) to {target}")
+
+
+@survey_app.command("list")
+def survey_list(
+    tool: Annotated[list[str] | None, typer.Option("--tool")] = None,
+    category: Annotated[list[str] | None, typer.Option("--category")] = None,
+    language: Annotated[list[str] | None, typer.Option("--language")] = None,
+    include_excluded: Annotated[bool, typer.Option("--include-excluded")] = False,
+) -> None:
+    """List projects selected for survey or later rerun."""
+    try:
+        selected = select_manifests(
+            MANIFEST_DIRECTORY,
+            tools=tool,
+            categories=category,
+            languages=language,
+            include_excluded=include_excluded,
         )
-    for command in cli["version_commands"]:
-        native_probes.append(
-            ProbeSpec(
-                pkg_id,
-                "CLI-VERSION-001",
-                resolved_command(command, manifest_path),
-                [0],
-                cli["timeout_seconds"],
-            )
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
+    table = Table("Project", "Category", "Languages", "Curation")
+    for _, manifest in selected:
+        table.add_row(
+            manifest["project"]["id"],
+            manifest["project"]["primary_category"] or "unknown",
+            ", ".join(sorted(manifest["source"]["language_roots"])) or "unknown",
+            manifest["curation"]["status"],
         )
-    if cli["invalid_option_command"]:
-        native_probes.append(
-            ProbeSpec(
-                pkg_id,
-                "CLI-INVALID-001",
-                resolved_command(cli["invalid_option_command"], manifest_path),
-                [1, 2, 64],
-                cli["timeout_seconds"],
-            )
-        )
-    table = Table("Check", "Status", "Exit code")
-    for probe in native_probes:
+    console.print(table)
+
+
+@cache_app.command("status")
+def cache_status(ctx: typer.Context) -> None:
+    opts = options(ctx)
+    for label, path in (
+        ("Seebot cache", opts.output_directory / ".seebot-cache"),
+        ("Temporary work", opts.output_directory / "work"),
+    ):
+        console.print(f"{label}: {format_bytes(directory_size(path))} ({path})")
+
+
+@cache_app.command("prune")
+def cache_prune(
+    ctx: typer.Context,
+    yes: Annotated[
+        bool,
+        typer.Option("--yes", help="Remove Seebot-owned cache and work directories."),
+    ] = False,
+) -> None:
+    """Remove only storage owned by Seebot, never global Pixi caches."""
+    opts = options(ctx)
+    if not yes:
+        raise typer.BadParameter("Pass --yes to remove only .seebot-cache and work.")
+    removed = 0
+    for path in (opts.output_directory / ".seebot-cache", opts.output_directory / "work"):
         if opts.dry_run:
-            table.add_row(probe.check_id, "NOT_RUN", "-")
-            continue
-        result = run_probe(
-            probe,
-            run_id=opts.run_id,
-            evidence_root=opts.output_directory / "evidence",
-            config_path=ROOT / "config" / "rubric.yaml",
-            force=opts.force,
+            console.print(f"Would remove Seebot-owned directory {path}")
+        else:
+            removed += prune_owned_directory(path)
+    if not opts.dry_run:
+        console.print(f"Removed {format_bytes(removed)} from Seebot-owned storage.")
+
+
+@audit_app.command("plan")
+def audit_plan(
+    tool: Annotated[list[str] | None, typer.Option("--tool")] = None,
+    category: Annotated[list[str] | None, typer.Option("--category")] = None,
+    language: Annotated[list[str] | None, typer.Option("--language")] = None,
+    check: Annotated[list[str] | None, typer.Option("--check")] = None,
+) -> None:
+    """Plan current-snapshot checks without installing or executing projects."""
+    selected = selected_projects(tool, category, language)
+    checks = sorted(set(check or ["repository", "source", "usage", "robustness"]))
+    table = Table("Project", "Snapshot", "Checks", "Installer", "Valid run")
+    for _, manifest in selected:
+        table.add_row(
+            manifest["project"]["id"],
+            manifest["repository"]["snapshot_date"],
+            ", ".join(checks),
+            manifest["installation"]["adapter"],
+            manifest["valid_run"]["status"],
         )
-        table.add_row(result.check_id, result.status.value, str(result.observed.get("exit_code")))
     console.print(table)
 
 
-def not_run(domain: str) -> None:
-    console.print(
-        f"[yellow]NOT_RUN[/yellow]: {domain} audit is scaffolded but not enabled "
-        "before pilot calibration."
-    )
-
-
-@audit_app.command("repository")
-def audit_repository(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    upstream = manifest["upstream"]
-    if not upstream["repository_url"] or not upstream["default_branch_commit_at_audit"]:
-        console.print("[yellow]NOT_RUN[/yellow]: upstream repository mapping is incomplete.")
-        return
-    if opts.dry_run:
-        console.print(
-            f"Would inspect {upstream['repository_url']} at "
-            f"{upstream['default_branch_commit_at_audit']}"
-        )
-        return
-    result = run_repository_observation(
-        repository_url=upstream["repository_url"],
-        commit=upstream["default_branch_commit_at_audit"],
-        package_id=package_id(manifest),
-        run_id=opts.run_id,
-        evidence_root=opts.output_directory / "evidence",
-        config_path=ROOT / "config" / "audit.yaml",
-        manifest_sha256=sha256_file(manifest_path),
-        force=opts.force,
-    )
-    console.print(f"{result.check_id}: {result.status.value}")
-
-
-@audit_app.command("recipe")
-def audit_recipe(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    recipe_test = manifest["recipe_test"]
-    if recipe_test["status"] != "reviewed":
-        console.print("[yellow]NOT_RUN[/yellow]: recipe test depth has not been reviewed.")
-        return
-    preserved = opts.output_directory / "work" / package_id(manifest) / "recipe" / "meta.yaml"
-    if not preserved.exists():
-        raise typer.BadParameter(f"Fetch the pinned recipe first: {preserved}")
-    if opts.dry_run:
-        console.print(f"Would record reviewed recipe test depth {recipe_test['depth']}")
-        return
-    result = write_recipe_test_observation(
-        package_id=package_id(manifest),
-        run_id=opts.run_id,
-        recipe_test=recipe_test,
-        recipes_commit=manifest["bioconda"]["recipes_commit"],
-        recipe_path=manifest["bioconda"]["recipe_path"],
-        preserved_recipe=preserved,
-        evidence_root=opts.output_directory / "evidence",
-        config_path=ROOT / "config" / "rubric.yaml",
-        manifest_sha256=sha256_file(manifest_path),
-        force=opts.force,
-    )
-    console.print(f"{result.check_id}: {result.status.value} (depth {recipe_test['depth']})")
-
-
-@audit_app.command("python")
-def audit_python(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest = load_yaml(resolve_manifest(package))
-    manifest_path = resolve_manifest(package)
-    extracted = opts.output_directory / "work" / package_id(manifest) / "source"
-    production_roots = (
-        manifest["source_layout"]
-        .get("language_roots", {})
-        .get("python", manifest["source_layout"]["production_roots"])
-    )
-    if not production_roots:
-        raise typer.BadParameter("Manifest has no reviewed production source root.")
-    source_roots = [extracted / root for root in production_roots]
-    missing_roots = [root for root in source_roots if not root.exists()]
-    if missing_roots:
-        raise typer.BadParameter(
-            "Fetch packaged release source first; missing: "
-            + ", ".join(str(root) for root in missing_roots)
-        )
-    if opts.dry_run:
-        console.print(f"Would run the fixed Python toolchain against {len(source_roots)} roots")
-        return
-    results = run_python_analyzers(
-        source_roots=source_roots,
-        package_id=package_id(manifest),
-        run_id=opts.run_id,
-        evidence_root=opts.output_directory / "evidence",
-        config_root=ROOT / "config",
-        manifest_sha256=sha256_file(manifest_path),
-        force=opts.force,
-    )
-    table = Table("Check", "Status", "Observation count")
-    for result in results:
-        count = next(
-            (
-                value
-                for key, value in result.observed.items()
-                if key.endswith("_count") and isinstance(value, int)
-            ),
-            "-",
-        )
-        table.add_row(result.check_id, result.status.value, str(count))
+@history_app.command("plan")
+def history_plan(
+    tool: Annotated[list[str] | None, typer.Option("--tool")] = None,
+    category: Annotated[list[str] | None, typer.Option("--category")] = None,
+    language: Annotated[list[str] | None, typer.Option("--language")] = None,
+    year: Annotated[list[int] | None, typer.Option("--year", min=2021, max=2025)] = None,
+) -> None:
+    """Plan historical source-only observations at 1 July snapshots."""
+    selected = selected_projects(tool, category, language)
+    years = sorted(set(year or [2021, 2022, 2023, 2024, 2025]))
+    table = Table("Project", "Years", "Scope")
+    for _, manifest in selected:
+        table.add_row(manifest["project"]["id"], ", ".join(map(str, years)), "source only")
     console.print(table)
-
-
-@audit_app.command("source")
-def audit_source(ctx: typer.Context, package: Path) -> None:
-    """Run every analyzer for the manifest's reviewed language roots."""
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    extracted = opts.output_directory / "work" / package_id(manifest) / "source"
-    languages = reviewed_language_roots(manifest, extracted)
-    if not languages:
-        console.print("[yellow]NOT_RUN[/yellow]: no reviewed language roots.")
-        return
-    missing = [root for roots in languages.values() for root in roots if not root.exists()]
-    if missing:
-        raise typer.BadParameter(
-            "Fetch packaged release source first; missing: " + ", ".join(map(str, missing))
-        )
-    table = Table("Language", "Measurements", "Measured", "Unavailable/Error")
-    for language, roots in languages.items():
-        if opts.dry_run:
-            table.add_row(language, "planned", "-", "-")
-            continue
-        results = run_language_analyzers(
-            language=language,
-            source_roots=roots,
-            package_id=package_id(manifest),
-            run_id=opts.run_id,
-            evidence_root=opts.output_directory / "evidence",
-            config_root=ROOT / "config",
-            manifest_sha256=sha256_file(manifest_path),
-            force=opts.force,
-        )
-        measured = sum(result.status.value == "PASS" for result in results)
-        table.add_row(language, str(len(results)), str(measured), str(len(results) - measured))
-    console.print(table)
-
-
-@audit_app.command("install")
-def audit_install(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    executable = manifest["bioconda"]["primary_executables"][0]
-    version = str(manifest["bioconda"]["version"])
-    if manifest["runtime"]["backend"] == "pixi":
-        environment = package_pixi_environment(manifest, opts)
-        execute_pixi_probes(
-            [
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="PKG-IDENTITY-001",
-                    domain="package",
-                    command=[executable, "--version"],
-                    allowed_exit_codes=[0],
-                    expected_stdout_contains=version,
-                    manifest_path=manifest_path,
-                )
-            ],
-            opts,
-        )
-        return
-    execute_container_probes(
-        [
-            container_probe(
-                manifest,
-                check_id="PKG-IDENTITY-001",
-                domain="package",
-                command=[executable, "--version"],
-                allowed_exit_codes=[0],
-                expected_stdout_contains=version,
-                manifest_path=manifest_path,
-            )
-        ],
-        opts,
-    )
-
-
-@audit_app.command("functional")
-def audit_functional(ctx: typer.Context, package: Path) -> None:
-    opts = options(ctx)
-    manifest_path = resolve_manifest(package)
-    manifest = load_yaml(manifest_path)
-    functional = manifest["functional_test"]
-    if functional["status"] != "reviewed" or functional["command"] is None:
-        console.print("[yellow]NOT_RUN[/yellow]: functional test has not been reviewed.")
-        return
-    fixture = Path(functional["fixture_directory"])
-    if not fixture.is_absolute():
-        fixture = ROOT / fixture
-    if manifest["runtime"]["backend"] == "pixi":
-        environment = package_pixi_environment(manifest, opts)
-        execute_pixi_probes(
-            [
-                pixi_probe(
-                    manifest,
-                    environment,
-                    check_id="CLI-FUNCTIONAL-001",
-                    domain="functional",
-                    command=functional["command"],
-                    allowed_exit_codes=[0],
-                    fixture_directory=fixture,
-                    expected_output_sha256=functional["expected_output_sha256"],
-                    manifest_path=manifest_path,
-                )
-            ],
-            opts,
-        )
-        return
-    execute_container_probes(
-        [
-            container_probe(
-                manifest,
-                check_id="CLI-FUNCTIONAL-001",
-                domain="functional",
-                command=functional["command"],
-                allowed_exit_codes=[0],
-                fixture_directory=fixture,
-                expected_output_sha256=functional["expected_output_sha256"],
-                manifest_path=manifest_path,
-            )
-        ],
-        opts,
-    )
-
-
-@audit_app.command("all")
-def audit_all(ctx: typer.Context, package: Path) -> None:
-    audit_recipe(ctx, package)
-    audit_install(ctx, package)
-    audit_cli(ctx, package)
-    audit_functional(ctx, package)
-    audit_source(ctx, package)
-    audit_repository(ctx, package)
 
 
 @results_app.command("normalize")
@@ -847,7 +352,9 @@ def results_normalize(ctx: typer.Context) -> None:
         console.print(f"Would normalize completed evidence for {opts.run_id}")
         return
     json_path, csv_path = normalize_run(
-        opts.output_directory / "evidence", opts.output_directory / "results", opts.run_id
+        opts.output_directory / "evidence",
+        opts.output_directory / "results",
+        opts.run_id,
     )
     console.print(f"Wrote {json_path} and {csv_path}")
     global_json, global_csv = rebuild_global_results(opts.output_directory / "results")
@@ -856,7 +363,6 @@ def results_normalize(ctx: typer.Context) -> None:
 
 @results_app.command("rebuild-global")
 def results_rebuild_global(ctx: typer.Context) -> None:
-    """Rebuild the global check fact table from all normalized runs."""
     opts = options(ctx)
     if opts.dry_run:
         console.print("Would rebuild the global table from normalized runs")
@@ -865,86 +371,80 @@ def results_rebuild_global(ctx: typer.Context) -> None:
     console.print(f"Wrote {json_path} and {csv_path}")
 
 
+def build_dataset() -> dict[str, Any]:
+    projects: list[dict[str, Any]] = []
+    language_counts: dict[str, int] = {}
+    for manifest_path in sorted(MANIFEST_DIRECTORY.glob("*.yaml")):
+        manifest = load_yaml(manifest_path)
+        project = manifest["project"]
+        languages = sorted(manifest["source"]["language_roots"])
+        for language in languages:
+            language_counts[language] = language_counts.get(language, 0) + 1
+        projects.append(
+            {
+                "id": project["id"],
+                "name": project["name"],
+                "description": project["description"],
+                "category": project["primary_category"],
+                "tags": project["tags"],
+                "included": project["include"],
+                "exclusion_code": project["exclusion_code"],
+                "repository_url": manifest["repository"]["url"],
+                "snapshot_date": manifest["repository"]["snapshot_date"],
+                "languages": languages,
+                "primary_executable": manifest["interfaces"]["primary"],
+                "valid_run_status": manifest["valid_run"]["status"],
+                "curation_status": manifest["curation"]["status"],
+                "labels": {
+                    "usage_exemplar": False,
+                    "repository_practice_exemplar": False,
+                    "complete_assessment": False,
+                    "practice_exemplar": False,
+                },
+            }
+        )
+    return {
+        "schema_version": 2,
+        "snapshot_date": SNAPSHOT_DATE,
+        "projects": projects,
+        "summary": {
+            "catalogued_projects": len(projects),
+            "included_projects": sum(project["included"] for project in projects),
+            "language_counts": dict(sorted(language_counts.items())),
+            "labels": {
+                "usage_exemplars": 0,
+                "repository_practice_exemplars": 0,
+                "complete_assessments": 0,
+                "practice_exemplars": 0,
+            },
+        },
+    }
+
+
 @report_app.command("build")
 def report_build(ctx: typer.Context) -> None:
+    """Overwrite the current website dataset from validated project manifests."""
     opts = options(ctx)
-    source = opts.output_directory / "results" / "global" / "check-results.json"
-    target = ROOT / "web" / "public" / "data" / "checks.json"
-    if not source.exists():
-        raise typer.BadParameter(f"Normalize a run or rebuild the global table first: {source}")
-    if not opts.dry_run:
-        target.parent.mkdir(parents=True, exist_ok=True)
-        rows = json.loads(source.read_text(encoding="utf-8"))
-        rows = enrich_repository_rows(rows, ROOT)
-        target.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
-        runs_by_package: dict[str, list[dict[str, Any]]] = {}
-        for row in rows:
-            runs_by_package.setdefault(row["package_id"], []).append(row)
-        packages: list[dict[str, Any]] = []
-        for manifest_path in sorted((ROOT / "manifests" / "packages").glob("*.yaml")):
-            manifest = load_yaml(manifest_path)
-            identifier = package_id(manifest)
-            package_rows = runs_by_package.get(identifier)
-            if not package_rows:
-                continue
-            latest = max(package_rows, key=lambda row: row["started_at"])
-            run_id = latest["run_id"]
-            packages.append(
-                {
-                    "package_id": identifier,
-                    "name": manifest["package"]["name"],
-                    "version": manifest["bioconda"]["version"],
-                    "build": manifest["bioconda"]["build"],
-                    "subdir": manifest["bioconda"]["subdir"],
-                    "category": manifest["classification"]["tool_category"],
-                    "description": manifest["classification"]["notes"],
-                    "upstream_url": manifest["upstream"]["repository_url"],
-                    "run_id": run_id,
-                    "languages": sorted(manifest["source_layout"].get("language_roots", {})),
-                }
-            )
-        package_target = target.parent / "packages.json"
-        package_target.write_text(json.dumps(packages, indent=2) + "\n", encoding="utf-8")
-        award_config = load_award_config(ROOT / "config" / "awards.yaml")
-        rankings = rank_packages(packages, rows, award_config)
-        ranking_target = target.parent / "rankings.json"
-        ranking_target.write_text(
-            json.dumps(
-                {
-                    "schema_version": 1,
-                    "rubric_version": award_config["version"],
-                    "title": award_config["title"],
-                    "scope_note": award_config["scope_note"],
-                    "provisional": True,
-                    "rankings": rankings,
-                },
-                indent=2,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
-        interpretation = load_yaml(ROOT / "config" / "interpretation.yaml")
-        profiles = build_profiles(
-            packages,
-            rows,
-            minimum_provisional=int(interpretation["minimum_provisional_cohort"]),
-            minimum_classified=int(interpretation["minimum_classified_cohort"]),
-            version=str(interpretation["version"]),
-        )
-        (target.parent / "profiles.json").write_text(
-            json.dumps(profiles, indent=2) + "\n", encoding="utf-8"
-        )
-        write_badges(rankings, ROOT / "web" / "public" / "badges")
+    target = ROOT / "web" / "public" / "data" / "dataset.json"
+    dataset = build_dataset()
+    if opts.dry_run:
+        console.print(f"Would write {len(dataset['projects'])} projects to {target}")
+        return
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(dataset, indent=2) + "\n", encoding="utf-8")
     console.print(f"Prepared web application dataset: {target}")
 
 
 @batch_app.command("run")
 def batch_run(
-    cohort: Annotated[Path, typer.Option()], jobs: Annotated[int, typer.Option(min=1)] = 4
+    cohort: Annotated[Path, typer.Option()],
+    jobs: Annotated[int, typer.Option(min=1)] = 4,
 ) -> None:
+    """Keep bulk execution locked until survey, pilot, schemas, and exclusions are frozen."""
     del cohort, jobs
     console.print(
-        "[yellow]NOT_RUN[/yellow]: batch execution is locked until the ten-package pilot is frozen."
+        "[yellow]NOT_RUN[/yellow]: bulk execution remains locked pending the internal "
+        "ten-project reproducibility gate."
     )
 
 

@@ -1,20 +1,37 @@
-schema_version: 1
+schema_version: 2
 project: seebot
-protocol_phase: pilot
-pilot_size: 10
-target_cohort_size: 200
-candidate_pool_size: 300
-default_download_window:
-  start: 2025-07-01
-  end: 2026-06-30
-  months: 12
+snapshot_date: 2026-07-01
+historical_snapshot_dates: [2021-07-01, 2022-07-01, 2023-07-01, 2024-07-01, 2025-07-01]
+
+cohort:
+  discovery_source: bioconda
+  download_window: {start: 2025-07-01, end: 2026-06-30}
+  target_projects: 200
+  minimum_candidates: 300
+  pilot_projects: 10
+  large_run_locked: true
+
 execution:
-  timeout_seconds: 30
-  network_access: false
-  jobs: 4
+  platform: linux-64
+  architecture: x86_64
+  cpu_limit: 2
+  memory_gib: 8
+  process_limit: 256
+  network_during_install: true
+  network_during_probes: false
+  discovery_timeout_seconds: 15
+  invalid_input_timeout_seconds: 30
+  valid_run_timeout_seconds: 300
+  jobs: 1
   resume_overwrites_completed: false
+
 storage:
   evidence_directory: evidence
   results_directory: results
-  commit_raw_download_data: false
+  cache_directory: .seebot-cache
+  total_budget_gib: 20
+  per_tool_workspace_gib: 5
+  cleanup_tool_environment: true
+  cleanup_temporary_checkout: true
+  touch_user_pixi_cache: false
   commit_third_party_source: false

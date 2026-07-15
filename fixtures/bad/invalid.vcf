@@ -1,0 +1,4 @@
+##fileformat=VCFv4.3
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+synthetic_reference	not-a-position	.	A	T	.	PASS	.
+

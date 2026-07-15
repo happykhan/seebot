@@ -1,96 +1,98 @@
 # Seebot
 
-**Study title:** *Seebot: a reproducible audit of software-engineering practices in widely downloaded Bioconda tools*
+Seebot is an evidence-based observatory for scientific software. It records public GitHub
+repository practices, language-specific production-source measurements, and the behaviour
+of installed command-line interfaces.
 
-Seebot is a code-first research project for selecting a frozen cohort of Bioconda packages, retrieving the exact packaged source, running conservative and reproducible checks, preserving evidence, and publishing analysis-ready results through a web application.
+Seebot does **not** produce an overall quality score, ranking, medal, or scientific-validity
+judgement. It can apply factual labels when evidence is complete:
 
-The project measures observable properties. It does not infer scientific validity from
-engineering signals. The public dashboard reports raw domains separately and also
-publishes a narrowly defined, versioned Engineering Practice Award score for ranking and
-badges; its formula is explicit in `config/awards.yaml`.
+- Usage exemplar
+- Repository-practice exemplar
+- Complete assessment
+- Practice exemplar
 
-## Current phase
+## Current development state
 
-Seebot is in the **10-package pilot** phase. The 200-package study must not start until the pilot is reproducible and its schemas, exclusion vocabulary, and rubric have been frozen through a recorded protocol change.
+The assessment model is being rebuilt from an earlier package-oriented pilot. The revised
+workflow is gated:
 
-## Quick start
+1. Survey the 200 most-downloaded eligible Bioconda-discovered candidates without bulk
+   installation.
+2. Freeze the project categories and shared fixture catalogue.
+3. Select and independently review a new ten-project pilot.
+4. Demonstrate clean, deterministic reruns of the pilot.
+5. Only then unlock the 200-project execution.
 
-```bash
-uv sync --all-extras
-uv run seebot --help
-uv run seebot manifest validate-all
-uv run pytest
+Bioconda downloads provide candidate discovery and Pixi provides the first installation
+adapter. Neither Bioconda recipes nor package metadata are project-health metrics.
 
-cd web
-npm ci
-npm test
-npm run build
-```
+## Commands
 
-Run the deterministic local demonstration without installing third-party tools:
-
-```bash
-uv run seebot --run-id demo audit cli fixtures/cli-tools/healthy-tool.yaml
-uv run seebot --run-id demo results normalize
-```
-
-Normalizing a run also rebuilds `results/global/check-results.json` and
-`results/global/check-results.csv` from every immutable run. To rebuild those tables
-without executing an audit:
+Install the development environment:
 
 ```bash
-uv run seebot results rebuild-global
-uv run seebot report build
+make install
 ```
 
-The first four completed pilot records cover Cutadapt 5.2, NanoPlot 1.47.1,
-sourmash 4.9.4, and Rasusa 4.1.0. The ten-package pilot queue additionally contains
-deepTools, BUSCO, samtools, minimap2, ABRicate, and Prokka. In-review manifests retain null release
-fields until recipe and artifact curation is complete.
-Pixi installs the reviewed version and records the native solved artifact and lock hash.
-This development runner does not claim to execute the frozen Linux package when running
-on macOS. Raw pilot evidence remains local until persistent Cloudflare storage is added;
-the public website currently publishes only normalized summaries.
-
-Results also carry a `result_kind`. Contract checks use the normal outcome vocabulary;
-successful observational checks are presented as `MEASURED`, because completing a
-static-analysis measurement is not a claim that the software has no findings.
-
-The results website is designed for the final cohort: a searchable and paginated project
-directory, a literature-informed engineering leaderboard, direct answers about whether
-tests are present, dedicated category report views, same-language source profiles,
-installed-tool behaviour, and reusable SVG badges. The award covers testing and
-verification, documentation and usability, reproducibility and releases, automation and
-maintenance, and reuse and attribution. Every score includes assessment coverage.
-
-Run every configured language adapter for one exact release source:
+Validate project manifests and shared fixtures:
 
 ```bash
-uv run seebot source fetch PACKAGE
-uv run seebot --run-id RUN audit source PACKAGE
+make schemas
 ```
 
-Python, Perl, C, C++, and Rust use separate adapters. Missing analyzers or build
-prerequisites are `UNTESTABLE`; analyzer machinery failures are `ERROR`.
+List or export the metadata-first interface survey:
 
-## Repository map
+```bash
+uv run seebot survey list
+uv run seebot survey list --language rust
+uv run seebot survey export
+```
 
-- `src/seebot/`: audit engine and `seebot` CLI
-- `schemas/`: versioned machine-readable contracts
-- `config/`: frozen settings, exclusions, rubric, and tool versions
-- `manifests/`: reviewed package and cohort inputs
-- `results/`: normalized, publishable results (raw large evidence is external)
-- `web/`: results explorer
-- `instructions/agents/`: bounded curation and adjudication tasks
-- `docs/`: protocol, limitations, data dictionary, and change log
+Plan selectable current and historical work without execution:
 
-## Status semantics
+```bash
+uv run seebot audit plan --tool cutadapt --check usage --check robustness
+uv run seebot history plan --tool cutadapt --year 2023
+```
 
-Every check uses one of `PASS`, `FAIL`, `PARTIAL`, `NOT_APPLICABLE`, `UNTESTABLE`,
-`ERROR`, or `NOT_RUN`. `ERROR` means the audit machinery failed and is never counted
-as a package failure. The website renders a successful measurement as `MEASURED`
-while preserving its machine status as `PASS`.
+Inspect and safely prune only Seebot-owned cache/work directories:
 
-## Licensing
+```bash
+uv run seebot cache status
+uv run seebot cache prune --yes
+```
 
-Repository code is MIT licensed. Original documentation and generated audit datasets are intended for release under CC BY 4.0. Third-party sources retain their own licences and are referenced rather than redistributed.
+Run all repository checks:
+
+```bash
+make check
+```
+
+## Assessment sections
+
+### Repository health
+
+Activity and release recency, verification CI, recognized standard test patterns,
+documentation, installation and usage instructions, licence, citation, and contribution
+infrastructure. Upstream tests are never executed.
+
+### Code health
+
+Production source only: language composition, source and file sizes, function structure,
+complexity, duplication, documentation coverage, native linter findings, native security
+indicators, and current dependency advisories. Tests, generated code, vendored code,
+fixtures, documentation, and data are excluded from denominators.
+
+### Usage and robustness
+
+Help/version discovery, one curated miniature valid run, stream behaviour where applicable,
+and seven invalid-input scenarios. Probes run with bounded resources and no network.
+
+## Key documentation
+
+- [Protocol](docs/protocol.md)
+- [Assessment catalogue](docs/rubric.md)
+- [Agreed implementation specification](docs/assessment-specification.md)
+- [Limitations](docs/limitations.md)
+- [Cohort policy](docs/cohort.md)

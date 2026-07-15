@@ -1,84 +1,17 @@
-schema_version: 1
-package:
-  name: rasusa
-  cohort_rank: null
-  download_count: null
-  download_period: {start: null, end: null}
-bioconda:
-  recipes_commit: 7674dbab3aaa145b356baeff810dc7d3c705f4c5
-  recipe_path: recipes/rasusa
-  version: "4.1.0"
-  build: hfa8f182_0
-  subdir: linux-64
-  package_url: https://api.anaconda.org/download/bioconda/rasusa/4.1.0/linux-64/rasusa-4.1.0-hfa8f182_0.conda
-  package_sha256: 74c35865dade6279bc440140581b3b847e45915e6b615e0c3b2dc8d54421db93
-  primary_executables: [rasusa]
-classification:
-  include: true
-  package_type: cli_tool
-  tool_category: read_subsampling
-  exclusion_code: null
-  notes: Randomly subsamples sequencing reads or alignments to a requested amount.
-release_source:
-  source_url: https://github.com/mbhall88/rasusa/archive/4.1.0.tar.gz
-  source_sha256: bc3db8950f14d8a398382054212bbaad2f850d45f79eaf6fa582055ffd3e02af
-  extracted_root: rasusa-4.1.0
-  source_ref: 4.1.0
-recipe_test:
-  status: reviewed
-  depth: 1
-  facts:
-    has_import_test: false
-    has_help_test: true
-    has_version_test: false
-    has_command_test: true
-    uses_test_data: false
-    runs_analysis: false
-    asserts_output_exists: false
-    asserts_output_content: false
-    asserts_output_format: false
-  notes: The recipe runs top-level and subcommand help plus the citation command; it does not execute a subsampling analysis.
-upstream:
-  repository_url: https://github.com/mbhall88/rasusa
-  forge: github
-  release_tag: 4.1.0
-  release_commit: 59e28930210f1a7dccffb236273c2bddb7b4fedd
-  default_branch_commit_at_audit: 59e28930210f1a7dccffb236273c2bddb7b4fedd
-  mapping_confidence: high
-  mapping_evidence: recipe_home_and_source_url
-source_layout:
-  production_roots: [rasusa-4.1.0/src]
-  language_roots:
-    rust: [rasusa-4.1.0/src]
-  test_roots: [rasusa-4.1.0/tests]
-  documentation_roots: [rasusa-4.1.0/paper]
-  generated_paths: []
-  vendored_paths: []
-  excluded_paths: []
-runtime:
-  backend: pixi
-  pixi_package: rasusa
-  pixi_channels: [conda-forge, bioconda]
-  container_image: null
-  container_digest: null
-  platform: native
-cli:
-  no_argument_policy: help_or_usage_error
-  help_commands: [[rasusa, --help]]
-  version_commands: [[rasusa, --version]]
-  invalid_option_command: [rasusa, --definitely-not-a-real-option]
-  requires_stdin: false
-  expected_network_access: false
-  timeout_seconds: 60
-functional_test:
-  status: reviewed
-  fixture_directory: fixtures/rasusa
-  command: [rasusa, reads, --num, "3", --seed, "42", --output, /work/subsample.fastq, /fixtures/input.fastq]
-  expected_outputs: [subsample.fastq]
-  expected_output_sha256:
-    subsample.fastq: ae5b319748fbc2a37dcdd1b5bd4525d688661f175f9db4ba2bd1065f8fd78b1d
-curation:
-  status: reviewed
-  reviewer: codex:bioinformatics-dev
-  reviewed_at: "2026-07-15T10:34:51Z"
-  notes: Exact Linux package and release source are pinned; seeded miniature FASTQ subsampling is hash-verified.
+schema_version: 2
+project: {id: rasusa, name: Rasusa, description: Subsamples sequencing reads, primary_category: read_subsampling, tags: [fastq], include: true, exclusion_code: null}
+repository: {url: https://github.com/mbhall88/rasusa, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
+discovery: {source: bioconda, package_name: rasusa, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
+installation: {adapter: pixi, artifact: rasusa, version: '4.1.0', channels: [conda-forge, bioconda], platform: linux-64}
+source: {production_roots: [], language_roots: {rust: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
+interfaces: {primary: rasusa, executables: [rasusa], help_commands: [[rasusa, --help]], version_commands: [[rasusa, --version]], no_argument_policy: unknown, stdin_support: unknown, stdout_support: supported}
+valid_run: {status: draft, fixture_ids: [legacy-rasusa-fastq], command: [rasusa, reads, --num, '3', --seed, '42', --output, /work/subsample.fastq, /fixtures/input.fastq], expected_outputs: [{path: subsample.fastq, nonempty: true, parser: fastq}], timeout_seconds: 300}
+robustness:
+  missing_input: &rasusa_unknown {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
+  empty_input: *rasusa_unknown
+  malformed_input: *rasusa_unknown
+  wrong_format: *rasusa_unknown
+  invalid_option: *rasusa_unknown
+  invalid_value: *rasusa_unknown
+  unwritable_output: *rasusa_unknown
+curation: {status: in_review, curator: codex:bioinformatics-dev, reviewer: null, reviewed_at: null, notes: Old valid run retained as a draft only; robustness probes require recuration.}

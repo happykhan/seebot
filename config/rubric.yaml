@@ -1,374 +1,211 @@
-schema_version: 1
-version: 0.1.0-pilot
+schema_version: 2
 frozen: false
+snapshot_date: 2026-07-01
+historical_snapshot_dates:
+  - 2021-07-01
+  - 2022-07-01
+  - 2023-07-01
+  - 2024-07-01
+  - 2025-07-01
+
 checks:
-  - id: PKG-IDENTITY-001
-    domain: package
-    title: Installed executable reports the frozen package version
-    description: The executable in the content-addressed package environment reports the reviewed version.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected:
-      allowed_exit_codes: [0]
-      stdout_contains_manifest_version: true
-    evidence_required: [command, exit_code, stdout, stderr, environment_id]
-  - id: RECIPE-TEST-DEPTH-001
-    domain: recipe
-    title: Bioconda recipe test-depth observation
-    description: Record the reviewed ordinal depth and all component facts without labelling shallow installation tests poor.
-    applicability: bioconda_package
-    method: automated_with_manifest
-    expected: {measurement_only: true}
-    evidence_required: [recipe_commit, recipe_path, depth, component_facts]
-  - id: CLI-HELP-001
-    domain: cli
-    title: Documented help command terminates successfully
-    description: The primary executable exposes a documented help invocation.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected:
-      allowed_exit_codes: [0]
-      timeout_seconds: 30
-    evidence_required: [command, exit_code, stdout, stderr]
-    source:
-      - https://doi.org/10.1186/2047-217X-2-15
-  - id: CLI-HELP-CONTENT-001
-    domain: cli
-    title: Help describes usage and interface elements
-    description: The documented help invocation contains usage plus options, arguments, or commands and creates no files.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected: {usage_text: true, interface_detail: true, files_created: []}
-    evidence_required: [command, exit_code, stdout, stderr, files_created]
-    source:
-      - https://doi.org/10.1371/journal.pcbi.1006561
-  - id: CLI-VERSION-001
-    domain: cli
-    title: Documented version command terminates successfully
-    description: The primary executable exposes the reviewed version invocation.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected:
-      allowed_exit_codes: [0]
-      timeout_seconds: 30
-    evidence_required: [command, exit_code, stdout, stderr]
-  - id: CLI-INVALID-001
-    domain: cli
-    title: Invalid option is rejected without timeout
-    description: The executable rejects a deliberately invalid option with a non-zero exit code.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected:
-      allowed_exit_codes: [1, 2, 64]
-      timeout_seconds: 30
-    evidence_required: [command, exit_code, stdout, stderr]
-  - id: CLI-ERROR-QUALITY-001
-    domain: robustness
-    title: Invalid option produces a bounded diagnostic
-    description: A user input error returns a diagnostic without an internal traceback or filesystem side effects.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected: {nonempty_diagnostic: true, traceback: false, files_created: []}
-    evidence_required: [command, exit_code, stdout, stderr, files_created]
-    source:
-      - https://doi.org/10.1371/journal.pcbi.1006561
-  - id: CLI-NOARGS-001
-    domain: cli
-    title: No-argument behaviour is observed
-    description: Record whether the primary executable shows help, performs a no-op, or returns a usage error under its reviewed policy.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected: {policy_from_manifest: true}
-    evidence_required: [command, exit_code, stdout, stderr, files_created]
-  - id: CLI-REPEAT-001
-    domain: robustness
-    title: Help behaviour is repeatable
-    description: Execute the bounded help command twice and compare exit code, stdout, and stderr.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected: {repeat_count: 2}
-    evidence_required: [command, repeatable_exit_code, repeatable_stdout, repeatable_stderr]
-  - id: CLI-FUNCTIONAL-001
-    domain: functional
-    title: Reviewed miniature analysis produces the frozen output
-    description: A reviewed synthetic fixture completes and its declared output hashes match.
-    applicability: cli_tool
-    method: automated_with_manifest
-    expected:
-      allowed_exit_codes: [0]
-      output_hashes_from_manifest: true
-    evidence_required: [command, exit_code, stdout, stderr, output_sha256]
-  - id: REPO-PRACTICES-001
+  - id: REPO-ACTIVITY-001
     domain: repository
-    title: Repository practice files at the frozen upstream commit
-    description: Observe tests, CI, licence, contribution, citation, and documentation paths without claiming effectiveness.
-    applicability: upstream_repository
-    method: automated_with_manifest
-    expected: {measurement_only: true}
-    evidence_required: [repository_url, observed_commit, response, config_sha256]
-  - id: PY-RUFF-001
-    domain: python
-    title: Ruff findings in packaged production source
-    description: Count fixed-rule Ruff findings without interpreting them as defects.
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: PY-PYLINT-001
-    domain: python
-    title: Pylint messages in packaged production source
-    description: Count Pylint messages by category and symbol without using its aggregate score.
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: PY-RADON-001
-    domain: python
-    title: Radon cyclomatic-complexity observations
-    description: Record block counts and complexity distribution in packaged production source.
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: PY-INTERROGATE-001
-    domain: python
-    title: Public API docstring coverage observation
-    description: Measure docstring coverage using the frozen Interrogate configuration.
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: PY-VULTURE-001
-    domain: python
-    title: Vulture dead-code candidates
-    description: Count candidates at the frozen confidence threshold without labelling them dead code.
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: PY-BANDIT-001
-    domain: python
-    title: Bandit security indicators
-    description: Count static security indicators without treating absence as proof of security.
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: PERL-COMPILE-001
-    domain: perl
-    title: Perl source syntax observation
-    description: Run perl syntax checks across reviewed production scripts and modules.
-    applicability: perl_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: PERL-CRITIC-001
-    domain: perl
-    title: Perl::Critic findings
-    description: Count findings using the frozen Seebot policy without treating them as defects.
-    applicability: perl_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: PERL-COMPLEXITY-001
-    domain: perl
-    title: Perl complexity observations
-    description: Record Perl::Metrics::Simple observations for reviewed production source.
-    applicability: perl_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: PERL-POD-001
-    domain: perl
-    title: Perl POD coverage observation
-    description: Record public-module documentation coverage where Pod::Coverage applies.
-    applicability: perl_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: C-CLANGTIDY-001
-    domain: c
-    title: C clang-tidy diagnostics
-    description: Record diagnostics from reviewed C roots and a captured compile database where available.
-    applicability: c_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: C-CPPCHECK-001
-    domain: c
-    title: Cppcheck findings for C source
-    description: Record source-only Cppcheck findings under the frozen profile.
-    applicability: c_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: C-COMPLEXITY-001
-    domain: c
-    title: C complexity observations
-    description: Record pmccabe observations for reviewed C production roots.
-    applicability: c_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: C-DOXYGEN-001
-    domain: c
-    title: C API documentation observation
-    description: Record Doxygen parser output without inferring documentation usefulness.
-    applicability: c_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: CPP-CLANGTIDY-001
-    domain: cpp
-    title: C++ clang-tidy diagnostics
-    applicability: cpp_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: CPP-CPPCHECK-001
-    domain: cpp
-    title: Cppcheck findings for C++ source
-    applicability: cpp_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: CPP-COMPLEXITY-001
-    domain: cpp
-    title: C++ complexity observations
-    applicability: cpp_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: CPP-DOXYGEN-001
-    domain: cpp
-    title: C++ API documentation observation
-    applicability: cpp_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: RS-CHECK-001
-    domain: rust
-    title: Cargo check observation
-    description: Record whether exact Rust release source checks against locked offline dependencies.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: RS-FMT-001
-    domain: rust
-    title: Rustfmt observation
-    description: Record cargo fmt check output without turning formatting into an award score.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: RS-CLIPPY-001
-    domain: rust
-    title: Clippy diagnostics
-    description: Record Clippy diagnostics for locked release source.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version, config_sha256]
-  - id: RS-COMPLEXITY-001
-    domain: rust
-    title: Rust complexity observations
-    description: Record rust-code-analysis measurements for reviewed production roots.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: RS-DOCS-001
-    domain: rust
-    title: Rust documentation build observation
-    description: Record rustdoc completion and diagnostics for the frozen release.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: RS-UNSAFE-001
-    domain: rust
-    title: Rust unsafe-code indicators
-    description: Count unsafe-code indicators without inferring unsafety of the software.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: RS-AUDIT-001
-    domain: rust
-    title: Rust dependency advisory indicators
-    description: Match Cargo.lock against the frozen advisory snapshot without treating no matches as proof of security.
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-PYTHON-SLOC-001
+    kind: measurement
+    title: Repository activity
+    values: [archived, days_since_last_non_bot_commit, commits_last_12_months, active_months_last_12_months]
+    exemplar_required: false
+
+  - id: REPO-RELEASES-001
+    domain: repository
+    kind: measurement
+    title: Release activity
+    values: [days_since_latest_release, releases_last_24_months, audited_version_ref]
+    exemplar_required: false
+
+  - id: REPO-DOCUMENTATION-001
+    domain: repository
+    kind: measurement
+    title: Documentation and reuse information
+    values: [readme, installation_instructions, usage_example, licence, citation, documentation, changelog]
+    exemplar_required: true
+
+  - id: REPO-STANDARD-TESTS-001
+    domain: repository
+    kind: measurement
+    title: Recognized standard automated tests
+    values: [frameworks, recognized_test_files, paths]
+    notes: Upstream tests are detected but never executed.
+    exemplar_required: true
+
+  - id: REPO-VERIFICATION-CI-001
+    domain: repository
+    kind: measurement
+    title: Verification continuous integration
+    values: [verification_workflow_present, workflow_types, latest_state]
+    exemplar_required: true
+
+  - id: SRC-INVENTORY-001
     domain: source
-    title: Python source-line inventory
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-PYTHON-DUPLICATION-001
+    kind: measurement
+    title: Production source inventory
+    values: [language, files, lines, included_roots, excluded_roots]
+    historical: true
+
+  - id: SRC-FILE-LENGTH-001
     domain: source
-    title: Python duplication indicators
-    applicability: python_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-PERL-SLOC-001
+    kind: measurement
+    title: Production source file lengths
+    values: [median, percentile_90, maximum, over_500, over_1000, percent_over_500, percent_over_1000]
+    historical: true
+
+  - id: SRC-FUNCTION-STRUCTURE-001
     domain: source
-    title: Perl source-line inventory
-    applicability: perl_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-PERL-DUPLICATION-001
+    kind: measurement
+    title: Function structure
+    values: [length_median, length_percentile_90, length_maximum, over_50_lines, over_100_lines, nesting_maximum, over_5_parameters]
+    historical: true
+
+  - id: SRC-COMPLEXITY-001
     domain: source
-    title: Perl duplication indicators
-    applicability: perl_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-C-SLOC-001
+    kind: measurement
+    title: Cyclomatic complexity distribution
+    values: [median, percentile_90, maximum, over_10, over_20]
+    historical: true
+
+  - id: SRC-DUPLICATION-001
     domain: source
-    title: C source-line inventory
-    applicability: c_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-C-DUPLICATION-001
+    kind: measurement
+    title: Duplication indicators
+    values: [duplicated_line_percent, duplicated_blocks]
+    historical: true
+
+  - id: SRC-DOCUMENTATION-001
     domain: source
-    title: C duplication indicators
-    applicability: c_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-CPP-SLOC-001
+    kind: measurement
+    title: Language-specific API documentation coverage
+    values: [coverage_percent, native_measure]
+    historical: true
+
+  - id: SRC-NATIVE-LINT-001
     domain: source
-    title: C++ source-line inventory
-    applicability: cpp_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-CPP-DUPLICATION-001
+    kind: measurement
+    title: Native analyzer findings
+    values: [analyzer, rule, native_category, native_severity, count, findings_per_kloc]
+    historical: true
+    comparison: same language, analyzer, and configuration only
+
+  - id: SRC-NATIVE-SECURITY-001
     domain: source
-    title: C++ duplication indicators
-    applicability: cpp_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-RUST-SLOC-001
-    domain: source
-    title: Rust source-line inventory
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
-  - id: SRC-RUST-DUPLICATION-001
-    domain: source
-    title: Rust duplication indicators
-    applicability: rust_source
-    method: automated
-    expected: {measurement_only: true}
-    evidence_required: [command, stdout, stderr, tool_version]
+    kind: measurement
+    title: Native source-security indicators
+    values: [analyzer, rule, native_severity, native_confidence, count, findings_per_kloc]
+    historical: true
+    comparison: same language, analyzer, and configuration only
+
+  - id: DEP-ADVISORY-001
+    domain: dependencies
+    kind: measurement
+    title: Current dependency advisory indicators
+    values: [ecosystem, advisory_id, native_severity, dependency, resolved_version]
+    historical: false
+
+  - id: CLI-HELP-001
+    domain: usage
+    kind: contract
+    title: Help interface is usable
+    timeout_seconds: 15
+
+  - id: CLI-VERSION-001
+    domain: usage
+    kind: contract
+    title: Version interface identifies the audited installation
+    timeout_seconds: 15
+
+  - id: CLI-VALID-RUN-001
+    domain: usage
+    kind: contract
+    title: Miniature valid analysis produces structurally valid output
+    timeout_seconds: 300
+    notes: This does not establish scientific correctness.
+
+  - id: CLI-MISSING-INPUT-001
+    domain: robustness
+    kind: contract
+    title: Missing input is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-EMPTY-INPUT-001
+    domain: robustness
+    kind: contract
+    title: Zero-byte input is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-MALFORMED-INPUT-001
+    domain: robustness
+    kind: contract
+    title: Malformed expected format is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-WRONG-FORMAT-001
+    domain: robustness
+    kind: contract
+    title: Valid but wrong biological format is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-INVALID-OPTION-001
+    domain: robustness
+    kind: contract
+    title: Unrecognized option is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-INVALID-VALUE-001
+    domain: robustness
+    kind: contract
+    title: Invalid option value is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-UNWRITABLE-OUTPUT-001
+    domain: robustness
+    kind: contract
+    title: Unwritable output destination is handled gracefully
+    timeout_seconds: 30
+
+  - id: CLI-STREAMS-001
+    domain: usage
+    kind: contract
+    title: Documented stdin and stdout modes behave cleanly
+    timeout_seconds: 300
+
+public_statuses:
+  measurement:
+    OBSERVED: Observed
+    NOT_OBSERVED: Not observed
+    NOT_APPLICABLE: Not applicable
+    UNTESTABLE: Could not assess
+    ERROR: Audit error
+  contract:
+    PASS: Handled gracefully
+    FAIL: Did not handle gracefully
+    NOT_APPLICABLE: Not applicable
+    UNTESTABLE: Could not assess
+    ERROR: Audit error
+
+exemplars:
+  repository_practice:
+    require_not_archived: true
+    required_observations:
+      - readme
+      - installation_instructions
+      - usage_example
+      - licence
+      - citation
+      - recognized_standard_tests
+      - verification_ci
+  usage:
+    require_all_applicable_contracts: true
+  complete_assessment:
+    allow: [NOT_APPLICABLE, NOT_EXISTING]
+    reject: [UNTESTABLE, ERROR, NOT_RUN]
+  practice:
+    requires: [repository_practice, usage, complete_assessment]

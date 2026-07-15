@@ -2,69 +2,142 @@
 
 ## Objective
 
-Seebot audits observable software-engineering practices in widely downloaded Bioconda tools. It links frozen download data, an exact Bioconda package build and recipe, the recipe's verified source release, an upstream repository snapshot, executable-level black-box probes, and normalized evidence-backed results.
+Seebot is an evidence-based observatory for public scientific software. It records
+repository practices, language-specific source measurements, and the behaviour of
+installed command-line interfaces. It does not produce an aggregate quality score,
+project ranking, or scientific-validity judgement.
 
-Scientific algorithm validation is outside version 1 and requires later tool-class-specific protocols.
+The initial cohort is discovered from Bioconda download data because Pixi provides a
+practical installation route. Bioconda packages and recipes are collection machinery,
+not units of assessment and not project-health metrics.
 
 ## Units of analysis
 
-The following identifiers are never conflated:
+The following identifiers are kept separate:
 
-1. Bioconda package: channel name, version, build, subdirectory, URL, and checksum.
-2. Packaged release source: the archive or commit named by the pinned recipe.
-3. Upstream repository: live project metadata observed on the audit date.
-4. Executable interface: one or more commands exposed by a package.
-5. Upstream project: the software product to which package aliases may map.
+1. Project: the named software product.
+2. Repository: the public GitHub owner and repository.
+3. Repository snapshot: the exact default-branch commit at or before the cutoff date.
+4. Source component: one supported language and its reviewed production roots.
+5. Executable interface: one installed public command.
+6. Installation record: the adapter and resolved artifact used to create the environment.
+7. Audit run: the commands, fixtures, configurations, environment, and evidence.
 
-Release-source metrics use verified recipe source. Current repository-practice checks use the upstream commit recorded at audit time.
+## Scope and exclusions
 
-## Pilot gate
+Repository and source observations can apply to any eligible public GitHub project.
+Usage observations apply only to installed command-line interfaces. The initial full
+cohort contains end-user scientific CLI tools whose primary production language is
+Python, Perl, C, C++, Rust, Java, or Cython. Cython has a deliberately limited structural
+profile. Primary-R projects are excluded in this phase.
 
-The first cohort contains ten deliberately varied packages. Before expanding to 200 packages, maintainers must demonstrate:
+Exclusion decisions use the frozen codes in `config/exclusions.yaml`. Archived projects
+remain in the dataset but cannot qualify as repository-practice exemplars.
+
+## Cohort and snapshot policy
+
+Rank package names using official Bioconda download records from 2025-07-01 through
+2026-06-30, aggregated across versions, builds, variants, and platforms. Downloads are an
+installation signal, not a count of users. Inspect enough ranked candidates to select the
+first 200 eligible, de-duplicated upstream projects.
+
+The canonical current snapshot is the default-branch commit at or immediately before
+2026-07-01. Historical source-only snapshots use the commit at or before 1 July in 2021,
+2022, 2023, 2024, and 2025. `NOT_EXISTING` records years before a repository existed.
+
+Historical analysis is limited to source-derived measurements under one frozen analyzer
+configuration. Current-only observations include repository practices, executable
+behaviour, dependency advisories, CI state, and other external-state measurements.
+
+## Survey and pilot gates
+
+The 200-candidate interface and fixture survey must complete before the shared fixture
+catalogue is frozen. The survey is metadata-first and does not install or execute every
+candidate.
+
+A newly selected ten-project pilot must then demonstrate:
 
 - deterministic reruns from a clean checkout;
-- schema validation for every manifest, review, and result;
-- explicit handling of exclusions and ambiguous states;
-- evidence preservation and resume behaviour;
-- inter-reviewer adjudication for agent tasks;
-- a frozen rubric and protocol version.
+- schema validation for every manifest, fixture, observation, and normalized result;
+- explicit applicability, exclusion, and untestable reasons;
+- evidence preservation, overwrite, selection, and cleanup behaviour;
+- independent review of all ten manifests;
+- coverage of supported languages, common input types, and different output models;
+- bounded disk, CPU, memory, network, and runtime behaviour.
+
+The 200-project execution remains locked until the revised pilot is reproducible.
+
+## Repository-practice observations
+
+Seebot records activity and release recency as descriptive values. Only explicit GitHub
+archived status affects exemplar eligibility. Standard tests are detected from recognized
+files, framework declarations, and conventional patterns. Seebot never executes upstream
+test suites. Verification CI requires a workflow that appears to build, check, lint, or
+invoke a standard test runner; a release-only workflow is not verification CI.
+
+## Source-analysis policy
+
+Only reviewed production source is measured. Tests, generated code, vendored dependencies,
+build output, minified files, documentation examples, fixtures, and data are excluded.
+Included and excluded paths and denominators are published.
+
+Analyzer findings retain their native rule codes and native categories. Values are
+compared only when language, analyzer, configuration, and denominator are compatible.
+Cross-tool synthetic finding categories are not created. Source measurements never affect
+exemplar eligibility; only successful completion affects assessment coverage.
+
+## Executable-behaviour policy
+
+Every public executable receives lightweight help/version discovery. One declared primary
+interface receives the full valid-input and robustness suite unless several interfaces are
+clearly co-primary.
+
+Commands run in a pinned Linux x86-64 environment with two virtual CPUs, 8 GB RAM, a 5 GB
+per-tool workspace, bounded process count, and no network during probes. Discovery checks
+have a 15-second limit, invalid-input checks 30 seconds, and a miniature valid run five
+minutes. Resource exhaustion is `UNTESTABLE`, not project failure.
+
+The mandatory invalid-input scenarios are missing input, zero-byte input, malformed input,
+valid but wrong format, unrecognized option, invalid option value, and unwritable output
+where applicable. Each records exit status, stdout, stderr, timeout, crash/traceback
+markers, and created files. Tool-output repeatability and exact-output hashing are not
+assessment metrics.
+
+## Fixtures
+
+Shared, version-controlled fixture identifiers cover common genomics formats and stable
+malformed variants. Fixtures record hashes, provenance, format, validity, and intent.
+Tool-specific fixtures are documented exceptions when the shared set cannot exercise a
+meaningful path. Large or externally licensed data are never copied into the repository.
 
 ## Status policy
 
-`PASS`, `FAIL`, and `PARTIAL` describe a check's observed outcome against its declared expectation. `NOT_APPLICABLE`, `UNTESTABLE`, and `NOT_RUN` describe scope or execution decisions. `ERROR` describes audit machinery failure and is excluded from package-failure denominators.
+`PASS` and `FAIL` describe executable contracts only. Measurements use `OBSERVED` and
+`NOT_OBSERVED`. `NOT_APPLICABLE`, `UNTESTABLE`, `ERROR`, `NOT_RUN`, and `NOT_EXISTING`
+retain their literal meanings. Audit machinery failures are never reinterpreted as project
+failures.
 
-## Cohort policy
+Public wording translates statuses into factual labels such as “Observed”, “Could not
+assess”, “Handled gracefully”, and “Did not handle gracefully”.
 
-Rank package names by downloads across versions, builds, variants, and supported platforms in twelve complete calendar months from the official Anaconda package-download dataset, filtered to `data_source == "bioconda"`. Inspect at least 300 candidates and curate 200 eligible end-user tools. If the requested final month is incomplete, shift the window backwards and record the actual period.
+## Exemplar labels
 
-Downloads are a package-installation signal and may include dependency resolution, automation, CI, and repeated installation. Reports say “most downloaded packages”, not “most used software”.
+- **Usage exemplar:** every applicable required usage contract passes.
+- **Repository-practice exemplar:** the repository is not archived and all required
+  repository practices are observed.
+- **Complete assessment:** every applicable current and historical measurement completes;
+  `NOT_EXISTING` and justified `NOT_APPLICABLE` are accepted.
+- **Practice exemplar:** all three preceding labels apply.
 
-## Execution policy
+Code-health values never qualify or disqualify a project.
 
-Commands run without network access unless the manifest explicitly declares it, with a fixed timeout and isolated working directory. A result records the exact command, environment identity, configuration hash, start time, duration, exit code or signal, and stdout/stderr paths. Resume never replaces completed evidence unless `--force` is supplied.
+## Storage and reruns
 
-## Result aggregation
+Each observation records commands, versions, hashes, timestamps, environment identity,
+duration, and evidence paths. Completed evidence is reused unless `--force` is supplied.
+During this development phase a forced run overwrites the current generated result rather
+than publishing parallel result versions.
 
-Normalization updates an append-only global fact table with one row per package, run, and
-rubric check. The web application reads the lossless JSON form; statistical workflows may
-read the CSV export. The table preserves every explicit state, including `ERROR` and
-`UNTESTABLE`.
-
-The website derives a separate Engineering Practice Award using the versioned, public
-formula in `config/awards.yaml`. It ranks literature-informed testing and verification,
-documentation and usability, reproducibility and releases, automation and maintenance,
-and reuse and attribution evidence. Assessment coverage is published so unknown evidence
-is not interpreted as failure. Source-analysis measurements remain separate.
-
-## Multi-language source analysis
-
-Manifests define reviewed source roots separately for Python, Perl, C, C++, Rust, and
-Cython. One package may produce several language profiles. Each observation records the
-language, analyzer version, configuration hash, denominator, and raw value. Numeric
-comparison requires the same language and compatible configuration; findings from Ruff,
-Perl::Critic, clang-tidy, cppcheck, or Clippy are never treated as equivalent counts.
-
-Three to nine comparable projects produce provisional relative positions. Strength,
-typical, and watch-area labels require at least ten. Cython remains explicitly unassessed
-until its adapter is validated. Source metrics never affect the Engineering Practice
-Award.
+Pixi uses a Seebot-specific cache. The default total Seebot storage budget is 20 GB and
+the per-tool workspace limit is 5 GB. Tool environments and temporary checkouts are
+removed after evidence is preserved. Cleanup never touches unrelated user caches.

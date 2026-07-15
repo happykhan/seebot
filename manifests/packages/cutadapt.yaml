@@ -1,101 +1,17 @@
-schema_version: 1
-package:
-  name: cutadapt
-  cohort_rank: null
-  download_count: null
-  download_period:
-    start: null
-    end: null
-bioconda:
-  recipes_commit: 7674dbab3aaa145b356baeff810dc7d3c705f4c5
-  recipe_path: recipes/cutadapt
-  version: "5.2"
-  build: py313hd978853_2
-  subdir: linux-64
-  package_url: https://api.anaconda.org/download/bioconda/cutadapt/5.2/linux-64/cutadapt-5.2-py313hd978853_2.conda
-  package_sha256: 5d8d959585c5527bd947bb693f5285db1fc1afc088c38d878e6099ae4af86424
-  primary_executables:
-    - cutadapt
-classification:
-  include: true
-  package_type: cli_tool
-  tool_category: read_preprocessing
-  exclusion_code: null
-  notes: Performs adapter and primer trimming directly on sequencing reads.
-release_source:
-  source_url: https://pypi.org/packages/source/c/cutadapt/cutadapt-5.2.tar.gz
-  source_sha256: 2394deead42ecae5fe0fdf369e35f3e2afed770e14059582272779c2e8295d3c
-  extracted_root: cutadapt-5.2
-  source_ref: v5.2
-recipe_test:
-  status: reviewed
-  depth: 1
-  facts:
-    has_import_test: true
-    has_help_test: false
-    has_version_test: true
-    has_command_test: true
-    uses_test_data: false
-    runs_analysis: false
-    asserts_output_exists: false
-    asserts_output_content: false
-    asserts_output_format: false
-  notes: The recipe imports cutadapt and runs cutadapt --version; this is an installation test, not upstream functional validation.
-upstream:
-  repository_url: https://github.com/marcelm/cutadapt
-  forge: github
-  release_tag: v5.2
-  release_commit: ef852629f667637439f28761499bb56126e390a1
-  default_branch_commit_at_audit: 50e9fb8d35b606196ae88d63252fc35674c0eda1
-  mapping_confidence: high
-  mapping_evidence: recipe_dev_url
-source_layout:
-  production_roots:
-    - cutadapt-5.2/src/cutadapt
-  language_roots:
-    python: [cutadapt-5.2/src/cutadapt]
-    cython: [cutadapt-5.2/src/cutadapt]
-  test_roots:
-    - cutadapt-5.2/tests
-  documentation_roots:
-    - cutadapt-5.2/doc
-  generated_paths: []
-  vendored_paths: []
-  excluded_paths: []
-runtime:
-  backend: pixi
-  pixi_package: cutadapt
-  pixi_channels: [conda-forge, bioconda]
-  container_image: quay.io/biocontainers/cutadapt
-  container_digest: sha256:d93aa80a1a9458686b80617f904b6c516cd5cd0c5ea9be69669e68d5ca47e1f2
-  platform: linux/amd64
-cli:
-  no_argument_policy: help_or_usage_error
-  help_commands:
-    - [cutadapt, --help]
-  version_commands:
-    - [cutadapt, --version]
-  invalid_option_command: [cutadapt, --definitely-not-a-real-option]
-  requires_stdin: false
-  expected_network_access: false
-  timeout_seconds: 30
-functional_test:
-  status: reviewed
-  fixture_directory: fixtures/cutadapt
-  command:
-    - cutadapt
-    - --cores=1
-    - -a
-    - AGATCGGAAGAGC
-    - -o
-    - /work/trimmed.fastq
-    - /fixtures/input.fastq
-  expected_outputs:
-    - trimmed.fastq
-  expected_output_sha256:
-    trimmed.fastq: a39aea2c326f1e3abac97797280a9b9087e424471020ee90f542d5385bba8d2b
-curation:
-  status: reviewed
-  reviewer: codex:bioinformatics-dev
-  reviewed_at: "2026-07-14T19:30:00Z"
-  notes: Exact Linux/Python 3.13 package build selected from live Anaconda artifact metadata.
+schema_version: 2
+project: {id: cutadapt, name: cutadapt, description: Performs adapter and primer trimming on sequencing reads, primary_category: read_preprocessing, tags: [fastq, adapter_trimming], include: true, exclusion_code: null}
+repository: {url: https://github.com/marcelm/cutadapt, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
+discovery: {source: bioconda, package_name: cutadapt, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
+installation: {adapter: pixi, artifact: cutadapt, version: '5.2', channels: [conda-forge, bioconda], platform: linux-64}
+source: {production_roots: [], language_roots: {python: [], cython: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
+interfaces: {primary: cutadapt, executables: [cutadapt], help_commands: [[cutadapt, --help]], version_commands: [[cutadapt, --version]], no_argument_policy: help_or_usage_error, stdin_support: unknown, stdout_support: unknown}
+valid_run: {status: draft, fixture_ids: [legacy-cutadapt-fastq], command: [cutadapt, --cores=1, -a, AGATCGGAAGAGC, -o, /work/trimmed.fastq, /fixtures/input.fastq], expected_outputs: [{path: trimmed.fastq, nonempty: true, parser: fastq}], timeout_seconds: 300}
+robustness:
+  missing_input: &cutadapt_unknown {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
+  empty_input: *cutadapt_unknown
+  malformed_input: *cutadapt_unknown
+  wrong_format: *cutadapt_unknown
+  invalid_option: {applicability: applicable, command: [cutadapt, --definitely-not-a-real-option], fixture_id: null, diagnostic_expectation: specific}
+  invalid_value: *cutadapt_unknown
+  unwritable_output: *cutadapt_unknown
+curation: {status: in_review, curator: codex:bioinformatics-dev, reviewer: null, reviewed_at: null, notes: Old valid run retained as a draft only; snapshot and robustness probes require recuration.}

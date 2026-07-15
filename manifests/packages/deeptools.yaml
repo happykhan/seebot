@@ -1,16 +1,17 @@
-schema_version: 1
-package: {name: deeptools, cohort_rank: null, download_count: null, download_period: {start: null, end: null}}
-bioconda: {recipes_commit: null, recipe_path: recipes/deeptools, version: null, build: null, subdir: noarch, package_url: null, package_sha256: null, primary_executables: [bamCoverage]}
-classification: {include: true, package_type: cli_tool, tool_category: sequencing_visualisation, exclusion_code: null, notes: Suite of command-line tools for processing and visualising high-throughput sequencing data.}
-release_source: {source_url: null, source_sha256: null, extracted_root: null, source_ref: null}
-recipe_test: &unreviewed_test
-  status: unreviewed
-  depth: null
-  facts: {has_import_test: null, has_help_test: null, has_version_test: null, has_command_test: null, uses_test_data: null, runs_analysis: null, asserts_output_exists: null, asserts_output_content: null, asserts_output_format: null}
-  notes: null
-upstream: {repository_url: https://github.com/deeptools/deepTools, forge: github, release_tag: null, release_commit: null, default_branch_commit_at_audit: null, mapping_confidence: high, mapping_evidence: project_repository}
-source_layout: {production_roots: [], language_roots: {python: []}, test_roots: [], documentation_roots: [], generated_paths: [], vendored_paths: [], excluded_paths: []}
-runtime: &pixi_runtime {backend: pixi, pixi_package: deeptools, pixi_channels: [conda-forge, bioconda], container_image: null, container_digest: null, platform: null}
-cli: {no_argument_policy: unknown, help_commands: [[bamCoverage, --help]], version_commands: [[bamCoverage, --version]], invalid_option_command: [bamCoverage, --definitely-not-a-real-option], requires_stdin: false, expected_network_access: false, timeout_seconds: 60}
-functional_test: &no_test {status: not_designed, fixture_directory: null, command: null, expected_outputs: [], expected_output_sha256: {}}
-curation: &in_review {status: in_review, reviewer: null, reviewed_at: null, notes: "Pilot package selected; release, recipe, source roots, and CLI contract require review."}
+schema_version: 2
+project: {id: deeptools, name: deepTools, description: Processes and visualises high-throughput sequencing data, primary_category: sequencing_visualisation, tags: [bam], include: true, exclusion_code: null}
+repository: {url: https://github.com/deeptools/deepTools, forge: github, snapshot_date: '2026-07-01', snapshot_commit: null, archived: null}
+discovery: {source: bioconda, package_name: deeptools, rank: null, download_count: null, download_period: {start: '2025-07-01', end: '2026-06-30'}}
+installation: {adapter: pixi, artifact: deeptools, version: null, channels: [conda-forge, bioconda], platform: linux-64}
+source: {production_roots: [], language_roots: {python: []}, generated_paths: [], vendored_paths: [], excluded_paths: []}
+interfaces: {primary: bamCoverage, executables: [bamCoverage], help_commands: [[bamCoverage, --help]], version_commands: [[bamCoverage, --version]], no_argument_policy: unknown, stdin_support: unknown, stdout_support: unknown}
+valid_run: {status: not_designed, fixture_ids: [], command: null, expected_outputs: [], timeout_seconds: 300}
+robustness:
+  missing_input: &deeptools_unknown {applicability: unknown, command: null, fixture_id: null, diagnostic_expectation: unknown}
+  empty_input: *deeptools_unknown
+  malformed_input: *deeptools_unknown
+  wrong_format: *deeptools_unknown
+  invalid_option: *deeptools_unknown
+  invalid_value: *deeptools_unknown
+  unwritable_output: *deeptools_unknown
+curation: {status: unreviewed, curator: null, reviewer: null, reviewed_at: null, notes: Migrated candidate; executable inventory is incomplete.}

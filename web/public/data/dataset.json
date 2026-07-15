@@ -1,0 +1,280 @@
+{
+  "schema_version": 2,
+  "snapshot_date": "2026-07-01",
+  "projects": [
+    {
+      "id": "abricate",
+      "name": "ABRicate",
+      "description": "Screens assemblies for antimicrobial resistance and virulence genes",
+      "category": "antimicrobial_resistance",
+      "tags": [
+        "assembly_screening"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/tseemann/abricate",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "perl"
+      ],
+      "primary_executable": "abricate",
+      "valid_run_status": "not_designed",
+      "curation_status": "unreviewed",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "busco",
+      "name": "BUSCO",
+      "description": "Assesses genome and annotation completeness",
+      "category": "genome_completeness",
+      "tags": [],
+      "included": false,
+      "exclusion_code": "NO_PUBLIC_GITHUB_REPOSITORY",
+      "repository_url": null,
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "python"
+      ],
+      "primary_executable": "busco",
+      "valid_run_status": "untestable",
+      "curation_status": "unreviewed",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "cutadapt",
+      "name": "cutadapt",
+      "description": "Performs adapter and primer trimming on sequencing reads",
+      "category": "read_preprocessing",
+      "tags": [
+        "fastq",
+        "adapter_trimming"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/marcelm/cutadapt",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "cython",
+        "python"
+      ],
+      "primary_executable": "cutadapt",
+      "valid_run_status": "draft",
+      "curation_status": "in_review",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "deeptools",
+      "name": "deepTools",
+      "description": "Processes and visualises high-throughput sequencing data",
+      "category": "sequencing_visualisation",
+      "tags": [
+        "bam"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/deeptools/deepTools",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "python"
+      ],
+      "primary_executable": "bamCoverage",
+      "valid_run_status": "not_designed",
+      "curation_status": "unreviewed",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "minimap2",
+      "name": "minimap2",
+      "description": "Aligns nucleotide sequences to reference sequences",
+      "category": "sequence_alignment",
+      "tags": [
+        "fasta",
+        "fastq"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/lh3/minimap2",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "c"
+      ],
+      "primary_executable": "minimap2",
+      "valid_run_status": "not_designed",
+      "curation_status": "unreviewed",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "nanoplot",
+      "name": "NanoPlot",
+      "description": "Visualises long-read sequencing quality metrics",
+      "category": "long_read_quality_control",
+      "tags": [
+        "fastq",
+        "visualisation"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/wdecoster/NanoPlot",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "python"
+      ],
+      "primary_executable": "NanoPlot",
+      "valid_run_status": "draft",
+      "curation_status": "in_review",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "prokka",
+      "name": "Prokka",
+      "description": "Annotates bacterial archaeal and viral genomes",
+      "category": "genome_annotation",
+      "tags": [
+        "fasta",
+        "annotation"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/tseemann/prokka",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "perl"
+      ],
+      "primary_executable": "prokka",
+      "valid_run_status": "not_designed",
+      "curation_status": "unreviewed",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "rasusa",
+      "name": "Rasusa",
+      "description": "Subsamples sequencing reads",
+      "category": "read_subsampling",
+      "tags": [
+        "fastq"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/mbhall88/rasusa",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "rust"
+      ],
+      "primary_executable": "rasusa",
+      "valid_run_status": "draft",
+      "curation_status": "in_review",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "samtools",
+      "name": "SAMtools",
+      "description": "Manipulates sequence-alignment files",
+      "category": "alignment_processing",
+      "tags": [
+        "sam",
+        "bam",
+        "cram"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/samtools/samtools",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "c"
+      ],
+      "primary_executable": "samtools",
+      "valid_run_status": "not_designed",
+      "curation_status": "unreviewed",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    },
+    {
+      "id": "sourmash",
+      "name": "sourmash",
+      "description": "Compares biological sequences using sketches",
+      "category": "sequence_comparison",
+      "tags": [
+        "fasta",
+        "sketches"
+      ],
+      "included": true,
+      "exclusion_code": null,
+      "repository_url": "https://github.com/sourmash-bio/sourmash",
+      "snapshot_date": "2026-07-01",
+      "languages": [
+        "python",
+        "rust"
+      ],
+      "primary_executable": "sourmash",
+      "valid_run_status": "draft",
+      "curation_status": "in_review",
+      "labels": {
+        "usage_exemplar": false,
+        "repository_practice_exemplar": false,
+        "complete_assessment": false,
+        "practice_exemplar": false
+      }
+    }
+  ],
+  "summary": {
+    "catalogued_projects": 10,
+    "included_projects": 9,
+    "language_counts": {
+      "c": 2,
+      "cython": 1,
+      "perl": 2,
+      "python": 5,
+      "rust": 2
+    },
+    "labels": {
+      "usage_exemplars": 0,
+      "repository_practice_exemplars": 0,
+      "complete_assessments": 0,
+      "practice_exemplars": 0
+    }
+  }
+}
