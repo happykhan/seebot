@@ -115,6 +115,15 @@ robustness:
     - /fixtures/bad/empty.dat
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture and expected output require review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: A structurally malformed input is supplied.

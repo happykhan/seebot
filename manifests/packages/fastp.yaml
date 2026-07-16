@@ -132,6 +132,30 @@ robustness:
     - out.fastq
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: applicable
+    reason: A valid FASTQ stream containing zero reads is supplied.
+    command:
+    - fastp
+    - --in1
+    - /fixtures/empty/empty.fastq
+    - --out1
+    - empty.fastq
+    - --json
+    - empty.json
+    - --html
+    - empty.html
+    - --thread
+    - '1'
+    fixture_id: empty-fastq
+    expected_outputs:
+    - path: empty.fastq
+      nonempty: false
+      parser: fastq
+      record_count: 0
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: The FASTQ quality string is truncated.

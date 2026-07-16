@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { describeRule } from './catalogue'
+import { contractCatalogue, describeRule } from './catalogue'
 import { compatibleMetricLanguages, selectMetricPoints } from './charts'
 import { practiceAreas, softwareHref } from './projects'
 import type { MetricPoint } from './types'
@@ -34,5 +34,11 @@ describe('public reporting contracts', () => {
   it('keeps a plain-language catalogue entry for Bandit B102', () => {
     expect(describeRule('bandit', 'B102')).toContain('exec')
     expect(describeRule('bandit', 'B102')).toContain('dynamically supplied Python code')
+  })
+
+  it('describes the valid no-record input contract in the usage catalogue', () => {
+    const contract = contractCatalogue['CLI-SEMANTICALLY-EMPTY-INPUT-001']
+    expect(contract.label).toBe('Valid input with no records')
+    expect(contract.expectation).toContain('zero records')
   })
 })

@@ -1,5 +1,18 @@
 # Protocol changelog
 
+## 2026-07-16 — semantically empty input contract
+
+- Added a separate usage-health contract for format-valid inputs containing zero biological
+  records, including empty FASTA, FASTQ and PAF streams and header-only SAM and VCF.
+- Kept the existing zero-byte error-handling probe separate. The new contract requires
+  successful execution, no internal crash, structurally valid output, and a verified output
+  record count of zero where the operation has a meaningful empty result.
+- Extended output evidence with parsed record cardinality and added explicit
+  `NOT_APPLICABLE` and `NOT_RUN` handling when an operation has no meaningful empty result or
+  still requires format-specific curation.
+- Updated the frozen rubric, schema, fixtures, curation generators, public catalogue and
+  regression tests. This amendment does not authorize execution of the broader cohort.
+
 ## 2026-07-16 — bounded Python expansion authorised
 
 - Authorised a bounded expansion of 20 Python-primary command-line projects from the

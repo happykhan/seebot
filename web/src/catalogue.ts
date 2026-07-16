@@ -115,6 +115,11 @@ export const contractCatalogue: Record<string, { label: string, explanation: str
     explanation: 'Supplies an empty file where biological data are expected.',
     expectation: 'Reject unusable input clearly without an internal crash or inappropriate output.',
   },
+  'CLI-SEMANTICALLY-EMPTY-INPUT-001': {
+    label: 'Valid input with no records',
+    explanation: 'Supplies a valid file or stream containing headers where required but no biological records.',
+    expectation: 'Complete without an internal crash and produce structurally valid output representing zero records.',
+  },
   'CLI-MALFORMED-INPUT-001': {
     label: 'Malformed input',
     explanation: 'Supplies a deliberately truncated or syntactically damaged file in the expected format.',

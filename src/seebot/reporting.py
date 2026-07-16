@@ -14,6 +14,7 @@ HISTORICAL_DATES = [f"{year}-07-01" for year in range(2021, 2026)]
 ROBUSTNESS_IDS = {
     "CLI-MISSING-INPUT-001": "Missing input",
     "CLI-EMPTY-INPUT-001": "Zero-byte input",
+    "CLI-SEMANTICALLY-EMPTY-INPUT-001": "Valid input with no records",
     "CLI-MALFORMED-INPUT-001": "Malformed expected format",
     "CLI-WRONG-FORMAT-001": "Wrong biological format",
     "CLI-INVALID-OPTION-001": "Unrecognized option",

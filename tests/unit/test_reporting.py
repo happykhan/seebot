@@ -11,6 +11,7 @@ from seebot.reporting import (
 
 
 def test_exemplar_labels_are_boolean_conditions_not_scores() -> None:
+    assert "CLI-SEMANTICALLY-EMPTY-INPUT-001" in REQUIRED_CURRENT_CHECKS
     rows = [
         {
             "check_id": check_id,

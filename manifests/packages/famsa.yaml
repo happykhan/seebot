@@ -121,6 +121,24 @@ robustness:
     - out.fasta
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: applicable
+    reason: A valid FASTA stream containing zero sequence records is supplied.
+    command:
+    - famsa
+    - -t
+    - '1'
+    - /fixtures/empty/empty.fasta
+    - empty.fasta
+    fixture_id: empty-fasta
+    expected_outputs:
+    - path: empty.fasta
+      nonempty: false
+      parser: fasta
+      record_count: 0
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: The FASTA structure is malformed.

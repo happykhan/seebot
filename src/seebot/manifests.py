@@ -149,16 +149,32 @@ def manifest_template(name: str) -> dict[str, Any]:
             "timeout_seconds": 300,
         },
         "robustness": {
-            name: {
-                "applicability": "unknown",
-                "reason": None,
-                "command": None,
-                "fixture_id": None,
-                "diagnostic_expectation": "unknown",
-            }
+            name: (
+                {
+                    "applicability": "unknown",
+                    "reason": (
+                        "A format-specific no-record fixture and output contract require curation."
+                    ),
+                    "command": None,
+                    "fixture_id": None,
+                    "expected_outputs": [],
+                    "expect_stdout": False,
+                    "stdout_parser": None,
+                    "stdout_record_count": None,
+                }
+                if name == "semantically_empty_input"
+                else {
+                    "applicability": "unknown",
+                    "reason": None,
+                    "command": None,
+                    "fixture_id": None,
+                    "diagnostic_expectation": "unknown",
+                }
+            )
             for name in (
                 "missing_input",
                 "empty_input",
+                "semantically_empty_input",
                 "malformed_input",
                 "wrong_format",
                 "invalid_option",

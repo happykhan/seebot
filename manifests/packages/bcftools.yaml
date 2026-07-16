@@ -125,6 +125,25 @@ robustness:
     - /fixtures/bad/empty.dat
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: applicable
+    reason: A valid VCF header is supplied with no variant records.
+    command:
+    - bcftools
+    - view
+    - -Ov
+    - -o
+    - empty.vcf
+    - /fixtures/empty/header-only.vcf
+    fixture_id: empty-header-only-vcf
+    expected_outputs:
+    - path: empty.vcf
+      nonempty: true
+      parser: vcf
+      record_count: 0
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: The VCF position field is malformed.

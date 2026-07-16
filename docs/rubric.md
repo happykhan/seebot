@@ -55,7 +55,8 @@ documented interface.
 
 A curated miniature run demonstrates only that valid input is accepted and structurally
 valid output is produced within the resource budget. It does not validate scientific
-correctness. Seven mandatory malformed-input scenarios assess graceful behaviour.
+correctness. Robustness checks cover seven error scenarios plus a no-data scenario that
+requires a valid empty result from a format-valid input containing zero biological records.
 
 ## Aggregate exploration
 

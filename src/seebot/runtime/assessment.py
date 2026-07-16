@@ -23,6 +23,7 @@ from seebot.runtime.pixi import (
 ROBUSTNESS_CHECKS = {
     "missing_input": "CLI-MISSING-INPUT-001",
     "empty_input": "CLI-EMPTY-INPUT-001",
+    "semantically_empty_input": "CLI-SEMANTICALLY-EMPTY-INPUT-001",
     "malformed_input": "CLI-MALFORMED-INPUT-001",
     "wrong_format": "CLI-WRONG-FORMAT-001",
     "invalid_option": "CLI-INVALID-OPTION-001",
@@ -159,6 +160,7 @@ def plan_usage_probes(
         probe = manifest["robustness"][scenario]
         if probe["applicability"] != "applicable" or not probe["command"]:
             continue
+        semantic_empty = scenario == "semantically_empty_input"
         specs.append(
             PixiProbeSpec(
                 project_id=project_id,
@@ -172,8 +174,14 @@ def plan_usage_probes(
                 snapshot_commit=snapshot_commit,
                 executable_id=primary or probe["command"][0],
                 fixture_directory=fixture_directory,
-                diagnostic_expectation=probe["diagnostic_expectation"],
-                error_contract=True,
+                expected_outputs=tuple(
+                    ExpectedOutput(**row) for row in probe.get("expected_outputs", [])
+                ),
+                require_stdout_nonempty=bool(probe.get("expect_stdout", False)),
+                stdout_parser=probe.get("stdout_parser"),
+                stdout_record_count=probe.get("stdout_record_count"),
+                diagnostic_expectation=probe.get("diagnostic_expectation", "not_applicable"),
+                error_contract=not semantic_empty,
                 allow_successful_empty_input=scenario == "empty_input",
                 manifest_sha256=manifest_sha256,
             )
@@ -308,6 +316,16 @@ def run_project_usage(
                         Status.NOT_APPLICABLE,
                         probe["reason"] or "Scenario does not apply to this interface.",
                         Applicability.NOT_APPLICABLE,
+                    )
+                )
+            elif probe["applicability"] == "unknown":
+                status_rows.append(
+                    (
+                        check_id,
+                        f"{scenario}:not-run",
+                        Status.NOT_RUN,
+                        probe["reason"] or "The scenario has not yet been curated.",
+                        Applicability.UNKNOWN,
                     )
                 )
         for check_id, probe_id, status, reason, applicability in status_rows:
