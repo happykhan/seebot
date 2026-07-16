@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "unicycler",
+  "source_commit": "d153f67d6f626176c100724600104ade4f6d7a2e",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "unicycler"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "2fa7f3cfce4d119a963329006cb894e05cb4d3f585224db79f03f2a64407803e",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

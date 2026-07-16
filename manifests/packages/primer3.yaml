@@ -1,0 +1,161 @@
+schema_version: 2
+project:
+  id: primer3
+  name: Primer3
+  description: Designs PCR primers from sequence constraints.
+  primary_language: c
+  primary_category: primer design
+  tags:
+  - FASTA
+  - PCR
+  - primer
+  include: true
+  exclusion_code: null
+repository:
+  id: primer3-org-primer3
+  url: https://github.com/primer3-org/primer3
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 4d4c905b7016fd9210948e711413f1c5d15d0b34
+  historical_commits:
+    '2021-07-01': f1f5dafaf4b9bce6a324cff5d2610ab5c80e206f
+    '2022-07-01': 7f9f17d6012f404e83bbf0f931a4d06eb4af465b
+    '2023-07-01': 7f9f17d6012f404e83bbf0f931a4d06eb4af465b
+    '2024-07-01': 7f9f17d6012f404e83bbf0f931a4d06eb4af465b
+    '2025-07-01': 4d4c905b7016fd9210948e711413f1c5d15d0b34
+  archived: false
+discovery:
+  source: bioconda
+  package_name: primer3
+  rank: 68
+  download_count: 348771
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-primer3-2.6.1
+  adapter: pixi
+  artifact: primer3
+  version: 2.6.1
+  build: pl5321h503566f_7
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/primer3-2.6.1-pl5321h503566f_7.tar.bz2
+  artifact_sha256: d4bc873fab7216850528f63cab36458e17fbb9a7c82bfd4253d090b98ba049ec
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    c:
+    - src
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: primer3_core
+  executables:
+  - primer3_core
+  help_commands:
+  - - primer3_core
+    - --help
+  version_commands:
+  - - primer3_core
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - primer3_core
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - primer3_core
+    - --format_output
+    - --p3_settings_file=/fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/primer3-curator.json
+  reviewer_record: data/curation/primer3-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

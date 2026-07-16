@@ -1,0 +1,192 @@
+schema_version: 2
+project:
+  id: vcftools
+  name: VCFtools
+  description: Filters and summarises VCF files.
+  primary_language: cpp
+  primary_category: variant processing
+  tags:
+  - VCF
+  - filtering
+  - summary statistics
+  include: true
+  exclusion_code: null
+repository:
+  id: vcftools-vcftools
+  url: https://github.com/vcftools/vcftools
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 1f87a83402ffd17ea2723a456b7edf5d80b4a22c
+  historical_commits:
+    '2021-07-01': 581c231991cb4db017b92eabc573e17128541ab5
+    '2022-07-01': 581c231991cb4db017b92eabc573e17128541ab5
+    '2023-07-01': d511f469e87c2ac9779bcdc3670b2b51667935fe
+    '2024-07-01': d511f469e87c2ac9779bcdc3670b2b51667935fe
+    '2025-07-01': 1f87a83402ffd17ea2723a456b7edf5d80b4a22c
+  archived: false
+discovery:
+  source: bioconda
+  package_name: vcftools
+  rank: 60
+  download_count: 393528
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-vcftools-0.1.17
+  adapter: pixi
+  artifact: vcftools
+  version: 0.1.17
+  build: pl5321h077b44d_0
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/vcftools-0.1.17-pl5321h077b44d_0.tar.bz2
+  artifact_sha256: 5282687263909d66bff5c4569e1a84d707369c71d97dd05b4fe7503d57ea451e
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+    c:
+    - src
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: vcftools
+  executables:
+  - vcftools
+  help_commands:
+  - - vcftools
+    - --help
+  version_commands:
+  - - vcftools
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-variants-vcf
+  command:
+  - vcftools
+  - --vcf
+  - /fixtures/core/variants.vcf
+  - --freq
+  - --out
+  - variants
+  expected_outputs:
+  - path: variants.frq
+    nonempty: true
+    parser: text
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - vcftools
+    - --vcf
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - vcftools
+    - --vcf
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture requires review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - vcftools
+    - --vcf
+    - /fixtures/bad/invalid.vcf
+    fixture_id: bad-invalid-vcf
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - vcftools
+    - --vcf
+    - /fixtures/core/reference.fasta
+    fixture_id: core-reference-fasta
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - vcftools
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - vcftools
+    - --vcf
+    - /fixtures/core/variants.vcf
+    - --max-missing
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The output path is placed on the read-only fixture mount.
+    command:
+    - vcftools
+    - --vcf
+    - /fixtures/core/variants.vcf
+    - --freq
+    - --out
+    - /fixtures/out
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/vcftools-curator.json
+  reviewer_record: data/curation/vcftools-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

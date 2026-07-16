@@ -24,7 +24,7 @@ from seebot.runtime.analyzers import (
 )
 from seebot.runtime.pixi import prepare_environment
 
-PROJECTS = (
+DEFAULT_PROJECTS = (
     "harpy",
     "deeptools",
     "htseq",
@@ -108,7 +108,7 @@ def critical_inventory(root: Path) -> dict[str, str]:
     return {path.relative_to(root).as_posix(): sha256(path) for path in sorted(paths)}
 
 
-def prepare(repo: Path, shared_root: Path) -> Path:
+def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_PROJECTS) -> Path:
     audit_commit = command_output(["git", "rev-parse", "HEAD"], cwd=repo)
     if command_output(["git", "status", "--porcelain"], cwd=repo):
         raise RuntimeError("Commit the tested HPC implementation before canonical preparation")
@@ -127,12 +127,12 @@ def prepare(repo: Path, shared_root: Path) -> Path:
     history_target = temporary / "inputs" / "data" / "cohort"
     history_target.mkdir(parents=True, exist_ok=True)
     shutil.copy2(repo / "data/cohort/selected-history.json", history_target)
-    array = [{"index": index, "project_id": project} for index, project in enumerate(PROJECTS)]
+    array = [{"index": index, "project_id": project} for index, project in enumerate(projects)]
     (temporary / "array.json").write_text(json.dumps(array, indent=2) + "\n", encoding="utf-8")
     (temporary / "array.tsv").write_text(
         "".join(f"{row['index']}\t{row['project_id']}\n" for row in array), encoding="utf-8"
     )
-    manifests = [load_manifest(repo, project) for project in PROJECTS]
+    manifests = [load_manifest(repo, project) for project in projects]
     commits: dict[str, str] = {}
     for _, manifest in manifests:
         repository = manifest["repository"]
@@ -188,7 +188,7 @@ def prepare(repo: Path, shared_root: Path) -> Path:
         "runtime": command_output([str(pixi), "--version"]),
         "pixi_sha256": sha256(pixi),
         "shared_path": str(final),
-        "projects": list(PROJECTS),
+        "projects": list(projects),
     }
     (temporary / "run-metadata.json").write_text(
         json.dumps(metadata, indent=2) + "\n", encoding="utf-8"
@@ -211,8 +211,14 @@ def main() -> None:
     parser.add_argument(
         "--shared-root", type=Path, default=Path("/well/aanensen/users/rva470/seebot-hpc")
     )
+    parser.add_argument(
+        "--tool",
+        action="append",
+        help="Project id to include in the prepared Slurm array. May be repeated.",
+    )
     args = parser.parse_args()
-    print(prepare(args.repo.resolve(), args.shared_root.resolve()))
+    projects = tuple(args.tool) if args.tool else DEFAULT_PROJECTS
+    print(prepare(args.repo.resolve(), args.shared_root.resolve(), projects))
 
 
 if __name__ == "__main__":

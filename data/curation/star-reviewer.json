@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "star",
+  "source_commit": "b1edc1208d91a53bf40ebae8669f71d50b994851",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "doc/STARmanual.pdf",
+      "start_line": 1,
+      "end_line": 1,
+      "item_type": "interface_and_source_scope",
+      "item_name": "star"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "8c9b7084f93e147e0a11706fcebdec4a7b0d2649270d7411c6b0c1e322e28dab",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

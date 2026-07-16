@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "picard",
+  "source_commit": "dc7f254babaa6ebed1c1e57169465fa119c51b07",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "picard"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "e22ac656c5247b5bd342d86cd44aa94f8b129fddcd681167775adb1eaff3e224",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

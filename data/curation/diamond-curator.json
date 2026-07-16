@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "diamond",
+  "source_commit": "61701341f281be3c53b110693a2c14c59757b5da",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "diamond"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "cb090cc441e7452b360cc038868badad9161e4a4ab7dd05147de276b4661f0f4",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

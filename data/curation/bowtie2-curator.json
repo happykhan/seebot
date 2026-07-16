@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "bowtie2",
+  "source_commit": "80e101112461b3adea6c7453e28e89d8724b8cb5",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "MANUAL.markdown",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "bowtie2"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "d00f3c2ce27e6864972404ebc665c21b31b4980dcbfde0c54aaf1da425157f4b",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

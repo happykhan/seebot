@@ -1,0 +1,164 @@
+schema_version: 2
+project:
+  id: star
+  name: STAR
+  description: Aligns RNA-seq reads to genomes.
+  primary_language: c
+  primary_category: RNA-seq alignment
+  tags:
+  - FASTQ
+  - RNA-seq
+  - genome index
+  include: true
+  exclusion_code: null
+repository:
+  id: alexdobin-star
+  url: https://github.com/alexdobin/STAR
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: b1edc1208d91a53bf40ebae8669f71d50b994851
+  historical_commits:
+    '2021-07-01': 88d770f2ab930bb707f1031b133b6d0615d7e8cb
+    '2022-07-01': c2f3c6589ffab7c69fc46684b5be0990584b7542
+    '2023-07-01': 0299f2bb8b62a258dbae9d803dda7ceabc9270be
+    '2024-07-01': b1edc1208d91a53bf40ebae8669f71d50b994851
+    '2025-07-01': b1edc1208d91a53bf40ebae8669f71d50b994851
+  archived: false
+discovery:
+  source: bioconda
+  package_name: star
+  rank: 16
+  download_count: 963021
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-star-2.7.11b
+  adapter: pixi
+  artifact: star
+  version: 2.7.11b
+  build: h5ca1c30_8
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/star-2.7.11b-h5ca1c30_8.conda
+  artifact_sha256: 292dd41d26a78afbe27690e8b7e027da75a14c63ec546e9254c7d0c963091322
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - source
+  language_roots:
+    c:
+    - source
+    cpp:
+    - source
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: STAR
+  executables:
+  - STAR
+  - STARlong
+  help_commands:
+  - - STAR
+    - --help
+  version_commands:
+  - - STAR
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - STAR
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - STAR
+    - --runThreadN
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/star-curator.json
+  reviewer_record: data/curation/star-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

@@ -1,0 +1,163 @@
+schema_version: 2
+project:
+  id: abyss
+  name: ABySS
+  description: Assembles short reads using a de Bruijn graph.
+  primary_language: cpp
+  primary_category: genome assembly
+  tags:
+  - FASTQ
+  - assembly
+  - de Bruijn graph
+  include: true
+  exclusion_code: null
+repository:
+  id: bcgsc-abyss
+  url: https://github.com/bcgsc/abyss
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 82ab61922c3c2fdd32372de2c470f8217c109284
+  historical_commits:
+    '2021-07-01': da2d0da486443da9b3d1e107fd495e274b709e90
+    '2022-07-01': 8ac8f384a8e88efa86f2617ced87da453a88659c
+    '2023-07-01': 42bb25076d2890076362dff441f34bae587f70be
+    '2024-07-01': 6548e04546dfc2239faee5b52fdb01dd31ed7995
+    '2025-07-01': b2772e10e6f412096252694587b9d70624141948
+  archived: false
+discovery:
+  source: bioconda
+  package_name: abyss
+  rank: 42
+  download_count: 476550
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-abyss-2.3.10
+  adapter: pixi
+  artifact: abyss
+  version: 2.3.10
+  build: h4a2768f_3
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/abyss-2.3.10-h4a2768f_3.conda
+  artifact_sha256: 41add87936748c59376a0fc3d2d86e8beb993657d7bba05c5e3104556e398a50
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  language_roots:
+    cpp:
+    - .
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: abyss
+  executables:
+  - ABYSS
+  - ABYSS-P
+  - abyss
+  help_commands:
+  - - abyss
+    - --help
+  version_commands:
+  - - abyss
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - abyss
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - abyss
+    - -k
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/abyss-curator.json
+  reviewer_record: data/curation/abyss-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

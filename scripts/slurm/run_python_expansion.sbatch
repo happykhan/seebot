@@ -10,8 +10,8 @@
 
 set -euo pipefail
 
-repo=/well/aanensen/users/rva470/seebot
-run_root=/well/aanensen/users/rva470/seebot-hpc/current
+repo=${SEEBOT_REPO:-/well/aanensen/users/rva470/seebot}
+run_root=${SEEBOT_RUN_ROOT:-/well/aanensen/users/rva470/seebot-hpc/current}
 project=$(awk -v task_id="$SLURM_ARRAY_TASK_ID" '$1 == task_id { print $2 }' "$run_root/array.tsv")
 if [[ -z "$project" ]]; then
   echo "No project mapped for array index $SLURM_ARRAY_TASK_ID" >&2

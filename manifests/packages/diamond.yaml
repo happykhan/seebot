@@ -1,0 +1,162 @@
+schema_version: 2
+project:
+  id: diamond
+  name: DIAMOND
+  description: Searches protein and translated DNA sequences against protein databases.
+  primary_language: cpp
+  primary_category: sequence search
+  tags:
+  - protein
+  - database
+  - alignment
+  include: true
+  exclusion_code: null
+repository:
+  id: bbuchfink-diamond
+  url: https://github.com/bbuchfink/diamond
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 61701341f281be3c53b110693a2c14c59757b5da
+  historical_commits:
+    '2021-07-01': ef1d77a9d2ff7198748f93371a9ab4d85a17cbd8
+    '2022-07-01': d6f6e70c019bb07215b177be66a2df911f29442a
+    '2023-07-01': af4fc6484250c497c6b1f1a08f734764dc5d2ed4
+    '2024-07-01': a00d0da8081851f9423cb2168a3637af0ddd42e4
+    '2025-07-01': 8ec818ca160fbc26b262ae999c5c11d9c98a7e38
+  archived: false
+discovery:
+  source: bioconda
+  package_name: diamond
+  rank: 11
+  download_count: 1381357
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-diamond-2.2.2
+  adapter: pixi
+  artifact: diamond
+  version: 2.2.2
+  build: he361c42_0
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/diamond-2.2.2-he361c42_0.conda
+  artifact_sha256: 8c2412b0b504c38e24d10c10a83c5d9b2024e7a40960cb233071fb0eea56bcc1
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: diamond
+  executables:
+  - diamond
+  help_commands:
+  - - diamond
+    - --help
+  version_commands:
+  - - diamond
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - diamond
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - diamond
+    - blastp
+    - --threads
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/diamond-curator.json
+  reviewer_record: data/curation/diamond-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

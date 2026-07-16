@@ -1,0 +1,179 @@
+schema_version: 2
+project:
+  id: minimap2
+  name: minimap2
+  description: Maps long DNA or mRNA sequences to a reference.
+  primary_language: c
+  primary_category: read alignment
+  tags:
+  - FASTA
+  - FASTQ
+  - long reads
+  include: true
+  exclusion_code: null
+repository:
+  id: lh3-minimap2
+  url: https://github.com/lh3/minimap2
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 3c28777e7e2dcc90f825de1b9f17a89cca7d4452
+  historical_commits:
+    '2021-07-01': 28a37a017a23d8eadefce017b8e6d34bcfc1b476
+    '2022-07-01': 767556b6f0cf7f8cc8096e29a88b0ab520651ff2
+    '2023-07-01': ace990c381c647d6cf8fae7a4941a7b56fb67ae7
+    '2024-07-01': 0cc3cdca27f050fb80a19c90d25ecc6ab0b0907b
+    '2025-07-01': 79c9cc186b95f50bd899f69b48eba995ced810c6
+  archived: false
+discovery:
+  source: bioconda
+  package_name: minimap2
+  rank: 73
+  download_count: 331986
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-minimap2-2.31
+  adapter: pixi
+  artifact: minimap2
+  version: '2.31'
+  build: h118bc1c_0
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/minimap2-2.31-h118bc1c_0.conda
+  artifact_sha256: 344fe7b5328ff635dc2b8914b05e003053e136446e456b81e1b4b5fca1a9cedd
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  language_roots:
+    c:
+    - .
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: minimap2
+  executables:
+  - minimap2
+  help_commands:
+  - - minimap2
+    - --help
+  version_commands:
+  - - minimap2
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reference-fasta
+  - core-reads-r1-fastq
+  command:
+  - minimap2
+  - /fixtures/core/reference.fasta
+  - /fixtures/core/reads_R1.fastq
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: paf
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - minimap2
+    - /fixtures/core/reference.fasta
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - minimap2
+    - /fixtures/core/reference.fasta
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture requires review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - minimap2
+    - /fixtures/core/reference.fasta
+    - /fixtures/bad/truncated.fastq
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - minimap2
+    - /fixtures/core/reference.fasta
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - minimap2
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - minimap2
+    - -t
+    - none
+    - /fixtures/core/reference.fasta
+    - /fixtures/core/reads_R1.fastq
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/minimap2-curator.json
+  reviewer_record: data/curation/minimap2-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

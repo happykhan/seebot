@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "vcftools",
+  "source_commit": "1f87a83402ffd17ea2723a456b7edf5d80b4a22c",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "vcftools"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "fc35559227289d49f6ab4d88862221309460afb1d31c160100a12048b6937ead",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

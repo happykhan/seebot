@@ -1,0 +1,166 @@
+schema_version: 2
+project:
+  id: star-fusion
+  name: STAR-Fusion
+  description: Detects fusion transcripts from RNA-seq alignments.
+  primary_language: perl
+  primary_category: fusion detection
+  tags:
+  - RNA-seq
+  - fusion
+  - STAR
+  include: true
+  exclusion_code: null
+repository:
+  id: star-fusion-star-fusion
+  url: https://github.com/STAR-Fusion/STAR-Fusion
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 2e701b64867b89d719d3c6a275fc6f5586820993
+  historical_commits:
+    '2021-07-01': 7a8e3a6ca53f68c81a664a31f13a291cbcb0ffe7
+    '2022-07-01': 78a9f4ea155bb64471e4906dee6e3c9fd32d46d4
+    '2023-07-01': bdfc4351ae733f5fcd6e77851c0c6bf1d301c08e
+    '2024-07-01': e522c236a1b068ab1217855209b4706e2f8ef153
+    '2025-07-01': 2e701b64867b89d719d3c6a275fc6f5586820993
+  archived: false
+discovery:
+  source: bioconda
+  package_name: star-fusion
+  rank: 53
+  download_count: 412378
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-star-fusion-1.15.1
+  adapter: pixi
+  artifact: star-fusion
+  version: 1.15.1
+  build: hdfd78af_1
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/star-fusion-1.15.1-hdfd78af_1.tar.bz2
+  artifact_sha256: ee0191fdcbaab07e76de09a6844173030827fc8c76f9d613b5bc833f17bbde73
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  - FusionFilter
+  language_roots:
+    perl:
+    - .
+    python:
+    - FusionFilter
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: STAR-Fusion
+  executables:
+  - STAR-Fusion
+  - blast_and_promiscuity_filter.pl
+  - prep_genome_lib.pl
+  help_commands:
+  - - STAR-Fusion
+    - --help
+  version_commands:
+  - - STAR-Fusion
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - STAR-Fusion
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - STAR-Fusion
+    - --CPU
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/star-fusion-curator.json
+  reviewer_record: data/curation/star-fusion-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

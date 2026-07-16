@@ -1,0 +1,168 @@
+schema_version: 2
+project:
+  id: spades
+  name: SPAdes
+  description: Assembles genomes from sequencing reads.
+  primary_language: cpp
+  primary_category: genome assembly
+  tags:
+  - FASTQ
+  - assembly
+  - metagenomics
+  include: true
+  exclusion_code: null
+repository:
+  id: ablab-spades
+  url: https://github.com/ablab/spades
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 808b87dade1300ecaa712429955ccba7bfb286f4
+  historical_commits:
+    '2021-07-01': a3bb8d8cc7b5732042ae6141be38bff3abdb8660
+    '2022-07-01': e0cd765815d093dc30b8d47617f135eff13854d5
+    '2023-07-01': 800a8b17c28f8523b1df3a901754870b403b3091
+    '2024-07-01': 60ad35e88074f9340d14e6a814c1cdd0fe30e13b
+    '2025-07-01': 480abae8d04887e3f2278d302b41bb9b27ad9716
+  archived: false
+discovery:
+  source: bioconda
+  package_name: spades
+  rank: 79
+  download_count: 320961
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-spades-4.3.0
+  adapter: pixi
+  artifact: spades
+  version: 4.3.0
+  build: hde4eca7_0
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/spades-4.3.0-hde4eca7_0.conda
+  artifact_sha256: 708d7216ae7f7c6961af81560e27ce63766cb1f16bb9607b78bd8bdfe8f8d96c
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  - src/spades_pipeline
+  language_roots:
+    cpp:
+    - src
+    python:
+    - src/spades_pipeline
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: spades.py
+  executables:
+  - metaspades.py
+  - plasmidspades.py
+  - rnaspades.py
+  - spades-kmercount
+  - spades.py
+  help_commands:
+  - - spades.py
+    - --help
+  version_commands:
+  - - spades.py
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - spades.py
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - spades.py
+    - -t
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T16:50:00Z'
+  curator_record: data/curation/spades-curator.json
+  reviewer_record: data/curation/spades-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.
