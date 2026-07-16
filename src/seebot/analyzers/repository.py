@@ -296,14 +296,12 @@ def repository_practices(root: Path) -> dict[str, Any]:
 
 
 def _github_headers() -> dict[str, str]:
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
     executable = shutil.which("gh")
-    token = (
-        subprocess.run(
+    if not token and executable:
+        token = subprocess.run(
             [executable, "auth", "token"], capture_output=True, text=True, check=False
         ).stdout.strip()
-        if executable
-        else ""
-    )
     headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
     if token:
         headers["Authorization"] = f"Bearer {token}"

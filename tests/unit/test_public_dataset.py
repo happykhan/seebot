@@ -89,3 +89,21 @@ def test_published_dataset_keeps_all_normalized_current_results() -> None:
 
     for project_id, expected_count in normalized_counts.items():
         assert published_counts[project_id] == expected_count
+
+
+def test_published_projects_include_repository_observations() -> None:
+    root = Path(__file__).parents[2]
+    dataset = json.loads((root / "web/public/data/dataset.json").read_text(encoding="utf-8"))
+    expected = {
+        "REPO-ACTIVITY-001",
+        "REPO-DOCUMENTATION-001",
+        "REPO-RELEASES-001",
+        "REPO-STANDARD-TESTS-001",
+        "REPO-VERIFICATION-CI-001",
+    }
+
+    for project in dataset["projects"]:
+        observed = {
+            row["check_id"] for row in project["results"] if row["domain"] == "repository"
+        }
+        assert observed == expected, project["id"]

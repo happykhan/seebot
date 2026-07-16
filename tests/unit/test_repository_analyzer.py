@@ -27,3 +27,12 @@ def test_github_activity_rate_limit_becomes_unavailable_observation(monkeypatch)
     assert activity["github_api_available"] is False
     assert "HTTP 403" in activity["github_api_error"]
     assert activity["commits_last_12_months"] is None
+
+
+def test_github_headers_use_environment_token_without_gh(monkeypatch) -> None:
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    monkeypatch.setattr(repository.shutil, "which", lambda _name: None)
+
+    headers = repository._github_headers()
+
+    assert headers["Authorization"] == "Bearer test-token"
