@@ -1,6 +1,8 @@
 import subprocess
 from pathlib import Path
 
+import pytest
+
 from seebot.models import Status
 from seebot.runtime import container
 from seebot.runtime import pixi as pixi_runtime
@@ -213,8 +215,9 @@ def test_timeout_is_untestable_not_project_failure(tmp_path: Path, monkeypatch) 
     assert result.status is Status.UNTESTABLE
 
 
+@pytest.mark.parametrize("exit_code", [1, 127])
 def test_missing_executable_is_audit_error_not_graceful_rejection(
-    tmp_path: Path, monkeypatch
+    tmp_path: Path, monkeypatch, exit_code: int
 ) -> None:
     root = tmp_path / "environment"
     root.mkdir()
@@ -233,7 +236,7 @@ def test_missing_executable_is_audit_error_not_graceful_rejection(
         pixi_runtime,
         "_run",
         lambda command, **_kwargs: subprocess.CompletedProcess(
-            command, 127, b"", b"missing-tool: command not found\n"
+            command, exit_code, b"", b"missing-tool: command not found\n"
         ),
     )
     monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "docker")

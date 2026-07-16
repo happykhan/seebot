@@ -63,18 +63,16 @@ source:
   - resources
   - bin
 interfaces:
-  primary: pasta
+  primary: run_pasta.py
   executables:
-  - hmmalign
-  - hmmbuild
-  - muscle
-  - pasta
-  - raxml
+  - run_pasta.py
+  - run_pasta_gui.py
+  - run_seqtools.py
   help_commands:
-  - - pasta
+  - - run_pasta.py
     - --help
   version_commands:
-  - - pasta
+  - - run_pasta.py
     - --version
   no_argument_policy: help_or_usage_error
   stdin_support: not_supported
@@ -103,7 +101,7 @@ robustness:
     applicability: applicable
     reason: The input path does not exist.
     command:
-    - pasta
+    - run_pasta.py
     - -i
     - /fixtures/bad/missing.dat
     fixture_id: null
@@ -112,7 +110,7 @@ robustness:
     applicability: applicable
     reason: A zero-byte input file is supplied.
     command:
-    - pasta
+    - run_pasta.py
     - -i
     - /fixtures/bad/empty.dat
     fixture_id: bad-empty
@@ -130,7 +128,7 @@ robustness:
     applicability: applicable
     reason: A structurally malformed input is supplied.
     command:
-    - pasta
+    - run_pasta.py
     - -i
     - /fixtures/bad/malformed.fasta
     fixture_id: bad-malformed-fasta
@@ -139,7 +137,7 @@ robustness:
     applicability: applicable
     reason: A valid but incompatible biological format is supplied.
     command:
-    - pasta
+    - run_pasta.py
     - -i
     - /fixtures/core/variants.vcf
     fixture_id: core-variants-vcf
@@ -148,7 +146,7 @@ robustness:
     applicability: applicable
     reason: The option is deliberately unrecognised.
     command:
-    - pasta
+    - run_pasta.py
     - --seebot-invalid-option
     fixture_id: null
     diagnostic_expectation: specific_or_generic
@@ -156,7 +154,7 @@ robustness:
     applicability: applicable
     reason: A typed option is given a deliberately invalid value.
     command:
-    - pasta
+    - run_pasta.py
     - -i
     - /fixtures/core/alignment.fasta
     - --num-cpus

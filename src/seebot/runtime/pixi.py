@@ -301,7 +301,12 @@ def _diagnostic_class(stderr: str, crash_detected: bool) -> str:
 
 def _executable_launch_failed(exit_code: int, stderr: str) -> bool:
     """Identify shell failures to launch the reviewed executable."""
-    return any(marker in stderr.lower() for marker in EXECUTABLE_LAUNCH_FAILURES.get(exit_code, ()))
+    lowered = stderr.lower()
+    if any(marker in lowered for marker in EXECUTABLE_LAUNCH_FAILURES.get(exit_code, ())):
+        return True
+    return exit_code != 0 and any(
+        marker in lowered for markers in EXECUTABLE_LAUNCH_FAILURES.values() for marker in markers
+    )
 
 
 def _inspect_output(
@@ -417,8 +422,16 @@ def run_pixi_probe(
         (spec.environment.root, "/workspace", "rw"),
         (check_dir, "/work", "rw"),
     ]
+    fixture_sandbox: Path | None = None
     if spec.fixture_directory is not None:
-        mounts.append((spec.fixture_directory, "/fixtures", "ro"))
+        fixture_mount = spec.fixture_directory
+        if runtime_name() == "native":
+            # Native execution cannot enforce a read-only bind mount. Some tools write beside
+            # their input, so give each probe a disposable copy instead of the source fixtures.
+            fixture_sandbox = check_dir / ".fixture-sandbox"
+            shutil.copytree(spec.fixture_directory, fixture_sandbox)
+            fixture_mount = fixture_sandbox
+        mounts.append((fixture_mount, "/fixtures", "ro"))
     command = container_command(
         [
             "pixi",
@@ -584,6 +597,8 @@ def run_pixi_probe(
         stderr_path.write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
         observed = {"exit_code": None, "audit_error": type(exc).__name__}
         notes = "Audit machinery could not start or supervise the probe."
+    if fixture_sandbox is not None:
+        shutil.rmtree(fixture_sandbox, ignore_errors=True)
     duration = time.monotonic() - clock
     metadata = {
         "schema_version": 2,

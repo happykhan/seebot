@@ -16,13 +16,13 @@
     }
   ],
   "assessment": {
-    "manifest_sha256": "6dc06f35bc3d41ecc523c7c82031dfb7a6f5d568728a93fb87e15e0e6a115882",
+    "manifest_sha256": "2f7000e61520e7a541254b5f1ad08480b6ef12ede806d081a62bb99f81ad0445",
     "source_roots_reviewed": true,
     "commands_are_argument_arrays": true,
     "fixtures_and_applicability_reviewed": true,
     "upstream_tests_not_requested": true
   },
   "confidence": "high",
-  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "evidence_notes": "Independent interface check confirmed run_pasta.py is packaged and its help/version commands execute.",
   "adjudication_required": false
 }

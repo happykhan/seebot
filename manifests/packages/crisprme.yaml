@@ -66,14 +66,14 @@ source:
   - assets
   - PostProcess/azimuth/tests
 interfaces:
-  primary: crisprme
+  primary: crisprme.py
   executables:
-  - crisprme
+  - crisprme.py
   help_commands:
-  - - crisprme
+  - - crisprme.py
     - --help
   version_commands:
-  - - crisprme
+  - - crisprme.py
     - --version
   no_argument_policy: help_or_usage_error
   stdin_support: not_supported
@@ -134,7 +134,7 @@ robustness:
     applicability: applicable
     reason: The option is deliberately unrecognised.
     command:
-    - crisprme
+    - crisprme.py
     - --seebot-invalid-option
     fixture_id: null
     diagnostic_expectation: specific_or_generic

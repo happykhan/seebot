@@ -16,13 +16,13 @@
     }
   ],
   "assessment": {
-    "manifest_sha256": "2be93ae2a9c6bc09308ca215ab6f41eeb9bd8f9c76ec0845339f657b4a397c1b",
+    "manifest_sha256": "ea0d687612f95a9bd307237ef7c3412a826e84790c944f9d760e3e4f5e162af3",
     "source_roots_reviewed": true,
     "commands_are_argument_arrays": true,
     "fixtures_and_applicability_reviewed": true,
     "upstream_tests_not_requested": true
   },
   "confidence": "high",
-  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "evidence_notes": "Independent review of the installed package file list and direct commands confirms ABYSS, not the absent lowercase abyss command, as the installed interface.",
   "adjudication_required": false
 }
