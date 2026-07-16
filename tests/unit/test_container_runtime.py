@@ -30,3 +30,37 @@ def test_apptainer_command_uses_prepared_sif_and_network_namespace(
 
     install = container.container_command(["pixi", "install"], read_only=False)
     assert not any("ulimit -u 256" in part for part in install)
+
+
+def test_native_translation_does_not_rewrite_translated_host_paths(
+    tmp_path: Path, monkeypatch
+) -> None:
+    workspace = tmp_path / "current" / "work" / "source-analyzers"
+    work = tmp_path / "current" / "evidence" / "current" / "project" / "check"
+    source = tmp_path / "scratch" / "checkout"
+    workspace.mkdir(parents=True)
+    work.mkdir(parents=True)
+    source.mkdir(parents=True)
+    pixi = tmp_path / "pixi"
+    pixi.write_text("#!/bin/sh\n", encoding="utf-8")
+    monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "native")
+    monkeypatch.setenv("SEEBOT_PIXI_EXECUTABLE", str(pixi))
+
+    command = container.container_command(
+        [
+            "pixi",
+            "run",
+            "--manifest-path",
+            "/workspace/pixi.toml",
+            "--",
+            "cppcheck",
+            "/source/tool.c",
+        ],
+        mounts=((workspace, "/workspace", "rw"), (source, "/source", "ro"), (work, "/work", "rw")),
+        environment={"PERL5LIB": "/workspace/perl5/lib/perl5"},
+        workdir="/source",
+    )
+
+    assert str(workspace / "pixi.toml") in command
+    assert f"PERL5LIB={workspace / 'perl5/lib/perl5'}" in command
+    assert str(work / str(workspace).lstrip("/")) not in command

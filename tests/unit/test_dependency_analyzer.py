@@ -210,3 +210,31 @@ def test_installed_inventory_discovers_python_maven_and_npm_metadata(tmp_path) -
         ("Maven", "org.example:demo", "1.2.3"),
         ("npm", "@scope/demo", "4.5.6"),
     }
+
+
+def test_installed_inventory_can_skip_deep_maven_and_npm_scans(tmp_path) -> None:
+    python_metadata = tmp_path / "lib/python3.12/site-packages/archspec-0.2.5.dist-info/METADATA"
+    python_metadata.parent.mkdir(parents=True)
+    python_metadata.write_text("Name: archspec\nVersion: 0.2.5\n", encoding="utf-8")
+
+    jar = tmp_path / "share/java/demo.jar"
+    jar.parent.mkdir(parents=True)
+    with zipfile.ZipFile(jar, "w") as archive:
+        archive.writestr(
+            "META-INF/maven/org.example/demo/pom.properties",
+            "groupId=org.example\nartifactId=demo\nversion=1.2.3\n",
+        )
+
+    npm_metadata = tmp_path / "lib/node_modules/@scope/demo/package.json"
+    npm_metadata.parent.mkdir(parents=True)
+    npm_metadata.write_text(
+        json.dumps({"name": "@scope/demo", "version": "4.5.6"}), encoding="utf-8"
+    )
+
+    packages = discover_installed_ecosystem_packages(
+        tmp_path, include_maven=False, include_npm=False
+    )
+
+    assert {(row["ecosystem"], row["name"], row["version"]) for row in packages} == {
+        ("PyPI", "archspec", "0.2.5"),
+    }

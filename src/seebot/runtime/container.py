@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 import shutil
 from pathlib import Path
 
@@ -58,11 +59,14 @@ def container_command(
     executable = runtime_executable()
     if runtime_name() == "native":
         mount_map = {target: str(host.resolve()) for host, target, _ in mounts}
+        mount_pattern = re.compile(
+            "|".join(re.escape(target) for target in sorted(mount_map, key=len, reverse=True))
+        )
 
         def translate(value: str) -> str:
-            for target, host in sorted(mount_map.items(), key=lambda row: -len(row[0])):
-                value = value.replace(target, host)
-            return value
+            if not mount_map:
+                return value
+            return mount_pattern.sub(lambda match: mount_map[match.group(0)], value)
 
         translated = [translate(value) for value in argv]
         if translated and translated[0] == "pixi":

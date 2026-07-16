@@ -8,7 +8,7 @@ import subprocess
 import time
 import tomllib
 import zipfile
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from datetime import UTC, datetime
 from email.parser import Parser
 from pathlib import Path
@@ -281,7 +281,13 @@ def _properties(text: str) -> dict[str, str]:
     return values
 
 
-def discover_installed_ecosystem_packages(prefix: Path) -> list[dict[str, str]]:
+def _has_any_conda_package(records: Sequence[Mapping[str, Any]], names: set[str]) -> bool:
+    return any(canonicalize_name(str(record.get("name", ""))) in names for record in records)
+
+
+def discover_installed_ecosystem_packages(
+    prefix: Path, *, include_maven: bool = True, include_npm: bool = True
+) -> list[dict[str, str]]:
     """Inventory exact language packages present in a disposable Pixi prefix."""
     packages: dict[tuple[str, str, str], dict[str, str]] = {}
     for metadata in sorted(prefix.glob("lib/python*/site-packages/*.dist-info/METADATA")):
@@ -299,49 +305,53 @@ def discover_installed_ecosystem_packages(prefix: Path) -> list[dict[str, str]]:
                 "version": version,
                 "source": metadata.relative_to(prefix).as_posix(),
             }
-    for jar in sorted(prefix.rglob("*.jar")):
-        try:
-            with zipfile.ZipFile(jar) as archive:
-                property_names = sorted(
-                    name
-                    for name in archive.namelist()
-                    if name.startswith("META-INF/maven/") and name.endswith("/pom.properties")
-                )
-                for property_name in property_names:
-                    values = _properties(
-                        archive.read(property_name).decode(encoding="utf-8", errors="replace")
+    if include_maven:
+        for jar in sorted(prefix.rglob("*.jar")):
+            try:
+                with zipfile.ZipFile(jar) as archive:
+                    property_names = sorted(
+                        name
+                        for name in archive.namelist()
+                        if name.startswith("META-INF/maven/") and name.endswith("/pom.properties")
                     )
-                    group = values.get("groupId")
-                    artifact = values.get("artifactId")
-                    version = values.get("version")
-                    if group and artifact and version:
-                        name = f"{group}:{artifact}"
-                        maven_key = ("Maven", name, version)
-                        packages[maven_key] = {
-                            "ecosystem": "Maven",
-                            "name": name,
-                            "version": version,
-                            "source": jar.relative_to(prefix).as_posix(),
-                        }
-        except (OSError, ValueError, zipfile.BadZipFile):
-            continue
-    for package_json in sorted(prefix.rglob("package.json")):
-        if "node_modules" not in package_json.parts:
-            continue
-        try:
-            payload = json.loads(package_json.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
-        name = payload.get("name") if isinstance(payload, dict) else None
-        version = payload.get("version") if isinstance(payload, dict) else None
-        if isinstance(name, str) and isinstance(version, str):
-            npm_key = ("npm", name, version)
-            packages[npm_key] = {
-                "ecosystem": "npm",
-                "name": name,
-                "version": version,
-                "source": package_json.relative_to(prefix).as_posix(),
-            }
+                    for property_name in property_names:
+                        values = _properties(
+                            archive.read(property_name).decode(
+                                encoding="utf-8", errors="replace"
+                            )
+                        )
+                        group = values.get("groupId")
+                        artifact = values.get("artifactId")
+                        version = values.get("version")
+                        if group and artifact and version:
+                            name = f"{group}:{artifact}"
+                            maven_key = ("Maven", name, version)
+                            packages[maven_key] = {
+                                "ecosystem": "Maven",
+                                "name": name,
+                                "version": version,
+                                "source": jar.relative_to(prefix).as_posix(),
+                            }
+            except (OSError, ValueError, zipfile.BadZipFile):
+                continue
+    if include_npm:
+        for package_json in sorted(prefix.rglob("package.json")):
+            if "node_modules" not in package_json.parts:
+                continue
+            try:
+                payload = json.loads(package_json.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            name = payload.get("name") if isinstance(payload, dict) else None
+            version = payload.get("version") if isinstance(payload, dict) else None
+            if isinstance(name, str) and isinstance(version, str):
+                npm_key = ("npm", name, version)
+                packages[npm_key] = {
+                    "ecosystem": "npm",
+                    "name": name,
+                    "version": version,
+                    "source": package_json.relative_to(prefix).as_posix(),
+                }
     return [packages[key] for key in sorted(packages)]
 
 
@@ -382,12 +392,25 @@ def run_installed_dependency_advisories(
         }
         for record in conda_records
     ]
-    ecosystem_packages = discover_installed_ecosystem_packages(prefix)
+    include_maven = _has_any_conda_package(
+        conda_records, {"java", "maven", "openjdk", "jdk", "jre"}
+    )
+    include_npm = _has_any_conda_package(conda_records, {"nodejs", "npm", "pnpm", "yarn"})
+    ecosystem_packages = discover_installed_ecosystem_packages(
+        prefix,
+        include_maven=include_maven,
+        include_npm=include_npm,
+    )
     inventory = {
         "installation_id": environment.installation_id,
         "pixi_lock_sha256": sha256_file(environment.lock_path),
         "conda_packages": conda_packages,
         "ecosystem_packages": ecosystem_packages,
+        "ecosystem_scan_policy": {
+            "pypi": True,
+            "maven": include_maven,
+            "npm": include_npm,
+        },
     }
     inventory_path.write_text(json.dumps(inventory, indent=2) + "\n", encoding="utf-8")
     command = [
