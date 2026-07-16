@@ -324,22 +324,46 @@ def _pages(client: httpx.Client, url: str, *, maximum_pages: int = 20) -> list[d
     return rows
 
 
+def _unknown_github_activity(error: str) -> dict[str, Any]:
+    return {
+        "github_api_available": False,
+        "github_api_error": error,
+        "archived": None,
+        "days_since_last_non_bot_commit": None,
+        "commits_last_12_months": None,
+        "active_months_last_12_months": None,
+        "days_since_latest_release": None,
+        "releases_last_24_months": None,
+        "latest_release_tag": None,
+    }
+
+
 def github_activity(repository_url: str) -> dict[str, Any]:
     owner, repository = github_coordinates(repository_url)
     base = f"https://api.github.com/repos/{owner}/{repository}"
-    with httpx.Client(headers=_github_headers(), timeout=60, follow_redirects=True) as client:
-        repository_response = client.get(base)
-        repository_response.raise_for_status()
-        repository_payload = repository_response.json()
-        activity_commits = _pages(
-            client,
-            (f"{base}/commits?since={ACTIVITY_START.isoformat()}&until={CUTOFF.isoformat()}"),
-            maximum_pages=100,
-        )
-        recent_commits = _pages(
-            client, f"{base}/commits?until={CUTOFF.isoformat()}", maximum_pages=5
-        )
-        releases = _pages(client, f"{base}/releases", maximum_pages=5)
+    try:
+        with httpx.Client(headers=_github_headers(), timeout=60, follow_redirects=True) as client:
+            repository_response = client.get(base)
+            repository_response.raise_for_status()
+            repository_payload = repository_response.json()
+            activity_commits = _pages(
+                client,
+                (
+                    f"{base}/commits?"
+                    f"since={ACTIVITY_START.isoformat()}&until={CUTOFF.isoformat()}"
+                ),
+                maximum_pages=100,
+            )
+            recent_commits = _pages(
+                client, f"{base}/commits?until={CUTOFF.isoformat()}", maximum_pages=5
+            )
+            releases = _pages(client, f"{base}/releases", maximum_pages=5)
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code in {403, 429}:
+            return _unknown_github_activity(f"HTTP {exc.response.status_code}: {exc.response.text}")
+        raise
+    except httpx.RequestError as exc:
+        return _unknown_github_activity(f"{type(exc).__name__}: {exc}")
     payload_root = os.environ.get("SEEBOT_GITHUB_PAYLOAD_ROOT")
     if payload_root:
         target = Path(payload_root) / f"{owner}--{repository}.json"
@@ -389,6 +413,8 @@ def github_activity(repository_url: str) -> dict[str, Any]:
     latest_commit = max(cutoff_dates, default=None)
     latest_release = max(all_release_dates, default=None)
     return {
+        "github_api_available": True,
+        "github_api_error": None,
         "archived": bool(repository_payload.get("archived")),
         "days_since_last_non_bot_commit": (CUTOFF - latest_commit).days if latest_commit else None,
         "commits_last_12_months": len(dates),
@@ -427,6 +453,17 @@ def run_repository_observations(
     repository_id = f"{owner}/{repository}"
     practices = repository_practices(checkout)
     activity = github_activity(repository_url)
+    activity_status = (
+        Status.OBSERVED if activity.get("github_api_available", True) else Status.UNTESTABLE
+    )
+    activity_notes = (
+        None
+        if activity_status is Status.OBSERVED
+        else (
+            "GitHub API activity endpoints were unavailable; "
+            "local repository observations remain recorded."
+        )
+    )
     tool = ToolIdentity(name="Seebot repository observer", version="2")
     documentation = {
         key: practices[key]
@@ -452,7 +489,7 @@ def run_repository_observations(
             check_id="REPO-ACTIVITY-001",
             probe_id="repository:activity",
             domain="repository",
-            status=Status.OBSERVED,
+            status=activity_status,
             observed=activity,
             evidence_root=evidence_root,
             config_path=config_path,
@@ -460,6 +497,7 @@ def run_repository_observations(
             snapshot_commit=commit,
             repository_id=repository_id,
             tool=tool,
+            notes=activity_notes,
             force=force,
         ),
         write_measurement(
@@ -526,7 +564,7 @@ def run_repository_observations(
             check_id="REPO-RELEASES-001",
             probe_id="repository:releases",
             domain="repository",
-            status=Status.OBSERVED,
+            status=activity_status,
             observed={key: value for key, value in activity.items() if "release" in key},
             evidence_root=evidence_root,
             config_path=config_path,
@@ -534,6 +572,7 @@ def run_repository_observations(
             snapshot_commit=commit,
             repository_id=repository_id,
             tool=tool,
+            notes=activity_notes,
             force=force,
         ),
     ]
