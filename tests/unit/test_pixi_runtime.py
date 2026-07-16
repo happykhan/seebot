@@ -211,3 +211,52 @@ def test_timeout_is_untestable_not_project_failure(tmp_path: Path, monkeypatch) 
         config_path=Path("config/rubric.yaml"),
     )
     assert result.status is Status.UNTESTABLE
+
+
+def test_missing_executable_is_audit_error_not_graceful_rejection(
+    tmp_path: Path, monkeypatch
+) -> None:
+    root = tmp_path / "environment"
+    root.mkdir()
+    (root / "pixi.toml").write_text("[workspace]\n", encoding="utf-8")
+    (root / "pixi.lock").write_text("locked\n", encoding="utf-8")
+    environment = PixiEnvironment(
+        project_id="missing-tool",
+        installation_id="pixi:missing-tool=1.0=0",
+        root=root,
+        manifest_path=root / "pixi.toml",
+        lock_path=root / "pixi.lock",
+        package_record={"name": "missing-tool", "version": "1.0", "build": "0"},
+    )
+
+    monkeypatch.setattr(
+        pixi_runtime,
+        "_run",
+        lambda command, **_kwargs: subprocess.CompletedProcess(
+            command, 127, b"", b"missing-tool: command not found\n"
+        ),
+    )
+    monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "docker")
+    monkeypatch.setattr(container.shutil, "which", lambda name: f"/usr/bin/{name}")
+    result = run_pixi_probe(
+        PixiProbeSpec(
+            project_id="missing-tool",
+            check_id="CLI-MALFORMED-INPUT-001",
+            probe_id="malformed:missing-tool",
+            domain="robustness",
+            command=["missing-tool", "/fixtures/malformed.fasta"],
+            timeout_seconds=10,
+            environment=environment,
+            error_contract=True,
+            diagnostic_expectation="specific",
+        ),
+        run_id="current",
+        evidence_root=tmp_path / "evidence",
+        config_path=Path("config/rubric.yaml"),
+    )
+
+    assert result.status is Status.ERROR
+    assert result.observed["audit_error"] == "ExecutableLaunchFailure"
+    assert result.notes == (
+        "The installed executable could not be launched in the audited environment."
+    )

@@ -49,6 +49,10 @@ SPECIFIC_DIAGNOSTIC_PATTERNS = (
     r"parse error",
     r"unexpected end",
 )
+EXECUTABLE_LAUNCH_FAILURES = {
+    126: ("cannot execute", "permission denied"),
+    127: ("command not found",),
+}
 
 
 def docker_executable() -> str:
@@ -295,6 +299,11 @@ def _diagnostic_class(stderr: str, crash_detected: bool) -> str:
     return "GENERIC"
 
 
+def _executable_launch_failed(exit_code: int, stderr: str) -> bool:
+    """Identify shell failures to launch the reviewed executable."""
+    return any(marker in stderr.lower() for marker in EXECUTABLE_LAUNCH_FAILURES.get(exit_code, ()))
+
+
 def _inspect_output(
     path: Path, parser: str | None, *, allow_empty: bool = False
 ) -> tuple[bool, int | None, str | None]:
@@ -467,6 +476,10 @@ def run_pixi_probe(
         if completed.returncode == 125:
             status = Status.ERROR
             notes = "Container runtime could not start or supervise the probe."
+        elif _executable_launch_failed(completed.returncode, stderr):
+            status = Status.ERROR
+            observed["audit_error"] = "ExecutableLaunchFailure"
+            notes = "The installed executable could not be launched in the audited environment."
         elif spec.error_contract:
             allowed_success = spec.allow_successful_empty_input and completed.returncode == 0
             exit_coherent = completed.returncode != 0 or allowed_success

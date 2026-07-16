@@ -105,3 +105,22 @@ def test_published_projects_include_repository_observations() -> None:
     for project in dataset["projects"]:
         observed = {row["check_id"] for row in project["results"] if row["domain"] == "repository"}
         assert observed == expected, project["id"]
+
+
+def test_published_launch_failures_are_audit_errors() -> None:
+    root = Path(__file__).parents[2]
+    dataset = json.loads((root / "web/public/data/dataset.json").read_text(encoding="utf-8"))
+    launch_failures = []
+    for project in dataset["projects"]:
+        for contract in project["contracts"]:
+            for probe in contract["probes"]:
+                stderr = str((probe.get("output") or {}).get("stderr") or "").lower()
+                if "command not found" in stderr:
+                    launch_failures.append(probe)
+
+    assert launch_failures
+    assert all(probe["status"] == "ERROR" for probe in launch_failures)
+    assert all(
+        probe["observed"].get("audit_error") == "ExecutableLaunchFailure"
+        for probe in launch_failures
+    )
