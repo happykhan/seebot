@@ -422,7 +422,7 @@
         {
           "project_id": "any2fasta",
           "language": "perl",
-          "value": 466.667
+          "value": 100
         },
         {
           "project_id": "bcftools",
@@ -4593,6 +4593,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-EMPTY-INPUT-001/any2fasta/cli-empty-input-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-EMPTY-INPUT-001/any2fasta/cli-empty-input-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-EMPTY-INPUT-001/any2fasta/cli-empty-input-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "This is any2fasta 0.8.1\nOpening '/fixtures/bad/empty.dat'\nERROR: The input appears to be empty"
               }
             }
           ]
@@ -4627,6 +4631,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-HELP-001/any2fasta/cli-help-001-any2fasta-h/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-HELP-001/any2fasta/cli-help-001-any2fasta-h/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-HELP-001/any2fasta/cli-help-001-any2fasta-h/metadata.json"
+              },
+              "output": {
+                "stdout": "NAME\n  any2fasta 0.8.1\nSYNOPSIS\n  Convert various sequence formats into FASTA\nUSAGE\n  any2fasta [opts] file.{gb,fa,fq,gff,gfa,clw,sth}[.gz,bz2,zip,zstd] > output.fasta\nOPTIONS\n  -h       Print this help\n  -v       Print version and exit\n  -q       No output while running, only errors\n  -k       Skip, don't die, on bad input files\n  -n       Replace non-[AGTC] with 'N'\n  -l       Lowercase the sequence\n  -u       Uppercase the sequence\n  -g       Include VERSION (GENBANK,EMBL)\n  -s       Strip sequence descriptions (FASTA,FASTQ)\nHOMEPAGE\n  https://github.com/tseemann/any2fasta\nEND",
+                "stderr": null
               }
             }
           ]
@@ -4660,6 +4668,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-INVALID-OPTION-001/any2fasta/cli-invalid-option-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-INVALID-OPTION-001/any2fasta/cli-invalid-option-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-INVALID-OPTION-001/any2fasta/cli-invalid-option-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Unknown option: -\nUnknown option: e\nUnknown option: e\nUnknown option: b\nUnknown option: o\nUnknown option: t\nUnknown option: -\nUnknown option: i\nUnknown option: a\nUnknown option: i\nUnknown option: d\nUnknown option: -\nUnknown option: o\nUnknown option: p\nUnknown option: t\nUnknown option: i\nUnknown option: o"
               }
             }
           ]
@@ -4683,6 +4695,10 @@
                 "stdout": "evidence/current/any2fasta/2026-07-01/CLI-INVALID-VALUE-001/invalid_value-not-applicable/observation.json",
                 "stderr": "evidence/current/any2fasta/2026-07-01/CLI-INVALID-VALUE-001/invalid_value-not-applicable/stderr.txt",
                 "metadata": "evidence/current/any2fasta/2026-07-01/CLI-INVALID-VALUE-001/invalid_value-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"The reviewed interface has boolean switches but no bounded option-value parameter.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -4716,6 +4732,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-MALFORMED-INPUT-001/any2fasta/cli-malformed-input-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-MALFORMED-INPUT-001/any2fasta/cli-malformed-input-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-MALFORMED-INPUT-001/any2fasta/cli-malformed-input-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": ">truncated_read\nACGTTGCAACGT",
+                "stderr": "This is any2fasta 0.8.1\nOpening '/fixtures/bad/truncated.fastq'\nDetected FASTQ format\nRead 5 lines from '/fixtures/bad/truncated.fastq'\nWrote 1 sequences from FASTQ file.\nProcessed 1 files.\nDone."
               }
             }
           ]
@@ -4749,6 +4769,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-MISSING-INPUT-001/any2fasta/cli-missing-input-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-MISSING-INPUT-001/any2fasta/cli-missing-input-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-MISSING-INPUT-001/any2fasta/cli-missing-input-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "This is any2fasta 0.8.1\nOpening '/fixtures/bad/missing.fastq'\nERROR: '/fixtures/bad/missing.fastq' is not readable"
               }
             }
           ]
@@ -4782,6 +4806,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-NOARGS-001/any2fasta/cli-noargs-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-NOARGS-001/any2fasta/cli-noargs-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-NOARGS-001/any2fasta/cli-noargs-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "NAME\n  any2fasta 0.8.1\nSYNOPSIS\n  Convert various sequence formats into FASTA\nUSAGE\n  any2fasta [opts] file.{gb,fa,fq,gff,gfa,clw,sth}[.gz,bz2,zip,zstd] > output.fasta\nOPTIONS\n  -h       Print this help\n  -v       Print version and exit\n  -q       No output while running, only errors\n  -k       Skip, don't die, on bad input files\n  -n       Replace non-[AGTC] with 'N'\n  -l       Lowercase the sequence\n  -u       Uppercase the sequence\n  -g       Include VERSION (GENBANK,EMBL)\n  -s       Strip sequence descriptions (FASTA,FASTQ)\nHOMEPAGE\n  https://github.com/tseemann/any2fasta\nEND"
               }
             }
           ]
@@ -4819,6 +4847,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-STREAMS-001/any2fasta/cli-streams-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-STREAMS-001/any2fasta/cli-streams-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-STREAMS-001/any2fasta/cli-streams-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": ">synthetic_pair_1/1\nACGTTGCAACGTAGCTAGGC\n>synthetic_pair_2/1\nGCTAACCGTTAGCCTAGGAT",
+                "stderr": "This is any2fasta 0.8.1\nOpening '-'\nDetected FASTQ format\nRead 8 lines from '/dev/stdin'\nWrote 2 sequences from FASTQ file.\nProcessed 1 files.\nDone."
               }
             }
           ]
@@ -4842,6 +4874,10 @@
                 "stdout": "evidence/current/any2fasta/2026-07-01/CLI-UNWRITABLE-OUTPUT-001/unwritable_output-not-applicable/observation.json",
                 "stderr": "evidence/current/any2fasta/2026-07-01/CLI-UNWRITABLE-OUTPUT-001/unwritable_output-not-applicable/stderr.txt",
                 "metadata": "evidence/current/any2fasta/2026-07-01/CLI-UNWRITABLE-OUTPUT-001/unwritable_output-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"The documented primary interface writes FASTA to standard output and has no output-path argument.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -4879,6 +4915,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-VALID-RUN-001/any2fasta/cli-valid-run-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-VALID-RUN-001/any2fasta/cli-valid-run-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-VALID-RUN-001/any2fasta/cli-valid-run-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": ">synthetic_pair_1/1\nACGTTGCAACGTAGCTAGGC\n>synthetic_pair_2/1\nGCTAACCGTTAGCCTAGGAT",
+                "stderr": "This is any2fasta 0.8.1\nOpening '/fixtures/core/reads_R1.fastq'\nDetected FASTQ format\nRead 8 lines from '/fixtures/core/reads_R1.fastq'\nWrote 2 sequences from FASTQ file.\nProcessed 1 files.\nDone."
               }
             }
           ]
@@ -4913,6 +4953,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-VERSION-001/any2fasta/cli-version-001-any2fasta-v/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-VERSION-001/any2fasta/cli-version-001-any2fasta-v/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-VERSION-001/any2fasta/cli-version-001-any2fasta-v/metadata.json"
+              },
+              "output": {
+                "stdout": "any2fasta 0.8.1",
+                "stderr": null
               }
             }
           ]
@@ -4946,6 +4990,10 @@
                 "stdout": "evidence/current/any2fasta/CLI-WRONG-FORMAT-001/any2fasta/cli-wrong-format-001-any2fasta/stdout.txt",
                 "stderr": "evidence/current/any2fasta/CLI-WRONG-FORMAT-001/any2fasta/cli-wrong-format-001-any2fasta/stderr.txt",
                 "metadata": "evidence/current/any2fasta/CLI-WRONG-FORMAT-001/any2fasta/cli-wrong-format-001-any2fasta/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "This is any2fasta 0.8.1\nOpening '/fixtures/core/variants.vcf'\nERROR: Unfamilar format with first line: ##fileformat=VCFv4.3"
               }
             }
           ]
@@ -4973,7 +5021,7 @@
             "documentation": {
               "documented_functions": 11,
               "documentable_functions": 2,
-              "coverage_percent": 550.0,
+              "coverage_percent": 100,
               "native_measure": "function-associated documentation"
             },
             "duplication": {
@@ -5180,7 +5228,7 @@
             "documentation": {
               "documented_functions": 11,
               "documentable_functions": 2,
-              "coverage_percent": 550.0,
+              "coverage_percent": 100,
               "native_measure": "function-associated documentation"
             },
             "duplication": {
@@ -5387,7 +5435,7 @@
             "documentation": {
               "documented_functions": 11,
               "documentable_functions": 2,
-              "coverage_percent": 550.0,
+              "coverage_percent": 100,
               "native_measure": "function-associated documentation"
             },
             "duplication": {
@@ -5594,7 +5642,7 @@
             "documentation": {
               "documented_functions": 11,
               "documentable_functions": 2,
-              "coverage_percent": 550.0,
+              "coverage_percent": 100,
               "native_measure": "function-associated documentation"
             },
             "duplication": {
@@ -5801,7 +5849,7 @@
             "documentation": {
               "documented_functions": 11,
               "documentable_functions": 2,
-              "coverage_percent": 550.0,
+              "coverage_percent": 100,
               "native_measure": "function-associated documentation"
             },
             "duplication": {
@@ -6008,7 +6056,7 @@
             "documentation": {
               "documented_functions": 14,
               "documentable_functions": 3,
-              "coverage_percent": 466.667,
+              "coverage_percent": 100,
               "native_measure": "function-associated documentation"
             },
             "duplication": {
@@ -9590,6 +9638,10 @@
                 "stdout": "evidence/current/bcftools/CLI-EMPTY-INPUT-001/bcftools/cli-empty-input-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-EMPTY-INPUT-001/bcftools/cli-empty-input-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-EMPTY-INPUT-001/bcftools/cli-empty-input-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Failed to read from /fixtures/bad/empty.dat: unknown file type"
               }
             }
           ]
@@ -9624,6 +9676,10 @@
                 "stdout": "evidence/current/bcftools/CLI-HELP-001/bcftools/cli-help-001-bcftools-help/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-HELP-001/bcftools/cli-help-001-bcftools-help/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-HELP-001/bcftools/cli-help-001-bcftools-help/metadata.json"
+              },
+              "output": {
+                "stdout": "Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)\nLicense: GNU GPLv3+, due to use of the GNU Scientific Library\nVersion: 1.23.1 (using htslib 1.23.1)\n\nUsage:   bcftools [--version|--version-only] [--help] <command> <argument>\n\nCommands:\n\n -- Indexing\n    index        index VCF/BCF files\n\n -- VCF/BCF manipulation\n    annotate     annotate and edit VCF/BCF files\n    concat       concatenate VCF/BCF files from the same set of samples\n    convert      convert VCF/BCF files to different formats and back\n    head         view VCF/BCF file headers\n    isec         intersections of VCF/BCF files\n    merge        merge VCF/BCF files files from non-overlapping sample sets\n    norm         left-align and normalize indels\n    plugin       user-defined plugins\n    query        transform VCF/BCF into user-defined formats\n    reheader     modify VCF/BCF header, change sample names\n    sort         sort VCF/BCF file\n    view         VCF/BCF conversion, view, subset and filter VCF/BCF files\n\n -- VCF/BCF analysis\n    call         SNP/indel calling\n    consensus    create consensus sequence by applying VCF variants\n    cnv          HMM CNV calling\n    csq          call vari\n\u2026",
+                "stderr": null
               }
             },
             {
@@ -9651,6 +9707,10 @@
                 "stdout": "evidence/current/bcftools/CLI-HELP-001/bcftools/cli-help-001-bcftools-view-help/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-HELP-001/bcftools/cli-help-001-bcftools-view-help/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-HELP-001/bcftools/cli-help-001-bcftools-view-help/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "view: unrecognized option '--help'\n\nAbout:   VCF/BCF conversion, view, subset and filter VCF/BCF files.\nUsage:   bcftools view [options] <in.vcf.gz> [region1 [...]]\n\nOutput options:\n    -G, --drop-genotypes              Drop individual genotype information (after subsetting if -s option set)\n    -h, --header-only                 Print only the header in VCF output (equivalent to bcftools head)\n    -H, --no-header                   Suppress the header in VCF output\n        --with-header                 Print both header and records in VCF output [default]\n    -l, --compression-level [0-9]     Compression level: 0 uncompressed, 1 best speed, 9 best compression [-1]\n        --no-version                  Do not append version and command line to the header\n    -o, --output FILE                 Output file name [stdout]\n    -O, --output-type u|b|v|z[0-9]    u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]\n    -r, --regions REGION              Restrict to comma-separated list of regions\n    -R, --regions-file FILE           Restrict to regions listed in FILE\n        --regions-overlap 0|1|2       Include if POS in the region (0), record overlaps (1), variant over\n\u2026"
               }
             }
           ]
@@ -9685,6 +9745,10 @@
                 "stdout": "evidence/current/bcftools/CLI-INVALID-OPTION-001/bcftools/cli-invalid-option-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-INVALID-OPTION-001/bcftools/cli-invalid-option-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-INVALID-OPTION-001/bcftools/cli-invalid-option-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "view: unrecognized option '--seebot-invalid-option'\n\nAbout:   VCF/BCF conversion, view, subset and filter VCF/BCF files.\nUsage:   bcftools view [options] <in.vcf.gz> [region1 [...]]\n\nOutput options:\n    -G, --drop-genotypes              Drop individual genotype information (after subsetting if -s option set)\n    -h, --header-only                 Print only the header in VCF output (equivalent to bcftools head)\n    -H, --no-header                   Suppress the header in VCF output\n        --with-header                 Print both header and records in VCF output [default]\n    -l, --compression-level [0-9]     Compression level: 0 uncompressed, 1 best speed, 9 best compression [-1]\n        --no-version                  Do not append version and command line to the header\n    -o, --output FILE                 Output file name [stdout]\n    -O, --output-type u|b|v|z[0-9]    u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]\n    -r, --regions REGION              Restrict to comma-separated list of regions\n    -R, --regions-file FILE           Restrict to regions listed in FILE\n        --regions-overlap 0|1|2       Include if POS in the region (0), record overlaps\n\u2026"
               }
             }
           ]
@@ -9721,6 +9785,10 @@
                 "stdout": "evidence/current/bcftools/CLI-INVALID-VALUE-001/bcftools/cli-invalid-value-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-INVALID-VALUE-001/bcftools/cli-invalid-value-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-INVALID-VALUE-001/bcftools/cli-invalid-value-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": "##fileformat=VCFv4.3\n##FILTER=<ID=PASS,Description=\"All filters passed\">\n##contig=<ID=synthetic_reference,length=88>\n##bcftools_viewVersion=1.23.1+htslib-1.23.1\n##bcftools_viewCommand=view --threads not-an-integer /fixtures/core/variants.vcf; Date=Wed Jul 15 20:44:22 2026\n#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\nsynthetic_reference\t12\t.\tT\tC\t60\tPASS\t.",
+                "stderr": null
               }
             }
           ]
@@ -9755,6 +9823,10 @@
                 "stdout": "evidence/current/bcftools/CLI-MALFORMED-INPUT-001/bcftools/cli-malformed-input-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-MALFORMED-INPUT-001/bcftools/cli-malformed-input-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-MALFORMED-INPUT-001/bcftools/cli-malformed-input-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": "##fileformat=VCFv4.3\n##FILTER=<ID=PASS,Description=\"All filters passed\">\n##bcftools_viewVersion=1.23.1+htslib-1.23.1\n##bcftools_viewCommand=view /fixtures/bad/invalid.vcf; Date=Wed Jul 15 20:44:20 2026\n#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO",
+                "stderr": "[W::vcf_parse] Contig 'synthetic_reference' is not defined in the header. (Quick workaround: index the file with tabix.)\n[E::vcf_parse] Could not parse the position 'not-a-position'\nError: VCF parse error"
               }
             }
           ]
@@ -9789,6 +9861,10 @@
                 "stdout": "evidence/current/bcftools/CLI-MISSING-INPUT-001/bcftools/cli-missing-input-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-MISSING-INPUT-001/bcftools/cli-missing-input-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-MISSING-INPUT-001/bcftools/cli-missing-input-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[E::hts_open_format] Failed to open file \"/fixtures/bad/missing.vcf\" : No such file or directory\nFailed to read from /fixtures/bad/missing.vcf: No such file or directory"
               }
             }
           ]
@@ -9822,6 +9898,10 @@
                 "stdout": "evidence/current/bcftools/CLI-NOARGS-001/bcftools/cli-noargs-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-NOARGS-001/bcftools/cli-noargs-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-NOARGS-001/bcftools/cli-noargs-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)\nLicense: GNU GPLv3+, due to use of the GNU Scientific Library\nVersion: 1.23.1 (using htslib 1.23.1)\n\nUsage:   bcftools [--version|--version-only] [--help] <command> <argument>\n\nCommands:\n\n -- Indexing\n    index        index VCF/BCF files\n\n -- VCF/BCF manipulation\n    annotate     annotate and edit VCF/BCF files\n    concat       concatenate VCF/BCF files from the same set of samples\n    convert      convert VCF/BCF files to different formats and back\n    head         view VCF/BCF file headers\n    isec         intersections of VCF/BCF files\n    merge        merge VCF/BCF files files from non-overlapping sample sets\n    norm         left-align and normalize indels\n    plugin       user-defined plugins\n    query        transform VCF/BCF into user-defined formats\n    reheader     modify VCF/BCF header, change sample names\n    sort         sort VCF/BCF file\n    view         VCF/BCF conversion, view, subset and filter VCF/BCF files\n\n -- VCF/BCF analysis\n    call         SNP/indel calling\n    consensus    create consensus sequence by applying VCF variants\n    cnv          HMM CNV calling\n    csq          call vari\n\u2026"
               }
             }
           ]
@@ -9861,6 +9941,10 @@
                 "stdout": "evidence/current/bcftools/CLI-STREAMS-001/bcftools/cli-streams-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-STREAMS-001/bcftools/cli-streams-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-STREAMS-001/bcftools/cli-streams-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": "##fileformat=VCFv4.3\n##FILTER=<ID=PASS,Description=\"All filters passed\">\n##contig=<ID=synthetic_reference,length=88>\n##bcftools_viewVersion=1.23.1+htslib-1.23.1\n##bcftools_viewCommand=view -Ov -; Date=Wed Jul 15 20:44:18 2026\n#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\nsynthetic_reference\t12\t.\tT\tC\t60\tPASS\t.",
+                "stderr": null
               }
             }
           ]
@@ -9897,6 +9981,10 @@
                 "stdout": "evidence/current/bcftools/CLI-UNWRITABLE-OUTPUT-001/bcftools/cli-unwritable-output-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-UNWRITABLE-OUTPUT-001/bcftools/cli-unwritable-output-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-UNWRITABLE-OUTPUT-001/bcftools/cli-unwritable-output-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[E::hts_open_format] Failed to open file \"/fixtures/forbidden.vcf\" : Read-only file system\n/fixtures/forbidden.vcf: Read-only file system"
               }
             }
           ]
@@ -9946,6 +10034,10 @@
                 "stdout": "evidence/current/bcftools/CLI-VALID-RUN-001/bcftools/cli-valid-run-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-VALID-RUN-001/bcftools/cli-valid-run-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-VALID-RUN-001/bcftools/cli-valid-run-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": null
               }
             }
           ]
@@ -9980,6 +10072,10 @@
                 "stdout": "evidence/current/bcftools/CLI-VERSION-001/bcftools/cli-version-001-bcftools-version/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-VERSION-001/bcftools/cli-version-001-bcftools-version/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-VERSION-001/bcftools/cli-version-001-bcftools-version/metadata.json"
+              },
+              "output": {
+                "stdout": "bcftools 1.23.1\nUsing htslib 1.23.1\nCopyright (C) 2025 Genome Research Ltd.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.",
+                "stderr": null
               }
             }
           ]
@@ -10014,6 +10110,10 @@
                 "stdout": "evidence/current/bcftools/CLI-WRONG-FORMAT-001/bcftools/cli-wrong-format-001-bcftools/stdout.txt",
                 "stderr": "evidence/current/bcftools/CLI-WRONG-FORMAT-001/bcftools/cli-wrong-format-001-bcftools/stderr.txt",
                 "metadata": "evidence/current/bcftools/CLI-WRONG-FORMAT-001/bcftools/cli-wrong-format-001-bcftools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Failed to read from /fixtures/core/reference.fasta: unknown file type"
               }
             }
           ]
@@ -20449,6 +20549,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-EMPTY-INPUT-001/cutadapt/cli-empty-input-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-EMPTY-INPUT-001/cutadapt/cli-empty-input-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-EMPTY-INPUT-001/cutadapt/cli-empty-input-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: -o out.fastq /fixtures/bad/empty.dat\nProcessing single-end reads on 1 core ...\nNo reads processed!",
+                "stderr": null
               }
             }
           ]
@@ -20483,6 +20587,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-HELP-001/cutadapt/cli-help-001-cutadapt-help/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-HELP-001/cutadapt/cli-help-001-cutadapt-help/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-HELP-001/cutadapt/cli-help-001-cutadapt-help/metadata.json"
+              },
+              "output": {
+                "stdout": "cutadapt version 5.2\n\nCopyright (C) 2010 Marcel Martin <marcel.martin@scilifelab.se> and contributors\n\nCutadapt removes adapter sequences from high-throughput sequencing reads.\n\nUsage:\n    cutadapt -a ADAPTER [options] [-o output.fastq] input.fastq\n\nFor paired-end reads:\n    cutadapt -a ADAPT1 -A ADAPT2 [options] -o out1.fastq -p out2.fastq in1.fastq in2.fastq\n\nReplace \"ADAPTER\" with the actual sequence of your 3' adapter. IUPAC wildcard\ncharacters are supported. All reads from input.fastq will be written to\noutput.fastq with the adapter sequence removed. Adapter matching is\nerror-tolerant. Multiple adapter sequences can be given (use further -a\noptions), but only the best-matching adapter will be removed.\n\nInput may also be in FASTA format. Compressed input and output is supported and\nauto-detected from the file name (.gz, .xz, .bz2). Use the file name '-' for\nstandard input/output. Without the -o option, output is sent to standard output.\n\nCitation:\n\nMarcel Martin. Cutadapt removes adapter sequences from high-throughput\nsequencing reads. EMBnet.Journal, 17(1):10-12, May 2011.\nhttp://dx.doi.org/10.14806/ej.17.1.200\n\nRun \"cutadapt --help\" to see all command-line options.\nSee https:\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -20516,6 +20624,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-INVALID-OPTION-001/cutadapt/cli-invalid-option-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-INVALID-OPTION-001/cutadapt/cli-invalid-option-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-INVALID-OPTION-001/cutadapt/cli-invalid-option-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: --seebot-invalid-option\nRun \"cutadapt --help\" to see command-line options.\nSee https://cutadapt.readthedocs.io/ for full documentation.\n\ncutadapt: error: unrecognized arguments: --seebot-invalid-option"
               }
             }
           ]
@@ -20551,6 +20663,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-INVALID-VALUE-001/cutadapt/cli-invalid-value-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-INVALID-VALUE-001/cutadapt/cli-invalid-value-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-INVALID-VALUE-001/cutadapt/cli-invalid-value-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Run \"cutadapt --help\" to see command-line options.\nSee https://cutadapt.readthedocs.io/ for full documentation.\n\ncutadapt: error: argument -j/--cores: invalid int value: 'not-an-integer'"
               }
             }
           ]
@@ -20588,6 +20704,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-MALFORMED-INPUT-001/cutadapt/cli-malformed-input-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-MALFORMED-INPUT-001/cutadapt/cli-malformed-input-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-MALFORMED-INPUT-001/cutadapt/cli-malformed-input-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: -o out.fastq /fixtures/bad/truncated.fastq\nProcessing single-end reads on 1 core ...",
+                "stderr": "Error in FASTQ file at line 4: Length of sequence and qualities differ"
               }
             }
           ]
@@ -20623,6 +20743,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-MISSING-INPUT-001/cutadapt/cli-missing-input-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-MISSING-INPUT-001/cutadapt/cli-missing-input-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-MISSING-INPUT-001/cutadapt/cli-missing-input-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: -o out.fastq /fixtures/bad/missing.fastq",
+                "stderr": "[Errno 2] No such file or directory: '/fixtures/bad/missing.fastq'"
               }
             }
           ]
@@ -20656,6 +20780,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-NOARGS-001/cutadapt/cli-noargs-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-NOARGS-001/cutadapt/cli-noargs-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-NOARGS-001/cutadapt/cli-noargs-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "cutadapt version 5.2\n\nCopyright (C) 2010 Marcel Martin <marcel.martin@scilifelab.se> and contributors\n\nCutadapt removes adapter sequences from high-throughput sequencing reads.\n\nUsage:\n    cutadapt -a ADAPTER [options] [-o output.fastq] input.fastq\n\nFor paired-end reads:\n    cutadapt -a ADAPT1 -A ADAPT2 [options] -o out1.fastq -p out2.fastq in1.fastq in2.fastq\n\nReplace \"ADAPTER\" with the actual sequence of your 3' adapter. IUPAC wildcard\ncharacters are supported. All reads from input.fastq will be written to\noutput.fastq with the adapter sequence removed. Adapter matching is\nerror-tolerant. Multiple adapter sequences can be given (use further -a\noptions), but only the best-matching adapter will be removed.\n\nInput may also be in FASTA format. Compressed input and output is supported and\nauto-detected from the file name (.gz, .xz, .bz2). Use the file name '-' for\nstandard input/output. Without the -o option, output is sent to standard output.\n\nCitation:\n\nMarcel Martin. Cutadapt removes adapter sequences from high-throughput\nsequencing reads. EMBnet.Journal, 17(1):10-12, May 2011.\nhttp://dx.doi.org/10.14806/ej.17.1.200\n\nRun \"cutadapt --help\" to see all command-line options.\nSee https:\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -20697,6 +20825,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-STREAMS-001/cutadapt/cli-streams-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-STREAMS-001/cutadapt/cli-streams-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-STREAMS-001/cutadapt/cli-streams-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "@synthetic_pair_1/1\nACGTTGCAACGTAGCTAGGC\n+\nIIIIIIIIIIIIIIIIIIII\n@synthetic_pair_2/1\nGCTAACCGTTAGCCTAGGAT\n+\nIIIIIIIIIIIIIIIIIIII",
+                "stderr": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: -a AGATCGGAAGAGC -o - -\nProcessing single-end reads on 1 core ...\n\n=== Summary ===\n\nTotal reads processed:                       2\nReads with adapters:                         0 (0.0%)\nReads written (passing filters):             2 (100.0%)\n\nTotal basepairs processed:            40 bp\nTotal written (filtered):             40 bp (100.0%)\n\n=== Adapter 1 ===\n\nSequence: AGATCGGAAGAGC; Type: regular 3'; Length: 13; Trimmed: 0 times"
               }
             }
           ]
@@ -20732,6 +20864,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-UNWRITABLE-OUTPUT-001/cutadapt/cli-unwritable-output-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-UNWRITABLE-OUTPUT-001/cutadapt/cli-unwritable-output-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-UNWRITABLE-OUTPUT-001/cutadapt/cli-unwritable-output-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: -o /fixtures/forbidden.fastq /fixtures/core/reads_R1.fastq",
+                "stderr": "[Errno 30] Read-only file system: '/fixtures/forbidden.fastq'"
               }
             }
           ]
@@ -20782,6 +20918,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-VALID-RUN-001/cutadapt/cli-valid-run-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-VALID-RUN-001/cutadapt/cli-valid-run-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-VALID-RUN-001/cutadapt/cli-valid-run-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: --cores=1 -a AGATCGGAAGAGC -o trimmed.fastq /fixtures/core/reads_R1.fastq\nProcessing single-end reads on 1 core ...\n\n=== Summary ===\n\nTotal reads processed:                       2\nReads with adapters:                         0 (0.0%)\nReads written (passing filters):             2 (100.0%)\n\nTotal basepairs processed:            40 bp\nTotal written (filtered):             40 bp (100.0%)\n\n=== Adapter 1 ===\n\nSequence: AGATCGGAAGAGC; Type: regular 3'; Length: 13; Trimmed: 0 times",
+                "stderr": null
               }
             }
           ]
@@ -20816,6 +20956,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-VERSION-001/cutadapt/cli-version-001-cutadapt-version/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-VERSION-001/cutadapt/cli-version-001-cutadapt-version/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-VERSION-001/cutadapt/cli-version-001-cutadapt-version/metadata.json"
+              },
+              "output": {
+                "stdout": "5.2",
+                "stderr": null
               }
             }
           ]
@@ -20853,6 +20997,10 @@
                 "stdout": "evidence/current/cutadapt/CLI-WRONG-FORMAT-001/cutadapt/cli-wrong-format-001-cutadapt/stdout.txt",
                 "stderr": "evidence/current/cutadapt/CLI-WRONG-FORMAT-001/cutadapt/cli-wrong-format-001-cutadapt/stderr.txt",
                 "metadata": "evidence/current/cutadapt/CLI-WRONG-FORMAT-001/cutadapt/cli-wrong-format-001-cutadapt/metadata.json"
+              },
+              "output": {
+                "stdout": "This is cutadapt 5.2 with Python 3.13.14\nCommand line parameters: -o out.fastq /fixtures/core/variants.vcf",
+                "stderr": "Traceback (most recent call last):\n  File \"/workspace/.pixi/envs/default/bin/cutadapt\", line 8, in <module>\n    sys.exit(main_cli())\n             ~~~~~~~~^^\n  File \"/workspace/.pixi/envs/default/lib/python3.13/site-packages/cutadapt/cli.py\", line 1166, in main_cli\n    main(sys.argv[1:])\n    ~~~~^^^^^^^^^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.13/site-packages/cutadapt/cli.py\", line 1247, in main\n    pipeline = make_pipeline_from_args(\n        args,\n    ...<4 lines>...\n        adapters2,\n    )\n  File \"/workspace/.pixi/envs/default/lib/python3.13/site-packages/cutadapt/cli.py\", line 931, in make_pipeline_from_args\n    out = outfiles.open_record_writer(args.output, force_fasta=args.fasta)\n  File \"/workspace/.pixi/envs/default/lib/python3.13/site-packages/cutadapt/files.py\", line 265, in open_record_writer\n    writer = self._file_opener.dnaio_open(*binary_files, mode=\"w\", **kwargs)\n  File \"/workspace/.pixi/envs/default/lib/python3.13/site-packages/cutadapt/files.py\", line 84, in dnaio_open\n    f = dnaio.open(*args, **kwargs)\n  File \"/workspace/.pixi/envs/default/lib/python3.13/site-packages/dnaio/__init__.py\", line 332, in open\n    return _open_single(\n        files[0],\n\u2026"
               }
             }
           ]
@@ -33242,6 +33390,10 @@
                 "stdout": "evidence/current/famsa/CLI-EMPTY-INPUT-001/famsa/cli-empty-input-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-EMPTY-INPUT-001/famsa/cli-empty-input-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-EMPTY-INPUT-001/famsa/cli-empty-input-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\n\n[ERROR] No (or incorrect) input file."
               }
             }
           ]
@@ -33276,6 +33428,10 @@
                 "stdout": "evidence/current/famsa/CLI-HELP-001/famsa/cli-help-001-famsa-help/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-HELP-001/famsa/cli-help-001-famsa-help/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-HELP-001/famsa/cli-help-001-famsa-help/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nUsage:\n  famsa [options] <input_file> [<input_file_2>] <output_file>\n\nPositional parameters:\n  input_file, input_file_2 - input files in FASTA format; action depends on the number of input files:\n      * one input - multiple sequence alignment (input gaps, if present, are removed prior the alignment),\n      * two inputs - profile-profile aligment (input gaps are preserved).\n      First input can be replaced with STDIN string to read from standard input.\n  output_file - output file (pass STDOUT when writing to standard output); available outputs:\n      * alignment in FASTA format,\n      * guide tree in Newick format (-gt_export option specified),\n      * distance matrix in CSV format (-dist_export option specified),\n\nOptions:\n  -help - print this message\n  -t <value> - no. of threads, NOTE: exceeding number of physical (not logical) cores decreases performance,\n      0 indicates half of all the logical cores (default: 0)\n  -v - verbose mode, show timing information (default: disabled)\n\n  -gt <sl | upgma | nj | import <file>> - guide tree method (d\n\u2026"
               }
             }
           ]
@@ -33309,6 +33465,10 @@
                 "stdout": "evidence/current/famsa/CLI-INVALID-OPTION-001/famsa/cli-invalid-option-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-INVALID-OPTION-001/famsa/cli-invalid-option-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-INVALID-OPTION-001/famsa/cli-invalid-option-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nUsage:\n  famsa [options] <input_file> [<input_file_2>] <output_file>\n\nPositional parameters:\n  input_file, input_file_2 - input files in FASTA format; action depends on the number of input files:\n      * one input - multiple sequence alignment (input gaps, if present, are removed prior the alignment),\n      * two inputs - profile-profile aligment (input gaps are preserved).\n      First input can be replaced with STDIN string to read from standard input.\n  output_file - output file (pass STDOUT when writing to standard output); available outputs:\n      * alignment in FASTA format,\n      * guide tree in Newick format (-gt_export option specified),\n      * distance matrix in CSV format (-dist_export option specified),\n\nOptions:\n  -help - print this message\n  -t <value> - no. of threads, NOTE: exceeding number of physical (not logical) cores decreases performance,\n      0 indicates half of all the logical cores (default: 0)\n  -v - verbose mode, show timing information (default: disabled)\n\n  -gt <sl | upgma | nj | import <file>> - guide tree method (d\n\u2026"
               }
             }
           ]
@@ -33345,6 +33505,10 @@
                 "stdout": "evidence/current/famsa/CLI-INVALID-VALUE-001/famsa/cli-invalid-value-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-INVALID-VALUE-001/famsa/cli-invalid-value-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-INVALID-VALUE-001/famsa/cli-invalid-value-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nUsage:\n  famsa [options] <input_file> [<input_file_2>] <output_file>\n\nPositional parameters:\n  input_file, input_file_2 - input files in FASTA format; action depends on the number of input files:\n      * one input - multiple sequence alignment (input gaps, if present, are removed prior the alignment),\n      * two inputs - profile-profile aligment (input gaps are preserved).\n      First input can be replaced with STDIN string to read from standard input.\n  output_file - output file (pass STDOUT when writing to standard output); available outputs:\n      * alignment in FASTA format,\n      * guide tree in Newick format (-gt_export option specified),\n      * distance matrix in CSV format (-dist_export option specified),\n\nOptions:\n  -help - print this message\n  -t <value> - no. of threads, NOTE: exceeding number of physical (not logical) cores decreases performance,\n      0 indicates half of all the logical cores (default: 0)\n  -v - verbose mode, show timing information (default: disabled)\n\n  -gt <sl | upgma | nj | import <file>> - guide tree method (d\n\u2026"
               }
             }
           ]
@@ -33381,6 +33545,10 @@
                 "stdout": "evidence/current/famsa/CLI-MALFORMED-INPUT-001/famsa/cli-malformed-input-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-MALFORMED-INPUT-001/famsa/cli-malformed-input-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-MALFORMED-INPUT-001/famsa/cli-malformed-input-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nDone!"
               }
             }
           ]
@@ -33415,6 +33583,10 @@
                 "stdout": "evidence/current/famsa/CLI-MISSING-INPUT-001/famsa/cli-missing-input-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-MISSING-INPUT-001/famsa/cli-missing-input-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-MISSING-INPUT-001/famsa/cli-missing-input-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\n\n[ERROR] Unable to open input file /fixtures/bad/missing.fasta"
               }
             }
           ]
@@ -33448,6 +33620,10 @@
                 "stdout": "evidence/current/famsa/CLI-NOARGS-001/famsa/cli-noargs-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-NOARGS-001/famsa/cli-noargs-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-NOARGS-001/famsa/cli-noargs-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nUsage:\n  famsa [options] <input_file> [<input_file_2>] <output_file>\n\nPositional parameters:\n  input_file, input_file_2 - input files in FASTA format; action depends on the number of input files:\n      * one input - multiple sequence alignment (input gaps, if present, are removed prior the alignment),\n      * two inputs - profile-profile aligment (input gaps are preserved).\n      First input can be replaced with STDIN string to read from standard input.\n  output_file - output file (pass STDOUT when writing to standard output); available outputs:\n      * alignment in FASTA format,\n      * guide tree in Newick format (-gt_export option specified),\n      * distance matrix in CSV format (-dist_export option specified),\n\nOptions:\n  -help - print this message\n  -t <value> - no. of threads, NOTE: exceeding number of physical (not logical) cores decreases performance,\n      0 indicates half of all the logical cores (default: 0)\n  -v - verbose mode, show timing information (default: disabled)\n\n  -gt <sl | upgma | nj | import <file>> - guide tree method (d\n\u2026"
               }
             }
           ]
@@ -33488,6 +33664,10 @@
                 "stdout": "evidence/current/famsa/CLI-STREAMS-001/famsa/cli-streams-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-STREAMS-001/famsa/cli-streams-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-STREAMS-001/famsa/cli-streams-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\n\n[ERROR] Unable to open input file STDIN"
               }
             }
           ]
@@ -33522,6 +33702,10 @@
                 "stdout": "evidence/current/famsa/CLI-UNWRITABLE-OUTPUT-001/famsa/cli-unwritable-output-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-UNWRITABLE-OUTPUT-001/famsa/cli-unwritable-output-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-UNWRITABLE-OUTPUT-001/famsa/cli-unwritable-output-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nDone!"
               }
             }
           ]
@@ -33570,6 +33754,10 @@
                 "stdout": "evidence/current/famsa/CLI-VALID-RUN-001/famsa/cli-valid-run-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-VALID-RUN-001/famsa/cli-valid-run-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-VALID-RUN-001/famsa/cli-valid-run-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nDone!"
               }
             }
           ]
@@ -33604,6 +33792,10 @@
                 "stdout": "evidence/current/famsa/CLI-VERSION-001/famsa/cli-version-001-famsa-help/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-VERSION-001/famsa/cli-version-001-famsa-help/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-VERSION-001/famsa/cli-version-001-famsa-help/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\nUsage:\n  famsa [options] <input_file> [<input_file_2>] <output_file>\n\nPositional parameters:\n  input_file, input_file_2 - input files in FASTA format; action depends on the number of input files:\n      * one input - multiple sequence alignment (input gaps, if present, are removed prior the alignment),\n      * two inputs - profile-profile aligment (input gaps are preserved).\n      First input can be replaced with STDIN string to read from standard input.\n  output_file - output file (pass STDOUT when writing to standard output); available outputs:\n      * alignment in FASTA format,\n      * guide tree in Newick format (-gt_export option specified),\n      * distance matrix in CSV format (-dist_export option specified),\n\nOptions:\n  -help - print this message\n  -t <value> - no. of threads, NOTE: exceeding number of physical (not logical) cores decreases performance,\n      0 indicates half of all the logical cores (default: 0)\n  -v - verbose mode, show timing information (default: disabled)\n\n  -gt <sl | upgma | nj | import <file>> - guide tree method (d\n\u2026"
               }
             }
           ]
@@ -33638,6 +33830,10 @@
                 "stdout": "evidence/current/famsa/CLI-WRONG-FORMAT-001/famsa/cli-wrong-format-001-famsa/stdout.txt",
                 "stderr": "evidence/current/famsa/CLI-WRONG-FORMAT-001/famsa/cli-wrong-format-001-famsa/stderr.txt",
                 "metadata": "evidence/current/famsa/CLI-WRONG-FORMAT-001/famsa/cli-wrong-format-001-famsa/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FAMSA (Fast and Accurate Multiple Sequence Alignment) \n  version 2.4.1-45c9b2b (2025-05-09)\n  S. Deorowicz, A. Debudaj-Grabysz, A. Gudys\n\n\n[ERROR] No (or incorrect) input file."
               }
             }
           ]
@@ -39329,6 +39525,10 @@
                 "stdout": "evidence/current/fastp/CLI-EMPTY-INPUT-001/fastp/cli-empty-input-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-EMPTY-INPUT-001/fastp/cli-empty-input-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-EMPTY-INPUT-001/fastp/cli-empty-input-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Detecting adapter sequence for read1...\nNo adapter detected for read1\n\nRead1 before filtering:\ntotal reads: 0\ntotal bases: 0\nQ20 bases: 0(nan%)\nQ30 bases: 0(nan%)\nQ40 bases: 0(nan%)\n\nRead1 after filtering:\ntotal reads: 0\ntotal bases: 0\nQ20 bases: 0(nan%)\nQ30 bases: 0(nan%)\nQ40 bases: 0(nan%)\n\nFiltering result:\nreads passed filter: 0\nreads failed due to low quality: 0\nreads failed due to too many N: 0\nreads failed due to too short: 0\nreads failed due to adapter dimer: 0\nreads with adapter trimmed: 0\nbases trimmed due to adapters: 0\n\nDuplication rate (may be overestimated since this is SE data): 0%\n\nJSON report: fastp.json\nHTML report: fastp.html\n\n/workspace/.pixi/envs/default/bin/fastp --in1 /fixtures/bad/empty.dat --out1 out.fastq \nfastp v1.3.6, time used: 0 seconds"
               }
             }
           ]
@@ -39363,6 +39563,10 @@
                 "stdout": "evidence/current/fastp/CLI-HELP-001/fastp/cli-help-001-fastp-help/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-HELP-001/fastp/cli-help-001-fastp-help/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-HELP-001/fastp/cli-help-001-fastp-help/metadata.json"
+              },
+              "output": {
+                "stdout": "usage: /workspace/.pixi/envs/default/bin/fastp [options] ... \noptions:\n  -i, --in1                            read1 input file name (string [=])\n  -o, --out1                           read1 output file name (string [=])\n  -I, --in2                            read2 input file name (string [=])\n  -O, --out2                           read2 output file name (string [=])\n      --unpaired1                      for PE input, if read1 passed QC but read2 not, it will be written to unpaired1. Default is to discard it. (string [=])\n      --unpaired2                      for PE input, if read2 passed QC but read1 not, it will be written to unpaired2. If --unpaired2 is same as --unpaired1 (default mode), both unpaired reads will be written to this same file. (string [=])\n      --overlapped_out                 for each read pair, output the overlapped region if it has no any mismatched base. (string [=])\n      --failed_out                     specify the file to store reads that cannot pass the filters. (string [=])\n  -m, --merge                          for paired-end input, merge each pair of reads into a single read if they are overlapped. The merged reads will be written to the file given b\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -39396,6 +39600,10 @@
                 "stdout": "evidence/current/fastp/CLI-INVALID-OPTION-001/fastp/cli-invalid-option-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-INVALID-OPTION-001/fastp/cli-invalid-option-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-INVALID-OPTION-001/fastp/cli-invalid-option-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "undefined option: --seebot-invalid-option\nusage: /workspace/.pixi/envs/default/bin/fastp [options] ... \noptions:\n  -i, --in1                            read1 input file name (string [=])\n  -o, --out1                           read1 output file name (string [=])\n  -I, --in2                            read2 input file name (string [=])\n  -O, --out2                           read2 output file name (string [=])\n      --unpaired1                      for PE input, if read1 passed QC but read2 not, it will be written to unpaired1. Default is to discard it. (string [=])\n      --unpaired2                      for PE input, if read2 passed QC but read1 not, it will be written to unpaired2. If --unpaired2 is same as --unpaired1 (default mode), both unpaired reads will be written to this same file. (string [=])\n      --overlapped_out                 for each read pair, output the overlapped region if it has no any mismatched base. (string [=])\n      --failed_out                     specify the file to store reads that cannot pass the filters. (string [=])\n  -m, --merge                          for paired-end input, merge each pair of reads into a single read if they are overlapped. The merged\n\u2026"
               }
             }
           ]
@@ -39432,6 +39640,10 @@
                 "stdout": "evidence/current/fastp/CLI-INVALID-VALUE-001/fastp/cli-invalid-value-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-INVALID-VALUE-001/fastp/cli-invalid-value-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-INVALID-VALUE-001/fastp/cli-invalid-value-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "option value is invalid: --thread=not-an-integer\nusage: /workspace/.pixi/envs/default/bin/fastp [options] ... \noptions:\n  -i, --in1                            read1 input file name (string [=])\n  -o, --out1                           read1 output file name (string [=])\n  -I, --in2                            read2 input file name (string [=])\n  -O, --out2                           read2 output file name (string [=])\n      --unpaired1                      for PE input, if read1 passed QC but read2 not, it will be written to unpaired1. Default is to discard it. (string [=])\n      --unpaired2                      for PE input, if read2 passed QC but read1 not, it will be written to unpaired2. If --unpaired2 is same as --unpaired1 (default mode), both unpaired reads will be written to this same file. (string [=])\n      --overlapped_out                 for each read pair, output the overlapped region if it has no any mismatched base. (string [=])\n      --failed_out                     specify the file to store reads that cannot pass the filters. (string [=])\n  -m, --merge                          for paired-end input, merge each pair of reads into a single read if they are overlapped. The\n\u2026"
               }
             }
           ]
@@ -39472,6 +39684,10 @@
                 "stdout": "evidence/current/fastp/CLI-MALFORMED-INPUT-001/fastp/cli-malformed-input-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-MALFORMED-INPUT-001/fastp/cli-malformed-input-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-MALFORMED-INPUT-001/fastp/cli-malformed-input-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "ERROR: sequence and quality have different length:\n@truncated_read\nACGTTGCAACGT\n+\nIIIII\nYour FASTQ may be invalid, please check the tail of your FASTQ file\nDetecting adapter sequence for read1...\nERROR: sequence and quality have different length:\n@truncated_read\nACGTTGCAACGT\n+\nIIIII\nYour FASTQ may be invalid, please check the tail of your FASTQ file\nNo adapter detected for read1\n\nERROR: sequence and quality have different length:\n@truncated_read\nACGTTGCAACGT\n+\nIIIII\nYour FASTQ may be invalid, please check the tail of your FASTQ file\nERROR: sequence and quality have different length:\n@truncated_read\nACGTTGCAACGT\n+\nIIIII\nYour FASTQ may be invalid, please check the tail of your FASTQ file\nRead1 before filtering:\ntotal reads: 0\ntotal bases: 0\nQ20 bases: 0(nan%)\nQ30 bases: 0(nan%)\nQ40 bases: 0(nan%)\n\nRead1 after filtering:\ntotal reads: 0\ntotal bases: 0\nQ20 bases: 0(nan%)\nQ30 bases: 0(nan%)\nQ40 bases: 0(nan%)\n\nFiltering result:\nreads passed filter: 0\nreads failed due to low quality: 0\nreads failed due to too many N: 0\nreads failed due to too short: 0\nreads failed due to adapter dimer: 0\nreads with adapter trimmed: 0\nbases trimmed due to adapters: 0\n\nDuplication rate (may be overestimated\n\u2026"
               }
             }
           ]
@@ -39508,6 +39724,10 @@
                 "stdout": "evidence/current/fastp/CLI-MISSING-INPUT-001/fastp/cli-missing-input-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-MISSING-INPUT-001/fastp/cli-missing-input-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-MISSING-INPUT-001/fastp/cli-missing-input-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "ERROR: Failed to open file: /fixtures/bad/missing.fastq"
               }
             }
           ]
@@ -39541,6 +39761,10 @@
                 "stdout": "evidence/current/fastp/CLI-NOARGS-001/fastp/cli-noargs-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-NOARGS-001/fastp/cli-noargs-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-NOARGS-001/fastp/cli-noargs-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "fastp: an ultra-fast all-in-one FASTQ preprocessor\nversion 1.3.6\nusage: /workspace/.pixi/envs/default/bin/fastp [options] ... \noptions:\n  -i, --in1                            read1 input file name (string [=])\n  -o, --out1                           read1 output file name (string [=])\n  -I, --in2                            read2 input file name (string [=])\n  -O, --out2                           read2 output file name (string [=])\n      --unpaired1                      for PE input, if read1 passed QC but read2 not, it will be written to unpaired1. Default is to discard it. (string [=])\n      --unpaired2                      for PE input, if read2 passed QC but read1 not, it will be written to unpaired2. If --unpaired2 is same as --unpaired1 (default mode), both unpaired reads will be written to this same file. (string [=])\n      --overlapped_out                 for each read pair, output the overlapped region if it has no any mismatched base. (string [=])\n      --failed_out                     specify the file to store reads that cannot pass the filters. (string [=])\n  -m, --merge                          for paired-end input, merge each pair of reads into a single read if they are\n\u2026"
               }
             }
           ]
@@ -39564,6 +39788,10 @@
                 "stdout": "evidence/current/fastp/2026-07-01/CLI-STREAMS-001/streams-not-applicable/observation.json",
                 "stderr": "evidence/current/fastp/2026-07-01/CLI-STREAMS-001/streams-not-applicable/stderr.txt",
                 "metadata": "evidence/current/fastp/2026-07-01/CLI-STREAMS-001/streams-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"The reviewed single-end path uses explicit input, output, and report files.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -39600,6 +39828,10 @@
                 "stdout": "evidence/current/fastp/CLI-UNWRITABLE-OUTPUT-001/fastp/cli-unwritable-output-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-UNWRITABLE-OUTPUT-001/fastp/cli-unwritable-output-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-UNWRITABLE-OUTPUT-001/fastp/cli-unwritable-output-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Detecting adapter sequence for read1...\nNo adapter detected for read1\n\nERROR: Failed to write: /fixtures/forbidden.fastq"
               }
             }
           ]
@@ -39674,6 +39906,10 @@
                 "stdout": "evidence/current/fastp/CLI-VALID-RUN-001/fastp/cli-valid-run-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-VALID-RUN-001/fastp/cli-valid-run-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-VALID-RUN-001/fastp/cli-valid-run-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Detecting adapter sequence for read1...\nNo adapter detected for read1\n\nRead1 before filtering:\ntotal reads: 2\ntotal bases: 40\nQ20 bases: 40(100%)\nQ30 bases: 40(100%)\nQ40 bases: 40(100%)\n\nRead1 after filtering:\ntotal reads: 2\ntotal bases: 40\nQ20 bases: 40(100%)\nQ30 bases: 40(100%)\nQ40 bases: 40(100%)\n\nFiltering result:\nreads passed filter: 2\nreads failed due to low quality: 0\nreads failed due to too many N: 0\nreads failed due to adapter dimer: 0\nreads with adapter trimmed: 0\nbases trimmed due to adapters: 0\n\nDuplication rate (may be overestimated since this is SE data): 0%\n\nJSON report: fastp.json\nHTML report: fastp.html\n\n/workspace/.pixi/envs/default/bin/fastp --in1 /fixtures/core/reads_R1.fastq --out1 filtered.fastq --json fastp.json --html fastp.html --thread 1 --disable_quality_filtering --disable_length_filtering \nfastp v1.3.6, time used: 1 seconds"
               }
             }
           ]
@@ -39708,6 +39944,10 @@
                 "stdout": "evidence/current/fastp/CLI-VERSION-001/fastp/cli-version-001-fastp-version/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-VERSION-001/fastp/cli-version-001-fastp-version/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-VERSION-001/fastp/cli-version-001-fastp-version/metadata.json"
+              },
+              "output": {
+                "stdout": "fastp 1.3.6",
+                "stderr": null
               }
             }
           ]
@@ -39748,6 +39988,10 @@
                 "stdout": "evidence/current/fastp/CLI-WRONG-FORMAT-001/fastp/cli-wrong-format-001-fastp/stdout.txt",
                 "stderr": "evidence/current/fastp/CLI-WRONG-FORMAT-001/fastp/cli-wrong-format-001-fastp/stderr.txt",
                 "metadata": "evidence/current/fastp/CLI-WRONG-FORMAT-001/fastp/cli-wrong-format-001-fastp/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Detecting adapter sequence for read1...\nNo adapter detected for read1\n\nRead1 before filtering:\ntotal reads: 0\ntotal bases: 0\nQ20 bases: 0(nan%)\nQ30 bases: 0(nan%)\nQ40 bases: 0(nan%)\n\nRead1 after filtering:\ntotal reads: 0\ntotal bases: 0\nQ20 bases: 0(nan%)\nQ30 bases: 0(nan%)\nQ40 bases: 0(nan%)\n\nFiltering result:\nreads passed filter: 0\nreads failed due to low quality: 0\nreads failed due to too many N: 0\nreads failed due to too short: 0\nreads failed due to adapter dimer: 0\nreads with adapter trimmed: 0\nbases trimmed due to adapters: 0\n\nDuplication rate (may be overestimated since this is SE data): 0%\n\nJSON report: fastp.json\nHTML report: fastp.html\n\n/workspace/.pixi/envs/default/bin/fastp --in1 /fixtures/core/reference.fasta --out1 out.fastq \nfastp v1.3.6, time used: 0 seconds"
               }
             }
           ]
@@ -46480,6 +46724,10 @@
                 "stdout": "evidence/current/fasttree/CLI-EMPTY-INPUT-001/fasttree/cli-empty-input-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-EMPTY-INPUT-001/fasttree/cli-empty-input-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-EMPTY-INPUT-001/fasttree/cli-empty-input-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/bad/empty.dat\nNucleotide distances: Jukes-Cantor Joins: balanced Support: SH-like 1000\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jukes-Cantor, CAT approximation with 20 rate categories\nError reading header line"
               }
             }
           ]
@@ -46514,6 +46762,10 @@
                 "stdout": "evidence/current/fasttree/CLI-HELP-001/fasttree/cli-help-001-fasttree-help/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-HELP-001/fasttree/cli-help-001-fasttree-help/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-HELP-001/fasttree/cli-help-001-fasttree-help/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FastTree 2.2.0 Double precision:\n  FastTree protein_alignment > tree\n  FastTree < protein_alignment > tree\n  FastTree -out tree protein_alignment\n  FastTree -nt nucleotide_alignment > tree\n  FastTree -nt -gtr < nucleotide_alignment > tree\n  FastTree < nucleotide_alignment > tree\nFastTree accepts alignments in fasta or phylip interleaved formats\n\nCommon options (must be before the alignment file):\n  -quiet to suppress reporting information\n  -nopr to suppress progress indicator\n  -log logfile -- save intermediate trees, settings, and model details\n  -fastest -- speed up the neighbor joining phase & reduce memory usage\n        (recommended for >50,000 sequences)\n  -n <number> to analyze multiple alignments (phylip format only)\n        (use for global bootstrap, with seqboot and CompareToBootstrap.pl)\n  -nosupport to not compute support values\n  -intree newick_file to set the starting tree(s)\n  -intree1 newick_file to use this starting tree for all the alignments\n        (for faster global bootstrap on huge alignments)\n  -pseudo to use pseudocounts (recommended for highly gapped sequences)\n  -gtr -- generalized time-reversible model (nucleotide alignments only)\n  -lg -- Le-Gascuel 200\n\u2026"
               }
             }
           ]
@@ -46547,6 +46799,10 @@
                 "stdout": "evidence/current/fasttree/CLI-INVALID-OPTION-001/fasttree/cli-invalid-option-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-INVALID-OPTION-001/fasttree/cli-invalid-option-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-INVALID-OPTION-001/fasttree/cli-invalid-option-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Unknown or incorrect use of option -seebot-invalid-option\n  FastTree protein_alignment > tree\n  FastTree < protein_alignment > tree\n  FastTree -out tree protein_alignment\n  FastTree -nt nucleotide_alignment > tree\n  FastTree -nt -gtr < nucleotide_alignment > tree\n  FastTree < nucleotide_alignment > tree\nFastTree accepts alignments in fasta or phylip interleaved formats\n\nCommon options (must be before the alignment file):\n  -quiet to suppress reporting information\n  -nopr to suppress progress indicator\n  -log logfile -- save intermediate trees, settings, and model details\n  -fastest -- speed up the neighbor joining phase & reduce memory usage\n        (recommended for >50,000 sequences)\n  -n <number> to analyze multiple alignments (phylip format only)\n        (use for global bootstrap, with seqboot and CompareToBootstrap.pl)\n  -nosupport to not compute support values\n  -intree newick_file to set the starting tree(s)\n  -intree1 newick_file to use this starting tree for all the alignments\n        (for faster global bootstrap on huge alignments)\n  -pseudo to use pseudocounts (recommended for highly gapped sequences)\n  -gtr -- generalized time-reversible model (nucleotide alignments only\n\u2026"
               }
             }
           ]
@@ -46582,6 +46838,10 @@
                 "stdout": "evidence/current/fasttree/CLI-INVALID-VALUE-001/fasttree/cli-invalid-value-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-INVALID-VALUE-001/fasttree/cli-invalid-value-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-INVALID-VALUE-001/fasttree/cli-invalid-value-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": "(sample_a:0.000000005,sample_b:0.019302992,(sample_c:0.0,sample_d:0.0):0.019141778);",
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/core/alignment.fasta\nAmino acid distances: BLOSUM45 Joins: balanced Support: none\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jones-Taylor-Thorton, CAT approximation with 20 rate categories\nWARNING! 100.0% NUCLEOTIDE CHARACTERS -- IS THIS REALLY A PROTEIN ALIGNMENT?\nInitial topology in 0.00 seconds\nRefining topology: 6 rounds ME-NNIs, 2 rounds ME-SPRs, 3 rounds ML-NNIs\nTotal branch-length 0.039 after 0.00 sec\nML-NNI round 1: LogLk = -179.922 NNIs 0 max delta 0.00 Time 0.01\nSwitched to using 20 rate categories (CAT approximation)\nRate categories were divided by 0.631 so that average rate = 1.0\nCAT-based log-likelihoods may not be comparable across runs\nUse -gamma for approximate but comparable Gamma(20) log-likelihoods\nML-NNI round 2: LogLk = -179.323 NNIs 0 max delta 0.00 Time 0.01\nTurning off heuristics for final round of ML NNIs (converged)\nML-NNI round 3: LogLk = -179.323 NNIs 0 max delta 0.00 Time 0.01 (final)\nOptimize all lengths: LogLk = -179.323 Time 0.01\nTotal time: 0.01 seconds Unique: 3/4 Bad splits: 0/0"
               }
             }
           ]
@@ -46616,6 +46876,10 @@
                 "stdout": "evidence/current/fasttree/CLI-MALFORMED-INPUT-001/fasttree/cli-malformed-input-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-MALFORMED-INPUT-001/fasttree/cli-malformed-input-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-MALFORMED-INPUT-001/fasttree/cli-malformed-input-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/bad/malformed.fasta\nNucleotide distances: Jukes-Cantor Joins: balanced Support: SH-like 1000\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jukes-Cantor, CAT approximation with 20 rate categories\nError parsing header line:sequence_without_header"
               }
             }
           ]
@@ -46650,6 +46914,10 @@
                 "stdout": "evidence/current/fasttree/CLI-MISSING-INPUT-001/fasttree/cli-missing-input-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-MISSING-INPUT-001/fasttree/cli-missing-input-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-MISSING-INPUT-001/fasttree/cli-missing-input-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/bad/missing.fasta\nNucleotide distances: Jukes-Cantor Joins: balanced Support: SH-like 1000\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jukes-Cantor, CAT approximation with 20 rate categories\nCannot read /fixtures/bad/missing.fasta"
               }
             }
           ]
@@ -46673,6 +46941,10 @@
                 "stdout": "evidence/current/fasttree/2026-07-01/CLI-NOARGS-001/noargs-not-applicable/observation.json",
                 "stderr": "evidence/current/fasttree/2026-07-01/CLI-NOARGS-001/noargs-not-applicable/stderr.txt",
                 "metadata": "evidence/current/fasttree/2026-07-01/CLI-NOARGS-001/noargs-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"No-argument invocation is the documented standard-input mode.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -46711,6 +46983,10 @@
                 "stdout": "evidence/current/fasttree/CLI-STREAMS-001/fasttree/cli-streams-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-STREAMS-001/fasttree/cli-streams-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-STREAMS-001/fasttree/cli-streams-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": "(sample_a:0.000000005,sample_b:0.018115306,(sample_c:0.0,sample_d:0.0):0.018115306);",
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/core/alignment.fasta\nNucleotide distances: Jukes-Cantor Joins: balanced Support: SH-like 1000\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jukes-Cantor, CAT approximation with 20 rate categories\nInitial topology in 0.00 seconds\nRefining topology: 6 rounds ME-NNIs, 2 rounds ME-SPRs, 3 rounds ML-NNIs\nTotal branch-length 0.037 after 0.00 sec\nML-NNI round 1: LogLk = -89.862 NNIs 0 max delta 0.00 Time 0.01\nSwitched to using 20 rate categories (CAT approximation)\nRate categories were divided by 0.631 so that average rate = 1.0\nCAT-based log-likelihoods may not be comparable across runs\nUse -gamma for approximate but comparable Gamma(20) log-likelihoods\nML-NNI round 2: LogLk = -89.254 NNIs 0 max delta 0.00 Time 0.01\nTurning off heuristics for final round of ML NNIs (converged)\nML-NNI round 3: LogLk = -89.254 NNIs 0 max delta 0.00 Time 0.01 (final)\nOptimize all lengths: LogLk = -89.254 Time 0.01\nTotal time: 0.01 seconds Unique: 3/4 Bad splits: 0/0"
               }
             }
           ]
@@ -46734,6 +47010,10 @@
                 "stdout": "evidence/current/fasttree/2026-07-01/CLI-UNWRITABLE-OUTPUT-001/unwritable_output-not-applicable/observation.json",
                 "stderr": "evidence/current/fasttree/2026-07-01/CLI-UNWRITABLE-OUTPUT-001/unwritable_output-not-applicable/stderr.txt",
                 "metadata": "evidence/current/fasttree/2026-07-01/CLI-UNWRITABLE-OUTPUT-001/unwritable_output-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"The documented primary interface writes the tree to standard output and has no output-path argument.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -46772,6 +47052,10 @@
                 "stdout": "evidence/current/fasttree/CLI-VALID-RUN-001/fasttree/cli-valid-run-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-VALID-RUN-001/fasttree/cli-valid-run-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-VALID-RUN-001/fasttree/cli-valid-run-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": "(sample_a:0.000000005,sample_b:0.018115306,(sample_c:0.0,sample_d:0.0):0.018115306);",
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/core/alignment.fasta\nNucleotide distances: Jukes-Cantor Joins: balanced Support: SH-like 1000\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jukes-Cantor, CAT approximation with 20 rate categories\nInitial topology in 0.00 seconds\nRefining topology: 6 rounds ME-NNIs, 2 rounds ME-SPRs, 3 rounds ML-NNIs\nTotal branch-length 0.037 after 0.00 sec\nML-NNI round 1: LogLk = -89.862 NNIs 0 max delta 0.00 Time 0.01\nSwitched to using 20 rate categories (CAT approximation)\nRate categories were divided by 0.631 so that average rate = 1.0\nCAT-based log-likelihoods may not be comparable across runs\nUse -gamma for approximate but comparable Gamma(20) log-likelihoods\nML-NNI round 2: LogLk = -89.254 NNIs 0 max delta 0.00 Time 0.01\nTurning off heuristics for final round of ML NNIs (converged)\nML-NNI round 3: LogLk = -89.254 NNIs 0 max delta 0.00 Time 0.01 (final)\nOptimize all lengths: LogLk = -89.254 Time 0.01\nTotal time: 0.01 seconds Unique: 3/4 Bad splits: 0/0"
               }
             }
           ]
@@ -46806,6 +47090,10 @@
                 "stdout": "evidence/current/fasttree/CLI-VERSION-001/fasttree/cli-version-001-fasttree-help/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-VERSION-001/fasttree/cli-version-001-fasttree-help/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-VERSION-001/fasttree/cli-version-001-fasttree-help/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FastTree 2.2.0 Double precision:\n  FastTree protein_alignment > tree\n  FastTree < protein_alignment > tree\n  FastTree -out tree protein_alignment\n  FastTree -nt nucleotide_alignment > tree\n  FastTree -nt -gtr < nucleotide_alignment > tree\n  FastTree < nucleotide_alignment > tree\nFastTree accepts alignments in fasta or phylip interleaved formats\n\nCommon options (must be before the alignment file):\n  -quiet to suppress reporting information\n  -nopr to suppress progress indicator\n  -log logfile -- save intermediate trees, settings, and model details\n  -fastest -- speed up the neighbor joining phase & reduce memory usage\n        (recommended for >50,000 sequences)\n  -n <number> to analyze multiple alignments (phylip format only)\n        (use for global bootstrap, with seqboot and CompareToBootstrap.pl)\n  -nosupport to not compute support values\n  -intree newick_file to set the starting tree(s)\n  -intree1 newick_file to use this starting tree for all the alignments\n        (for faster global bootstrap on huge alignments)\n  -pseudo to use pseudocounts (recommended for highly gapped sequences)\n  -gtr -- generalized time-reversible model (nucleotide alignments only)\n  -lg -- Le-Gascuel 200\n\u2026"
               }
             }
           ]
@@ -46840,6 +47128,10 @@
                 "stdout": "evidence/current/fasttree/CLI-WRONG-FORMAT-001/fasttree/cli-wrong-format-001-fasttree/stdout.txt",
                 "stderr": "evidence/current/fasttree/CLI-WRONG-FORMAT-001/fasttree/cli-wrong-format-001-fasttree/stderr.txt",
                 "metadata": "evidence/current/fasttree/CLI-WRONG-FORMAT-001/fasttree/cli-wrong-format-001-fasttree/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "FastTree Version 2.2.0 Double precision\nAlignment: /fixtures/core/variants.vcf\nNucleotide distances: Jukes-Cantor Joins: balanced Support: SH-like 1000\nSearch: Normal +NNI +SPR (2 rounds range 10) +ML-NNI opt-each=1\nTopHits: 1.00*sqrtN close=default refresh=0.80\nML Model: Jukes-Cantor, CAT approximation with 20 rate categories\nError parsing header line:##fileformat=VCFv4.3"
               }
             }
           ]
@@ -50094,6 +50386,10 @@
                 "stdout": "evidence/current/minced/CLI-EMPTY-INPUT-001/minced/cli-empty-input-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-EMPTY-INPUT-001/minced/cli-empty-input-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-EMPTY-INPUT-001/minced/cli-empty-input-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "java.lang.NullPointerException: Cannot invoke \"String.length()\" because \"firstLine\" is null\n\tat FASTAReader.isFASTA(FASTAReader.java:32)\n\tat CRISPRFinder.goCRISPRFinder(CRISPRFinder.java:114)\n\tat minced.main(minced.java:259)"
               }
             }
           ]
@@ -50128,6 +50424,10 @@
                 "stdout": "evidence/current/minced/CLI-HELP-001/minced/cli-help-001-minced-help/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-HELP-001/minced/cli-help-001-minced-help/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-HELP-001/minced/cli-help-001-minced-help/metadata.json"
+              },
+              "output": {
+                "stdout": "MinCED, a program to find CRISPRs in shotgun DNA sequences or full genomes\n\nUsage:    minced [options] file.fa [outputFile.txt] [outputFile.gff]\n\nOptions:  -searchWL  Length of search window used to discover CRISPRs (range: 6-9). Default: 8\n          -minNR     Minimum number of repeats a CRISPR must contain. Default: 3\n          -minRL     Minimum length of the CRISPR repeats. Default: 23\n          -maxRL     Maximum length of the CRISPR repeats. Default: 47\n          -minSL     Minimum length of the CRISPR spacers. Default: 26\n          -maxSL     Maximum length of the CRISPR spacers. Default: 50\n          -gff       Output summary results in gff format containing\n                     only the positions of the CRISPR arrays. Default: false\n          -gffFull   Output detailed results in gff format containing\n                     positions of CRISPR arrays and all repeat units. Default: false\n          -spacers   Output a fasta formatted file containing the spacers. Default: false\n          -h --help  Output this handy help message\n          --version  Output version information\n\nExamples: minced ecoli.fna\n          minced metagenome.fna\n          minced metagenome.fna metagenome.\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -50161,6 +50461,10 @@
                 "stdout": "evidence/current/minced/CLI-INVALID-OPTION-001/minced/cli-invalid-option-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-INVALID-OPTION-001/minced/cli-invalid-option-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-INVALID-OPTION-001/minced/cli-invalid-option-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": "Invalid option:  --seebot-invalid-option\nTry 'minced --help' for more information.",
+                "stderr": null
               }
             }
           ]
@@ -50196,6 +50500,10 @@
                 "stdout": "evidence/current/minced/CLI-INVALID-VALUE-001/minced/cli-invalid-value-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-INVALID-VALUE-001/minced/cli-invalid-value-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-INVALID-VALUE-001/minced/cli-invalid-value-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": "Invalid argument type.  Please, specify an option followed by an integer.  For example:  -minNR 3\nTry 'minced --help' for more information.",
+                "stderr": null
               }
             }
           ]
@@ -50229,6 +50537,10 @@
                 "stdout": "evidence/current/minced/CLI-MALFORMED-INPUT-001/minced/cli-malformed-input-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-MALFORMED-INPUT-001/minced/cli-malformed-input-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-MALFORMED-INPUT-001/minced/cli-malformed-input-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "File '/fixtures/bad/malformed.fasta' does not seem to be FASTA-formatted."
               }
             }
           ]
@@ -50262,6 +50574,10 @@
                 "stdout": "evidence/current/minced/CLI-MISSING-INPUT-001/minced/cli-missing-input-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-MISSING-INPUT-001/minced/cli-missing-input-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-MISSING-INPUT-001/minced/cli-missing-input-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": "Input file /fixtures/bad/missing.fasta does not exist.",
+                "stderr": null
               }
             }
           ]
@@ -50295,6 +50611,10 @@
                 "stdout": "evidence/current/minced/CLI-NOARGS-001/minced/cli-noargs-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-NOARGS-001/minced/cli-noargs-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-NOARGS-001/minced/cli-noargs-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": "MinCED, a program to find CRISPRs in shotgun DNA sequences or full genomes\n\nUsage:    minced [options] file.fa [outputFile.txt] [outputFile.gff]\n\nOptions:  -searchWL  Length of search window used to discover CRISPRs (range: 6-9). Default: 8\n          -minNR     Minimum number of repeats a CRISPR must contain. Default: 3\n          -minRL     Minimum length of the CRISPR repeats. Default: 23\n          -maxRL     Maximum length of the CRISPR repeats. Default: 47\n          -minSL     Minimum length of the CRISPR spacers. Default: 26\n          -maxSL     Maximum length of the CRISPR spacers. Default: 50\n          -gff       Output summary results in gff format containing\n                     only the positions of the CRISPR arrays. Default: false\n          -gffFull   Output detailed results in gff format containing\n                     positions of CRISPR arrays and all repeat units. Default: false\n          -spacers   Output a fasta formatted file containing the spacers. Default: false\n          -h --help  Output this handy help message\n          --version  Output version information\n\nExamples: minced ecoli.fna\n          minced metagenome.fna\n          minced metagenome.fna metagenome.\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -50334,6 +50654,10 @@
                 "stdout": "evidence/current/minced/CLI-STREAMS-001/minced/cli-streams-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-STREAMS-001/minced/cli-streams-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-STREAMS-001/minced/cli-streams-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": "Sequence 'synthetic_crispr_contig' (432 bp)\n\nCRISPR 1   Range: 57 - 342\nPOSITION\tREPEAT\t\t\t\tSPACER\n--------\t------------------------------\t----------------------------------\n57\t\tGTTCACTGCCGTACAGGCAGCTTAGAAACA\tCGTACGTACGTACGTACGTACGTACGTACGTACG\t[ 30, 34 ]\n121\t\tGTTCACTGCCGTACAGGCAGCTTAGAAACA\tTGCATGCATGCATGCATGCATGCATGCATGCATG\t[ 30, 34 ]\n185\t\tGTTCACTGCCGTACAGGCAGCTTAGAAACA\tGATCGATCGATCGATCGATCGATCGATCGATCGA\t[ 30, 34 ]\n249\t\tGTTCACTGCCGTACAGGCAGCTTAGAAACA\tTATATATATATATATATATATATATATATATATA\t[ 30, 34 ]\n313\t\tGTTCACTGCCGTACAGGCAGCTTAGAAACA\t\n--------\t------------------------------\t----------------------------------\nRepeats: 5\tAverage Length: 30\t\tAverage Length: 34\n\nTime to find repeats: 6 ms",
+                "stderr": null
               }
             }
           ]
@@ -50368,6 +50692,10 @@
                 "stdout": "evidence/current/minced/CLI-UNWRITABLE-OUTPUT-001/minced/cli-unwritable-output-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-UNWRITABLE-OUTPUT-001/minced/cli-unwritable-output-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-UNWRITABLE-OUTPUT-001/minced/cli-unwritable-output-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "--Error writing to file-- \n\njava.io.FileNotFoundException: /fixtures/forbidden.txt (Read-only file system)\n\tat java.base/java.io.FileOutputStream.open0(Native Method)\n\tat java.base/java.io.FileOutputStream.open(FileOutputStream.java:255)\n\tat java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:210)\n\tat CRISPRFinder.findRepeats(CRISPRFinder.java:279)\n\tat CRISPRFinder.goCRISPRFinder(CRISPRFinder.java:138)\n\tat minced.main(minced.java:259)"
               }
             }
           ]
@@ -50426,6 +50754,10 @@
                 "stdout": "evidence/current/minced/CLI-VALID-RUN-001/minced/cli-valid-run-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-VALID-RUN-001/minced/cli-valid-run-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-VALID-RUN-001/minced/cli-valid-run-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": null
               }
             }
           ]
@@ -50460,6 +50792,10 @@
                 "stdout": "evidence/current/minced/CLI-VERSION-001/minced/cli-version-001-minced-version/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-VERSION-001/minced/cli-version-001-minced-version/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-VERSION-001/minced/cli-version-001-minced-version/metadata.json"
+              },
+              "output": {
+                "stdout": "minced 0.4.2\nMinCED - Mining CRISPRs in Environmental Datasets (version 0.4.2)\nCopyright 2011      Florent Angly     <florent.angly@gmail.com>\n          2013-2018 Connor Skennerton <c.skennerton@gmail.com>\n\nMinced is a modified version of CRT (www.room220.com/crt)\nCharles Bland et al., CRISPR Recognition Tool (CRT): a tool for automatic\ndetection of clustered regularly interspaced palindromic repeats\nBMC Bioinformatics 8, no. 1 (2007): 209.\nDistributed under the GNU General Public License version 3",
+                "stderr": null
               }
             }
           ]
@@ -50493,6 +50829,10 @@
                 "stdout": "evidence/current/minced/CLI-WRONG-FORMAT-001/minced/cli-wrong-format-001-minced/stdout.txt",
                 "stderr": "evidence/current/minced/CLI-WRONG-FORMAT-001/minced/cli-wrong-format-001-minced/stderr.txt",
                 "metadata": "evidence/current/minced/CLI-WRONG-FORMAT-001/minced/cli-wrong-format-001-minced/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "File '/fixtures/core/variants.vcf' does not seem to be FASTA-formatted."
               }
             }
           ]
@@ -56858,6 +57198,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-EMPTY-INPUT-001/pyrodigal/cli-empty-input-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-EMPTY-INPUT-001/pyrodigal/cli-empty-input-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-EMPTY-INPUT-001/pyrodigal/cli-empty-input-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": null
               }
             }
           ]
@@ -56892,6 +57236,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-HELP-001/pyrodigal/cli-help-001-pyrodigal-help/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-HELP-001/pyrodigal/cli-help-001-pyrodigal-help/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-HELP-001/pyrodigal/cli-help-001-pyrodigal-help/metadata.json"
+              },
+              "output": {
+                "stdout": "usage: pyrodigal [-a trans_file] [-c] [-d nuc_file] [-f output_type]\n                 [-g tr_table] [-i input_file] [-m] [-n] [-o output_file]\n                 [-p mode] [-s start_file] [-t training_file] [-j jobs] [-h]\n                 [-V] [--min-gene MIN_GENE] [--min-edge-gene MIN_EDGE_GENE]\n                 [--max-overlap MAX_OVERLAP] [--no-stop-codon]\n                 [--pool {thread,process}]\n\noptions:\n  -a trans_file         Write protein translations to the selected file.\n                        (default: None)\n  -c                    Closed ends. Do not allow genes to run off edges.\n                        (default: False)\n  -d nuc_file           Write nucleotide sequences of genes to the selected\n                        file. (default: None)\n  -f output_type        Select output format. (default: gff)\n  -g tr_table           Specify a translation table to use. (default: 11)\n  -i input_file         Specify FASTA input file. (default: None)\n  -m                    Treat runs of N as masked sequence; don't build genes\n                        across them. (default: False)\n  -n                    Bypass Shine-Dalgarno trainer and force a full motif\n                        scan\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -56925,6 +57273,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-INVALID-OPTION-001/pyrodigal/cli-invalid-option-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-INVALID-OPTION-001/pyrodigal/cli-invalid-option-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-INVALID-OPTION-001/pyrodigal/cli-invalid-option-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "usage: pyrodigal [-a trans_file] [-c] [-d nuc_file] [-f output_type]\n                 [-g tr_table] [-i input_file] [-m] [-n] [-o output_file]\n                 [-p mode] [-s start_file] [-t training_file] [-j jobs] [-h]\n                 [-V] [--min-gene MIN_GENE] [--min-edge-gene MIN_EDGE_GENE]\n                 [--max-overlap MAX_OVERLAP] [--no-stop-codon]\n                 [--pool {thread,process}]\npyrodigal: error: unrecognized arguments: --seebot-invalid-option"
               }
             }
           ]
@@ -56963,6 +57315,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-INVALID-VALUE-001/pyrodigal/cli-invalid-value-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-INVALID-VALUE-001/pyrodigal/cli-invalid-value-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-INVALID-VALUE-001/pyrodigal/cli-invalid-value-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "usage: pyrodigal [-a trans_file] [-c] [-d nuc_file] [-f output_type]\n                 [-g tr_table] [-i input_file] [-m] [-n] [-o output_file]\n                 [-p mode] [-s start_file] [-t training_file] [-j jobs] [-h]\n                 [-V] [--min-gene MIN_GENE] [--min-edge-gene MIN_EDGE_GENE]\n                 [--max-overlap MAX_OVERLAP] [--no-stop-codon]\n                 [--pool {thread,process}]\npyrodigal: error: argument -j/--jobs: invalid int value: 'not-an-integer'"
               }
             }
           ]
@@ -56999,6 +57355,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-MALFORMED-INPUT-001/pyrodigal/cli-malformed-input-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-MALFORMED-INPUT-001/pyrodigal/cli-malformed-input-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-MALFORMED-INPUT-001/pyrodigal/cli-malformed-input-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": "##gff-version  3\n# Sequence Data: seqnum=1;seqlen=0;seqhdr=\"empty_record\"\n# Model Data: version=pyrodigal.v3.7.1;run_type=Metagenomic;model=\"5|Anaplasma_marginale_Maries|B|49.8|11|1\";gc_cont=49.80;transl_table=11;uses_sd=1",
+                "stderr": null
               }
             }
           ]
@@ -57035,6 +57395,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-MISSING-INPUT-001/pyrodigal/cli-missing-input-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-MISSING-INPUT-001/pyrodigal/cli-missing-input-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-MISSING-INPUT-001/pyrodigal/cli-missing-input-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": "Error: [Errno 2] No such file or directory: '/fixtures/bad/missing.fasta'",
+                "stderr": "Traceback (most recent call last):\n  File \"/workspace/.pixi/envs/default/bin/pyrodigal\", line 11, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/site-packages/pyrodigal/cli.py\", line 257, in main\n    input_file = stdin if args.i is None else ctx.enter_context(zopen(args.i))\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/contextlib.py\", line 526, in enter_context\n    result = _enter(cm)\n             ^^^^^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/site-packages/pyrodigal/cli.py\", line 35, in zopen\n    file = ctx.enter_context(open(path, \"rb\"))\n                             ^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/fixtures/bad/missing.fasta'"
               }
             }
           ]
@@ -57058,6 +57422,10 @@
                 "stdout": "evidence/current/pyrodigal/2026-07-01/CLI-NOARGS-001/noargs-not-applicable/observation.json",
                 "stderr": "evidence/current/pyrodigal/2026-07-01/CLI-NOARGS-001/noargs-not-applicable/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/2026-07-01/CLI-NOARGS-001/noargs-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"No-argument invocation is the documented standard-input mode.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -57096,6 +57464,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-STREAMS-001/pyrodigal/cli-streams-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-STREAMS-001/pyrodigal/cli-streams-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-STREAMS-001/pyrodigal/cli-streams-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": "##gff-version  3\n# Sequence Data: seqnum=1;seqlen=448;seqhdr=\"synthetic_orf_contig\"\n# Model Data: version=pyrodigal.v3.7.1;run_type=Metagenomic;model=\"4|Akkermansia_muciniphila_ATCC_BAA_835|B|55.8|11|0\";gc_cont=55.80;transl_table=11;uses_sd=0\nsynthetic_orf_contig\tpyrodigal_v3.7.1\tCDS\t1\t447\t149.0\t+\t0\tID=synthetic_orf_contig_1;partial=11;start_type=Edge;rbs_motif=None;rbs_spacer=None;gc_cont=0.548;conf=100.00;score=149.02;cscore=147.41;sscore=1.61;rscore=0.00;uscore=0.00;tscore=1.61;",
+                "stderr": null
               }
             }
           ]
@@ -57134,6 +57506,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-UNWRITABLE-OUTPUT-001/pyrodigal/cli-unwritable-output-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-UNWRITABLE-OUTPUT-001/pyrodigal/cli-unwritable-output-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-UNWRITABLE-OUTPUT-001/pyrodigal/cli-unwritable-output-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": "Error: [Errno 30] Read-only file system: '/fixtures/forbidden.gff'",
+                "stderr": "Traceback (most recent call last):\n  File \"/workspace/.pixi/envs/default/bin/pyrodigal\", line 11, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/site-packages/pyrodigal/cli.py\", line 237, in main\n    stdout if args.o is None else ctx.enter_context(open(args.o, \"w\"))\n                                                    ^^^^^^^^^^^^^^^^^\nOSError: [Errno 30] Read-only file system: '/fixtures/forbidden.gff'"
               }
             }
           ]
@@ -57184,6 +57560,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-VALID-RUN-001/pyrodigal/cli-valid-run-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-VALID-RUN-001/pyrodigal/cli-valid-run-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-VALID-RUN-001/pyrodigal/cli-valid-run-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": null
               }
             }
           ]
@@ -57218,6 +57598,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-VERSION-001/pyrodigal/cli-version-001-pyrodigal-version/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-VERSION-001/pyrodigal/cli-version-001-pyrodigal-version/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-VERSION-001/pyrodigal/cli-version-001-pyrodigal-version/metadata.json"
+              },
+              "output": {
+                "stdout": "pyrodigal v3.7.1",
+                "stderr": null
               }
             }
           ]
@@ -57254,6 +57638,10 @@
                 "stdout": "evidence/current/pyrodigal/CLI-WRONG-FORMAT-001/pyrodigal/cli-wrong-format-001-pyrodigal/stdout.txt",
                 "stderr": "evidence/current/pyrodigal/CLI-WRONG-FORMAT-001/pyrodigal/cli-wrong-format-001-pyrodigal/stderr.txt",
                 "metadata": "evidence/current/pyrodigal/CLI-WRONG-FORMAT-001/pyrodigal/cli-wrong-format-001-pyrodigal/metadata.json"
+              },
+              "output": {
+                "stdout": "Error: not in FASTA format",
+                "stderr": "Traceback (most recent call last):\n  File \"/workspace/.pixi/envs/default/bin/pyrodigal\", line 11, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/site-packages/pyrodigal/cli.py\", line 302, in main\n    for seq_id, preds in parallel_map(process, sequences):\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/.pixi/envs/default/lib/python3.12/site-packages/pyrodigal/tests/fasta.py\", line 86, in parse\n    raise ValueError(\"not in FASTA format\")\nValueError: not in FASTA format"
               }
             }
           ]
@@ -68398,6 +68786,10 @@
                 "stdout": "evidence/current/samtools/CLI-EMPTY-INPUT-001/samtools/cli-empty-input-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-EMPTY-INPUT-001/samtools/cli-empty-input-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-EMPTY-INPUT-001/samtools/cli-empty-input-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[main_samview] fail to read the header from \"/fixtures/bad/empty.dat\"."
               }
             }
           ]
@@ -68432,6 +68824,10 @@
                 "stdout": "evidence/current/samtools/CLI-HELP-001/samtools/cli-help-001-samtools-help/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-HELP-001/samtools/cli-help-001-samtools-help/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-HELP-001/samtools/cli-help-001-samtools-help/metadata.json"
+              },
+              "output": {
+                "stdout": "Program: samtools (Tools for alignments in the SAM format)\nVersion: 1.23.1 (using htslib 1.23.1)\n\nUsage:   samtools <command> [options]\n\nCommands:\n  -- Indexing\n     dict           create a sequence dictionary file\n     faidx          index/extract FASTA\n     fqidx          index/extract FASTQ\n     index          index alignment\n\n  -- Editing\n     calmd          recalculate MD/NM tags and '=' bases\n     fixmate        fix mate information\n     reheader       replace BAM header\n     targetcut      cut fosmid regions (for fosmid pool only)\n     addreplacerg   adds or replaces RG tags\n     markdup        mark duplicates\n     ampliconclip   clip oligos from the end of reads\n\n  -- File operations\n     collate        shuffle and group alignments by name\n     cat            concatenate BAMs\n     consensus      produce a consensus Pileup/FASTA/FASTQ\n     merge          merge sorted alignments\n     mpileup        multi-way pileup\n     sort           sort alignment file\n     split          splits a file by read group\n     quickcheck     quickly check if SAM/BAM/CRAM file appears intact\n     fastq          converts a BAM to a FASTQ\n     fasta          converts a BAM to a FASTA\n     import\n\u2026",
+                "stderr": null
               }
             },
             {
@@ -68459,6 +68855,10 @@
                 "stdout": "evidence/current/samtools/CLI-HELP-001/samtools/cli-help-001-samtools-view-help/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-HELP-001/samtools/cli-help-001-samtools-view-help/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-HELP-001/samtools/cli-help-001-samtools-view-help/metadata.json"
+              },
+              "output": {
+                "stdout": "Usage: samtools view [options] <in.bam>|<in.sam>|<in.cram> [region ...]\n\nOutput options:\n  -b, --bam                  Output BAM\n  -C, --cram                 Output CRAM (requires -T)\n  -1, --fast                 Use fast BAM compression (and default to --bam)\n  -u, --uncompressed         Uncompressed BAM output (and default to --bam)\n  -h, --with-header          Include header in SAM output\n  -H, --header-only          Print SAM header only (no alignments)\n      --no-header            Print SAM alignment records only [default]\n  -c, --count                Print only the count of matching records\n      --save-counts FILE     Write counts of passed/failed records to FILE\n  -o, --output FILE          Write output to FILE [standard output]\n  -U, --unoutput FILE, --output-unselected FILE\n                             Output reads not selected by filters to FILE\n  -p, --unmap                Set flag to UNMAP on reads not selected\n                             then write to output file.\n  -P, --fetch-pairs          Retrieve complete pairs even when outside of region\n\nInput options:\n  -t, --fai-reference FILE   FILE listing reference names and lengths\n  -M, --use-index            Use index\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -68493,6 +68893,10 @@
                 "stdout": "evidence/current/samtools/CLI-INVALID-OPTION-001/samtools/cli-invalid-option-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-INVALID-OPTION-001/samtools/cli-invalid-option-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-INVALID-OPTION-001/samtools/cli-invalid-option-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "samtools view: unrecognised option '--seebot-invalid-option'\n\nUsage: samtools view [options] <in.bam>|<in.sam>|<in.cram> [region ...]\n\nOutput options:\n  -b, --bam                  Output BAM\n  -C, --cram                 Output CRAM (requires -T)\n  -1, --fast                 Use fast BAM compression (and default to --bam)\n  -u, --uncompressed         Uncompressed BAM output (and default to --bam)\n  -h, --with-header          Include header in SAM output\n  -H, --header-only          Print SAM header only (no alignments)\n      --no-header            Print SAM alignment records only [default]\n  -c, --count                Print only the count of matching records\n      --save-counts FILE     Write counts of passed/failed records to FILE\n  -o, --output FILE          Write output to FILE [standard output]\n  -U, --unoutput FILE, --output-unselected FILE\n                             Output reads not selected by filters to FILE\n  -p, --unmap                Set flag to UNMAP on reads not selected\n                             then write to output file.\n  -P, --fetch-pairs          Retrieve complete pairs even when outside of region\n\nInput options:\n  -t, --fai-reference FILE   FILE listing refer\n\u2026"
               }
             }
           ]
@@ -68529,6 +68933,10 @@
                 "stdout": "evidence/current/samtools/CLI-INVALID-VALUE-001/samtools/cli-invalid-value-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-INVALID-VALUE-001/samtools/cli-invalid-value-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-INVALID-VALUE-001/samtools/cli-invalid-value-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": "synthetic_read\t0\tsynthetic_reference\t1\t60\t20M\t*\t0\t0\tACGTTGCAACGTAGCTAGGC\tIIIIIIIIIIIIIIIIIIII",
+                "stderr": null
               }
             }
           ]
@@ -68563,6 +68971,10 @@
                 "stdout": "evidence/current/samtools/CLI-MALFORMED-INPUT-001/samtools/cli-malformed-input-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-MALFORMED-INPUT-001/samtools/cli-malformed-input-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-MALFORMED-INPUT-001/samtools/cli-malformed-input-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[main_samview] fail to read the header from \"/fixtures/bad/malformed.fasta\"."
               }
             }
           ]
@@ -68597,6 +69009,10 @@
                 "stdout": "evidence/current/samtools/CLI-MISSING-INPUT-001/samtools/cli-missing-input-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-MISSING-INPUT-001/samtools/cli-missing-input-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-MISSING-INPUT-001/samtools/cli-missing-input-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[E::hts_open_format] Failed to open file \"/fixtures/bad/missing.sam\" : No such file or directory\nsamtools view: failed to open \"/fixtures/bad/missing.sam\" for reading: No such file or directory"
               }
             }
           ]
@@ -68630,6 +69046,10 @@
                 "stdout": "evidence/current/samtools/CLI-NOARGS-001/samtools/cli-noargs-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-NOARGS-001/samtools/cli-noargs-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-NOARGS-001/samtools/cli-noargs-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Program: samtools (Tools for alignments in the SAM format)\nVersion: 1.23.1 (using htslib 1.23.1)\n\nUsage:   samtools <command> [options]\n\nCommands:\n  -- Indexing\n     dict           create a sequence dictionary file\n     faidx          index/extract FASTA\n     fqidx          index/extract FASTQ\n     index          index alignment\n\n  -- Editing\n     calmd          recalculate MD/NM tags and '=' bases\n     fixmate        fix mate information\n     reheader       replace BAM header\n     targetcut      cut fosmid regions (for fosmid pool only)\n     addreplacerg   adds or replaces RG tags\n     markdup        mark duplicates\n     ampliconclip   clip oligos from the end of reads\n\n  -- File operations\n     collate        shuffle and group alignments by name\n     cat            concatenate BAMs\n     consensus      produce a consensus Pileup/FASTA/FASTQ\n     merge          merge sorted alignments\n     mpileup        multi-way pileup\n     sort           sort alignment file\n     split          splits a file by read group\n     quickcheck     quickly check if SAM/BAM/CRAM file appears intact\n     fastq          converts a BAM to a FASTQ\n     fasta          converts a BAM to a FASTA\n     import\n\u2026"
               }
             }
           ]
@@ -68669,6 +69089,10 @@
                 "stdout": "evidence/current/samtools/CLI-STREAMS-001/samtools/cli-streams-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-STREAMS-001/samtools/cli-streams-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-STREAMS-001/samtools/cli-streams-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": "@HD\tVN:1.6\tSO:unsorted\n@SQ\tSN:synthetic_reference\tLN:88\n@PG\tID:samtools\tPN:samtools\tVN:1.23.1\tCL:/workspace/.pixi/envs/default/bin/samtools view -h -\nsynthetic_read\t0\tsynthetic_reference\t1\t60\t20M\t*\t0\t0\tACGTTGCAACGTAGCTAGGC\tIIIIIIIIIIIIIIIIIIII",
+                "stderr": null
               }
             }
           ]
@@ -68705,6 +69129,10 @@
                 "stdout": "evidence/current/samtools/CLI-UNWRITABLE-OUTPUT-001/samtools/cli-unwritable-output-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-UNWRITABLE-OUTPUT-001/samtools/cli-unwritable-output-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-UNWRITABLE-OUTPUT-001/samtools/cli-unwritable-output-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[E::hts_open_format] Failed to open file \"/fixtures/forbidden.sam\" : Read-only file system\nsamtools view: failed to open \"/fixtures/forbidden.sam\" for writing: Read-only file system"
               }
             }
           ]
@@ -68754,6 +69182,10 @@
                 "stdout": "evidence/current/samtools/CLI-VALID-RUN-001/samtools/cli-valid-run-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-VALID-RUN-001/samtools/cli-valid-run-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-VALID-RUN-001/samtools/cli-valid-run-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": null
               }
             }
           ]
@@ -68788,6 +69220,10 @@
                 "stdout": "evidence/current/samtools/CLI-VERSION-001/samtools/cli-version-001-samtools-version/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-VERSION-001/samtools/cli-version-001-samtools-version/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-VERSION-001/samtools/cli-version-001-samtools-version/metadata.json"
+              },
+              "output": {
+                "stdout": "samtools 1.23.1\nUsing htslib 1.23.1\nCopyright (C) 2025 Genome Research Ltd.\n\nSamtools compilation details:\n    Features:       build=configure curses=yes \n    CC:             /opt/conda/conda-bld/samtools_1773861632090/_build_env/bin/x86_64-conda-linux-gnu-cc\n    CPPFLAGS:       -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /workspace/.pixi/envs/default/include\n    CFLAGS:         -Wall -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /workspace/.pixi/envs/default/include -fdebug-prefix-map=/opt/conda/conda-bld/samtools_1773861632090/work=/usr/local/src/conda/samtools-1.23.1 -fdebug-prefix-map=/workspace/.pixi/envs/default=/usr/local/src/conda-prefix\n    LDFLAGS:        -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/workspace/.pixi/envs/default/lib -Wl,-rpath-link,/workspace/.pixi/envs/default/lib -L/workspace/.pixi/envs/default/lib\n    HTSDIR:         \n    LIBS:           \n    CURSES_LIB:     -ltinfow -lncursesw\n\nHTSlib compilation details:\n    Features:       build=configure libcurl=yes S3=yes GCS=yes libdefla\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -68822,6 +69258,10 @@
                 "stdout": "evidence/current/samtools/CLI-WRONG-FORMAT-001/samtools/cli-wrong-format-001-samtools/stdout.txt",
                 "stderr": "evidence/current/samtools/CLI-WRONG-FORMAT-001/samtools/cli-wrong-format-001-samtools/stderr.txt",
                 "metadata": "evidence/current/samtools/CLI-WRONG-FORMAT-001/samtools/cli-wrong-format-001-samtools/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "[main_samview] fail to read the header from \"/fixtures/core/variants.vcf\"."
               }
             }
           ]
@@ -75710,6 +76150,10 @@
                 "stdout": "evidence/current/yacrd/CLI-EMPTY-INPUT-001/yacrd/cli-empty-input-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-EMPTY-INPUT-001/yacrd/cli-empty-input-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-EMPTY-INPUT-001/yacrd/cli-empty-input-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Error: Error in compression detection of file /fixtures/bad/empty.dat\n\nCaused by:\n    File is too short, less than five bytes"
               }
             }
           ]
@@ -75744,6 +76188,10 @@
                 "stdout": "evidence/current/yacrd/CLI-HELP-001/yacrd/cli-help-001-yacrd-help/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-HELP-001/yacrd/cli-help-001-yacrd-help/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-HELP-001/yacrd/cli-help-001-yacrd-help/metadata.json"
+              },
+              "output": {
+                "stdout": "yacrd 1.0.0 Magby\nPierre Marijon <pierre@marijon.fr>\nYacrd use overlap between reads, to detect 'good' and 'bad' region, a region with coverage over the\nthreshold is 'good' others are 'bad'. If read has a 'bad' region in middle this reads is mark as\n'Chimeric'. If the ratio of 'bad' region length on total read length is larger than threshold this\nreads is marked as 'Not_covered'. Yacrd can make some other actions: - filter: for sequence or\noverlap file, record with reads marked as Chimeric or NotCovered isn't written in the output -\nextract: for sequence or overlap file, record contains reads marked as Chimeric or NotCovered is\nwritten in the output - split: for sequence file bad region in the middle of reads are removed,\nNotCovered read is removed - scrubb: for sequence file all bad region are removed, NotCovered read\nis removed\n\nUSAGE:\n    yacrd [OPTIONS] --input <INPUT> --output <OUTPUT> [SUBCOMMAND]\n\nOPTIONS:\n    -c, --coverage <COVERAGE>\n            if coverage reach this value region is marked as bad [default: 0]\n\n    -d, --ondisk <ONDISK>\n            yacrd switches to 'ondisk' mode which will reduce memory usage but increase computation\n            time. The value passed as\n\u2026",
+                "stderr": null
               }
             }
           ]
@@ -75777,6 +76225,10 @@
                 "stdout": "evidence/current/yacrd/CLI-INVALID-OPTION-001/yacrd/cli-invalid-option-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-INVALID-OPTION-001/yacrd/cli-invalid-option-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-INVALID-OPTION-001/yacrd/cli-invalid-option-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "error: Found argument '--seebot-invalid-option' which wasn't expected, or isn't valid in this context\n\n\tIf you tried to supply `--seebot-invalid-option` as a value rather than a flag, use `-- --seebot-invalid-option`\n\nUSAGE:\n    yacrd [OPTIONS] --input <INPUT> --output <OUTPUT> [SUBCOMMAND]\n\nFor more information try --help"
               }
             }
           ]
@@ -75815,6 +76267,10 @@
                 "stdout": "evidence/current/yacrd/CLI-INVALID-VALUE-001/yacrd/cli-invalid-value-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-INVALID-VALUE-001/yacrd/cli-invalid-value-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-INVALID-VALUE-001/yacrd/cli-invalid-value-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "error: Invalid value \"not-an-integer\" for '--thread <THREADS>': invalid digit found in string\n\nFor more information try --help"
               }
             }
           ]
@@ -75851,6 +76307,10 @@
                 "stdout": "evidence/current/yacrd/CLI-MALFORMED-INPUT-001/yacrd/cli-malformed-input-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-MALFORMED-INPUT-001/yacrd/cli-malformed-input-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-MALFORMED-INPUT-001/yacrd/cli-malformed-input-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Error: Filename: /fixtures/bad/malformed.paf\n\nCaused by:\n    0: Error during reading a file in format Paf\n    1: CSV deserialize error: record 0 (line: 1, byte: 0): field 3: invalid digit found in string"
               }
             }
           ]
@@ -75887,6 +76347,10 @@
                 "stdout": "evidence/current/yacrd/CLI-MISSING-INPUT-001/yacrd/cli-missing-input-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-MISSING-INPUT-001/yacrd/cli-missing-input-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-MISSING-INPUT-001/yacrd/cli-missing-input-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Error: Reading of the file '/fixtures/bad/missing.paf' impossible, does it exist and can be read by the user?\n\nCaused by:\n    No such file or directory (os error 2)"
               }
             }
           ]
@@ -75920,6 +76384,10 @@
                 "stdout": "evidence/current/yacrd/CLI-NOARGS-001/yacrd/cli-noargs-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-NOARGS-001/yacrd/cli-noargs-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-NOARGS-001/yacrd/cli-noargs-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "error: The following required arguments were not provided:\n    --input <INPUT>\n    --output <OUTPUT>\n\nUSAGE:\n    yacrd [OPTIONS] --input <INPUT> --output <OUTPUT> [SUBCOMMAND]\n\nFor more information try --help"
               }
             }
           ]
@@ -75943,6 +76411,10 @@
                 "stdout": "evidence/current/yacrd/2026-07-01/CLI-STREAMS-001/streams-not-applicable/observation.json",
                 "stderr": "evidence/current/yacrd/2026-07-01/CLI-STREAMS-001/streams-not-applicable/stderr.txt",
                 "metadata": "evidence/current/yacrd/2026-07-01/CLI-STREAMS-001/streams-not-applicable/metadata.json"
+              },
+              "output": {
+                "stdout": "{\n  \"reason\": \"The reviewed interface requires explicit input and output paths.\"\n}",
+                "stderr": null
               }
             }
           ]
@@ -75979,6 +76451,10 @@
                 "stdout": "evidence/current/yacrd/CLI-UNWRITABLE-OUTPUT-001/yacrd/cli-unwritable-output-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-UNWRITABLE-OUTPUT-001/yacrd/cli-unwritable-output-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-UNWRITABLE-OUTPUT-001/yacrd/cli-unwritable-output-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Error: Creation/opening of the file '/fixtures/forbidden.yacrd' impossible, directory in path exist? can be written by the user?\n\nCaused by:\n    Read-only file system (os error 30)"
               }
             }
           ]
@@ -76029,6 +76505,10 @@
                 "stdout": "evidence/current/yacrd/CLI-VALID-RUN-001/yacrd/cli-valid-run-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-VALID-RUN-001/yacrd/cli-valid-run-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-VALID-RUN-001/yacrd/cli-valid-run-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": null
               }
             }
           ]
@@ -76063,6 +76543,10 @@
                 "stdout": "evidence/current/yacrd/CLI-VERSION-001/yacrd/cli-version-001-yacrd-version/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-VERSION-001/yacrd/cli-version-001-yacrd-version/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-VERSION-001/yacrd/cli-version-001-yacrd-version/metadata.json"
+              },
+              "output": {
+                "stdout": "yacrd 1.0.0 Magby",
+                "stderr": null
               }
             }
           ]
@@ -76099,6 +76583,10 @@
                 "stdout": "evidence/current/yacrd/CLI-WRONG-FORMAT-001/yacrd/cli-wrong-format-001-yacrd/stdout.txt",
                 "stderr": "evidence/current/yacrd/CLI-WRONG-FORMAT-001/yacrd/cli-wrong-format-001-yacrd/stderr.txt",
                 "metadata": "evidence/current/yacrd/CLI-WRONG-FORMAT-001/yacrd/cli-wrong-format-001-yacrd/metadata.json"
+              },
+              "output": {
+                "stdout": null,
+                "stderr": "Error: This operation overlap parsing can't be run on this type (Fasta) of file /fixtures/core/reference.fasta"
               }
             }
           ]

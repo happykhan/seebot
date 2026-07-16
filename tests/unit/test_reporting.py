@@ -2,8 +2,10 @@ from seebot.reporting import (
     CURRENT_DATE,
     HISTORICAL_DATES,
     REQUIRED_CURRENT_CHECKS,
+    _evidence_excerpt,
     _labels,
     _rows_by_check,
+    _source_snapshots,
 )
 
 
@@ -55,3 +57,36 @@ def test_exemplar_labels_are_boolean_conditions_not_scores() -> None:
         "practice_exemplar": True,
     }
     assert not any("score" in key for key in labels)
+
+
+def test_public_output_excerpt_is_bounded_and_cannot_escape_repository(tmp_path) -> None:
+    evidence = tmp_path / "evidence" / "stderr.txt"
+    evidence.parent.mkdir()
+    evidence.write_text("useful diagnostic\n" + "x" * 50, encoding="utf-8")
+
+    excerpt = _evidence_excerpt(tmp_path, {"stderr": "evidence/stderr.txt"}, "stderr", 25)
+    assert excerpt == "useful diagnostic\nxxxxxxx\n…"
+    assert _evidence_excerpt(tmp_path, {"stderr": "../secret.txt"}, "stderr") is None
+
+
+def test_documentation_coverage_is_a_valid_percentage_in_public_snapshot() -> None:
+    rows = [
+        {
+            "check_id": "SRC-DOCUMENTATION-001",
+            "snapshot_date": CURRENT_DATE,
+            "snapshot_commit": "abc",
+            "domain": "source",
+            "source_component_id": "perl:main",
+            "status": "OBSERVED",
+            "observed": {
+                "function_count": 3,
+                "documented_functions": 14,
+                "coverage_percent": 466.67,
+            },
+        }
+    ]
+
+    documentation = _source_snapshots(rows)[0]["metrics"]["documentation"]
+
+    assert documentation["coverage_percent"] == 100
+    assert documentation["documented_functions"] == 3

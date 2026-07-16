@@ -17,6 +17,10 @@ export interface ProbeObservation {
   observed: Record<string, unknown>
   notes: string | null
   evidence: Record<string, string>
+  output: {
+    stdout: string | null
+    stderr: string | null
+  }
 }
 
 export interface ContractObservation {

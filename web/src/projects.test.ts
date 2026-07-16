@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { activeLabelKeys, filterProjects } from './projects'
+import { activeLabelKeys, filterProjects, filterSoftware } from './projects'
 import type { ProjectSummary } from './types'
 
 const projects: ProjectSummary[] = [
@@ -17,6 +17,8 @@ const projects: ProjectSummary[] = [
     primary_executable: 'aligner',
     valid_run_status: 'reviewed',
     curation_status: 'reviewed',
+    repository: { practices: { README: false } },
+    contracts: [],
     labels: {
       usage_exemplar: true,
       repository_practice_exemplar: false,
@@ -38,8 +40,10 @@ const projects: ProjectSummary[] = [
     primary_executable: 'trimmer',
     valid_run_status: 'draft',
     curation_status: 'in_review',
+    repository: { practices: { README: true } },
+    contracts: [],
     labels: {
-      usage_exemplar: false,
+      usage_exemplar: true,
       repository_practice_exemplar: false,
       complete_assessment: false,
       practice_exemplar: false,
@@ -57,6 +61,16 @@ describe('filterProjects', () => {
 describe('activeLabelKeys', () => {
   it('returns only factual labels whose conditions were met', () => {
     expect(activeLabelKeys(projects[0].labels)).toEqual(['usage_exemplar', 'complete_assessment'])
-    expect(activeLabelKeys(projects[1].labels)).toEqual([])
+    expect(activeLabelKeys(projects[1].labels)).toEqual(['usage_exemplar'])
+  })
+})
+
+describe('linked software filters', () => {
+  it('filters by missing repository practice', () => {
+    expect(filterSoftware(projects, { practice: 'README', outcome: 'fail' }).map(({ id }) => id)).toEqual(['aligner'])
+  })
+
+  it('filters by language and exemplar label', () => {
+    expect(filterSoftware(projects, { language: 'python', exemplar: 'usage' }).map(({ id }) => id)).toEqual(['trimmer'])
   })
 })

@@ -75,7 +75,25 @@ def _observed(grouped: dict[str, list[dict[str, Any]]], check_id: str) -> dict[s
     return observed if isinstance(observed, dict) else {}
 
 
-def _contract_summary(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _evidence_excerpt(
+    repository_root: Path, evidence: dict[str, Any], stream: str, limit: int = 1200
+) -> str | None:
+    raw_path = evidence.get(stream)
+    if not isinstance(raw_path, str):
+        return None
+    path = Path(raw_path)
+    if path.is_absolute() or ".." in path.parts:
+        return None
+    resolved = repository_root / path
+    if not resolved.is_file():
+        return None
+    text = resolved.read_text(encoding="utf-8", errors="replace").strip()
+    if not text:
+        return None
+    return text if len(text) <= limit else f"{text[:limit].rstrip()}\n…"
+
+
+def _contract_summary(rows: list[dict[str, Any]], repository_root: Path) -> list[dict[str, Any]]:
     grouped = _rows_by_check(
         [
             row
@@ -112,6 +130,14 @@ def _contract_summary(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                         "observed": row.get("observed", {}),
                         "notes": row.get("notes"),
                         "evidence": row.get("evidence", {}),
+                        "output": {
+                            "stdout": _evidence_excerpt(
+                                repository_root, row.get("evidence", {}), "stdout"
+                            ),
+                            "stderr": _evidence_excerpt(
+                                repository_root, row.get("evidence", {}), "stderr"
+                            ),
+                        },
                     }
                     for row in probes
                 ],
@@ -156,7 +182,15 @@ def _source_snapshots(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         elif check_id == "SRC-DUPLICATION-001":
             snapshot["metrics"]["duplication"] = observed
         elif check_id == "SRC-DOCUMENTATION-001":
-            snapshot["metrics"]["documentation"] = observed
+            bounded = dict(observed)
+            coverage = bounded.get("coverage_percent")
+            if isinstance(coverage, (int, float)):
+                bounded["coverage_percent"] = min(100, coverage)
+            documented = bounded.get("documented_functions")
+            denominator = bounded.get("function_count")
+            if isinstance(documented, int) and isinstance(denominator, int):
+                bounded["documented_functions"] = min(documented, denominator)
+            snapshot["metrics"]["documentation"] = bounded
         elif check_id == "SRC-DEAD-CODE-001":
             snapshot["metrics"]["dead_code"] = observed
         elif check_id in {"SRC-NATIVE-LINT-001", "SRC-NATIVE-SECURITY-001"}:
@@ -243,7 +277,9 @@ def _public_result(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _project(manifest: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]:
+def _project(
+    manifest: dict[str, Any], rows: list[dict[str, Any]], repository_root: Path
+) -> dict[str, Any]:
     grouped = _rows_by_check(rows)
     project = manifest["project"]
     installation = manifest["installation"]
@@ -282,7 +318,7 @@ def _project(manifest: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, 
         },
         "primary_executable": manifest["interfaces"]["primary"],
         "curation_status": manifest["curation"]["status"],
-        "contracts": _contract_summary(rows),
+        "contracts": _contract_summary(rows, repository_root),
         "source_snapshots": _source_snapshots(rows),
         "dependency_advisories": {
             "status": dependency.get("status", "NOT_RUN"),
@@ -427,8 +463,13 @@ def build_public_dataset(manifest_directory: Path, checks_path: Path) -> dict[st
     for row in payload:
         if row.get("run_id") == "current":
             rows_by_project[str(row["project_id"])].append(row)
+    repository_root = checks_path.parents[2]
     projects = [
-        _project(manifest, rows_by_project[str(manifest["project"]["id"])])
+        _project(
+            manifest,
+            rows_by_project[str(manifest["project"]["id"])],
+            repository_root,
+        )
         for manifest in (load_yaml(path) for path in sorted(manifest_directory.glob("*.yaml")))
         if manifest["project"]["include"]
     ]
