@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import shutil
 from pathlib import Path
 from typing import Any
@@ -105,7 +106,8 @@ def run_repository_and_source(
             continue
         if commit is None:
             continue
-        checkout = output_root / "work" / "checkouts" / manifest["project"]["id"] / snapshot_date
+        work_root = Path(os.environ.get("SEEBOT_WORK_ROOT", output_root / "work"))
+        checkout = work_root / "checkouts" / manifest["project"]["id"] / snapshot_date
         clone_snapshot(repository_url, commit, checkout)
         try:
             if include_repository and snapshot_date == repository["snapshot_date"]:

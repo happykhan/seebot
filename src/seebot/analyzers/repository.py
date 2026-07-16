@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import os
 import re
 import shutil
 import subprocess
@@ -43,6 +45,18 @@ def clone_snapshot(repository_url: str, commit: str, target: Path) -> Path:
     """Create a disposable checkout containing only the audited commit."""
     if target.exists():
         shutil.rmtree(target)
+    staged_root = os.environ.get("SEEBOT_SNAPSHOT_ROOT")
+    if staged_root:
+        staged = Path(staged_root) / commit
+        if not staged.is_dir():
+            raise FileNotFoundError(f"Prepared snapshot does not exist: {staged}")
+        shutil.copytree(staged, target, symlinks=True)
+        observed = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=target, capture_output=True, text=True, check=True
+        ).stdout.strip()
+        if observed != commit:
+            raise RuntimeError(f"Expected staged snapshot {commit}, copied {observed}")
+        return target
     target.mkdir(parents=True)
     commands = (
         ["git", "init", "--quiet"],
@@ -282,9 +296,14 @@ def repository_practices(root: Path) -> dict[str, Any]:
 
 
 def _github_headers() -> dict[str, str]:
-    token = subprocess.run(
-        ["gh", "auth", "token"], capture_output=True, text=True, check=False
-    ).stdout.strip()
+    executable = shutil.which("gh")
+    token = (
+        subprocess.run(
+            [executable, "auth", "token"], capture_output=True, text=True, check=False
+        ).stdout.strip()
+        if executable
+        else ""
+    )
     headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
@@ -321,6 +340,23 @@ def github_activity(repository_url: str) -> dict[str, Any]:
             client, f"{base}/commits?until={CUTOFF.isoformat()}", maximum_pages=5
         )
         releases = _pages(client, f"{base}/releases", maximum_pages=5)
+    payload_root = os.environ.get("SEEBOT_GITHUB_PAYLOAD_ROOT")
+    if payload_root:
+        target = Path(payload_root) / f"{owner}--{repository}.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(
+            json.dumps(
+                {
+                    "repository": repository_payload,
+                    "activity_commits": activity_commits,
+                    "recent_commits": recent_commits,
+                    "releases": releases,
+                },
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
     non_bot_commits: list[dict[str, Any]] = []
     seen_commits: set[str] = set()
     for row in [*activity_commits, *recent_commits]:

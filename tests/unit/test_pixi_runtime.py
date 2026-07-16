@@ -2,6 +2,7 @@ import subprocess
 from pathlib import Path
 
 from seebot.models import Status
+from seebot.runtime import container
 from seebot.runtime import pixi as pixi_runtime
 from seebot.runtime.pixi import (
     ExpectedOutput,
@@ -57,7 +58,8 @@ def test_semantically_empty_probe_accepts_created_valid_zero_record_output(
         return subprocess.CompletedProcess(command, 0, b"", b"")
 
     monkeypatch.setattr(pixi_runtime, "_run", fake_run)
-    monkeypatch.setattr(pixi_runtime, "docker_executable", lambda: "/usr/bin/docker")
+    monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "docker")
+    monkeypatch.setattr(container.shutil, "which", lambda name: f"/usr/bin/{name}")
     result = run_pixi_probe(
         PixiProbeSpec(
             project_id="fixture-tool",
@@ -136,7 +138,8 @@ def test_pixi_probe_uses_bounded_amd64_container_and_validates_output(
         return subprocess.CompletedProcess(command, 0, b"complete\n", b"")
 
     monkeypatch.setattr(pixi_runtime, "_run", fake_run)
-    monkeypatch.setattr(pixi_runtime, "docker_executable", lambda: "/usr/bin/docker")
+    monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "docker")
+    monkeypatch.setattr(container.shutil, "which", lambda name: f"/usr/bin/{name}")
     spec = PixiProbeSpec(
         project_id="fixture-tool",
         check_id="CLI-VALID-RUN-001",
@@ -186,7 +189,8 @@ def test_timeout_is_untestable_not_project_failure(tmp_path: Path, monkeypatch) 
         raise subprocess.TimeoutExpired(command, timeout)
 
     monkeypatch.setattr(pixi_runtime, "_run", timeout)
-    monkeypatch.setattr(pixi_runtime, "docker_executable", lambda: "/usr/bin/docker")
+    monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "docker")
+    monkeypatch.setattr(container.shutil, "which", lambda name: f"/usr/bin/{name}")
     monkeypatch.setattr(
         subprocess,
         "run",

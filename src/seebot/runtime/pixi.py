@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
+import signal
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -15,11 +17,14 @@ from typing import Any
 from seebot import __version__
 from seebot.evidence import audit_code_identity, evidence_path, sha256_file
 from seebot.models import CheckResult, EvidencePaths, Status, ToolIdentity
-
-PIXI_IMAGE = (
-    "ghcr.io/prefix-dev/pixi@"
-    "sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e"
+from seebot.runtime.container import (
+    cleanup_timed_out_container,
+    container_command,
+    runtime_executable,
+    runtime_name,
 )
+from seebot.runtime.pixi_image import PIXI_IMAGE
+
 PLATFORM = "linux/amd64"
 CRASH_PATTERNS = (
     "traceback (most recent call last)",
@@ -47,9 +52,10 @@ SPECIFIC_DIAGNOSTIC_PATTERNS = (
 
 
 def docker_executable() -> str:
+    """Compatibility accessor retained for callers that explicitly require Docker."""
     executable = shutil.which("docker")
     if executable is None:
-        raise FileNotFoundError("Docker is required for canonical Linux x86-64 probes")
+        raise FileNotFoundError("Docker is not available")
     return executable
 
 
@@ -69,10 +75,13 @@ class PixiEnvironment:
 
     @property
     def environment_id(self) -> str:
-        digest = self.image.rsplit("@", 1)[-1]
+        if runtime_name() == "native":
+            runtime = f"native-pixi:{sha256_file(Path(runtime_executable()))}"
+        else:
+            runtime = f"image:{self.image.rsplit('@', 1)[-1]}"
         adjustment = ";case-aliases:pruned" if self.compatibility_adjustments else ""
         return (
-            f"pixi-lock:{sha256_file(self.lock_path)};image:{digest};"
+            f"pixi-lock:{sha256_file(self.lock_path)};{runtime};"
             f"platform:{self.platform}{adjustment}"
         )
 
@@ -114,46 +123,23 @@ class PixiProbeSpec:
     environment_variables: dict[str, str] = field(default_factory=dict)
 
 
-def _docker_base(*, network: str, read_only: bool) -> list[str]:
-    command = [
-        docker_executable(),
-        "run",
-        "--rm",
-        "--platform",
-        PLATFORM,
-        "--cpus",
-        "2",
-        "--memory",
-        "8g",
-        "--pids-limit",
-        "256",
-        "--network",
-        network,
-    ]
-    if read_only:
-        command.extend(
-            [
-                "--read-only",
-                "--tmpfs",
-                "/tmp:rw,nosuid,size=256m",
-                "--tmpfs",
-                "/run:rw,nosuid,size=16m",
-            ]
-        )
-    return command
-
-
 def _run(
     command: list[str], *, timeout: int = 1800, stdin_bytes: bytes | None = None
 ) -> subprocess.CompletedProcess[bytes]:
-    return subprocess.run(
+    process = subprocess.Popen(
         command,
-        input=stdin_bytes,
         stdin=subprocess.DEVNULL if stdin_bytes is None else None,
-        capture_output=True,
-        timeout=timeout,
-        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
     )
+    try:
+        stdout, stderr = process.communicate(input=stdin_bytes, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        os.killpg(process.pid, signal.SIGKILL)
+        stdout, stderr = process.communicate()
+        raise subprocess.TimeoutExpired(command, timeout, stdout, stderr) from exc
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
 
 def _repair_case_colliding_aliases(cache_root: Path) -> tuple[str, ...]:
@@ -236,27 +222,26 @@ def prepare_environment(
         manifest_path.write_text(manifest_text, encoding="utf-8")
         lock_path.unlink(missing_ok=True)
         shutil.rmtree(root / ".pixi", ignore_errors=True)
-    install = _docker_base(network="bridge", read_only=False)
-    install.extend(
+    offline = os.environ.get("SEEBOT_OFFLINE") == "1"
+    install = container_command(
         [
-            "--volume",
-            f"{root.resolve()}:/workspace:rw",
-            "--volume",
-            f"{cache_root.resolve()}:/cache:rw",
-            "--env",
-            "PIXI_CACHE_DIR=/cache",
-            "--workdir",
-            "/workspace",
-            PIXI_IMAGE,
             "pixi",
             "install",
             "--manifest-path",
             "/workspace/pixi.toml",
-        ]
+        ],
+        network="none" if offline else "bridge",
+        read_only=False,
+        mounts=((root, "/workspace", "rw"), (cache_root, "/cache", "rw")),
+        environment={"PIXI_CACHE_DIR": "/cache"},
+        workdir="/workspace",
     )
     if lock_path.exists():
         install.append("--locked")
-    completed = _run(install)
+    prepared_prefix = root / ".pixi" / "envs" / "default"
+    if offline and (not lock_path.is_file() or not prepared_prefix.is_dir()):
+        raise RuntimeError(f"Offline environment is incomplete for {project_id}")
+    completed = subprocess.CompletedProcess(install, 0, b"", b"") if offline else _run(install)
     adjustments: tuple[str, ...] = ()
     if completed.returncode != 0:
         adjustments = _repair_case_colliding_aliases(cache_root)
@@ -266,20 +251,16 @@ def prepare_environment(
     if completed.returncode != 0:
         detail = completed.stderr.decode(errors="replace")[-2000:]
         raise RuntimeError(f"Pixi installation failed for {project_id}: {detail}")
-    list_command = _docker_base(network="none", read_only=True)
-    list_command.extend(
+    list_command = container_command(
         [
-            "--volume",
-            f"{root.resolve()}:/workspace:rw",
-            "--workdir",
-            "/workspace",
-            PIXI_IMAGE,
             "pixi",
             "list",
             "--manifest-path",
             "/workspace/pixi.toml",
             "--json",
-        ]
+        ],
+        mounts=((root, "/workspace", "rw"),),
+        workdir="/workspace",
     )
     listed = _run(list_command, timeout=120)
     if listed.returncode != 0:
@@ -423,28 +404,14 @@ def run_pixi_probe(
     metadata_path = check_dir / "metadata.json"
     identity = (run_id, spec.project_id, spec.check_id, spec.executable_id)
     container_name = f"seebot-{abs(hash(identity)) & 0xFFFFFFFF:x}"
-    command = _docker_base(network="none", read_only=True)
-    command.extend(
-        [
-            "--name",
-            container_name,
-            "--volume",
-            f"{spec.environment.root.resolve()}:/workspace:rw",
-            "--volume",
-            f"{check_dir.resolve()}:/work:rw",
-            "--workdir",
-            "/work",
-        ]
-    )
+    mounts: list[tuple[Path, str, str]] = [
+        (spec.environment.root, "/workspace", "rw"),
+        (check_dir, "/work", "rw"),
+    ]
     if spec.fixture_directory is not None:
-        command.extend(["--volume", f"{spec.fixture_directory.resolve()}:/fixtures:ro"])
-    if spec.stdin_fixture is not None:
-        command.append("--interactive")
-    for key, value in sorted(spec.environment_variables.items()):
-        command.extend(["--env", f"{key}={value}"])
-    command.extend(
+        mounts.append((spec.fixture_directory, "/fixtures", "ro"))
+    command = container_command(
         [
-            PIXI_IMAGE,
             "pixi",
             "run",
             "--frozen",
@@ -452,7 +419,12 @@ def run_pixi_probe(
             "/workspace/pixi.toml",
             "--",
             *spec.command,
-        ]
+        ],
+        mounts=tuple(mounts),
+        environment=spec.environment_variables,
+        workdir="/work",
+        interactive=spec.stdin_fixture is not None,
+        name=container_name,
     )
     started = datetime.now(UTC)
     clock = time.monotonic()
@@ -590,11 +562,7 @@ def run_pixi_probe(
     except subprocess.TimeoutExpired as exc:
         stdout_path.write_bytes(exc.stdout or b"")
         stderr_path.write_bytes(exc.stderr or b"")
-        subprocess.run(
-            [docker_executable(), "rm", "--force", container_name],
-            capture_output=True,
-            check=False,
-        )
+        cleanup_timed_out_container(container_name)
         observed = {"exit_code": None, "timed_out": True}
         status = Status.UNTESTABLE
         notes = "Probe exceeded the declared resource budget."

@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
 from seebot.evidence import sha256_file
-from seebot.runtime.pixi import PIXI_IMAGE, _docker_base, _run
+from seebot.runtime.container import container_command, runtime_executable, runtime_name
+from seebot.runtime.pixi import _run
+from seebot.runtime.pixi_image import PIXI_IMAGE
 
 ANALYZER_MANIFEST = """[workspace]
 name = "seebot-source-analyzers"
@@ -91,10 +94,12 @@ class AnalyzerEnvironment:
             for row in sorted(self.records, key=lambda row: str(row.get("name")))
         )
         profile_hash = hashlib.sha256(profile.encode()).hexdigest()
-        return (
-            f"{self.profile}:{sha256_file(self.lock_path)};profile:{profile_hash};"
-            f"image:{PIXI_IMAGE.rsplit('@', 1)[-1]}"
+        runtime = (
+            f"native-pixi:{sha256_file(Path(runtime_executable()))}"
+            if runtime_name() == "native"
+            else f"image:{PIXI_IMAGE.rsplit('@', 1)[-1]}"
         )
+        return f"{self.profile}:{sha256_file(self.lock_path)};profile:{profile_hash};{runtime}"
 
 
 def _prepare_environment(
@@ -116,45 +121,47 @@ def _prepare_environment(
         lock.unlink(missing_ok=True)
         shutil.rmtree(root / ".pixi", ignore_errors=True)
         shutil.rmtree(root / "perl5", ignore_errors=True)
-    command = _docker_base(network="bridge", read_only=False)
-    command.extend(
+    offline = os.environ.get("SEEBOT_OFFLINE") == "1"
+    command = container_command(
         [
-            "--volume",
-            f"{root.resolve()}:/workspace:rw",
-            "--volume",
-            f"{cache_root.resolve()}:/cache:rw",
-            "--env",
-            "PIXI_CACHE_DIR=/cache",
-            "--workdir",
-            "/workspace",
-            PIXI_IMAGE,
             "pixi",
             "install",
             "--manifest-path",
             "/workspace/pixi.toml",
-        ]
+        ],
+        network="none" if offline else "bridge",
+        read_only=False,
+        mounts=((root, "/workspace", "rw"), (cache_root, "/cache", "rw")),
+        environment={"PIXI_CACHE_DIR": "/cache"},
+        workdir="/workspace",
     )
     if lock.exists():
         command.append("--locked")
-    installed = _run(command)
+    prepared_prefix = root / ".pixi" / "envs" / "default"
+    if offline and (not lock.is_file() or not prepared_prefix.is_dir()):
+        raise RuntimeError(f"Offline analyzer environment is incomplete: {root}")
+    installed = subprocess.CompletedProcess(command, 0, b"", b"") if offline else _run(command)
     if installed.returncode != 0:
         raise RuntimeError(installed.stderr.decode(errors="replace")[-3000:])
     missing_perl_bins = [
         name for name in required_perl_bins if not (root / "perl5/bin" / name).exists()
     ]
     if missing_perl_bins:
-        cpan = _docker_base(network="bridge", read_only=False)
-        cpan.extend(
+        if offline:
+            raise RuntimeError("Prepared analyzer environment is missing required Perl tools")
+        install_script = (
+            "cpanm --notest --local-lib-contained /workspace/perl5 " + " ".join(perl_modules)
+            if runtime_name() == "native"
+            else (
+                "ln -sf /workspace/.pixi/envs/default/bin/"
+                "x86_64-conda-linux-gnu-gcc /bin/x86_64-conda-linux-gnu-gcc && "
+                "ln -sfn /workspace/.pixi/envs/default/x86_64-conda-linux-gnu "
+                "/x86_64-conda-linux-gnu && "
+                "cpanm --notest --local-lib-contained /workspace/perl5 " + " ".join(perl_modules)
+            )
+        )
+        cpan = container_command(
             [
-                "--volume",
-                f"{root.resolve()}:/workspace:rw",
-                "--volume",
-                f"{cache_root.resolve()}:/cache:rw",
-                "--env",
-                "PIXI_CACHE_DIR=/cache",
-                "--workdir",
-                "/workspace",
-                PIXI_IMAGE,
                 "pixi",
                 "run",
                 "--frozen",
@@ -163,15 +170,13 @@ def _prepare_environment(
                 "--",
                 "sh",
                 "-lc",
-                (
-                    "ln -sf /workspace/.pixi/envs/default/bin/"
-                    "x86_64-conda-linux-gnu-gcc /bin/x86_64-conda-linux-gnu-gcc && "
-                    "ln -sfn /workspace/.pixi/envs/default/x86_64-conda-linux-gnu "
-                    "/x86_64-conda-linux-gnu && "
-                    "cpanm --notest --local-lib-contained /workspace/perl5 "
-                    + " ".join(perl_modules)
-                ),
-            ]
+                install_script,
+            ],
+            network="bridge",
+            read_only=False,
+            mounts=((root, "/workspace", "rw"), (cache_root, "/cache", "rw")),
+            environment={"PIXI_CACHE_DIR": "/cache"},
+            workdir="/workspace",
         )
         completed = _run(cpan)
         if completed.returncode != 0:
@@ -217,19 +222,15 @@ def analyzer_command(
     network: str = "none",
     timeout: int = 300,
 ) -> subprocess.CompletedProcess[bytes]:
-    command = _docker_base(network=network, read_only=True)
-    command.extend(["--volume", f"{environment_root.resolve()}:/workspace:rw"])
+    mounts: list[tuple[Path, str, str]] = [(environment_root, "/workspace", "rw")]
     if source is not None:
-        command.extend(["--volume", f"{source.resolve()}:/source:ro", "--workdir", "/source"])
+        mounts.append((source, "/source", "ro"))
     if work is not None:
-        command.extend(["--volume", f"{work.resolve()}:/work:rw"])
+        mounts.append((work, "/work", "rw"))
     if config is not None:
-        command.extend(["--volume", f"{config.resolve()}:/config:ro"])
-    command.extend(
+        mounts.append((config, "/config", "ro"))
+    command = container_command(
         [
-            "--env",
-            "PERL5LIB=/workspace/perl5/lib/perl5",
-            PIXI_IMAGE,
             "pixi",
             "run",
             "--frozen",
@@ -237,6 +238,10 @@ def analyzer_command(
             "/workspace/pixi.toml",
             "--",
             *tool_command,
-        ]
+        ],
+        network=network,
+        mounts=tuple(mounts),
+        environment={"PERL5LIB": "/workspace/perl5/lib/perl5"},
+        workdir="/source" if source is not None else None,
     )
     return _run(command, timeout=timeout)

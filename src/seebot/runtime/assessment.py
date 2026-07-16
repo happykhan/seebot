@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -356,5 +357,5 @@ def run_project_usage(
             )
         return results
     finally:
-        if cleanup and environment.root.exists():
+        if cleanup and environment.root.exists() and os.environ.get("SEEBOT_OFFLINE") != "1":
             cleanup_environment(environment)
