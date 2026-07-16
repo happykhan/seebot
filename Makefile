@@ -19,7 +19,7 @@ schemas:
 	uv run seebot fixture validate
 
 web:
-	cd web && npm test && npm run build
+	cd web && npm test && npm run build && npm run test:visual
 
 check: lint typecheck test schemas web
 
