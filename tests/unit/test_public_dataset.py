@@ -72,10 +72,7 @@ def test_published_dependency_observations_do_not_expose_absolute_paths() -> Non
     for project in dataset["projects"]:
         observed = project["dependency_advisories"]["observed"]
         assert not any(Path(source).is_absolute() for source in observed["supported_sources"])
-        dependency_results = [
-            row for row in project["results"] if row["domain"] == "dependencies"
-        ]
+        dependency_results = [row for row in project["results"] if row["domain"] == "dependencies"]
         assert not any(
-            '"/' in json.dumps(row.get("observed"), sort_keys=True)
-            for row in dependency_results
+            '"/' in json.dumps(row.get("observed"), sort_keys=True) for row in dependency_results
         )

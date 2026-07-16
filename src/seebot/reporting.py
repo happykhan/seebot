@@ -91,9 +91,7 @@ PRIVATE_PATH_PREFIXES = (
     "/gpfs3/users/aanensen/rva470/",
     "/users/aanensen/rva470/",
 )
-PRIVATE_ABSOLUTE_PATH = re.compile(
-    r"/(?:gpfs\d+/)?(?:well|users)/[^\s'\"`<>)]*"
-)
+PRIVATE_ABSOLUTE_PATH = re.compile(r"/(?:gpfs\d+/)?(?:well|users)/[^\s'\"`<>)]*")
 
 
 def _rows_by_check(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
