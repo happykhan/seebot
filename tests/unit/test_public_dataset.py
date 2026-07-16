@@ -54,3 +54,28 @@ def test_published_dependency_sources_are_partitioned_by_runtime_role() -> None:
         assert runtime | development == supported
         if observed["coverage_status"] != "runtime_scanned":
             assert observed["runtime_advisory_count"] is None
+
+
+def test_published_dataset_does_not_expose_host_filesystem_paths() -> None:
+    root = Path(__file__).parents[2]
+    text = (root / "web/public/data/dataset.json").read_text(encoding="utf-8")
+
+    assert "/gpfs3/" not in text
+    assert "/well/aanensen/" not in text
+    assert "/users/aanensen/" not in text
+
+
+def test_published_dependency_observations_do_not_expose_absolute_paths() -> None:
+    root = Path(__file__).parents[2]
+    dataset = json.loads((root / "web/public/data/dataset.json").read_text(encoding="utf-8"))
+
+    for project in dataset["projects"]:
+        observed = project["dependency_advisories"]["observed"]
+        assert not any(Path(source).is_absolute() for source in observed["supported_sources"])
+        dependency_results = [
+            row for row in project["results"] if row["domain"] == "dependencies"
+        ]
+        assert not any(
+            '"/' in json.dumps(row.get("observed"), sort_keys=True)
+            for row in dependency_results
+        )

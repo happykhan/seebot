@@ -127,6 +127,30 @@ def test_dependency_summary_separates_runtime_and_development_inputs() -> None:
     assert summary["runtime_advisory_count"] == 1
 
 
+def test_dependency_summary_does_not_publish_absolute_checkout_paths() -> None:
+    checkout_source = (
+        "/private/audit/work/checkouts/cooler/2026-07-01/docs/requirements.txt"
+    )
+    summary = _dependency_summary(
+        [
+            {
+                "status": "OBSERVED",
+                "observed": {
+                    "supported_sources": [checkout_source],
+                    "advisories": [
+                        {"advisory_id": "PYSEC-1", "source": checkout_source}
+                    ],
+                },
+            }
+        ],
+        "python",
+    )
+
+    assert summary["supported_sources"] == ["docs/requirements.txt"]
+    assert summary["development_sources"] == ["docs/requirements.txt"]
+    assert summary["advisories"][0]["source"] == "docs/requirements.txt"
+
+
 def test_dependency_summary_does_not_report_zero_for_development_only_inputs() -> None:
     summary = _dependency_summary(
         [

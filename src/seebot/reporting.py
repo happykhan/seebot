@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
@@ -72,6 +73,27 @@ STATUS_TEXT = {
     "NOT_RUN": "Not run",
     "NOT_EXISTING": "Project not yet present",
 }
+PRIVATE_PATH_MARKERS = (
+    "/work/checkouts/checkouts/",
+    "/work/checkouts/",
+    "/snapshots/",
+    "/evidence/",
+    "/results/",
+    "/web/",
+)
+PRIVATE_PATH_PREFIXES = (
+    "/gpfs3/well/aanensen/users/rva470/seebot-hpc/current/",
+    "/well/aanensen/users/rva470/seebot-hpc/current/",
+    "/gpfs3/well/aanensen/users/rva470/seebot-hpc/",
+    "/well/aanensen/users/rva470/seebot-hpc/",
+    "/gpfs3/well/aanensen/users/rva470/seebot/",
+    "/well/aanensen/users/rva470/seebot/",
+    "/gpfs3/users/aanensen/rva470/",
+    "/users/aanensen/rva470/",
+)
+PRIVATE_ABSOLUTE_PATH = re.compile(
+    r"/(?:gpfs\d+/)?(?:well|users)/[^\s'\"`<>)]*"
+)
 
 
 def _rows_by_check(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
@@ -108,6 +130,35 @@ def _evidence_excerpt(
     if not text:
         return None
     return text if len(text) <= limit else f"{text[:limit].rstrip()}\n…"
+
+
+def _public_path(value: str) -> str:
+    """Return a public-safe path label without host-specific absolute prefixes."""
+    if not value.startswith("/"):
+        return value
+    for marker in PRIVATE_PATH_MARKERS:
+        if marker in value:
+            return value.split(marker, 1)[1].lstrip("/")
+    return Path(value).name
+
+
+def _public_text(value: str) -> str:
+    """Scrub host-specific absolute path fragments from public text."""
+    output = value
+    for prefix in PRIVATE_PATH_PREFIXES:
+        output = output.replace(prefix, "")
+    return PRIVATE_ABSOLUTE_PATH.sub(lambda match: _public_path(match.group(0)), output)
+
+
+def _public_value(value: Any) -> Any:
+    """Recursively strip host-specific absolute paths from public JSON values."""
+    if isinstance(value, str):
+        return _public_text(value)
+    if isinstance(value, list):
+        return [_public_value(item) for item in value]
+    if isinstance(value, dict):
+        return {str(key): _public_value(item) for key, item in value.items()}
+    return value
 
 
 def _contract_summary(rows: list[dict[str, Any]], repository_root: Path) -> list[dict[str, Any]]:
@@ -160,7 +211,10 @@ def _contract_summary(rows: list[dict[str, Any]], repository_root: Path) -> list
                 ],
             }
         )
-    return output
+    public_output = _public_value(output)
+    if not isinstance(public_output, list):
+        raise TypeError("Public contract summary must be a list")
+    return public_output
 
 
 def _source_snapshots(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -269,8 +323,32 @@ def _labels(
     }
 
 
+def _public_dependency_source(source: str) -> str:
+    """Return a useful source label without publishing host filesystem paths."""
+    path = Path(source)
+    if not path.is_absolute():
+        return source
+    parts = path.parts
+    dated_roots = [
+        index for index, part in enumerate(parts) if re.fullmatch(r"\d{4}-\d{2}-\d{2}", part)
+    ]
+    if dated_roots and dated_roots[-1] + 1 < len(parts):
+        return Path(*parts[dated_roots[-1] + 1 :]).as_posix()
+    return path.name or "UNKNOWN"
+
+
+def _public_dependency_observed(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {key: _public_dependency_observed(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_public_dependency_observed(item) for item in value]
+    if isinstance(value, str) and Path(value).is_absolute():
+        return _public_dependency_source(value)
+    return value
+
+
 def _public_result(row: dict[str, Any]) -> dict[str, Any]:
-    return {
+    result = {
         key: row.get(key)
         for key in (
             "check_id",
@@ -292,6 +370,12 @@ def _public_result(row: dict[str, Any]) -> dict[str, Any]:
             "notes",
         )
     }
+    if row.get("domain") == "dependencies":
+        result["observed"] = _public_dependency_observed(result.get("observed"))
+    public_result = _public_value(result)
+    if not isinstance(public_result, dict):
+        raise TypeError("Public result must be an object")
+    return public_result
 
 
 def _is_development_dependency_source(source: str) -> bool:
@@ -316,7 +400,7 @@ def _dependency_summary(rows: list[dict[str, Any]], primary_language: str) -> di
         observed = raw if isinstance(raw, dict) else {}
         installed = str(row.get("probe_id")) == "dependencies:installed-environment"
         for value in observed.get("supported_sources", []):
-            source = str(value)
+            source = _public_dependency_source(str(value))
             sources.add(source)
             if installed or not _is_development_dependency_source(source):
                 runtime_sources.add(source)
@@ -351,13 +435,14 @@ def _dependency_summary(rows: list[dict[str, Any]], primary_language: str) -> di
                 ecosystem_packages[ecosystem_key] = package
         for advisory in observed.get("advisories", []):
             if isinstance(advisory, dict):
+                public_advisory = _public_dependency_observed(advisory)
                 advisory_key = (
-                    str(advisory.get("advisory_id")),
-                    str(advisory.get("dependency")),
-                    str(advisory.get("resolved_version")),
-                    str(advisory.get("source", "")),
+                    str(public_advisory.get("advisory_id")),
+                    str(public_advisory.get("dependency")),
+                    str(public_advisory.get("resolved_version")),
+                    str(public_advisory.get("source", "")),
                 )
-                advisories[advisory_key] = advisory
+                advisories[advisory_key] = public_advisory
         if str(row.get("status", "NOT_RUN")) in REJECT_COVERAGE:
             audit_errors.append(
                 {
@@ -389,18 +474,20 @@ def _dependency_summary(rows: list[dict[str, Any]], primary_language: str) -> di
     else:
         coverage_status = "no_supported_input"
     return {
-        "supported_sources": sorted(sources),
-        "runtime_sources": sorted(runtime_sources),
-        "development_sources": sorted(development_sources),
+        "supported_sources": sorted(_public_dependency_source(source) for source in sources),
+        "runtime_sources": sorted(_public_dependency_source(source) for source in runtime_sources),
+        "development_sources": sorted(
+            _public_dependency_source(source) for source in development_sources
+        ),
         "declared_dependencies": ordered_declared,
         "conda_packages": ordered_conda,
         "conda_package_count": len(ordered_conda),
         "ecosystem_packages": ordered_ecosystem,
         "ecosystem_package_count": len(ordered_ecosystem),
-        "advisories": ordered_advisories,
+        "advisories": _public_dependency_observed(ordered_advisories),
         "advisory_count": len(ordered_advisories) if sources else None,
         "runtime_advisory_count": len(runtime_advisories) if runtime_sources else None,
-        "runtime_advisories": runtime_advisories,
+        "runtime_advisories": _public_dependency_observed(runtime_advisories),
         "coverage_status": coverage_status,
         "audit_errors": audit_errors,
         "scanner_profile": (

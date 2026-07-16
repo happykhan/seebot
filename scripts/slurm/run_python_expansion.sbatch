@@ -28,11 +28,15 @@ export SEEBOT_OFFLINE=1
 export SEEBOT_SKIP_STORAGE_BUDGET=1
 export SEEBOT_SNAPSHOT_ROOT="$run_root/snapshots"
 export SEEBOT_WORK_ROOT="$scratch"
+force_args=()
+if [[ "${SEEBOT_FORCE:-0}" == "1" ]]; then
+  force_args=(--force)
+fi
 
 cd "$repo"
 "$repo/.seebot-cache/bin/uv" run python scripts/verify_prepared_bundle.py \
   --root "$run_root" --project "$project"
-"$repo/.seebot-cache/bin/uv" run seebot --output-directory "$run_root" \
+"$repo/.seebot-cache/bin/uv" run seebot "${force_args[@]}" --output-directory "$run_root" \
   audit run --tool "$project" --check source --check history --check usage --check robustness
 "$repo/.seebot-cache/bin/uv" run python scripts/validate_project_evidence.py \
   --root "$run_root" --project "$project"
