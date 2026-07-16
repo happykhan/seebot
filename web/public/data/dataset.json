@@ -87,6 +87,11 @@
       "Usage example": 7,
       "Verification CI": 7
     },
+    "dependency_coverage_counts": {
+      "development_only": 2,
+      "no_supported_input": 7,
+      "runtime_scanned": 1
+    },
     "robustness": [
       {
         "check_id": "CLI-MISSING-INPUT-001",
@@ -377,42 +382,6 @@
         }
       ],
       "dependency_advisories": [
-        {
-          "project_id": "any2fasta",
-          "value": 0
-        },
-        {
-          "project_id": "bcftools",
-          "value": 0
-        },
-        {
-          "project_id": "cutadapt",
-          "value": 9
-        },
-        {
-          "project_id": "famsa",
-          "value": 0
-        },
-        {
-          "project_id": "fastp",
-          "value": 0
-        },
-        {
-          "project_id": "fasttree",
-          "value": 0
-        },
-        {
-          "project_id": "minced",
-          "value": 0
-        },
-        {
-          "project_id": "pyrodigal",
-          "value": 35
-        },
-        {
-          "project_id": "samtools",
-          "value": 0
-        },
         {
           "project_id": "yacrd",
           "value": 13
@@ -6281,7 +6250,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "CPAN Audit for cpanfile or cpanfile.snapshot; OSV-Scanner for supported lockfiles"
         }
       },
       "labels": {
@@ -13430,7 +13405,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -25162,7 +25143,15 @@
               ]
             }
           ],
-          "exit_code": 1
+          "exit_code": 1,
+          "coverage_status": "development_only",
+          "runtime_sources": [],
+          "development_sources": [
+            "doc/requirements.txt"
+          ],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -35403,7 +35392,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -42103,7 +42098,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -47735,7 +47736,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -52906,7 +52913,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -61320,7 +61333,16 @@
               ]
             }
           ],
-          "exit_code": 1
+          "exit_code": 1,
+          "coverage_status": "development_only",
+          "runtime_sources": [],
+          "development_sources": [
+            "benches/connection_scoring/requirements.txt",
+            "docs/requirements.txt"
+          ],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -71162,7 +71184,13 @@
           "advisory_count": 0,
           "advisories": [],
           "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128
+          "exit_code": 128,
+          "coverage_status": "no_supported_input",
+          "runtime_sources": [],
+          "development_sources": [],
+          "runtime_advisory_count": null,
+          "runtime_advisories": [],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {
@@ -77295,7 +77323,167 @@
               ]
             }
           ],
-          "exit_code": 1
+          "exit_code": 1,
+          "coverage_status": "runtime_scanned",
+          "runtime_sources": [
+            "Cargo.lock"
+          ],
+          "development_sources": [],
+          "runtime_advisory_count": 13,
+          "runtime_advisories": [
+            {
+              "advisory_id": "GHSA-434x-w66g-qw3r",
+              "aliases": [
+                "CVE-2026-25541",
+                "RUSTSEC-2026-0007"
+              ],
+              "ecosystem": "crates.io",
+              "dependency": "bytes",
+              "resolved_version": "1.8.0",
+              "native_severity": [
+                "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P"
+              ],
+              "fixed_versions": [
+                "1.11.1"
+              ]
+            },
+            {
+              "advisory_id": "GHSA-g98v-hv3f-hcfr",
+              "aliases": [
+                "RUSTSEC-2021-0145"
+              ],
+              "ecosystem": "crates.io",
+              "dependency": "atty",
+              "resolved_version": "0.2.14",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "GHSA-pg9f-39pc-qf8g",
+              "aliases": [
+                "CVE-2025-4574",
+                "RUSTSEC-2025-0024",
+                "TROVE-2025-013"
+              ],
+              "ecosystem": "crates.io",
+              "dependency": "crossbeam-channel",
+              "resolved_version": "0.5.13",
+              "native_severity": [
+                "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
+              ],
+              "fixed_versions": [
+                "0.5.15"
+              ]
+            },
+            {
+              "advisory_id": "RUSTSEC-2021-0145",
+              "aliases": [
+                "GHSA-g98v-hv3f-hcfr"
+              ],
+              "ecosystem": "crates.io",
+              "dependency": "atty",
+              "resolved_version": "0.2.14",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "RUSTSEC-2024-0370",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "proc-macro-error",
+              "resolved_version": "1.0.4",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "RUSTSEC-2024-0375",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "atty",
+              "resolved_version": "0.2.14",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "RUSTSEC-2024-0384",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "instant",
+              "resolved_version": "0.1.13",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "RUSTSEC-2025-0024",
+              "aliases": [
+                "CVE-2025-4574",
+                "GHSA-pg9f-39pc-qf8g",
+                "TROVE-2025-013"
+              ],
+              "ecosystem": "crates.io",
+              "dependency": "crossbeam-channel",
+              "resolved_version": "0.5.13",
+              "native_severity": [],
+              "fixed_versions": [
+                "0.5.15"
+              ]
+            },
+            {
+              "advisory_id": "RUSTSEC-2025-0057",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "fxhash",
+              "resolved_version": "0.2.1",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "RUSTSEC-2025-0141",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "bincode",
+              "resolved_version": "1.3.3",
+              "native_severity": [],
+              "fixed_versions": []
+            },
+            {
+              "advisory_id": "RUSTSEC-2026-0007",
+              "aliases": [
+                "CVE-2026-25541",
+                "GHSA-434x-w66g-qw3r"
+              ],
+              "ecosystem": "crates.io",
+              "dependency": "bytes",
+              "resolved_version": "1.8.0",
+              "native_severity": [],
+              "fixed_versions": [
+                "1.11.1"
+              ]
+            },
+            {
+              "advisory_id": "RUSTSEC-2026-0190",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "anyhow",
+              "resolved_version": "1.0.93",
+              "native_severity": [],
+              "fixed_versions": [
+                "1.0.103"
+              ]
+            },
+            {
+              "advisory_id": "RUSTSEC-2026-0204",
+              "aliases": [],
+              "ecosystem": "crates.io",
+              "dependency": "crossbeam-epoch",
+              "resolved_version": "0.9.18",
+              "native_severity": [],
+              "fixed_versions": [
+                "0.9.20"
+              ]
+            }
+          ],
+          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
         }
       },
       "labels": {

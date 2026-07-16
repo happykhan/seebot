@@ -1,4 +1,5 @@
-import type { ReactNode, SelectHTMLAttributes } from 'react'
+import { useEffect, useId, useRef, useState, type ReactNode, type SelectHTMLAttributes } from 'react'
+import { createPortal } from 'react-dom'
 
 export function SeebotIcon() {
   return <svg viewBox="0 0 32 32" role="img" aria-label="Seebot">
@@ -28,8 +29,28 @@ export function SelectField({ label, children, className = '', ...props }: Selec
 }
 
 export function InfoTip({ children }: { children: ReactNode }) {
-  return <span className="info-tip" tabIndex={0} aria-label={`Information: ${String(children)}`}>
-    <span aria-hidden="true">i</span>
-    <span className="info-tip-content" role="tooltip">{children}</span>
+  const id = useId()
+  const trigger = useRef<HTMLButtonElement>(null)
+  const [position, setPosition] = useState<{ left: number, top: number } | null>(null)
+  const [pinned, setPinned] = useState(false)
+  const close = () => { setPosition(null); setPinned(false) }
+  const open = () => {
+    const rect = trigger.current?.getBoundingClientRect()
+    if (!rect) return
+    setPosition({ left: Math.min(Math.max(rect.left + rect.width / 2, 150), window.innerWidth - 150), top: rect.top - 10 })
+  }
+  useEffect(() => {
+    if (!position) return
+    const dismiss = () => close()
+    window.addEventListener('scroll', dismiss, true)
+    window.addEventListener('resize', dismiss)
+    return () => {
+      window.removeEventListener('scroll', dismiss, true)
+      window.removeEventListener('resize', dismiss)
+    }
+  }, [position])
+  return <span className="info-tip">
+    <button ref={trigger} type="button" aria-label="More information" aria-expanded={position != null} aria-describedby={position ? id : undefined} onMouseEnter={open} onMouseLeave={() => { if (!pinned) close() }} onFocus={open} onBlur={() => { if (!pinned) close() }} onClick={(event) => { event.preventDefault(); event.stopPropagation(); if (position && pinned) close(); else { open(); setPinned(true) } }}>i</button>
+    {position && createPortal(<span id={id} className="info-tip-content" role="tooltip" style={{ left: position.left, top: position.top }}>{children}</span>, document.body)}
   </span>
 }

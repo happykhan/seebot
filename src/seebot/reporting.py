@@ -44,6 +44,19 @@ REQUIRED_CURRENT_CHECKS = {
     *ROBUSTNESS_IDS,
 }
 REJECT_COVERAGE = {"UNTESTABLE", "ERROR", "NOT_RUN"}
+DEVELOPMENT_PATH_PARTS = {
+    "bench",
+    "benches",
+    "benchmark",
+    "benchmarks",
+    "dev",
+    "doc",
+    "docs",
+    "example",
+    "examples",
+    "test",
+    "tests",
+}
 STATUS_TEXT = {
     "PASS": "Handled gracefully",
     "FAIL": "Did not handle gracefully",
@@ -277,6 +290,62 @@ def _public_result(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _is_development_dependency_source(source: str) -> bool:
+    parts = {part.lower() for part in Path(source).parts}
+    name = Path(source).name.lower()
+    return bool(parts & DEVELOPMENT_PATH_PARTS) or any(
+        token in name for token in ("requirements-dev", "requirements_test", "requirements-test")
+    )
+
+
+def _dependency_summary(row: dict[str, Any], primary_language: str) -> dict[str, Any]:
+    raw = row.get("observed")
+    observed: dict[str, Any] = dict(raw) if isinstance(raw, dict) else {}
+    sources = [str(value) for value in observed.get("supported_sources", [])]
+    runtime_sources = [value for value in sources if not _is_development_dependency_source(value)]
+    development_sources = [value for value in sources if _is_development_dependency_source(value)]
+    status = str(row.get("status", "NOT_RUN"))
+    if status in REJECT_COVERAGE:
+        coverage_status = "audit_error"
+    elif runtime_sources:
+        coverage_status = "runtime_scanned"
+    elif development_sources:
+        coverage_status = "development_only"
+    else:
+        coverage_status = "no_supported_input"
+    advisories = observed.get("advisories")
+    advisory_rows = advisories if isinstance(advisories, list) else []
+    runtime_advisories = (
+        [
+            advisory
+            for advisory in advisory_rows
+            if not isinstance(advisory, dict)
+            or not advisory.get("source")
+            or str(advisory["source"]) in runtime_sources
+        ]
+        if runtime_sources
+        else []
+    )
+    observed.update(
+        {
+            "coverage_status": coverage_status,
+            "runtime_sources": runtime_sources,
+            "development_sources": development_sources,
+            "runtime_advisory_count": len(runtime_advisories) if runtime_sources else None,
+            "runtime_advisories": runtime_advisories,
+            "scanner_profile": (
+                "CPAN Audit for cpanfile or cpanfile.snapshot; OSV-Scanner for supported lockfiles"
+                if primary_language.lower() == "perl"
+                else (
+                    "OSV-Scanner using the ecosystem-specific parser for supported "
+                    "manifests and lockfiles"
+                )
+            ),
+        }
+    )
+    return observed
+
+
 def _project(
     manifest: dict[str, Any], rows: list[dict[str, Any]], repository_root: Path
 ) -> dict[str, Any]:
@@ -322,7 +391,7 @@ def _project(
         "source_snapshots": _source_snapshots(rows),
         "dependency_advisories": {
             "status": dependency.get("status", "NOT_RUN"),
-            "observed": dependency.get("observed", {}),
+            "observed": _dependency_summary(dependency, str(project["primary_language"])),
         },
         "labels": _labels(rows, grouped),
         "results": [
@@ -346,10 +415,14 @@ def _aggregate(projects: list[dict[str, Any]]) -> dict[str, Any]:
     )
     categories = Counter(project["category"] for project in projects)
     practice_counts: Counter[str] = Counter()
+    dependency_coverage: Counter[str] = Counter()
     robustness: dict[str, Counter[str]] = {check_id: Counter() for check_id in ROBUSTNESS_IDS}
     rule_counts: dict[tuple[str, str, str, str], dict[str, Any]] = {}
     metric_points: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for project in projects:
+        dependency_coverage[
+            str(project["dependency_advisories"]["observed"].get("coverage_status", "audit_error"))
+        ] += 1
         for practice, value in project["repository"]["practices"].items():
             if value:
                 practice_counts[practice] += 1
@@ -420,7 +493,7 @@ def _aggregate(projects: list[dict[str, Any]]) -> dict[str, Any]:
                     )
                     target["count"] += int(rule.get("count") or 0)
                     target["projects"].add(project["id"])
-        advisory_count = project["dependency_advisories"]["observed"].get("advisory_count")
+        advisory_count = project["dependency_advisories"]["observed"].get("runtime_advisory_count")
         if isinstance(advisory_count, (int, float)):
             metric_points["dependency_advisories"].append(
                 {"project_id": project["id"], "value": advisory_count}
@@ -440,6 +513,7 @@ def _aggregate(projects: list[dict[str, Any]]) -> dict[str, Any]:
         "component_language_counts": dict(sorted(component_languages.items())),
         "category_counts": dict(sorted(categories.items())),
         "repository_practice_counts": dict(sorted(practice_counts.items())),
+        "dependency_coverage_counts": dict(sorted(dependency_coverage.items())),
         "robustness": [
             {
                 "check_id": check_id,

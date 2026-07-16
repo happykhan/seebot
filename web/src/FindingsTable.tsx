@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { describeRule, severityClass } from './catalogue'
+import { describeRule, ruleDocumentationUrl, severityClass } from './catalogue'
 import type { AggregateRule } from './types'
 import { InfoTip, SelectField } from './ui'
 
@@ -44,7 +44,7 @@ export function FindingsTable({ rows }: { rows: AggregateRule[] }) {
       <th>{heading('Language', 'language')}</th><th>{heading('Analyzer', 'analyzer')}</th><th>{heading('Rule', 'rule')}</th>
       <th>{heading('Severity', 'native_severity')}</th><th>{heading('Software', 'project_count')}</th><th>{heading('Findings', 'count')}</th>
     </tr></thead><tbody>{paged.map((row) => <tr key={`${row.kind}-${row.language}-${row.analyzer}-${row.rule}`}>
-      <td>{row.language}</td><td>{row.analyzer}</td><td><code>{row.rule}</code> <InfoTip>{describeRule(row.analyzer, row.rule)}</InfoTip></td>
+      <td>{row.language}</td><td>{row.analyzer}</td><td><code>{row.rule}</code> <InfoTip><span>{describeRule(row.analyzer, row.rule)}</span>{ruleDocumentationUrl(row.analyzer, row.rule) && <a href={ruleDocumentationUrl(row.analyzer, row.rule) ?? undefined} target="_blank" rel="noreferrer">Open analyzer documentation ↗</a>}</InfoTip></td>
       <td><span className={`severity-badge ${severityClass(row.native_severity)}`}>{row.native_severity ?? 'Unspecified'}</span></td>
       <td>{row.project_count}</td><td>{row.count}</td>
     </tr>)}</tbody></table></div>

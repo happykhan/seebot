@@ -2,6 +2,7 @@ from seebot.reporting import (
     CURRENT_DATE,
     HISTORICAL_DATES,
     REQUIRED_CURRENT_CHECKS,
+    _dependency_summary,
     _evidence_excerpt,
     _labels,
     _rows_by_check,
@@ -90,3 +91,35 @@ def test_documentation_coverage_is_a_valid_percentage_in_public_snapshot() -> No
 
     assert documentation["coverage_percent"] == 100
     assert documentation["documented_functions"] == 3
+
+
+def test_dependency_summary_separates_runtime_and_development_inputs() -> None:
+    summary = _dependency_summary(
+        {
+            "status": "OBSERVED",
+            "observed": {
+                "supported_sources": ["Cargo.lock", "docs/requirements.txt"],
+                "advisories": [
+                    {"advisory_id": "RUSTSEC-1", "source": "Cargo.lock"},
+                    {"advisory_id": "PYSEC-1", "source": "docs/requirements.txt"},
+                ],
+            },
+        },
+        "rust",
+    )
+    assert summary["coverage_status"] == "runtime_scanned"
+    assert summary["runtime_sources"] == ["Cargo.lock"]
+    assert summary["development_sources"] == ["docs/requirements.txt"]
+    assert summary["runtime_advisory_count"] == 1
+
+
+def test_dependency_summary_does_not_report_zero_for_development_only_inputs() -> None:
+    summary = _dependency_summary(
+        {
+            "status": "OBSERVED",
+            "observed": {"supported_sources": ["benches/requirements.txt"], "advisories": []},
+        },
+        "python",
+    )
+    assert summary["coverage_status"] == "development_only"
+    assert summary["runtime_advisory_count"] is None

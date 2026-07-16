@@ -19,6 +19,8 @@ const projects: ProjectSummary[] = [
     curation_status: 'reviewed',
     repository: { practices: { README: false } },
     contracts: [],
+    source_snapshots: [{ snapshot_date: '2026-07-01', status: 'OBSERVED', metrics: { inventory: { physical_lines: 10 } } }],
+    dependency_advisories: { status: 'OBSERVED', observed: { coverage_status: 'runtime_scanned', runtime_advisory_count: 0 } },
     labels: {
       usage_exemplar: true,
       repository_practice_exemplar: false,
@@ -42,6 +44,8 @@ const projects: ProjectSummary[] = [
     curation_status: 'in_review',
     repository: { practices: { README: true } },
     contracts: [],
+    source_snapshots: [{ snapshot_date: '2026-07-01', status: 'UNTESTABLE', metrics: { inventory: { physical_lines: 10 } } }],
+    dependency_advisories: { status: 'NOT_APPLICABLE', observed: { coverage_status: 'no_supported_input', runtime_advisory_count: null } },
     labels: {
       usage_exemplar: true,
       repository_practice_exemplar: false,
@@ -72,5 +76,11 @@ describe('linked software filters', () => {
 
   it('filters by language and exemplar label', () => {
     expect(filterSoftware(projects, { language: 'python', exemplar: 'usage' }).map(({ id }) => id)).toEqual(['trimmer'])
+  })
+
+  it('filters source and dependency best-practice areas independently', () => {
+    expect(filterSoftware(projects, { exemplar: 'source' }).map(({ id }) => id)).toEqual(['aligner'])
+    expect(filterSoftware(projects, { exemplar: 'dependencies' }).map(({ id }) => id)).toEqual(['aligner'])
+    expect(filterSoftware(projects, { dependencyCoverage: 'no_supported_input' }).map(({ id }) => id)).toEqual(['trimmer'])
   })
 })

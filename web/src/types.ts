@@ -153,6 +153,7 @@ export interface Dataset {
     component_language_counts: Record<string, number>
     category_counts: Record<string, number>
     repository_practice_counts: Record<string, number>
+    dependency_coverage_counts: Record<string, number>
     robustness: {
       check_id: string
       label: string

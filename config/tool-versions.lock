@@ -22,6 +22,7 @@ source_analyzers:
   osv-scanner: 2.4.0
   perl: 5.32.*
   perlcritic: '1.156'
+  cpan-audit: '20260622.001'
 analyzer_environment_lock_sha256: c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40
 frozen_inputs:
   rubric: 1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec

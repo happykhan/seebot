@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { Dataset, MetricPoint, ProjectSummary, SourceSnapshot } from './types'
 import { historyDefinitions, type HistoryMetric } from './catalogue'
 
@@ -42,6 +43,7 @@ interface DistributionPlotProps {
 }
 
 export function DistributionPlot({ points, label, unit, software }: DistributionPlotProps) {
+  const [hovered, setHovered] = useState<string | null>(null)
   if (points.length === 0) return <p className="empty-state">No observations are available for this measurement.</p>
   const values = points.map((point) => point.value)
   const min = Math.min(...values)
@@ -62,7 +64,7 @@ export function DistributionPlot({ points, label, unit, software }: Distribution
         <text x={x(tick)} y="174" textAnchor="middle">{formatNumber(tick, unit)}</text>
       </g>)}
       <line x1="64" x2="836" y1="145" y2="145" className="axis" />
-      {points.length >= 10 && <g className="box-plot">
+      {points.length >= 10 && <g className="box-plot" tabIndex={0} onMouseEnter={() => setHovered(summary)} onMouseLeave={() => setHovered(null)} onFocus={() => setHovered(summary)} onBlur={() => setHovered(null)}>
         <title>{summary}</title>
         <line x1={x(min)} x2={x(max)} y1="75" y2="75" className="whisker" />
         <line x1={x(min)} x2={x(min)} y1="63" y2="87" className="whisker" />
@@ -70,12 +72,13 @@ export function DistributionPlot({ points, label, unit, software }: Distribution
         <rect x={x(q1)} y="50" width={Math.max(x(q3) - x(q1), 2)} height="50" className="box" />
         <line x1={x(median)} x2={x(median)} y1="50" y2="100" className="median" />
       </g>}
-      {points.map((point, index) => <a href={`#/projects/${point.project_id}`} key={`${point.project_id}-${point.language ?? ''}-${point.analyzer ?? ''}-${index}`}>
+      {points.map((point, index) => { const detail = `${softwareNames.get(point.project_id) ?? point.project_id}${point.language ? ` · ${point.language}` : ''}${point.analyzer ? ` · ${point.analyzer}` : ''}: ${formatNumber(point.value, unit)}`; return <a href={`#/software/${point.project_id}`} key={`${point.project_id}-${point.language ?? ''}-${point.analyzer ?? ''}-${index}`} onMouseEnter={() => setHovered(detail)} onMouseLeave={() => setHovered(null)} onFocus={() => setHovered(detail)} onBlur={() => setHovered(null)}>
         <circle cx={x(point.value)} cy={126 + (index % 3) * 7} r="6" className="project-dot">
-          <title>{softwareNames.get(point.project_id) ?? point.project_id}{point.language ? ` · ${point.language}` : ''}{point.analyzer ? ` · ${point.analyzer}` : ''}: {formatNumber(point.value, unit)}</title>
+          <title>{detail}</title>
         </circle>
-      </a>)}
+      </a>})}
     </svg>
+    <p className={`chart-hover ${hovered ? 'visible' : ''}`}>{hovered ?? 'Move over the box plot or a software point to see its value.'}</p>
     {points.length >= 10 && <p className="chart-summary">{summary}</p>}
   </div>
 }
@@ -99,6 +102,10 @@ export function SoftwareTimeSeries({ project, metric }: { project: ProjectSummar
   const x = (year: number) => 70 + (year - 2021) * 152
   const y = (value: number) => 245 - 175 * (value - min) / span
   const yTicks = Array.from({ length: 5 }, (_, index) => min + span * index / 4)
+  const availability = [2021, 2022, 2023, 2024, 2025, 2026].map((year) => {
+    const snapshot = project.source_snapshots.find((row) => row.language === project.primary_language && Number(row.snapshot_date.slice(0, 4)) === year)
+    return { year, status: snapshot?.status ?? 'NOT_RUN' }
+  })
   return <div className="chart-card">
     <svg className="time-chart compact" viewBox="0 0 900 300" role="img" aria-label={`${definition.label} over time for ${project.name}`}>
       {yTicks.map((tick, index) => <g key={index}><line x1="70" x2="830" y1={y(tick)} y2={y(tick)} className="grid-line" /><text x="62" y={y(tick) + 3} textAnchor="end">{formatNumber(tick, definition.unit)}</text></g>)}
@@ -106,6 +113,7 @@ export function SoftwareTimeSeries({ project, metric }: { project: ProjectSummar
       <polyline points={points.map((point) => `${x(point.year)},${y(point.value)}`).join(' ')} className="series-line single-series" />
       {points.map((point) => <circle key={point.year} cx={x(point.year)} cy={y(point.value)} r="5" className="history-dot"><title>{project.name} · {point.year}: {formatNumber(point.value, definition.unit)}</title></circle>)}
     </svg>
+    <div className="history-availability" aria-label="Annual source availability">{availability.map((row) => <span className={`history-${row.status.toLowerCase().replaceAll('_', '-')}`} key={row.year}><b>{row.year}</b>{row.status === 'NOT_EXISTING' ? 'Not yet present' : row.status === 'NOT_RUN' ? 'No observation' : 'Source observed'}</span>)}</div>
     <p className="chart-summary">The selected measurement changed from {formatNumber(points[0].value, definition.unit)} in {points[0].year} to {formatNumber(points.at(-1)?.value, definition.unit)} in {points.at(-1)?.year}.</p>
   </div>
 }

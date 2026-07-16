@@ -1,5 +1,17 @@
 # Protocol changelog
 
+## 2026-07-16 — ecosystem-specific dependency advisory coverage
+
+- Retained OSV-Scanner for its supported ecosystem manifests and lockfiles, rather than
+  treating it as a C/C++-specific analyzer.
+- Added CPAN Audit 20260622.001 for Perl projects that declare dependencies in `cpanfile`
+  or `cpanfile.snapshot`.
+- Separated runtime dependency inputs from files found only under documentation, test,
+  example, or benchmark paths. A zero-advisory result is published only when a supported
+  runtime dependency input was scanned.
+- Added repository, source, usage, and dependency as the four consistent public reporting
+  areas. The frozen rubric, source exclusions, and broader-run gate are unchanged.
+
 ## 2026-07-15 — assessment model v2 frozen
 
 - Replaced the package/recipe-oriented model with upstream project, repository snapshot,

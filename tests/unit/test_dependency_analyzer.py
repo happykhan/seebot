@@ -1,4 +1,4 @@
-from seebot.analyzers.dependencies import _parse
+from seebot.analyzers.dependencies import _parse, _parse_cpan_audit
 from seebot.models import Applicability, Status
 
 
@@ -54,7 +54,34 @@ def test_dependency_parser_retains_native_advisory_fields() -> None:
             "ecosystem": "crates.io",
             "dependency": "demo",
             "resolved_version": "1.0",
+            "source": "Cargo.lock",
             "native_severity": ["CVSS_V3:7.5"],
             "fixed_versions": ["1.1"],
+        }
+    ]
+
+
+def test_cpan_audit_parser_retains_distribution_and_source() -> None:
+    rows = _parse_cpan_audit(
+        {
+            "dists": {
+                "Demo-Dist": {
+                    "version": "1.2",
+                    "advisories": [{"id": "CPANSA-Demo-2026-01", "cves": ["CVE-2026-1"]}],
+                }
+            }
+        },
+        "cpanfile.snapshot",
+    )
+    assert rows == [
+        {
+            "advisory_id": "CPANSA-Demo-2026-01",
+            "aliases": ["CVE-2026-1"],
+            "ecosystem": "CPAN",
+            "dependency": "Demo-Dist",
+            "resolved_version": "1.2",
+            "source": "cpanfile.snapshot",
+            "native_severity": [],
+            "fixed_versions": [],
         }
     ]

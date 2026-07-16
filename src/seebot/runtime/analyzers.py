@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -48,6 +49,7 @@ ANALYZER_VERSIONS = {
     "osv-scanner": "2.4.0",
     "perl": "5.32.*",
     "Perl::Critic": "1.156",
+    "CPAN::Audit": "20260622.001",
 }
 
 
@@ -59,8 +61,13 @@ class AnalyzerEnvironment:
 
     @property
     def environment_id(self) -> str:
+        profile = "\n".join(
+            f"{name}={version}" for name, version in sorted(ANALYZER_VERSIONS.items())
+        )
+        profile_hash = hashlib.sha256(profile.encode()).hexdigest()
         return (
-            f"source-analyzers:{sha256_file(self.lock_path)};image:{PIXI_IMAGE.rsplit('@', 1)[-1]}"
+            f"source-analyzers:{sha256_file(self.lock_path)};profile:{profile_hash};"
+            f"image:{PIXI_IMAGE.rsplit('@', 1)[-1]}"
         )
 
 
@@ -98,7 +105,8 @@ def prepare_analyzer_environment(root: Path, cache_root: Path) -> AnalyzerEnviro
     if installed.returncode != 0:
         raise RuntimeError(installed.stderr.decode(errors="replace")[-3000:])
     perlcritic = root / "perl5" / "bin" / "perlcritic"
-    if not perlcritic.exists():
+    cpanaudit = root / "perl5" / "bin" / "cpan-audit"
+    if not perlcritic.exists() or not cpanaudit.exists():
         cpan = _docker_base(network="bridge", read_only=False)
         cpan.extend(
             [
@@ -125,7 +133,7 @@ def prepare_analyzer_environment(root: Path, cache_root: Path) -> AnalyzerEnviro
                     "ln -sfn /workspace/.pixi/envs/default/x86_64-conda-linux-gnu "
                     "/x86_64-conda-linux-gnu && "
                     "cpanm --notest --local-lib-contained /workspace/perl5 "
-                    "Perl::Critic@1.156"
+                    "Perl::Critic@1.156 CPAN::Audit@20260622.001"
                 ),
             ]
         )

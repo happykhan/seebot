@@ -184,6 +184,7 @@ const ruleDescriptions: Record<string, string> = {
   'pylint:missing-class-docstring': 'A class has no docstring.',
   'pylint:no-else-return': 'An else block follows a branch that already returns and can usually be simplified.',
   'bandit:B101': 'An assert statement is used; assertions can be removed when Python runs with optimization.',
+  'bandit:B102': 'The built-in exec function is used to execute dynamically supplied Python code, which can be dangerous when input is not fully controlled.',
   'PMD:SystemPrintln': 'Java code writes directly through System.out or System.err instead of a logging abstraction.',
   'PMD:AvoidLiteralsInIfCondition': 'A conditional compares against a literal value that may be clearer as a named constant.',
   'PMD:AssignmentInOperand': 'An assignment occurs inside another expression, which can be difficult to read or accidental.',
@@ -193,7 +194,23 @@ const ruleDescriptions: Record<string, string> = {
 }
 
 export function describeRule(analyzer: string, rule: string): string {
-  return ruleDescriptions[`${analyzer}:${rule}`] ?? 'A finding reported by the named analyzer. Consult the analyzer rule identifier for the exact condition.'
+  const known = ruleDescriptions[`${analyzer}:${rule}`]
+  if (known) return known
+  const words = rule.replaceAll('::', ' ').replaceAll(/([a-z])([A-Z])/g, '$1 $2').replaceAll(/[-_]/g, ' ').trim()
+  return `${words || rule} is a finding reported by ${analyzer}. Follow the analyzer documentation link for the rule's exact condition and suggested response.`
+}
+
+export function ruleDocumentationUrl(analyzer: string, rule: string): string | null {
+  if (analyzer === 'bandit' && rule === 'B101') return 'https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html'
+  if (analyzer === 'bandit' && rule === 'B102') return 'https://bandit.readthedocs.io/en/latest/plugins/b102_exec_used.html'
+  if (analyzer === 'bandit') return 'https://bandit.readthedocs.io/en/latest/plugins/index.html'
+  if (analyzer === 'ruff') return 'https://docs.astral.sh/ruff/rules/'
+  if (analyzer === 'pylint') return `https://pylint.readthedocs.io/en/latest/user_guide/messages/${rule[0] ?? 'c'}/${rule}.html`
+  if (analyzer === 'cppcheck') return 'https://cppcheck.sourceforge.io/manual.html'
+  if (analyzer === 'PMD') return 'https://docs.pmd-code.org/latest/pmd_rules_java.html'
+  if (analyzer === 'cython-lint') return 'https://github.com/MarcoGorelli/cython-lint'
+  if (analyzer === 'Perl::Critic') return 'https://metacpan.org/pod/Perl::Critic'
+  return null
 }
 
 export function severityClass(severity: string | null | undefined): string {
