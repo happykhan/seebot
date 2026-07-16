@@ -1,10 +1,14 @@
+import json
+
 from seebot.cohort.survey import (
     GITHUB_PATTERN,
     _artifact_at_cutoff,
     _classify_interface,
     _configuration_executables,
     _format_families,
+    _github_token,
     _repository_url,
+    resolve_historical_commits,
 )
 
 
@@ -62,6 +66,38 @@ def test_github_mapping_cannot_consume_template_newlines() -> None:
     match = GITHUB_PATTERN.search("https://github.com/example/tool\n{% set version = '1' %}")
     assert match is not None
     assert match.groups() == ("example", "tool")
+
+
+def test_github_token_is_optional_when_gh_is_not_installed(monkeypatch) -> None:
+    monkeypatch.setattr("seebot.cohort.survey.shutil.which", lambda _: None)
+    assert _github_token() is None
+
+
+def test_history_resolution_extends_existing_selection(tmp_path, monkeypatch) -> None:
+    survey = tmp_path / "survey.json"
+    output = tmp_path / "history.json"
+    survey.write_text(
+        json.dumps(
+            [
+                {
+                    "package_name": "new-tool",
+                    "repository_url": "https://github.com/example/new-tool",
+                }
+            ]
+        )
+    )
+    output.write_text(json.dumps({"pilot-tool": {"2021-07-01": "pilot-commit"}}))
+    monkeypatch.setattr("seebot.cohort.survey._github_token", lambda: None)
+    monkeypatch.setattr(
+        "seebot.cohort.survey._get_json",
+        lambda *args, **kwargs: [{"sha": "new-commit"}],
+    )
+
+    resolve_historical_commits(survey, output, tmp_path / "cache", {"new-tool"})
+
+    saved = json.loads(output.read_text())
+    assert saved["pilot-tool"]["2021-07-01"] == "pilot-commit"
+    assert saved["new-tool"]["2021-07-01"] == "new-commit"
 
 
 def test_python_console_script_is_explicit_cli_evidence() -> None:

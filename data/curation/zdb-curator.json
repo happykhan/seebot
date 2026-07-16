@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "zdb",
+  "source_commit": "8742ee720a6754d3584b11aaa366aaa102a9b5f5",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "bin/zdb",
+      "start_line": 1,
+      "end_line": 45,
+      "item_type": "interface_and_source_scope",
+      "item_name": "zdb"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "045b13387391a18044618270986836cce09666c8b5920edde888daccbfc51eeb",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "prophyle",
+  "source_commit": "454d0e21e9de18f85b3a6ceed8245e779f4f988b",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.rst",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "prophyle"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "c61a5f5a0ecb700bd0d3eb938777a82e5f073b5a33c01a71674eb24611a44af5",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

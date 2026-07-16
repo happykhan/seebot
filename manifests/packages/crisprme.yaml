@@ -1,0 +1,151 @@
+schema_version: 2
+project:
+  id: crisprme
+  name: CRISPRme
+  description: Assesses CRISPR guide specificity across genomic variation.
+  primary_language: python
+  primary_category: CRISPR off-target analysis
+  tags:
+  - CRISPR
+  - VCF
+  - genome
+  include: true
+  exclusion_code: null
+repository:
+  id: pinellolab-crisprme
+  url: https://github.com/pinellolab/CRISPRme
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: f7f6d03c2e484186394dfa1e4f7886b0e415ee3a
+  historical_commits:
+    '2021-07-01': 6f236dac3888d8a484d32db6bac7a194db1ea758
+    '2022-07-01': 7a0d3dc901b92c48bb3b176eb26b25315c65085f
+    '2023-07-01': 52c25b78e7a1487867c4e0882450b14ea7f29c50
+    '2024-07-01': 9956a5037ffa2f472c1ce0260b66519c34f37f16
+    '2025-07-01': 2588623cfcb0e50281d52dd5f3e58d96cf70d523
+  archived: false
+discovery:
+  source: bioconda
+  package_name: crisprme
+  rank: 196
+  download_count: 140944
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-crisprme-2.1.10
+  adapter: pixi
+  artifact: crisprme
+  version: 2.1.10
+  build: py38hdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/crisprme-2.1.10-py38hdfd78af_0.conda
+  artifact_sha256: 2e04b29a615a26a8484646ea88b17fe79fb32375a7e8690790140deac21cca79
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - PostProcess
+  - crisprme.py
+  - seq_script
+  language_roots:
+    python:
+    - crisprme.py
+    - PostProcess
+    - seq_script
+  generated_paths: []
+  vendored_paths:
+  - PostProcess/azimuth
+  excluded_paths:
+  - test
+  - docs
+  - pages
+  - plot_generation_paper
+  - assets
+  - PostProcess/azimuth/tests
+interfaces:
+  primary: crisprme
+  executables:
+  - crisprme
+  help_commands:
+  - - crisprme
+    - --help
+  version_commands:
+  - - crisprme
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: Search requires a prepared genome and CRISPRme variant database.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - crisprme
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/crisprme-curator.json
+  reviewer_record: data/curation/crisprme-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

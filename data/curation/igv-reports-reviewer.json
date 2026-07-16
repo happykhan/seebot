@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "igv-reports",
+  "source_commit": "10bcca7e065d81070deac2ccd94a46f4c7dc66c5",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 35,
+      "end_line": 125,
+      "item_type": "interface_and_source_scope",
+      "item_name": "igv-reports"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "cda4bbd50427a343a38c022457da33a4448cd7ed041bcdb02792cb7aa581577e",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

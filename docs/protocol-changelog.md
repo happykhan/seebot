@@ -1,5 +1,17 @@
 # Protocol changelog
 
+## 2026-07-16 — bounded Python expansion authorised
+
+- Authorised a bounded expansion of 20 Python-primary command-line projects from the
+  ranked candidate survey; this does not unlock the remaining 200-project cohort.
+- Selected the next ranked candidates after source-level interface review. `dnaio` was
+  not promoted because its upstream project is a library without a declared end-user
+  command; IGV Reports was selected as the next confirmed Python CLI.
+- Added pinned current and historical source commits, exact package artifacts, reviewed
+  production-source roots, interface contracts, and two review records per project.
+- Added small reusable fixtures for Snakemake and Cooler. Upstream test suites remain
+  prohibited. Full execution and publication wait for the reproducible x86-64 audit run.
+
 ## 2026-07-16 — ecosystem-specific dependency advisory coverage
 
 - Retained OSV-Scanner for its supported ecosystem manifests and lockfiles, rather than

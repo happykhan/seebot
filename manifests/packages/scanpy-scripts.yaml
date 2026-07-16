@@ -1,0 +1,156 @@
+schema_version: 2
+project:
+  id: scanpy-scripts
+  name: scanpy-scripts
+  description: Provides command-line workflows for single-cell analysis with Scanpy.
+  primary_language: python
+  primary_category: single-cell analysis
+  tags:
+  - single-cell
+  - expression
+  - Scanpy
+  include: true
+  exclusion_code: null
+repository:
+  id: ebi-gene-expression-group-scanpy-scripts
+  url: https://github.com/ebi-gene-expression-group/scanpy-scripts
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: ddc08def1719d5bac2f406239c98184be574930f
+  historical_commits:
+    '2021-07-01': 17bc2923558ec8ab7894d23a5138f3a44f38470c
+    '2022-07-01': b7c48ab46a469510a14cda9d2eb2e4f4e47ab76e
+    '2023-07-01': b7c48ab46a469510a14cda9d2eb2e4f4e47ab76e
+    '2024-07-01': 6297be21119d6964e074fa0b40a3b6fcaec53bbc
+    '2025-07-01': ddc08def1719d5bac2f406239c98184be574930f
+  archived: false
+discovery:
+  source: bioconda
+  package_name: scanpy-scripts
+  rank: 201
+  download_count: 139797
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-scanpy-scripts-1.9.301
+  adapter: pixi
+  artifact: scanpy-scripts
+  version: 1.9.301
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/scanpy-scripts-1.9.301-pyhdfd78af_0.tar.bz2
+  artifact_sha256: null
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - scanpy_scripts
+  language_roots:
+    python:
+    - scanpy_scripts
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths: []
+interfaces:
+  primary: scanpy-cli
+  executables:
+  - scanpy-cli
+  - scanpy-filter-cells
+  - scanpy-filter-genes
+  - scanpy-find-cluster
+  - scanpy-find-markers
+  - scanpy-find-variable-genes
+  - scanpy-integrate
+  - scanpy-multiplet
+  - scanpy-neighbors
+  - scanpy-normalise-data
+  - scanpy-read-10x
+  - scanpy-regress
+  - scanpy-run-pca
+  - scanpy-run-tsne
+  - scanpy-run-umap
+  - scanpy-scale-data
+  help_commands:
+  - - scanpy-cli
+    - --help
+  version_commands:
+  - - scanpy-cli
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A meaningful command requires an AnnData or 10x matrix fixture not in the shared
+    catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - scanpy-cli
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/scanpy-scripts-curator.json
+  reviewer_record: data/curation/scanpy-scripts-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

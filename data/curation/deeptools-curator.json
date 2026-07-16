@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "deeptools",
+  "source_commit": "ea0f68bb4a1587d713dacb3791861308751ef7d0",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "pyproject.toml",
+      "start_line": 57,
+      "end_line": 79,
+      "item_type": "interface_and_source_scope",
+      "item_name": "deeptools"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "c21a89a8f26df254cf7c02d7e9cfa602809e09733296f109fabdd12d490c8c47",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

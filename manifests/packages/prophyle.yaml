@@ -1,0 +1,162 @@
+schema_version: 2
+project:
+  id: prophyle
+  name: ProPhyle
+  description: Classifies metagenomic reads using a phylogeny-aware index.
+  primary_language: python
+  primary_category: metagenomic classification
+  tags:
+  - FASTQ
+  - metagenomics
+  - phylogeny
+  include: true
+  exclusion_code: null
+repository:
+  id: karel-brinda-prophyle
+  url: https://github.com/karel-brinda/prophyle
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 454d0e21e9de18f85b3a6ceed8245e779f4f988b
+  historical_commits:
+    '2021-07-01': f1f6a62082cd0ce5eee9aaf735771651b4c9e47b
+    '2022-07-01': 6cc5b788380af57574ee1f08afdea18504dbdb30
+    '2023-07-01': 2ce50b2918e2ef4c2e30dec9eb6c63658d6524e2
+    '2024-07-01': ecacb15c591611d1863c0858ef87a0168d0d1aab
+    '2025-07-01': a2c4214ace238b658fdb96488e3b1f1a19f98791
+  archived: false
+discovery:
+  source: bioconda
+  package_name: prophyle
+  rank: 63
+  download_count: 380662
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-prophyle-0.3.3.2
+  adapter: pixi
+  artifact: prophyle
+  version: 0.3.3.2
+  build: py39h746d604_4
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/prophyle-0.3.3.2-py39h746d604_4.tar.bz2
+  artifact_sha256: d35f1e8f1fb7fdc765acfbcdb5ccfcab3776b6dfee5524fa52c929a4b48a0832
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - prophyle
+  - prophyle/prophyle_assembler
+  - prophyle/prophyle_assignment
+  - prophyle/prophyle_index
+  language_roots:
+    python:
+    - prophyle
+    c:
+    - prophyle/prophyle_index
+    cpp:
+    - prophyle/prophyle_assignment
+    - prophyle/prophyle_assembler
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - docs
+  - prophyle/deprec
+  - bin
+interfaces:
+  primary: prophyle
+  executables:
+  - prophyle
+  - prophyle_analyze.py
+  - prophyle_assignment.py
+  - prophyle_ncbi_tree.py
+  - prophyle_otu_table.py
+  - prophyle_paired_end.py
+  - prophyle_plot_tree.py
+  - prophyle_propagation_makefile.py
+  - prophyle_propagation_postprocessing.py
+  - prophyle_propagation_preprocessing.py
+  - prophyle_split_allseq.py
+  help_commands:
+  - - prophyle
+    - --help
+  version_commands:
+  - - prophyle
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: Classification requires a prepared ProPhyle index not present in the shared fixtures.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - prophyle
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/prophyle-curator.json
+  reviewer_record: data/curation/prophyle-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

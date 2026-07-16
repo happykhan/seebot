@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "dxpy",
+  "source_commit": "bc68353da08c096e63b36707dda9fee3b91d6845",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "src/python/setup.py",
+      "start_line": 70,
+      "end_line": 100,
+      "item_type": "interface_and_source_scope",
+      "item_name": "dxpy"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "3541f28ec592680faaab2ab9615bef84e86d5a9b59e93ffc32994ba8705aebfb",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

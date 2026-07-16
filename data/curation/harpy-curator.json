@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "harpy",
+  "source_commit": "9ab9b93a864572a7638d3fcfce38c45e245fe79e",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "pyproject.toml",
+      "start_line": 20,
+      "end_line": 28,
+      "item_type": "interface_and_source_scope",
+      "item_name": "harpy"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "f0e3a48756eba837afc066a7a0247b1c0c35353e5141624016d6ddda63c5732a",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

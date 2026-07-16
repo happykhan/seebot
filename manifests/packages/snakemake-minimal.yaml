@@ -1,0 +1,162 @@
+schema_version: 2
+project:
+  id: snakemake-minimal
+  name: Snakemake
+  description: Executes reproducible rule-based data-analysis workflows.
+  primary_language: python
+  primary_category: workflow management
+  tags:
+  - workflow
+  - automation
+  include: true
+  exclusion_code: null
+repository:
+  id: snakemake-snakemake
+  url: https://github.com/snakemake/snakemake
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: c7d1f28fb94cf5604c4dc7885ce56a3ec0c00cd5
+  historical_commits:
+    '2021-07-01': bd7951accc7854255a4d1ebd1edc35e739bac091
+    '2022-07-01': 531ef4a6b962b06ef865ba34ea6e952a7d4b3a2b
+    '2023-07-01': bad91152eeb70693e1459324f738a8c481378801
+    '2024-07-01': bdd732d1f98d0af0362115f74baa728bfc976851
+    '2025-07-01': 9030f352b6a0e4b2def508cc62260b9cba613693
+  archived: false
+discovery:
+  source: bioconda
+  package_name: snakemake-minimal
+  rank: 29
+  download_count: 574793
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-snakemake-minimal-9.23.1
+  adapter: pixi
+  artifact: snakemake-minimal
+  version: 9.23.1
+  build: pyhdfd78af_1
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/snakemake-minimal-9.23.1-pyhdfd78af_1.conda
+  artifact_sha256: 6d7a1d2e308506e867121edb6d258dbbb359ce3287631e54601e33edb110485d
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src/snakemake
+  language_roots:
+    python:
+    - src/snakemake
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - docs
+  - examples
+  - playground
+  - misc
+  - apidocs
+interfaces:
+  primary: snakemake
+  executables:
+  - snakemake
+  help_commands:
+  - - snakemake
+    - --help
+  version_commands:
+  - - snakemake
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - snakemake-minimal-workflow
+  command:
+  - snakemake
+  - --snakefile
+  - /fixtures/snakemake/Snakefile
+  - --directory
+  - .
+  - --cores
+  - '1'
+  - result.txt
+  expected_outputs:
+  - path: result.txt
+    nonempty: true
+    parser: text
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - snakemake
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - snakemake
+    - --snakefile
+    - /fixtures/snakemake/Snakefile
+    - --cores
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/snakemake-minimal-curator.json
+  reviewer_record: data/curation/snakemake-minimal-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "scanpy-scripts",
+  "source_commit": "ddc08def1719d5bac2f406239c98184be574930f",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "setup.py",
+      "start_line": 19,
+      "end_line": 40,
+      "item_type": "interface_and_source_scope",
+      "item_name": "scanpy-scripts"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "65183ba4a73f8f5370a8c8b339068b5b8f948fa85cbb9d99d856542b51b29e26",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

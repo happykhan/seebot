@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "crisprme",
+  "source_commit": "f7f6d03c2e484186394dfa1e4f7886b0e415ee3a",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "crisprme.py",
+      "start_line": 1925,
+      "end_line": 1970,
+      "item_type": "interface_and_source_scope",
+      "item_name": "crisprme"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "f652c6850db0f33350511c0014fde6776eedfb2bb843d106d7af3f7415fa2435",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

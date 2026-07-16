@@ -1,0 +1,183 @@
+schema_version: 2
+project:
+  id: itsxpress
+  name: ITSxpress
+  description: Extracts ITS regions from amplicon sequencing reads.
+  primary_language: python
+  primary_category: amplicon preprocessing
+  tags:
+  - FASTQ
+  - ITS
+  - amplicon
+  include: true
+  exclusion_code: null
+repository:
+  id: usda-ars-gbru-itsxpress
+  url: https://github.com/usda-ars-gbru/itsxpress
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: ff381caaba42801500e7bdc8e242ba55efb94898
+  historical_commits:
+    '2021-07-01': ceaf8936b1cfd1bba2a6737a8fc88841d0e49b33
+    '2022-07-01': 970a56c4b22eeafa9745c43f1d0b4777648ab13a
+    '2023-07-01': c505e50268e369d19b6a8739ae4c99d0213e300f
+    '2024-07-01': 99e8a5f8e693f3310c7c3954144cc1c264804055
+    '2025-07-01': ff381caaba42801500e7bdc8e242ba55efb94898
+  archived: false
+discovery:
+  source: bioconda
+  package_name: itsxpress
+  rank: 197
+  download_count: 140898
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-itsxpress-2.1.4
+  adapter: pixi
+  artifact: itsxpress
+  version: 2.1.4
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/itsxpress-2.1.4-pyhdfd78af_0.tar.bz2
+  artifact_sha256: ec2cb0eea0f48b184d2e2d1bfae4b7c98ad1d9d7809ff167b2a51627ab10bc19
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - itsxpress
+  language_roots:
+    python:
+    - itsxpress
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - docs
+  - docker-images
+  - itsxpress/ITSx_db
+interfaces:
+  primary: itsxpress
+  executables:
+  - itsxpress
+  help_commands:
+  - - itsxpress
+    - --help
+  version_commands:
+  - - itsxpress
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: The shared synthetic reads do not contain a biologically meaningful ITS region for
+    the external ITSx search.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - itsxpress
+    - --single_end
+    - --region
+    - ITS1
+    - --fastq
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - itsxpress
+    - --single_end
+    - --region
+    - ITS1
+    - --fastq
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - itsxpress
+    - --single_end
+    - --region
+    - ITS1
+    - --fastq
+    - /fixtures/bad/truncated.fastq
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - itsxpress
+    - --single_end
+    - --region
+    - ITS1
+    - --fastq
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - itsxpress
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - itsxpress
+    - --single_end
+    - --region
+    - invalid
+    - --fastq
+    - /fixtures/core/reads_R1.fastq
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The output path is placed on the read-only fixture mount.
+    command:
+    - itsxpress
+    - --single_end
+    - --region
+    - ITS1
+    - --fastq
+    - /fixtures/core/reads_R1.fastq
+    - --outfile
+    - /fixtures/out.fastq
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/itsxpress-curator.json
+  reviewer_record: data/curation/itsxpress-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

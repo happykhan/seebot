@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "dendropy",
+  "source_commit": "75bc2aea3450ef48a7aba5017551318f6586b0f6",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "setup.py",
+      "start_line": 53,
+      "end_line": 63,
+      "item_type": "interface_and_source_scope",
+      "item_name": "dendropy"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "5dbc9e2b26ed5cdc08ad4ef9fe97f3ace04dfd4b71699ff13a87d738e9b83d1a",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

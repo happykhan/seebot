@@ -1,0 +1,152 @@
+schema_version: 2
+project:
+  id: sepp
+  name: SEPP
+  description: Places fragmentary sequences into a reference phylogeny.
+  primary_language: python
+  primary_category: phylogenetic placement
+  tags:
+  - FASTA
+  - Newick
+  - phylogenetics
+  include: true
+  exclusion_code: null
+repository:
+  id: smirarab-sepp
+  url: https://github.com/smirarab/sepp
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: ae9a28d543bf88004a4f859479524e62e3460c67
+  historical_commits:
+    '2021-07-01': 75e3ad2ed3ef3c91aae515dc5539df2fa7aef540
+    '2022-07-01': 654a181565ba497fd79160ed74b1d22d1d4e2577
+    '2023-07-01': 72a8b300983d7c6fba95b81be657cdea46e74c94
+    '2024-07-01': 22a75c0b02fac99857a321154dd459c7048a9b01
+    '2025-07-01': 96d7438992f1b87f9ed1bc172d1cfb744dd2794a
+  archived: false
+discovery:
+  source: bioconda
+  package_name: sepp
+  rank: 94
+  download_count: 270760
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-sepp-4.5.6
+  adapter: pixi
+  artifact: sepp
+  version: 4.5.6
+  build: py313h106432d_5
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/sepp-4.5.6-py313h106432d_5.conda
+  artifact_sha256: 6ef0d5fd4b0ee32e5d74fe4201909de600fe920f7be9402453a73aa52febf538
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - sepp
+  - split_sequences.py
+  language_roots:
+    python:
+    - sepp
+    - split_sequences.py
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tutorial
+  - tools
+  - sepp-package
+  - ci
+interfaces:
+  primary: run_sepp.py
+  executables:
+  - config_sepp
+  - config_upp
+  - pplacer
+  - run_sepp.py
+  - run_upp.py
+  - split_sequences.py
+  help_commands:
+  - - run_sepp.py
+    - --help
+  version_commands:
+  - - run_sepp.py
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: Placement requires a prepared reference alignment, tree, and HMM configuration.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - run_sepp.py
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/sepp-curator.json
+  reviewer_record: data/curation/sepp-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

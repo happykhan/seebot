@@ -1,0 +1,158 @@
+schema_version: 2
+project:
+  id: pyfaidx
+  name: pyfaidx
+  description: Retrieves indexed subsequences from FASTA files.
+  primary_language: python
+  primary_category: sequence retrieval
+  tags:
+  - FASTA
+  - indexing
+  include: true
+  exclusion_code: null
+repository:
+  id: mdshw5-pyfaidx
+  url: https://github.com/mdshw5/pyfaidx
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 0e824bddd8a5ec306471031fa4bbd7183fe5ed89
+  historical_commits:
+    '2021-07-01': d35a73c8fb0617c3d679e6b3791e94b98c1446ad
+    '2022-07-01': 58d8b4e381f1348b9e669d55d88019e2498c71de
+    '2023-07-01': 507ad44f5e55cd63b1ba946ef493860e1a732736
+    '2024-07-01': 1075c8ea8212df065fbb012cc89f9a8fead05c33
+    '2025-07-01': e2a86f812c22120be1d29a67521ac92caaa00400
+  archived: false
+discovery:
+  source: bioconda
+  package_name: pyfaidx
+  rank: 77
+  download_count: 327825
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-pyfaidx-0.9.0.4
+  adapter: pixi
+  artifact: pyfaidx
+  version: 0.9.0.4
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/pyfaidx-0.9.0.4-pyhdfd78af_0.conda
+  artifact_sha256: d90a12928b785905f1004579fbc81979458adac45951df32dc1adb9cfe5bff89
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - pyfaidx
+  language_roots:
+    python:
+    - pyfaidx
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - scripts
+  - docs
+interfaces:
+  primary: faidx
+  executables:
+  - faidx
+  help_commands:
+  - - faidx
+    - --help
+  version_commands:
+  - - faidx
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reference-fasta
+  command:
+  - faidx
+  - /fixtures/core/reference.fasta
+  - synthetic_reference:1-20
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: fasta
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - faidx
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - faidx
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - faidx
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - faidx
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - faidx
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - faidx
+    - --size-range
+    - invalid
+    - /fixtures/core/reference.fasta
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/pyfaidx-curator.json
+  reviewer_record: data/curation/pyfaidx-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

@@ -1,0 +1,180 @@
+schema_version: 2
+project:
+  id: dendropy
+  name: DendroPy
+  description: Converts and summarises phylogenetic data from the command line.
+  primary_language: python
+  primary_category: phylogenetic data processing
+  tags:
+  - Newick
+  - NEXUS
+  - phylogenetics
+  include: true
+  exclusion_code: null
+repository:
+  id: jeetsukumaran-dendropy
+  url: https://github.com/jeetsukumaran/DendroPy
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 75bc2aea3450ef48a7aba5017551318f6586b0f6
+  historical_commits:
+    '2021-07-01': 1aa22a75c11c9f2fb79391ae457cba9d944a4cb2
+    '2022-07-01': a8cb1187669a2982b3e3fceef68faf5bb2473034
+    '2023-07-01': 9455b59ebebfc02ac111fa50bd311362f079382b
+    '2024-07-01': 3afc4f7ba8d79fcdcdf1f2969ccbf815243cbe9e
+    '2025-07-01': 6b91af2ae555b8c7b19a0df749cda2c2466bbcdf
+  archived: false
+discovery:
+  source: bioconda
+  package_name: dendropy
+  rank: 112
+  download_count: 225400
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-dendropy-5.0.8
+  adapter: pixi
+  artifact: dendropy
+  version: 5.0.8
+  build: pyhdfd78af_1
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/dendropy-5.0.8-pyhdfd78af_1.tar.bz2
+  artifact_sha256: 102790b465893f5a5c4c3fa045f677e23f990ecc6d1b61d240153c3569a5b99f
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src/dendropy
+  language_roots:
+    python:
+    - src/dendropy
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - docs
+  - notes
+  - joss
+interfaces:
+  primary: dendropy-format
+  executables:
+  - dendropy-format
+  - sumlabels
+  - sumlabels.py
+  - sumtrees
+  - sumtrees.py
+  help_commands:
+  - - dendropy-format
+    - --help
+  version_commands: []
+  no_argument_policy: help_or_usage_error
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: applicable
+  reason: dendropy-format documents dash as standard input and writes converted data to standard output.
+  command:
+  - dendropy-format
+  - --from
+  - newick
+  - --to
+  - newick
+  - '-'
+  fixture_ids:
+  - core-tree-newick
+  stdin_fixture_id: core-tree-newick
+  expect_stdout: true
+  stdout_parser: newick
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-tree-newick
+  command:
+  - dendropy-format
+  - --from
+  - newick
+  - --to
+  - newick
+  - /fixtures/core/tree.newick
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: newick
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - dendropy-format
+    - --from
+    - newick
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - dendropy-format
+    - --from
+    - newick
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - dendropy-format
+    - --from
+    - newick
+    - /fixtures/bad/plain-text.dat
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - dendropy-format
+    - --from
+    - newick
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - dendropy-format
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - dendropy-format
+    - --from
+    - invalid
+    - /fixtures/core/tree.newick
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/dendropy-curator.json
+  reviewer_record: data/curation/dendropy-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

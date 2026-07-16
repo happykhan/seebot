@@ -1,0 +1,172 @@
+schema_version: 2
+project:
+  id: samsift
+  name: SAMsift
+  description: Filters and tags SAM or BAM alignments using expressions.
+  primary_language: python
+  primary_category: alignment filtering
+  tags:
+  - SAM
+  - BAM
+  - filtering
+  include: true
+  exclusion_code: null
+repository:
+  id: karel-brinda-samsift
+  url: https://github.com/karel-brinda/samsift
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 95a0055bc6749db26a1bfcfdec845d0866f9b2d1
+  historical_commits:
+    '2021-07-01': 44eef16502ffb5f7faf45fc4a65da906418b3166
+    '2022-07-01': 44eef16502ffb5f7faf45fc4a65da906418b3166
+    '2023-07-01': 44eef16502ffb5f7faf45fc4a65da906418b3166
+    '2024-07-01': 44eef16502ffb5f7faf45fc4a65da906418b3166
+    '2025-07-01': 44eef16502ffb5f7faf45fc4a65da906418b3166
+  archived: false
+discovery:
+  source: bioconda
+  package_name: samsift
+  rank: 120
+  download_count: 207475
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-samsift-0.3.1
+  adapter: pixi
+  artifact: samsift
+  version: 0.3.1
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/samsift-0.3.1-pyhdfd78af_0.conda
+  artifact_sha256: fe32fe2f4f63d338a5fe7afc4e4a0dcd6c38010d7377728a247e7c396208e8bc
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - samsift
+  language_roots:
+    python:
+    - samsift
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+interfaces:
+  primary: samsift
+  executables:
+  - samsift
+  - samsift-norm-sam
+  help_commands:
+  - - samsift
+    - --help
+  version_commands:
+  - - samsift
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-alignment-sam
+  command:
+  - samsift
+  - -i
+  - /fixtures/core/alignment.sam
+  - -f
+  - 'True'
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: sam
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - samsift
+    - -i
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - samsift
+    - -i
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - samsift
+    - -i
+    - /fixtures/bad/plain-text.dat
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - samsift
+    - -i
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - samsift
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - samsift
+    - -i
+    - /fixtures/core/alignment.sam
+    - -m
+    - invalid
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The output path is placed on the read-only fixture mount.
+    command:
+    - samsift
+    - -i
+    - /fixtures/core/alignment.sam
+    - -o
+    - /fixtures/out.sam
+    - -f
+    - 'True'
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/samsift-curator.json
+  reviewer_record: data/curation/samsift-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

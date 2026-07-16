@@ -1,0 +1,9 @@
+rule all:
+    input:
+        "result.txt"
+
+rule make_result:
+    output:
+        "result.txt"
+    shell:
+        "printf 'seebot miniature workflow\\n' > {output}"

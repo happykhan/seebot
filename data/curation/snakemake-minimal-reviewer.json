@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "snakemake-minimal",
+  "source_commit": "c7d1f28fb94cf5604c4dc7885ce56a3ec0c00cd5",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "pyproject.toml",
+      "start_line": 77,
+      "end_line": 78,
+      "item_type": "interface_and_source_scope",
+      "item_name": "snakemake-minimal"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "349625269c13f41ec927717e5b33ec7bd6e90e6634775f8ea432e1b6bb096f87",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

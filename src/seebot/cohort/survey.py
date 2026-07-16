@@ -6,6 +6,7 @@ import configparser
 import csv
 import json
 import re
+import shutil
 import subprocess
 import threading
 import tomllib
@@ -86,6 +87,8 @@ CONFIG_PATHS = {
 
 
 def _github_token() -> str | None:
+    if shutil.which("gh") is None:
+        return None
     completed = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, check=False)
     return completed.stdout.strip() if completed.returncode == 0 else None
 
@@ -637,6 +640,13 @@ def resolve_historical_commits(
                     else None
                 )
             resolved[str(row["package_name"])] = values
+    existing: dict[str, dict[str, str | None]] = {}
+    if output_path.exists():
+        loaded = json.loads(output_path.read_text(encoding="utf-8"))
+        if not isinstance(loaded, dict):
+            raise ValueError(f"Historical snapshot file must contain a mapping: {output_path}")
+        existing = loaded
+    existing.update(resolved)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(resolved, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output_path.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return resolved

@@ -1,0 +1,171 @@
+schema_version: 2
+project:
+  id: igv-reports
+  name: IGV Reports
+  description: Creates interactive HTML reports for genomic variants.
+  primary_language: python
+  primary_category: variant visualisation
+  tags:
+  - VCF
+  - HTML
+  - IGV
+  include: true
+  exclusion_code: null
+repository:
+  id: igvteam-igv-reports
+  url: https://github.com/igvteam/igv-reports
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 10bcca7e065d81070deac2ccd94a46f4c7dc66c5
+  historical_commits:
+    '2021-07-01': a5cda9a051893ae0e437fbb9df3643f6739f26ca
+    '2022-07-01': faab51b609177f6c24135df4b6091c0086a01de0
+    '2023-07-01': f0d41567fa126a02f15642a4f0d0852d81546cbc
+    '2024-07-01': 25a94c01da3de3b3dd4d5b26f87041503b77e789
+    '2025-07-01': a791f1f2e654295a9f43a26679217d6f527e0a94
+  archived: false
+discovery:
+  source: bioconda
+  package_name: igv-reports
+  rank: 247
+  download_count: 112485
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-igv-reports-1.16.0
+  adapter: pixi
+  artifact: igv-reports
+  version: 1.16.0
+  build: pyh7e72e81_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/igv-reports-1.16.0-pyh7e72e81_0.conda
+  artifact_sha256: 3f1a1472733bbf9e278558200fc4cfddfec479f1c0f10badef26f4dfb7a6bb79
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - igv_reports
+  language_roots:
+    python:
+    - igv_reports
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - docs
+interfaces:
+  primary: create_report
+  executables:
+  - create_datauri
+  - create_report
+  - igv-reports
+  help_commands:
+  - - create_report
+    - --help
+  version_commands: []
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-variants-vcf
+  - core-reference-fasta
+  command:
+  - create_report
+  - /fixtures/core/variants.vcf
+  - --fasta
+  - /fixtures/core/reference.fasta
+  - --output
+  - report.html
+  expected_outputs:
+  - path: report.html
+    nonempty: true
+    parser: text
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - create_report
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - create_report
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - create_report
+    - /fixtures/bad/invalid.vcf
+    fixture_id: bad-invalid-vcf
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - create_report
+    - /fixtures/core/tree.newick
+    fixture_id: core-tree-newick
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - create_report
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - create_report
+    - /fixtures/core/variants.vcf
+    - --maxlen
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The output path is placed on the read-only fixture mount.
+    command:
+    - create_report
+    - /fixtures/core/variants.vcf
+    - --fasta
+    - /fixtures/core/reference.fasta
+    - --output
+    - /fixtures/report.html
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/igv-reports-curator.json
+  reviewer_record: data/curation/igv-reports-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

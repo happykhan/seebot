@@ -24,3 +24,11 @@ any2fasta.
 The broader 200-project execution remains intentionally locked. The ten current reports
 are the published assessment dataset; the remaining survey rows are discovery evidence,
 not partial project reports.
+
+A bounded 20-project Python expansion was authorised on 16 July 2026. The selected
+projects are Harpy, deepTools, HTSeq, Snakemake, the DNAnexus toolkit, ProPhyle, pyfaidx,
+SEPP, ANARCI, MetaPhlAn, DendroPy, SAMsift, PASTA, CRISPRme, ITSxpress, scanpy-scripts,
+zDB, Cooler, RGI, and IGV Reports. Their manifests and two review passes are curated, but
+they do not become public reports until the complete x86-64 audit is collected and
+validated. This bounded expansion does not authorise execution of the rest of the ranked
+cohort.

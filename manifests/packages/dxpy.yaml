@@ -1,0 +1,151 @@
+schema_version: 2
+project:
+  id: dxpy
+  name: DNAnexus toolkit
+  description: Provides command-line access to the DNAnexus platform.
+  primary_language: python
+  primary_category: cloud platform client
+  tags:
+  - cloud
+  - workflow
+  - data transfer
+  include: true
+  exclusion_code: null
+repository:
+  id: dnanexus-dx-toolkit
+  url: https://github.com/dnanexus/dx-toolkit
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: bc68353da08c096e63b36707dda9fee3b91d6845
+  historical_commits:
+    '2021-07-01': 60050da2bd5f4a65017ee5a2fadeb3972f0383d8
+    '2022-07-01': 2494526048983bab82e17a14a806155ac9001067
+    '2023-07-01': 57b72166520f6005478e814358902e5a59c71d15
+    '2024-07-01': 7b7ee777d70b22e240e5edda9014b0ab725aa5ec
+    '2025-07-01': 5d70ae4b52ec74a7ce0b8a7530f7c24e6bc0a6b8
+  archived: false
+discovery:
+  source: bioconda
+  package_name: dxpy
+  rank: 32
+  download_count: 556873
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-dxpy-0.409.0
+  adapter: pixi
+  artifact: dxpy
+  version: 0.409.0
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/dxpy-0.409.0-pyhdfd78af_0.conda
+  artifact_sha256: 50ea5eb925b69c4b4a14ff32d21a3d762aa235b87836f722f8536230f1052858
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src/python/dxpy
+  language_roots:
+    python:
+    - src/python/dxpy
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - src/python/test
+  - doc
+  - build
+  - debian
+  - src/R
+  - src/java
+  - src/cpp
+  - src/ua
+interfaces:
+  primary: dx
+  executables:
+  - dx
+  - dx-app-wizard
+  - dx-build-app
+  - dx-build-applet
+  help_commands:
+  - - dx
+    - --help
+  version_commands:
+  - - dx
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A meaningful operation requires authenticated access to a DNAnexus account.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - dx
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/dxpy-curator.json
+  reviewer_record: data/curation/dxpy-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

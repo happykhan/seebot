@@ -1,0 +1,191 @@
+schema_version: 2
+project:
+  id: deeptools
+  name: deepTools
+  description: Analyses and visualises high-throughput sequencing data.
+  primary_language: python
+  primary_category: sequencing visualisation
+  tags:
+  - BAM
+  - bigWig
+  - visualisation
+  include: true
+  exclusion_code: null
+repository:
+  id: deeptools-deeptools
+  url: https://github.com/deeptools/deepTools
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: ea0f68bb4a1587d713dacb3791861308751ef7d0
+  historical_commits:
+    '2021-07-01': ac42d29c298c026aa0c53c9db2553087ebc86b97
+    '2022-07-01': a5fc374911cfa19922eb3ebac7b6603b15688525
+    '2023-07-01': 8e7be7e952295b664124f0bccf8a1ffc509a7a8d
+    '2024-07-01': b86d3f2c1101013cc3539d248a13c9ecd0aab247
+    '2025-07-01': ea0f68bb4a1587d713dacb3791861308751ef7d0
+  archived: false
+discovery:
+  source: bioconda
+  package_name: deeptools
+  rank: 18
+  download_count: 741203
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-deeptools-3.5.6
+  adapter: pixi
+  artifact: deeptools
+  version: 3.5.6
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/deeptools-3.5.6-pyhdfd78af_0.tar.bz2
+  artifact_sha256: a5955e9444cc59dc5a022d9bcf3cb64397375d8e85b4a810356b4d69e6845a22
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - deeptools
+  language_roots:
+    python:
+    - deeptools
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - deeptools/test
+  - docs
+  - gallery
+  - galaxy
+  - scripts
+interfaces:
+  primary: bamCoverage
+  executables:
+  - alignmentSieve
+  - bamCompare
+  - bamCoverage
+  - bamPEFragmentSize
+  - bigwigAverage
+  - bigwigCompare
+  - computeGCBias
+  - computeMatrix
+  - computeMatrixOperations
+  - correctGCBias
+  - deeptools
+  - estimateReadFiltering
+  - estimateScaleFactor
+  - multiBamSummary
+  - multiBigwigSummary
+  - plotCorrelation
+  - plotCoverage
+  - plotEnrichment
+  - plotFingerprint
+  - plotHeatmap
+  - plotPCA
+  - plotProfile
+  help_commands:
+  - - deeptools
+    - --help
+  - - bamCoverage
+    - --help
+  version_commands:
+  - - deeptools
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: The shared fixture set has SAM but no indexed BAM or bigWig suitable for a representative
+    run.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - bamCoverage
+    - -b
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - bamCoverage
+    - -b
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - bamCoverage
+    - -b
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - bamCoverage
+    - -b
+    - /fixtures/core/reference.fasta
+    fixture_id: core-reference-fasta
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - bamCoverage
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - bamCoverage
+    - -b
+    - /fixtures/core/alignment.sam
+    - --binSize
+    - 'no'
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: applicable
+    reason: The output path is placed on the read-only fixture mount.
+    command:
+    - bamCoverage
+    - -b
+    - /fixtures/core/alignment.sam
+    - -o
+    - /fixtures/out.bw
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/deeptools-curator.json
+  reviewer_record: data/curation/deeptools-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

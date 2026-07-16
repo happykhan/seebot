@@ -1,0 +1,145 @@
+schema_version: 2
+project:
+  id: rgi
+  name: RGI
+  description: Predicts antimicrobial-resistance determinants using CARD.
+  primary_language: python
+  primary_category: antimicrobial resistance
+  tags:
+  - FASTA
+  - AMR
+  - annotation
+  include: true
+  exclusion_code: null
+repository:
+  id: arpcard-rgi
+  url: https://github.com/arpcard/rgi
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: d8a3f3699537de5da1c1cc15266352af39b064fe
+  historical_commits:
+    '2021-07-01': e2cb7238181b65762d5963cd54c51c4cec8cb05c
+    '2022-07-01': 49f1c0768e41109316baaa55fdeaa34449bb44c8
+    '2023-07-01': adb6dd70dec3c5aa9e1a11d20e617f0f4e22dce4
+    '2024-07-01': 748231845f3baa136f6ef32a452c742343f8565f
+    '2025-07-01': 746ba82e6c5153af56830dd5c53e3b1704431035
+  archived: false
+discovery:
+  source: bioconda
+  package_name: rgi
+  rank: 245
+  download_count: 113399
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-rgi-6.0.8
+  adapter: pixi
+  artifact: rgi
+  version: 6.0.8
+  build: pyh05cac1d_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/rgi-6.0.8-pyh05cac1d_0.conda
+  artifact_sha256: 8fcd9ab7ad0844a00a941e9186dc453ecd2153574542edc740c7e1771242b9bc
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - app
+  - rgi
+  language_roots:
+    python:
+    - app
+    - rgi
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - tests
+  - docs
+  - images
+interfaces:
+  primary: rgi
+  executables:
+  - rgi
+  help_commands:
+  - - rgi
+    - --help
+  version_commands:
+  - - rgi
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: Prediction requires a loaded CARD reference database.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - rgi
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/rgi-curator.json
+  reviewer_record: data/curation/rgi-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

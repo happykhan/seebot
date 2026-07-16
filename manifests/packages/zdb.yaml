@@ -1,0 +1,148 @@
+schema_version: 2
+project:
+  id: zdb
+  name: zDB
+  description: Runs and explores bacterial comparative-genomics analyses.
+  primary_language: python
+  primary_category: comparative genomics
+  tags:
+  - bacteria
+  - comparative genomics
+  - web report
+  include: true
+  exclusion_code: null
+repository:
+  id: metagenlab-zdb
+  url: https://github.com/metagenlab/zDB
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 8742ee720a6754d3584b11aaa366aaa102a9b5f5
+  historical_commits:
+    '2021-07-01': a6d6735298b85ee21d3ed42a40f47251b6430ac2
+    '2022-07-01': a3bee8ec55ad35a80becb432db267f7e1850d3e8
+    '2023-07-01': 0432814bccb3b1cf392fb84877bca3147181e61d
+    '2024-07-01': b1e735dd14379b935e1b52c05ee19a25dda8f311
+    '2025-07-01': d0a3b7499335aea4fc4162b94916f9ea77428cf6
+  archived: false
+discovery:
+  source: bioconda
+  package_name: zdb
+  rank: 202
+  download_count: 139506
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-zdb-1.3.12
+  adapter: pixi
+  artifact: zdb
+  version: 1.3.12
+  build: hdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/zdb-1.3.12-hdfd78af_0.conda
+  artifact_sha256: 1a826222f736ae2cd7d92002dad0a8f9d3f75cf763dd32a00c1d564868273e5e
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - bin
+  - utils
+  - webapp
+  language_roots:
+    python:
+    - webapp
+    - utils
+    - bin
+  generated_paths:
+  - webapp/assets
+  vendored_paths: []
+  excluded_paths:
+  - testing
+  - docs
+  - conda
+interfaces:
+  primary: zdb
+  executables:
+  - zdb
+  help_commands:
+  - - zdb
+    - help
+  version_commands:
+  - - zdb
+    - help
+  no_argument_policy: successful_noop
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: The analysis requires prepared reference databases and a container or Nextflow backend.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - zdb
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/zdb-curator.json
+  reviewer_record: data/curation/zdb-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

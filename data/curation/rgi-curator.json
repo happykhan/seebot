@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "rgi",
+  "source_commit": "d8a3f3699537de5da1c1cc15266352af39b064fe",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "setup.py",
+      "start_line": 20,
+      "end_line": 36,
+      "item_type": "interface_and_source_scope",
+      "item_name": "rgi"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "e4dc688be06eb2af73165eabd082bd8bb91eb4ad4b4f2214dd9fd27440cec680",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

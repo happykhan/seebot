@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "pasta",
+  "source_commit": "24c7adce978617f4050e2feb60a5eb99f4ae3e46",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 143,
+      "end_line": 160,
+      "item_type": "interface_and_source_scope",
+      "item_name": "pasta"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "9ae2caa7f5ab803d6b26277907657c341ac9e53a477d75cc638ffb8ef73ae33b",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

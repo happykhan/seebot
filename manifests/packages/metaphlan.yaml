@@ -1,0 +1,171 @@
+schema_version: 2
+project:
+  id: metaphlan
+  name: MetaPhlAn
+  description: Profiles microbial communities from metagenomic sequencing reads.
+  primary_language: python
+  primary_category: metagenomic profiling
+  tags:
+  - FASTQ
+  - metagenomics
+  - taxonomy
+  include: true
+  exclusion_code: null
+repository:
+  id: biobakery-metaphlan
+  url: https://github.com/biobakery/metaphlan
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 7bf3637c02a5e11b0361f6825efa40e4f03f246d
+  historical_commits:
+    '2021-07-01': 58444856792faa9577e6af91261ae73eef30cecf
+    '2022-07-01': a9605a5bc29db89020c4cbe3ea133ec0e4e75de7
+    '2023-07-01': dbf3854e85f1eb58e0c096b48e7f57a5ef5a99de
+    '2024-07-01': 657054927e697f7c4ff4f227dfba38a3ae6f82e7
+    '2025-07-01': 9235c652b02e406e2b630d9f3f2204d5246c5444
+  archived: false
+discovery:
+  source: bioconda
+  package_name: metaphlan
+  rank: 100
+  download_count: 258559
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-metaphlan-4.2.4
+  adapter: pixi
+  artifact: metaphlan
+  version: 4.2.4
+  build: pyhdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/metaphlan-4.2.4-pyhdfd78af_0.conda
+  artifact_sha256: 7d20b1a54509a13cede84b8e47315b1d0e13d4d4faa77286e88890d146fd752b
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - metaphlan
+  language_roots:
+    python:
+    - metaphlan
+  generated_paths: []
+  vendored_paths:
+  - metaphlan/utils/treeshrink
+  excluded_paths:
+  - bioconda_recipe
+  - metaphlan/utils/treeshrink
+interfaces:
+  primary: metaphlan
+  executables:
+  - add_metadata_tree.py
+  - bowtie2-align-s
+  - create_toy_database.py
+  - extract_markers.py
+  - fix_relab_mpa4.py
+  - merge_metaphlan_tables.py
+  - merge_vsc_tables.py
+  - metaphlan
+  - metaphlan2krona.py
+  - plot_tree_graphlan.py
+  - read_fastx.py
+  - run_treeshrink.py
+  - sample2markers.py
+  - sgb_to_gtdb_profile.py
+  - strain_transmission.py
+  - strainphlan
+  - treeshrink.py
+  help_commands:
+  - - metaphlan
+    - --help
+  version_commands:
+  - - metaphlan
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: Profiling requires a MetaPhlAn marker database not present in the shared fixtures.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - metaphlan
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - metaphlan
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - metaphlan
+    - /fixtures/bad/truncated.fastq
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - metaphlan
+    - /fixtures/core/tree.newick
+    fixture_id: core-tree-newick
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - metaphlan
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - metaphlan
+    - /fixtures/core/reads_R1.fastq
+    - --input_type
+    - invalid
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-16T12:00:00Z'
+  curator_record: data/curation/metaphlan-curator.json
+  reviewer_record: data/curation/metaphlan-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

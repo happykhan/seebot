@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "sepp",
+  "source_commit": "ae9a28d543bf88004a4f859479524e62e3460c67",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "pyproject.toml",
+      "start_line": 37,
+      "end_line": 42,
+      "item_type": "interface_and_source_scope",
+      "item_name": "sepp"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "85fc3d8df6c3274f61994dfc5f08e0e89de1b3a36810cd766d44cd4549708362",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}
