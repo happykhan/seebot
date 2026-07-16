@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { NavBar } from '@genomicx/ui'
 import { useLocation } from 'react-router-dom'
 import { AggregateTrend, compatibleMetricLanguages, DistributionPlot, formatNumber, numeric, quantile, selectMetricPoints, SoftwareTimeSeries } from './charts'
-import { contractCatalogue, historyDefinitions, metricDefinitions, practiceDescriptions, type HistoryMetric } from './catalogue'
+import { contractCatalogue, describeRule, historyDefinitions, metricDefinitions, practiceDescriptions, ruleDocumentationUrl, type HistoryMetric } from './catalogue'
 import { loadPublishedDataset } from './dataset'
 import { FindingsTable } from './FindingsTable'
 import { filterSoftware, practiceAreas, projectAchievements, softwareHref, type PracticeArea, type SoftwareFilters } from './projects'
+import { describeSeverity, summarizeRules } from './presentation'
 import type { ContractObservation, Dataset, MetricPoint, ObservationStatus, ProbeObservation, ProjectSummary, SourceSnapshot } from './types'
 import { InfoTip, SeebotIcon, SelectField } from './ui'
 
@@ -162,6 +163,7 @@ function failureExplanation(probe: ProbeObservation): string {
 }
 
 function ContractTable({ contracts }: { contracts: ContractObservation[] }) {
+  if (!contracts.length) return <p className="empty-state">No installed command-line assessment has been published for this software yet.</p>
   return <div className="contract-list">{contracts.map((contract) => {
     const entry = contractCatalogue[contract.check_id] ?? { label: contract.label, explanation: 'A reviewed command-line behaviour.', expectation: 'Return a clear and appropriate result.' }
     return <details key={contract.check_id}><summary><div><span><strong>{entry.label}</strong><code>{contract.check_id}</code></span><small>{entry.explanation}</small></div><span className="summary-result"><StatusBadge status={contract.status} /><b aria-hidden="true">⌄</b></span></summary><div className="contract-body"><p className="expectation"><strong>Expected:</strong> {entry.expectation}</p><div className="probe-list">{contract.probes.map((probe) => <article key={probe.probe_id}><div className="probe-heading"><StatusBadge status={probe.status} /><code>{probe.command?.join(' ') ?? probe.probe_id}</code></div><p className={probe.status === 'PASS' ? 'finding-pass' : 'finding-fail'}>{failureExplanation(probe)}</p><dl><div><dt>Exit code</dt><dd>{String(probe.observed.exit_code ?? 'N/A')}</dd></div><div><dt>Diagnostic</dt><dd>{String(probe.observed.diagnostic_class ?? 'N/A')}</dd></div><div><dt>Timed out</dt><dd>{String(probe.observed.timed_out ?? false)}</dd></div></dl>{(probe.output?.stderr || probe.output?.stdout) && <div className="command-output">{probe.output.stderr && <div><strong>Standard error</strong><pre>{probe.output.stderr}</pre></div>}{probe.output.stdout && <div><strong>Standard output</strong><pre>{probe.output.stdout}</pre></div>}</div>}</article>)}</div></div></details>
@@ -190,12 +192,21 @@ function SourceCards({ snapshots, project, dataset }: { snapshots: SourceSnapsho
     { key: 'complexity_p90', field: ['complexity', 'percentile_90'] }, { key: 'documentation_coverage', field: ['documentation', 'coverage_percent'] },
     { key: 'duplication_percent', field: ['duplication', 'duplicated_line_percent'] },
   ]
+  if (!snapshots.length) return <p className="empty-state">No current source-code assessment has been published for this software yet.</p>
   return <div className="source-components">{snapshots.map((snapshot) => <article key={snapshot.language}><header><strong>{snapshot.language}</strong><StatusBadge status={snapshot.status} /></header><div className="metric-grid">{definitions.map(({ key, field }) => {
     const definition = metricDefinitions[key]
     let value = numeric(snapshot.metrics[field[0]], field[1]); if (key === 'documentation_coverage' && value != null) value = Math.min(100, value)
     const point = value == null ? undefined : { project_id: project.id, language: snapshot.language, value }
     return <ComparisonCard key={key} label={definition.shortLabel} value={formatNumber(value, definition.unit)} explanation={definition.explanation} comparison={comparison(dataset, point, key, snapshot.language)} />
-  })}</div>{snapshot.native_findings.map((finding, index) => <div className="finding-summary" key={`${finding.kind}-${finding.analyzer}-${index}`}><span>{finding.kind === 'lint' ? 'Code-review findings' : 'Security findings'} · {finding.analyzer ?? 'not applicable'}</span><strong>{finding.status === 'OBSERVED' ? formatNumber(finding.finding_count ?? 0) : statusText[finding.status]}</strong></div>)}</article>)}</div>
+  })}</div>{snapshot.native_findings.map((finding, index) => {
+    const analyzer = finding.analyzer ?? 'not applicable'
+    const summary = summarizeRules(finding.rules)
+    return <details className="finding-summary" key={`${finding.kind}-${finding.analyzer}-${index}`}><summary><span>{finding.kind === 'lint' ? 'Code-review findings' : 'Security findings'} · {analyzer}</span><strong>{finding.status === 'OBSERVED' ? formatNumber(finding.finding_count ?? 0) : statusText[finding.status]} <b aria-hidden="true">⌄</b></strong></summary>{summary.visible.length > 0 && <div className="finding-rule-list">{summary.visible.map((rule) => {
+      const url = ruleDocumentationUrl(analyzer, rule.rule)
+      const label = <code>{rule.rule}</code>
+      return <div key={rule.rule}><div><strong>{url ? <a href={url}>{label}</a> : label}</strong><span>{describeRule(analyzer, rule.rule)}</span></div><b>{formatNumber(rule.count)}</b></div>
+    })}{summary.hiddenTypeCount > 0 && <p>{formatNumber(summary.hiddenFindingCount)} other findings across {summary.hiddenTypeCount} rule type{summary.hiddenTypeCount === 1 ? '' : 's'}.</p>}</div>}</details>
+  })}</article>)}</div>
 }
 
 function ProjectReport({ project, dataset }: { project: ProjectSummary, dataset: Dataset }) {
@@ -225,7 +236,7 @@ function ProjectReport({ project, dataset }: { project: ProjectSummary, dataset:
       {Number(dependency.conda_package_count ?? 0) > 0 && <p className="dependency-source"><strong>Audited Pixi environment:</strong> {String(dependency.conda_package_count)} resolved Conda packages; {String(dependency.ecosystem_package_count ?? 0)} exact PyPI, Maven or npm packages checked by OSV.</p>}
       {Array.isArray(dependency.runtime_sources) && dependency.runtime_sources.length > 0 && <p className="dependency-source"><strong>Runtime input:</strong> {dependency.runtime_sources.join(', ')}</p>}
       {Array.isArray(dependency.development_sources) && dependency.development_sources.length > 0 && <p className="dependency-source"><strong>Development-only inputs found:</strong> {dependency.development_sources.join(', ')}</p>}
-      {Array.isArray(advisories) && advisories.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Advisory</th><th>Ecosystem</th><th>Dependency</th><th>Version</th><th>Source</th><th>Severity</th></tr></thead><tbody>{(advisories as Record<string, unknown>[]).map((row) => <tr key={`${row.advisory_id}-${row.dependency}-${row.source}`}><td><code>{String(row.advisory_id)}</code></td><td>{String(row.ecosystem)}</td><td>{String(row.dependency)}</td><td>{String(row.resolved_version)}</td><td>{String(row.source ?? 'Runtime input')}</td><td>{Array.isArray(row.native_severity) && row.native_severity.length ? row.native_severity.join(', ') : 'Unspecified'}</td></tr>)}</tbody></table></div> : dependency.coverage_status === 'runtime_scanned' ? <p className="empty-state">No known vulnerability advisories were returned for the resolved runtime dependencies.</p> : <p className="empty-state">{dependencyCoverageText[String(dependency.coverage_status)]?.description ?? String(dependency.reason ?? 'The dependency assessment did not produce a runtime observation.')}</p>}
+      {Array.isArray(advisories) && advisories.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Advisory</th><th>Ecosystem</th><th>Dependency</th><th>Version</th><th>Source</th><th>Impact characteristics</th></tr></thead><tbody>{(advisories as Record<string, unknown>[]).map((row) => <tr key={`${row.advisory_id}-${row.dependency}-${row.source}`}><td><code>{String(row.advisory_id)}</code></td><td>{String(row.ecosystem)}</td><td>{String(row.dependency)}</td><td>{String(row.resolved_version)}</td><td>{String(row.source ?? 'Runtime input')}</td><td className="severity-description">{Array.isArray(row.native_severity) && row.native_severity.length ? row.native_severity.map((value) => { const description = describeSeverity(String(value)); return <div key={String(value)}><span>{description.summary}</span>{description.vector && <details><summary>Show CVSS vector</summary><code>{description.vector}</code></details>}</div> }) : 'Unspecified'}</td></tr>)}</tbody></table></div> : dependency.coverage_status === 'runtime_scanned' ? <p className="empty-state">No known vulnerability advisories were returned for the resolved runtime dependencies.</p> : <p className="empty-state">{dependencyCoverageText[String(dependency.coverage_status)]?.description ?? String(dependency.reason ?? 'The dependency assessment did not produce a runtime observation.')}</p>}
     </section>
   </article>
 }

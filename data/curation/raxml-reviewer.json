@@ -16,13 +16,13 @@
     }
   ],
   "assessment": {
-    "manifest_sha256": "2336700d3e07efbcf573e7576710d81be5dec6a2eb655cf5c4e67919dc074bbe",
+    "manifest_sha256": "5ff99579154e252ffdf04a0ad61584f8f86698dfa0b26c6e14ea4ff73e244639",
     "source_roots_reviewed": true,
     "commands_are_argument_arrays": true,
     "fixtures_and_applicability_reviewed": true,
     "upstream_tests_not_requested": true
   },
   "confidence": "high",
-  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "evidence_notes": "Independent command review confirms the classic RAxML short options -h and -v and rejects the previously curated unsupported long options.",
   "adjudication_required": false
 }

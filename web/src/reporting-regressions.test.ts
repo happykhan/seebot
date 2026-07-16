@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { contractCatalogue, describeRule } from './catalogue'
 import { compatibleMetricLanguages, selectMetricPoints } from './charts'
 import { practiceAreas, softwareHref } from './projects'
-import type { MetricPoint } from './types'
+import { describeSeverity, summarizeRules } from './presentation'
+import type { MetricPoint, NativeRule } from './types'
 
 describe('public reporting contracts', () => {
   it('keeps the four assessment areas and canonical Software route', () => {
@@ -34,6 +35,23 @@ describe('public reporting contracts', () => {
   it('keeps a plain-language catalogue entry for Bandit B102', () => {
     expect(describeRule('bandit', 'B102')).toContain('exec')
     expect(describeRule('bandit', 'B102')).toContain('dynamically supplied Python code')
+  })
+
+  it('summarizes the largest rule categories and groups the remainder', () => {
+    const rules: NativeRule[] = [
+      { rule: 'small', count: 2 }, { rule: 'largest', count: 20 }, { rule: 'middle', count: 5 },
+    ]
+    expect(summarizeRules(rules, 2)).toEqual({
+      visible: [rules[1], rules[2]], hiddenTypeCount: 1, hiddenFindingCount: 2,
+    })
+  })
+
+  it('translates a CVSS vector into practical attack and impact characteristics', () => {
+    const description = describeSeverity('CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N')
+    expect(description.summary).toContain('Local access')
+    expect(description.summary).toContain('Low privileges required')
+    expect(description.summary).toContain('High integrity impact')
+    expect(description.vector).toBe('CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N')
   })
 
   it('describes the valid no-record input contract in the usage catalogue', () => {

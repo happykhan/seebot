@@ -491,7 +491,10 @@ def audit_run(
                         cleanup=not keep_environment,
                     )
                 )
-            if requested & {"usage", "robustness", "dependencies", "DEP-ADVISORY-001"}:
+            needs_usage = bool(
+                requested & {"usage", "robustness", "dependencies", "DEP-ADVISORY-001"}
+            ) or any(check_id.startswith("CLI-") for check_id in requested)
+            if needs_usage:
                 results.extend(
                     run_project_usage(
                         manifest_path,
@@ -570,12 +573,17 @@ def results_rebuild_global(ctx: typer.Context) -> None:
 
 
 @report_app.command("build")
-def report_build(ctx: typer.Context) -> None:
+def report_build(
+    ctx: typer.Context,
+    evidence_base: Annotated[Path | None, typer.Option("--evidence-base")] = None,
+) -> None:
     """Overwrite the website dataset from normalized observations."""
     opts = options(ctx)
     target = opts.output_directory / "web" / "public" / "data" / "dataset.json"
     dataset = build_public_dataset(
-        MANIFEST_DIRECTORY, opts.output_directory / "results" / opts.run_id / "checks.json"
+        MANIFEST_DIRECTORY,
+        opts.output_directory / "results" / opts.run_id / "checks.json",
+        evidence_base=evidence_base,
     )
     if opts.dry_run:
         console.print(f"Would write {len(dataset['projects'])} projects to {target}")

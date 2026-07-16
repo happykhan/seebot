@@ -698,7 +698,9 @@ def _aggregate(projects: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def build_public_dataset(manifest_directory: Path, checks_path: Path) -> dict[str, Any]:
+def build_public_dataset(
+    manifest_directory: Path, checks_path: Path, evidence_base: Path | None = None
+) -> dict[str, Any]:
     if not checks_path.exists():
         raise ValueError(f"Normalized current results do not exist: {checks_path}")
     payload = json.loads(checks_path.read_text(encoding="utf-8"))
@@ -708,7 +710,7 @@ def build_public_dataset(manifest_directory: Path, checks_path: Path) -> dict[st
     for row in payload:
         if row.get("run_id") == "current":
             rows_by_project[str(row["project_id"])].append(row)
-    repository_root = checks_path.parents[2]
+    repository_root = evidence_base or checks_path.parents[2]
     projects = [
         _project(
             manifest,

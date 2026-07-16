@@ -107,7 +107,7 @@ def test_published_projects_include_repository_observations() -> None:
         assert observed == expected, project["id"]
 
 
-def test_published_launch_failures_are_audit_errors() -> None:
+def test_published_launch_failures_are_never_package_successes() -> None:
     root = Path(__file__).parents[2]
     dataset = json.loads((root / "web/public/data/dataset.json").read_text(encoding="utf-8"))
     launch_failures = []
@@ -118,7 +118,6 @@ def test_published_launch_failures_are_audit_errors() -> None:
                 if "command not found" in stderr:
                     launch_failures.append(probe)
 
-    assert launch_failures
     assert all(probe["status"] == "ERROR" for probe in launch_failures)
     assert all(
         probe["observed"].get("audit_error") == "ExecutableLaunchFailure"

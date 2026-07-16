@@ -68,10 +68,41 @@ def test_dependency_only_audit_uses_small_analyzer_profile(tmp_path: Path, monke
     assert calls == ["dependencies"]
 
 
+def test_named_cli_check_dispatches_usage_runner(tmp_path: Path, monkeypatch) -> None:
+    manifest = {"project": {"id": "example"}}
+    monkeypatch.setattr(
+        "seebot.cli.selected_projects", lambda *args: [(tmp_path / "example.yaml", manifest)]
+    )
+    calls: list[set[str]] = []
+
+    def record_usage(*args, **kwargs):
+        calls.append(kwargs["checks"])
+        return []
+
+    monkeypatch.setattr("seebot.cli.run_project_usage", record_usage)
+    result = runner.invoke(
+        app,
+        [
+            "--output-directory",
+            str(tmp_path),
+            "audit",
+            "run",
+            "--check",
+            "CLI-HELP-001",
+        ],
+    )
+
+    assert result.exit_code == 0, result.stdout
+    assert calls == [{"CLI-HELP-001"}]
+
+
 def test_report_build_overwrites_current_dataset(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(
         "seebot.cli.build_public_dataset",
-        lambda manifest_directory, checks_path: {"projects": [], "schema_version": 2},
+        lambda manifest_directory, checks_path, evidence_base=None: {
+            "projects": [],
+            "schema_version": 2,
+        },
     )
     result = runner.invoke(app, ["--output-directory", str(tmp_path), "report", "build"])
     assert result.exit_code == 0, result.stdout

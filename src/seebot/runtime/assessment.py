@@ -60,7 +60,9 @@ def plan_usage_probes(
                 probe_id=_probe_id("CLI-HELP-001", command),
                 domain="usage",
                 command=command,
-                timeout_seconds=15,
+                # Cold imports for larger Python CLIs can exceed 30 seconds even though the
+                # command then returns useful help normally (for example RGI and scanpy-cli).
+                timeout_seconds=60,
                 environment=environment,
                 snapshot_date=snapshot_date,
                 snapshot_commit=snapshot_commit,

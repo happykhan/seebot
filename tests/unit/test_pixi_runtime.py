@@ -263,3 +263,50 @@ def test_missing_executable_is_audit_error_not_graceful_rejection(
     assert result.notes == (
         "The installed executable could not be launched in the audited environment."
     )
+
+
+def test_native_probe_copies_fixtures_before_allowing_tool_writes(
+    tmp_path: Path, monkeypatch
+) -> None:
+    root = tmp_path / "environment"
+    root.mkdir()
+    (root / "pixi.toml").write_text("[workspace]\n", encoding="utf-8")
+    (root / "pixi.lock").write_text("locked\n", encoding="utf-8")
+    fixtures = tmp_path / "fixtures"
+    fixtures.mkdir()
+    (fixtures / "input.txt").write_text("input\n", encoding="utf-8")
+    environment = PixiEnvironment(
+        project_id="writer",
+        installation_id="pixi:writer=1.0=0",
+        root=root,
+        manifest_path=root / "pixi.toml",
+        lock_path=root / "pixi.lock",
+        package_record={"name": "writer", "version": "1.0", "build": "0"},
+    )
+
+    def write_beside_input(command, **_kwargs):
+        copied_input = Path(next(value for value in command if value.endswith("input.txt")))
+        copied_input.with_name("generated.txt").write_text("output\n", encoding="utf-8")
+        return subprocess.CompletedProcess(command, 0, b"ok\n", b"")
+
+    monkeypatch.setattr(pixi_runtime, "_run", write_beside_input)
+    monkeypatch.setenv("SEEBOT_CONTAINER_RUNTIME", "native")
+    monkeypatch.setenv("SEEBOT_PIXI_EXECUTABLE", "/usr/bin/env")
+    result = run_pixi_probe(
+        PixiProbeSpec(
+            project_id="writer",
+            check_id="CLI-VALID-RUN-001",
+            probe_id="valid:writer",
+            domain="usage",
+            command=["writer", "/fixtures/input.txt"],
+            timeout_seconds=10,
+            environment=environment,
+            fixture_directory=fixtures,
+        ),
+        run_id="current",
+        evidence_root=tmp_path / "evidence",
+        config_path=Path("config/rubric.yaml"),
+    )
+
+    assert not (fixtures / "generated.txt").exists()
+    assert result.observed["created_files"] == [".fixture-sandbox/generated.txt"]

@@ -73,10 +73,10 @@ interfaces:
   - raxmlHPC-SSE3
   help_commands:
   - - raxmlHPC
-    - --help
+    - -h
   version_commands:
   - - raxmlHPC
-    - --version
+    - -v
   no_argument_policy: help_or_usage_error
   stdin_support: not_supported
   stdout_support: supported
