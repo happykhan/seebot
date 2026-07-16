@@ -17,6 +17,8 @@ from seebot.runtime.pixi import (
     PixiEnvironment,
     PixiProbeSpec,
     cleanup_environment,
+    command_is_installed,
+    package_executables,
     prepare_environment,
     run_pixi_probe,
 )
@@ -31,6 +33,57 @@ ROBUSTNESS_CHECKS = {
     "invalid_value": "CLI-INVALID-VALUE-001",
     "unwritable_output": "CLI-UNWRITABLE-OUTPUT-001",
 }
+
+
+def declared_command_names(manifest: dict[str, Any]) -> tuple[str, ...]:
+    """Collect executable tokens from every reviewed argument-array command."""
+    interface = manifest["interfaces"]
+    commands = [*interface["help_commands"], *interface["version_commands"]]
+    commands.extend(
+        row["command"] for row in (manifest["valid_run"], manifest["streams"]) if row.get("command")
+    )
+    commands.extend(row["command"] for row in manifest["robustness"].values() if row.get("command"))
+    names = {str(command[0]) for command in commands if command}
+    if interface.get("primary"):
+        names.add(str(interface["primary"]))
+    return tuple(sorted(names, key=str.casefold))
+
+
+def verify_installed_interface(
+    manifest: dict[str, Any], environment: PixiEnvironment
+) -> tuple[str, ...]:
+    """Reject a curated interface that does not match the installed package payload."""
+    project_id = str(manifest["project"]["id"])
+    primary = str(manifest["interfaces"]["primary"])
+    owned = package_executables(environment)
+    missing = tuple(
+        name
+        for name in declared_command_names(manifest)
+        if not command_is_installed(environment, name)
+    )
+    problems: list[str] = []
+    if primary not in owned:
+        problems.append(f"primary command {primary!r} is not owned by the requested package")
+    if missing:
+        problems.append("command(s) absent from the installed environment: " + ", ".join(missing))
+    if problems:
+        ordered = sorted(
+            owned,
+            key=lambda name: (
+                name.casefold() != primary.casefold(),
+                primary.casefold() not in name.casefold(),
+                name.casefold(),
+            ),
+        )
+        shown = ordered[:12]
+        candidates = ", ".join(shown) if shown else "none recorded"
+        if len(ordered) > len(shown):
+            candidates += f" (+{len(ordered) - len(shown)} more)"
+        raise ValueError(
+            f"Installed interface preflight failed for {project_id}: {'; '.join(problems)}. "
+            f"Package-owned executable candidates: {candidates}."
+        )
+    return owned
 
 
 def _probe_id(check_id: str, command: list[str]) -> str:
@@ -233,6 +286,7 @@ def run_project_usage(
         channels=installation["channels"],
     )
     try:
+        verify_installed_interface(manifest, environment)
         specs = plan_usage_probes(
             manifest,
             environment,

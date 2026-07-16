@@ -127,6 +127,37 @@ class PixiProbeSpec:
     environment_variables: dict[str, str] = field(default_factory=dict)
 
 
+def package_executables(environment: PixiEnvironment) -> tuple[str, ...]:
+    """Return executable names owned by the specifically requested Conda package."""
+    prefix = environment.root / ".pixi" / "envs" / "default"
+    names: set[str] = set()
+    for metadata_path in sorted((prefix / "conda-meta").glob("*.json")):
+        try:
+            payload = json.loads(metadata_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not all(
+            str(payload.get(key)) == str(environment.package_record.get(key))
+            for key in ("name", "version", "build")
+        ):
+            continue
+        for value in payload.get("files", []):
+            path = Path(str(value))
+            if len(path.parts) == 2 and path.parts[0] == "bin":
+                candidate = prefix / path
+                if candidate.is_file() and os.access(candidate, os.X_OK):
+                    names.add(path.name)
+    return tuple(sorted(names, key=str.casefold))
+
+
+def command_is_installed(environment: PixiEnvironment, command: str) -> bool:
+    """Check one argument-array command token against the installed Linux prefix."""
+    if Path(command).name != command:
+        return False
+    candidate = environment.root / ".pixi" / "envs" / "default" / "bin" / command
+    return candidate.is_file() and os.access(candidate, os.X_OK)
+
+
 def _run(
     command: list[str], *, timeout: int = 1800, stdin_bytes: bytes | None = None
 ) -> subprocess.CompletedProcess[bytes]:

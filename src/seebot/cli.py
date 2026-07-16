@@ -27,7 +27,8 @@ from seebot.runtime.analyzers import (
     prepare_analyzer_environment,
     prepare_dependency_analyzer_environment,
 )
-from seebot.runtime.assessment import run_project_usage
+from seebot.runtime.assessment import run_project_usage, verify_installed_interface
+from seebot.runtime.pixi import cleanup_environment, prepare_environment
 from seebot.selection import select_manifests
 from seebot.storage import directory_size, format_bytes, prune_owned_directory
 from seebot.survey import SURVEY_FIELDS, survey_rows
@@ -428,6 +429,58 @@ def audit_plan(
             manifest["valid_run"]["status"],
         )
     console.print(table)
+
+
+@audit_app.command("verify-interface")
+def audit_verify_interface(
+    ctx: typer.Context,
+    tool: Annotated[list[str], typer.Option("--tool")],
+    keep_environment: Annotated[bool, typer.Option("--keep-environment")] = False,
+) -> None:
+    """Install selected packages and verify curated commands before behavioural probes."""
+    opts = options(ctx)
+    selected = selected_projects(tool, None, None)
+    table = Table("Project", "Primary", "Status", "Installed metadata")
+    failed = False
+    for _, manifest in selected:
+        project_id = str(manifest["project"]["id"])
+        primary = str(manifest["interfaces"]["primary"])
+        if opts.dry_run:
+            table.add_row(project_id, primary, "Would verify", "Not installed")
+            continue
+        installation = manifest["installation"]
+        environment = None
+        try:
+            environment = prepare_environment(
+                opts.output_directory / "work" / "environments" / project_id,
+                cache_root=opts.output_directory / ".seebot-cache" / "pixi",
+                project_id=project_id,
+                package_name=installation["artifact"],
+                version=str(installation["version"]),
+                build=installation["build"],
+                channels=installation["channels"],
+            )
+            executables = verify_installed_interface(manifest, environment)
+            table.add_row(
+                project_id,
+                primary,
+                "Verified",
+                f"Primary is package-owned; {len(executables)} executable(s) recorded",
+            )
+        except (OSError, RuntimeError, ValueError) as exc:
+            failed = True
+            table.add_row(project_id, primary, f"Mismatch: {exc}", "—")
+        finally:
+            if (
+                environment is not None
+                and not keep_environment
+                and environment.root.exists()
+                and os.environ.get("SEEBOT_OFFLINE") != "1"
+            ):
+                cleanup_environment(environment)
+    console.print(table)
+    if failed:
+        raise typer.Exit(1)
 
 
 @audit_app.command("run")
