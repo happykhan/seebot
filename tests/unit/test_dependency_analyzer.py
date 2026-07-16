@@ -1,3 +1,5 @@
+import pytest
+
 from seebot.analyzers.dependencies import _parse, _parse_cpan_audit
 from seebot.models import Applicability, Status
 
@@ -8,6 +10,45 @@ def test_dependency_parser_marks_missing_supported_input_not_applicable() -> Non
     assert applicability is Applicability.NOT_APPLICABLE
     assert observed["advisory_count"] == 0
     assert notes
+
+
+@pytest.mark.parametrize(
+    ("source", "ecosystem"),
+    [
+        ("requirements.txt", "PyPI"),
+        ("package-lock.json", "npm"),
+        ("pom.xml", "Maven"),
+        ("Cargo.lock", "crates.io"),
+        ("conan.lock", "ConanCenter"),
+    ],
+)
+def test_dependency_parser_accepts_osv_results_from_multiple_ecosystems(
+    source: str, ecosystem: str
+) -> None:
+    observed, status, applicability, notes = _parse(
+        {
+            "results": [
+                {
+                    "source": {"path": f"/source/{source}", "type": "lockfile"},
+                    "packages": [
+                        {
+                            "package": {
+                                "name": "demo",
+                                "version": "1.0",
+                                "ecosystem": ecosystem,
+                            },
+                            "vulnerabilities": [],
+                        }
+                    ],
+                }
+            ]
+        }
+    )
+    assert status is Status.OBSERVED
+    assert applicability is Applicability.APPLICABLE
+    assert notes is None
+    assert observed["supported_sources"] == [source]
+    assert observed["advisory_count"] == 0
 
 
 def test_dependency_parser_retains_native_advisory_fields() -> None:

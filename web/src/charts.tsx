@@ -24,6 +24,16 @@ export function quantile(values: number[], fraction: number): number {
   return ordered[lower] + (ordered[lower + 1] - ordered[lower]) * remainder
 }
 
+export function compatibleMetricLanguages(points: MetricPoint[]): string[] {
+  return [...new Set(points.map((point) => point.language).filter((value): value is string => Boolean(value)))].sort()
+}
+
+export function selectMetricPoints(points: MetricPoint[], language: string): MetricPoint[] {
+  const compatible = compatibleMetricLanguages(points)
+  if (language === 'all' || !compatible.includes(language)) return points
+  return points.filter((point) => point.language === language)
+}
+
 function historyValue(snapshot: SourceSnapshot, metric: HistoryMetric): number | null {
   if (metric === 'physical_lines') return numeric(snapshot.metrics.inventory, 'physical_lines')
   if (metric === 'maximum_file') return numeric(snapshot.metrics.files, 'maximum')

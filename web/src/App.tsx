@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavBar } from '@genomicx/ui'
 import { useLocation } from 'react-router-dom'
-import { AggregateTrend, DistributionPlot, formatNumber, numeric, quantile, SoftwareTimeSeries } from './charts'
+import { AggregateTrend, compatibleMetricLanguages, DistributionPlot, formatNumber, numeric, quantile, selectMetricPoints, SoftwareTimeSeries } from './charts'
 import { contractCatalogue, historyDefinitions, metricDefinitions, practiceDescriptions, type HistoryMetric } from './catalogue'
 import { loadPublishedDataset } from './dataset'
 import { FindingsTable } from './FindingsTable'
@@ -107,8 +107,8 @@ function Explorer({ dataset }: { dataset: Dataset }) {
   const definition = metricDefinitions[metric]
   const languages = Object.keys(dataset.aggregate.component_language_counts).sort()
   const metricPoints = dataset.aggregate.metric_points[metric] ?? []
-  const metricLanguages = [...new Set(metricPoints.map((point) => point.language).filter((value): value is string => Boolean(value)))].sort()
-  const points = metricPoints.filter((point) => metricLanguage === 'all' || point.language === metricLanguage)
+  const metricLanguages = compatibleMetricLanguages(metricPoints)
+  const points = selectMetricPoints(metricPoints, metricLanguage)
   useEffect(() => {
     if (metricLanguage !== 'all' && !metricLanguages.includes(metricLanguage)) setMetricLanguage('all')
   }, [metric, metricLanguage, metricLanguages.join('|')])
