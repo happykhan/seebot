@@ -26,7 +26,7 @@ jobs:
         working-directory: web
       - run: npx playwright install --with-deps chromium
         working-directory: web
-      - run: npm run test:visual
+      - run: npm run test:layout
         working-directory: web
       - uses: actions/upload-pages-artifact@v3
         with: { path: web/dist }
