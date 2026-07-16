@@ -103,7 +103,5 @@ def test_published_projects_include_repository_observations() -> None:
     }
 
     for project in dataset["projects"]:
-        observed = {
-            row["check_id"] for row in project["results"] if row["domain"] == "repository"
-        }
+        observed = {row["check_id"] for row in project["results"] if row["domain"] == "repository"}
         assert observed == expected, project["id"]
