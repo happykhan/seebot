@@ -408,7 +408,7 @@ def run_non_python_native_analyzers(
             probe_id=f"{language}:cppcheck:lint",
             command=command,
             parser=_cppcheck_parser(line_count, security_only=False),
-            accepted={0},
+            accepted={0, 1},
         )
         if lint.status is Status.OBSERVED:
             stdout_path = evidence_root.parent / lint.evidence.stdout
