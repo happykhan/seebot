@@ -9,7 +9,8 @@ from pathlib import Path
 from typing import Any
 
 from seebot.analyzers.native import _run_native
-from seebot.models import CheckResult, Status
+from seebot.models import CheckResult, Status, ToolIdentity
+from seebot.observations import write_measurement
 from seebot.runtime.analyzers import AnalyzerEnvironment
 
 
@@ -156,6 +157,63 @@ def run_python_analyzers(
     snapshot_commit: str | None = None,
 ) -> list[CheckResult]:
     file_count, lines = _denominator(files)
+    if not files:
+        base = {
+            "language": "python",
+            "production_files": 0,
+            "production_nonblank_noncomment_lines": 0,
+            "finding_count": 0,
+            "findings_per_kloc": None,
+        }
+        note = "No Python production files were selected for this snapshot."
+        rows = [
+            (
+                "SRC-NATIVE-LINT-001",
+                "python:ruff",
+                {**base, "analyzer": "ruff", "rules": []},
+            ),
+            (
+                "SRC-NATIVE-LINT-001",
+                "python:pylint",
+                {**base, "analyzer": "pylint", "rules": []},
+            ),
+            (
+                "SRC-NATIVE-SECURITY-001",
+                "python:bandit",
+                {**base, "analyzer": "bandit", "rules": []},
+            ),
+            (
+                "SRC-DEAD-CODE-001",
+                "python:vulture",
+                {
+                    "language": "python",
+                    "analyzer": "vulture",
+                    "candidate_count": 0,
+                    "notes": "Candidates are indicators, not confirmed dead code.",
+                },
+            ),
+        ]
+        return [
+            write_measurement(
+                project_id=project_id,
+                run_id=run_id,
+                check_id=check_id,
+                probe_id=probe_id,
+                domain="source",
+                status=Status.OBSERVED,
+                observed=observed,
+                evidence_root=evidence_root,
+                config_path=config_root / "rubric.yaml",
+                snapshot_date=snapshot_date,
+                snapshot_commit=snapshot_commit,
+                source_component_id="python:production",
+                tool=ToolIdentity(name=probe_id.split(":")[-1], version="pinned by analyzer lock"),
+                expected={"measurement_only": True, "network": "none"},
+                notes=note,
+                force=force,
+            )
+            for check_id, probe_id, observed in rows
+        ]
     relative = [f"/source/{path.relative_to(checkout).as_posix()}" for path in files]
     specs = [
         (

@@ -83,3 +83,33 @@ def test_ruff_disables_cache_for_read_only_source_mount(
 
     ruff_command = commands[0]
     assert ruff_command[:3] == ["ruff", "check", "--no-cache"]
+
+
+def test_python_analyzers_record_zero_findings_without_files(
+    tmp_path: Path, monkeypatch: MonkeyPatch
+) -> None:
+    checkout = tmp_path / "checkout"
+    config = tmp_path / "config"
+    checkout.mkdir()
+    config.mkdir()
+    (config / "rubric.yaml").write_text("rubric: test\n", encoding="utf-8")
+
+    def fail_if_invoked(**kwargs: Any) -> Mock:
+        raise AssertionError("native analyzer should not run with no files")
+
+    monkeypatch.setattr("seebot.analyzers.python._run_native", fail_if_invoked)
+
+    results = run_python_analyzers(
+        environment=Mock(),
+        checkout=checkout,
+        files=[],
+        project_id="example",
+        run_id="run",
+        evidence_root=tmp_path / "evidence",
+        config_root=config,
+        force=True,
+    )
+
+    assert len(results) == 4
+    assert {result.status for result in results} == {Status.OBSERVED}
+    assert all(result.observed.get("finding_count", 0) == 0 for result in results)
