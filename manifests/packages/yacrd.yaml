@@ -120,6 +120,26 @@ robustness:
     - out.yacrd
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: applicable
+    reason: A valid PAF stream containing zero overlap records is supplied.
+    command:
+    - yacrd
+    - --thread
+    - '1'
+    - --input
+    - /fixtures/empty/empty.paf
+    - --output
+    - empty.yacrd
+    fixture_id: empty-paf
+    expected_outputs:
+    - path: empty.yacrd
+      nonempty: false
+      parser: tsv
+      record_count: 0
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: The PAF record lacks mandatory columns.

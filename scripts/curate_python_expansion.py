@@ -10,7 +10,17 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from curate_current_cohort import applicable, not_applicable, output, review_record, stream, valid
+from curate_current_cohort import (
+    applicable,
+    not_applicable,
+    output,
+    review_record,
+    semantic_empty,
+    semantic_empty_not_applicable,
+    semantic_empty_unknown,
+    stream,
+    valid,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 SELECTED = (
@@ -56,6 +66,7 @@ def cli_robustness(primary: str, invalid_value: list[str] | None = None) -> dict
     return {
         "missing_input": not_applicable(no_file),
         "empty_input": not_applicable(no_file),
+        "semantically_empty_input": semantic_empty_not_applicable(no_file),
         "malformed_input": not_applicable(no_file),
         "wrong_format": not_applicable(no_file),
         "invalid_option": applicable(
@@ -84,6 +95,7 @@ def file_robustness(
     wrong_id: str = "core-variants-vcf",
     invalid_value: list[str] | None = None,
     unwritable: list[str] | None = None,
+    semantic: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "missing_input": applicable(
@@ -95,6 +107,10 @@ def file_robustness(
             [*command_prefix, "/fixtures/bad/empty.dat"],
             "bad-empty",
             "A zero-byte input file is supplied.",
+        ),
+        "semantically_empty_input": semantic
+        or semantic_empty_unknown(
+            "The format-specific zero-record fixture and expected output require review."
         ),
         "malformed_input": applicable(
             [*command_prefix, malformed],
@@ -481,6 +497,13 @@ SPECS: dict[str, dict[str, Any]] = {
                 "-f",
                 "True",
             ],
+            semantic=semantic_empty(
+                ["samsift", "-i", "/fixtures/empty/header-only.sam", "-f", "True"],
+                "empty-header-only-sam",
+                "A valid SAM header is supplied with no alignment records.",
+                stdout_parser="sam",
+                stdout_record_count=0,
+            ),
         ),
         stdin="supported",
     ),

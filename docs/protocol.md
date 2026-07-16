@@ -114,11 +114,15 @@ per-tool workspace, bounded process count, and no network during probes. Discove
 have a 15-second limit, invalid-input checks 30 seconds, and a miniature valid run five
 minutes. Resource exhaustion is `UNTESTABLE`, not project failure.
 
-The mandatory invalid-input scenarios are missing input, zero-byte input, malformed input,
-valid but wrong format, unrecognized option, invalid option value, and unwritable output
-where applicable. Each records exit status, stdout, stderr, timeout, crash/traceback
-markers, and created files. Tool-output repeatability and exact-output hashing are not
-assessment metrics.
+The mandatory robustness scenarios are missing input, zero-byte input, semantically empty
+input, malformed input, valid but wrong format, unrecognized option, invalid option value,
+and unwritable output where applicable. Semantically empty inputs are valid instances of
+their declared format containing zero biological records, such as an empty FASTQ stream or
+a header-only SAM or VCF. This check requires successful execution and structurally valid
+output representing zero records; it is separate from graceful rejection of unusable
+zero-byte input. Each probe records exit status, stdout, stderr, timeout, crash/traceback
+markers, created files, output structure, and record cardinality where defined. Tool-output
+repeatability and exact-output hashing are not assessment metrics.
 
 ## Fixtures
 

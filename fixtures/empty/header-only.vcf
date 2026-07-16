@@ -1,0 +1,3 @@
+##fileformat=VCFv4.2
+##contig=<ID=synthetic_reference,length=120>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO

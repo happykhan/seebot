@@ -16,7 +16,7 @@
     }
   ],
   "assessment": {
-    "manifest_sha256": "04512964c0ad2929040e5bd7f49181d1466e22b0669ae4c84d92b7e0e89fac2c",
+    "manifest_sha256": "b8c3955574d54aa83519033022f5787236c395251840e89aac5f0e5cfa9727fd",
     "source_roots_reviewed": true,
     "commands_are_argument_arrays": true,
     "fixtures_and_applicability_reviewed": true,

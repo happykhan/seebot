@@ -155,7 +155,8 @@
             "properties": {
               "path": {"type": "string"},
               "nonempty": {"type": "boolean"},
-              "parser": {"$ref": "#/$defs/nullableString"}
+              "parser": {"$ref": "#/$defs/nullableString"},
+              "record_count": {"type": ["integer", "null"], "minimum": 0}
             }
           }
         },
@@ -167,10 +168,11 @@
     "robustness": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["missing_input", "empty_input", "malformed_input", "wrong_format", "invalid_option", "invalid_value", "unwritable_output"],
+      "required": ["missing_input", "empty_input", "semantically_empty_input", "malformed_input", "wrong_format", "invalid_option", "invalid_value", "unwritable_output"],
       "properties": {
         "missing_input": {"$ref": "#/$defs/robustnessProbe"},
         "empty_input": {"$ref": "#/$defs/robustnessProbe"},
+        "semantically_empty_input": {"$ref": "#/$defs/semanticEmptyProbe"},
         "malformed_input": {"$ref": "#/$defs/robustnessProbe"},
         "wrong_format": {"$ref": "#/$defs/robustnessProbe"},
         "invalid_option": {"$ref": "#/$defs/robustnessProbe"},
@@ -210,6 +212,34 @@
         "command": {"$ref": "#/$defs/nullableCommand"},
         "fixture_id": {"$ref": "#/$defs/nullableString"},
         "diagnostic_expectation": {"enum": ["specific", "specific_or_generic", "not_applicable", "unknown"]}
+      }
+    },
+    "semanticEmptyProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "reason", "command", "fixture_id", "expected_outputs", "expect_stdout", "stdout_parser", "stdout_record_count"],
+      "properties": {
+        "applicability": {"enum": ["applicable", "not_applicable", "unknown"]},
+        "reason": {"$ref": "#/$defs/nullableString"},
+        "command": {"$ref": "#/$defs/nullableCommand"},
+        "fixture_id": {"$ref": "#/$defs/nullableString"},
+        "expected_outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "nonempty", "parser", "record_count"],
+            "properties": {
+              "path": {"type": "string"},
+              "nonempty": {"type": "boolean"},
+              "parser": {"$ref": "#/$defs/nullableString"},
+              "record_count": {"type": ["integer", "null"], "minimum": 0}
+            }
+          }
+        },
+        "expect_stdout": {"type": "boolean"},
+        "stdout_parser": {"$ref": "#/$defs/nullableString"},
+        "stdout_record_count": {"type": ["integer", "null"], "minimum": 0}
       }
     }
   }

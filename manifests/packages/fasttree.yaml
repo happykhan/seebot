@@ -113,6 +113,16 @@ robustness:
     - /fixtures/bad/empty.dat
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: Newick has no agreed zero-sequence tree representation for this operation; the separate zero-byte
+      probe still assesses graceful rejection.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: The FASTA structure is malformed.

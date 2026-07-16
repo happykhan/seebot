@@ -156,6 +156,13 @@ checks:
     title: Zero-byte input is handled gracefully
     timeout_seconds: 30
 
+  - id: CLI-SEMANTICALLY-EMPTY-INPUT-001
+    domain: robustness
+    kind: contract
+    title: Semantically empty input produces a valid empty result
+    timeout_seconds: 30
+    notes: A format-valid input containing zero biological records must complete without an internal crash and produce structurally valid output representing zero records.
+
   - id: CLI-MALFORMED-INPUT-001
     domain: robustness
     kind: contract

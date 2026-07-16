@@ -48,6 +48,47 @@ def not_applicable(reason: str) -> dict[str, Any]:
     }
 
 
+def semantic_empty(
+    command: list[str],
+    fixture_id: str,
+    reason: str,
+    *,
+    outputs: list[dict[str, Any]] | None = None,
+    stdout_parser: str | None = None,
+    stdout_record_count: int | None = None,
+) -> dict[str, Any]:
+    return {
+        "applicability": "applicable",
+        "reason": reason,
+        "command": command,
+        "fixture_id": fixture_id,
+        "expected_outputs": outputs or [],
+        "expect_stdout": False,
+        "stdout_parser": stdout_parser,
+        "stdout_record_count": stdout_record_count,
+    }
+
+
+def semantic_empty_not_applicable(reason: str) -> dict[str, Any]:
+    return {
+        "applicability": "not_applicable",
+        "reason": reason,
+        "command": None,
+        "fixture_id": None,
+        "expected_outputs": [],
+        "expect_stdout": False,
+        "stdout_parser": None,
+        "stdout_record_count": None,
+    }
+
+
+def semantic_empty_unknown(reason: str) -> dict[str, Any]:
+    return {
+        **semantic_empty_not_applicable(reason),
+        "applicability": "unknown",
+    }
+
+
 def stream(
     command: list[str] | None,
     fixture_ids: list[str],
@@ -87,8 +128,21 @@ def valid(
     }
 
 
-def output(path: str, parser: str, *, nonempty: bool = True) -> dict[str, Any]:
-    return {"path": path, "nonempty": nonempty, "parser": parser}
+def output(
+    path: str,
+    parser: str,
+    *,
+    nonempty: bool = True,
+    record_count: int | None = None,
+) -> dict[str, Any]:
+    result: dict[str, Any] = {"path": path, "nonempty": nonempty, "parser": parser}
+    if record_count is not None:
+        result["record_count"] = record_count
+    return result
+
+
+def empty_output(path: str, parser: str, *, nonempty: bool = False) -> dict[str, Any]:
+    return {"path": path, "nonempty": nonempty, "parser": parser, "record_count": 0}
 
 
 SPECS: dict[str, dict[str, Any]] = {
@@ -128,6 +182,19 @@ SPECS: dict[str, dict[str, Any]] = {
                 ["samtools", "view", "/fixtures/bad/empty.dat"],
                 "bad-empty",
                 "A zero-byte alignment is syntactically invalid.",
+            ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "samtools",
+                    "view",
+                    "-h",
+                    "-o",
+                    "empty.sam",
+                    "/fixtures/empty/header-only.sam",
+                ],
+                "empty-header-only-sam",
+                "A valid SAM header is supplied with no alignment records.",
+                outputs=[empty_output("empty.sam", "sam", nonempty=True)],
             ),
             "malformed_input": applicable(
                 ["samtools", "view", "/fixtures/bad/malformed.fasta"],
@@ -202,6 +269,19 @@ SPECS: dict[str, dict[str, Any]] = {
                 "bad-empty",
                 "A zero-byte VCF has no header.",
             ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "bcftools",
+                    "view",
+                    "-Ov",
+                    "-o",
+                    "empty.vcf",
+                    "/fixtures/empty/header-only.vcf",
+                ],
+                "empty-header-only-vcf",
+                "A valid VCF header is supplied with no variant records.",
+                outputs=[empty_output("empty.vcf", "vcf", nonempty=True)],
+            ),
             "malformed_input": applicable(
                 ["bcftools", "view", "/fixtures/bad/invalid.vcf"],
                 "bad-invalid-vcf",
@@ -272,6 +352,10 @@ SPECS: dict[str, dict[str, Any]] = {
                 ["fasttree", "-nt", "/fixtures/bad/empty.dat"],
                 "bad-empty",
                 "A zero-byte alignment contains no sequences.",
+            ),
+            "semantically_empty_input": semantic_empty_not_applicable(
+                "Newick has no agreed zero-sequence tree representation for this operation; "
+                "the separate zero-byte probe still assesses graceful rejection."
             ),
             "malformed_input": applicable(
                 ["fasttree", "-nt", "/fixtures/bad/malformed.fasta"],
@@ -344,6 +428,20 @@ SPECS: dict[str, dict[str, Any]] = {
                 ["cutadapt", "-o", "out.fastq", "/fixtures/bad/empty.dat"],
                 "bad-empty",
                 "A zero-byte reads file is supplied.",
+            ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "cutadapt",
+                    "--cores=1",
+                    "-a",
+                    "AGATCGGAAGAGC",
+                    "-o",
+                    "empty.fastq",
+                    "/fixtures/empty/empty.fastq",
+                ],
+                "empty-fastq",
+                "A valid FASTQ stream containing zero reads is supplied.",
+                outputs=[empty_output("empty.fastq", "fastq")],
             ),
             "malformed_input": applicable(
                 ["cutadapt", "-o", "out.fastq", "/fixtures/bad/truncated.fastq"],
@@ -426,6 +524,24 @@ SPECS: dict[str, dict[str, Any]] = {
                 "bad-empty",
                 "A zero-byte reads file is supplied.",
             ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "fastp",
+                    "--in1",
+                    "/fixtures/empty/empty.fastq",
+                    "--out1",
+                    "empty.fastq",
+                    "--json",
+                    "empty.json",
+                    "--html",
+                    "empty.html",
+                    "--thread",
+                    "1",
+                ],
+                "empty-fastq",
+                "A valid FASTQ stream containing zero reads is supplied.",
+                outputs=[empty_output("empty.fastq", "fastq")],
+            ),
             "malformed_input": applicable(
                 ["fastp", "--in1", "/fixtures/bad/truncated.fastq", "--out1", "out.fastq"],
                 "bad-truncated-fastq",
@@ -497,6 +613,12 @@ SPECS: dict[str, dict[str, Any]] = {
                 "bad-empty",
                 "A zero-byte sequence file is supplied.",
             ),
+            "semantically_empty_input": semantic_empty(
+                ["famsa", "-t", "1", "/fixtures/empty/empty.fasta", "empty.fasta"],
+                "empty-fasta",
+                "A valid FASTA stream containing zero sequence records is supplied.",
+                outputs=[empty_output("empty.fasta", "fasta")],
+            ),
             "malformed_input": applicable(
                 ["famsa", "/fixtures/bad/malformed.fasta", "out.fasta"],
                 "bad-malformed-fasta",
@@ -565,6 +687,20 @@ SPECS: dict[str, dict[str, Any]] = {
                 ["yacrd", "-i", "/fixtures/bad/empty.dat", "-o", "out.yacrd"],
                 "bad-empty",
                 "A zero-byte overlap file is supplied.",
+            ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "yacrd",
+                    "--thread",
+                    "1",
+                    "--input",
+                    "/fixtures/empty/empty.paf",
+                    "--output",
+                    "empty.yacrd",
+                ],
+                "empty-paf",
+                "A valid PAF stream containing zero overlap records is supplied.",
+                outputs=[empty_output("empty.yacrd", "tsv")],
             ),
             "malformed_input": applicable(
                 ["yacrd", "-i", "/fixtures/bad/malformed.paf", "-o", "out.yacrd"],
@@ -650,6 +786,20 @@ SPECS: dict[str, dict[str, Any]] = {
                 "bad-empty",
                 "A zero-byte FASTA is supplied.",
             ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "pyrodigal",
+                    "-p",
+                    "meta",
+                    "-i",
+                    "/fixtures/empty/empty.fasta",
+                    "-o",
+                    "empty.gff",
+                ],
+                "empty-fasta",
+                "A valid FASTA stream containing zero sequence records is supplied.",
+                outputs=[empty_output("empty.gff", "gff3")],
+            ),
             "malformed_input": applicable(
                 ["pyrodigal", "-p", "meta", "-i", "/fixtures/bad/malformed.fasta"],
                 "bad-malformed-fasta",
@@ -733,6 +883,19 @@ SPECS: dict[str, dict[str, Any]] = {
             "empty_input": applicable(
                 ["minced", "/fixtures/bad/empty.dat"], "bad-empty", "A zero-byte FASTA is supplied."
             ),
+            "semantically_empty_input": semantic_empty(
+                [
+                    "minced",
+                    "-minNR",
+                    "2",
+                    "/fixtures/empty/empty.fasta",
+                    "empty.txt",
+                    "empty.gff",
+                ],
+                "empty-fasta",
+                "A valid FASTA stream containing zero sequence records is supplied.",
+                outputs=[empty_output("empty.gff", "gff3")],
+            ),
             "malformed_input": applicable(
                 ["minced", "/fixtures/bad/malformed.fasta"],
                 "bad-malformed-fasta",
@@ -801,6 +964,13 @@ SPECS: dict[str, dict[str, Any]] = {
                 ["any2fasta", "/fixtures/bad/empty.dat"],
                 "bad-empty",
                 "A zero-byte sequence file is supplied.",
+            ),
+            "semantically_empty_input": semantic_empty(
+                ["any2fasta", "/fixtures/empty/empty.fastq"],
+                "empty-fastq",
+                "A valid FASTQ stream containing zero reads is supplied.",
+                stdout_parser="fasta",
+                stdout_record_count=0,
             ),
             "malformed_input": applicable(
                 ["any2fasta", "/fixtures/bad/truncated.fastq"],

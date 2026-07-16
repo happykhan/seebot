@@ -112,6 +112,20 @@ robustness:
     - /fixtures/bad/empty.dat
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: applicable
+    reason: A valid SAM header is supplied with no alignment records.
+    command:
+    - samsift
+    - -i
+    - /fixtures/empty/header-only.sam
+    - -f
+    - 'True'
+    fixture_id: empty-header-only-sam
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: sam
+    stdout_record_count: 0
   malformed_input:
     applicability: applicable
     reason: A structurally malformed input is supplied.

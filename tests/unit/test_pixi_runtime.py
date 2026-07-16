@@ -7,9 +7,79 @@ from seebot.runtime.pixi import (
     ExpectedOutput,
     PixiEnvironment,
     PixiProbeSpec,
+    _inspect_output,
     _repair_case_colliding_aliases,
     run_pixi_probe,
 )
+
+
+def test_empty_biological_outputs_are_validated_with_zero_record_cardinality(
+    tmp_path: Path,
+) -> None:
+    fastq = tmp_path / "empty.fastq"
+    fastq.write_bytes(b"")
+    sam = tmp_path / "header-only.sam"
+    sam.write_text("@HD\tVN:1.6\tSO:unknown\n@SQ\tSN:ref\tLN:10\n", encoding="utf-8")
+
+    assert _inspect_output(fastq, "fastq", allow_empty=True) == (True, 0, None)
+    assert _inspect_output(sam, "sam", allow_empty=True) == (True, 0, None)
+    assert _inspect_output(fastq, "fastq", allow_empty=False)[0] is False
+
+
+def test_semantically_empty_probe_accepts_created_valid_zero_record_output(
+    tmp_path: Path, monkeypatch
+) -> None:
+    environment_root = tmp_path / "environment"
+    environment_root.mkdir()
+    manifest_path = environment_root / "pixi.toml"
+    lock_path = environment_root / "pixi.lock"
+    manifest_path.write_text("[workspace]\n", encoding="utf-8")
+    lock_path.write_text("locked\n", encoding="utf-8")
+    fixture = tmp_path / "fixtures"
+    fixture.mkdir()
+    (fixture / "empty.fastq").write_bytes(b"")
+    environment = PixiEnvironment(
+        project_id="fixture-tool",
+        installation_id="pixi:fixture-tool=1.0=test_0",
+        root=environment_root,
+        manifest_path=manifest_path,
+        lock_path=lock_path,
+        package_record={"name": "fixture-tool", "version": "1.0", "build": "test_0"},
+    )
+
+    def fake_run(
+        command: list[str], *, timeout: int = 1800, stdin_bytes: bytes | None = None
+    ) -> subprocess.CompletedProcess[bytes]:
+        work_mount = next(value for value in command if value.endswith(":/work:rw")).removesuffix(
+            ":/work:rw"
+        )
+        Path(work_mount, "output.fastq").write_bytes(b"")
+        return subprocess.CompletedProcess(command, 0, b"", b"")
+
+    monkeypatch.setattr(pixi_runtime, "_run", fake_run)
+    monkeypatch.setattr(pixi_runtime, "docker_executable", lambda: "/usr/bin/docker")
+    result = run_pixi_probe(
+        PixiProbeSpec(
+            project_id="fixture-tool",
+            check_id="CLI-SEMANTICALLY-EMPTY-INPUT-001",
+            probe_id="semantic-empty:fixture-tool",
+            domain="robustness",
+            command=["fixture-tool", "/fixtures/empty.fastq", "/work/output.fastq"],
+            timeout_seconds=10,
+            environment=environment,
+            executable_id="fixture-tool",
+            fixture_directory=fixture,
+            expected_outputs=(
+                ExpectedOutput("output.fastq", nonempty=False, parser="fastq", record_count=0),
+            ),
+        ),
+        run_id="current",
+        evidence_root=tmp_path / "evidence",
+        config_path=Path("config/rubric.yaml"),
+    )
+
+    assert result.status is Status.PASS
+    assert result.observed["outputs"][0]["record_count"] == 0
 
 
 def test_case_colliding_identical_package_aliases_are_pruned(tmp_path: Path) -> None:

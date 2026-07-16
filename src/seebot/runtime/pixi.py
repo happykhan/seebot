@@ -82,6 +82,7 @@ class ExpectedOutput:
     path: str
     nonempty: bool = True
     parser: str | None = None
+    record_count: int | None = None
 
 
 @dataclass(frozen=True)
@@ -107,6 +108,7 @@ class PixiProbeSpec:
     expected_version: str | None = None
     require_stdout_nonempty: bool = False
     stdout_parser: str | None = None
+    stdout_record_count: int | None = None
     stdin_fixture: Path | None = None
     manifest_sha256: str | None = None
     environment_variables: dict[str, str] = field(default_factory=dict)
@@ -312,15 +314,17 @@ def _diagnostic_class(stderr: str, crash_detected: bool) -> str:
     return "GENERIC"
 
 
-def _parse_output(path: Path, parser: str | None) -> tuple[bool, str | None]:
+def _inspect_output(
+    path: Path, parser: str | None, *, allow_empty: bool = False
+) -> tuple[bool, int | None, str | None]:
     if parser is None:
-        return True, None
+        return True, None, None
     try:
         text = path.read_text(encoding="utf-8")
         lines = [line for line in text.splitlines() if line.strip()]
         if parser == "fastq":
             valid = (
-                bool(lines)
+                (bool(lines) or allow_empty)
                 and len(lines) % 4 == 0
                 and all(
                     lines[index].startswith("@")
@@ -329,44 +333,67 @@ def _parse_output(path: Path, parser: str | None) -> tuple[bool, str | None]:
                     for index in range(0, len(lines), 4)
                 )
             )
+            record_count = len(lines) // 4 if valid else None
         elif parser == "fasta":
-            valid = (
+            valid = (not lines and allow_empty) or (
                 bool(lines)
                 and lines[0].startswith(">")
                 and any(not line.startswith(">") for line in lines)
             )
+            record_count = sum(line.startswith(">") for line in lines) if valid else None
         elif parser == "vcf":
             records = [line for line in lines if not line.startswith("#")]
             valid = any(line.startswith("#CHROM") for line in lines) and all(
                 len(line.split("\t")) >= 8 and line.split("\t")[1].isdigit() for line in records
             )
+            record_count = len(records) if valid else None
         elif parser == "gff3":
             records = [line for line in lines if not line.startswith("#")]
-            valid = bool(records) and all(len(line.split("\t")) == 9 for line in records)
+            valid = (bool(records) or allow_empty) and all(
+                len(line.split("\t")) == 9 for line in records
+            )
+            record_count = len(records) if valid else None
         elif parser == "bed":
-            valid = bool(lines) and all(len(line.split("\t")) >= 3 for line in lines)
+            valid = (bool(lines) or allow_empty) and all(
+                len(line.split("\t")) >= 3 for line in lines
+            )
+            record_count = len(lines) if valid else None
+        elif parser == "paf":
+            valid = (bool(lines) or allow_empty) and all(
+                len(line.split("\t")) >= 12 for line in lines
+            )
+            record_count = len(lines) if valid else None
+        elif parser == "tsv":
+            valid = (bool(lines) or allow_empty) and all(
+                len(line.split("\t")) >= 2 for line in lines
+            )
+            record_count = len(lines) if valid else None
         elif parser == "sam":
             records = [line for line in lines if not line.startswith("@")]
             valid = (
                 any(line.startswith("@HD") for line in lines)
-                and bool(records)
+                and (bool(records) or allow_empty)
                 and all(
                     len(line.split("\t")) >= 11 and line.split("\t")[3].isdigit()
                     for line in records
                 )
             )
+            record_count = len(records) if valid else None
         elif parser == "newick":
             valid = text.strip().endswith(";") and text.count("(") == text.count(")")
+            record_count = None
         elif parser == "json":
             json.loads(text)
             valid = True
+            record_count = None
         elif parser == "text":
             valid = bool(text.strip())
+            record_count = None
         else:
-            return False, f"unknown parser {parser}"
+            return False, None, f"unknown parser {parser}"
     except (OSError, UnicodeError, json.JSONDecodeError, IndexError) as exc:
-        return False, f"{type(exc).__name__}: {exc}"
-    return valid, None if valid else f"output did not satisfy {parser} structure"
+        return False, None, f"{type(exc).__name__}: {exc}"
+    return valid, record_count, None if valid else f"output did not satisfy {parser} structure"
 
 
 def _probe_directory(spec: PixiProbeSpec, evidence_root: Path, run_id: str) -> Path:
@@ -509,19 +536,36 @@ def run_pixi_probe(
             if status is Status.PASS and not stdout_nonempty:
                 status = Status.FAIL
         if spec.stdout_parser is not None:
-            stdout_valid, stdout_error = _parse_output(stdout_path, spec.stdout_parser)
+            stdout_valid, stdout_records, stdout_error = _inspect_output(
+                stdout_path,
+                spec.stdout_parser,
+                allow_empty=spec.stdout_record_count == 0,
+            )
             observed["stdout_parser"] = spec.stdout_parser
             observed["stdout_structurally_valid"] = stdout_valid
+            observed["stdout_record_count"] = stdout_records
             observed["stdout_parser_error"] = stdout_error
-            if status is Status.PASS and not stdout_valid:
+            if status is Status.PASS and (
+                not stdout_valid
+                or (
+                    spec.stdout_record_count is not None
+                    and stdout_records != spec.stdout_record_count
+                )
+            ):
                 status = Status.FAIL
         output_observations: list[dict[str, Any]] = []
         for expected in spec.expected_outputs:
             path = check_dir / expected.path
             exists = path.is_file()
             nonempty = exists and path.stat().st_size > 0
-            structurally_valid, parser_error = (
-                _parse_output(path, expected.parser) if exists else (False, "missing")
+            structurally_valid, record_count, parser_error = (
+                _inspect_output(
+                    path,
+                    expected.parser,
+                    allow_empty=expected.record_count == 0,
+                )
+                if exists
+                else (False, None, "missing")
             )
             output_observations.append(
                 {
@@ -530,11 +574,15 @@ def run_pixi_probe(
                     "nonempty": nonempty,
                     "parser": expected.parser,
                     "structurally_valid": structurally_valid,
+                    "record_count": record_count,
                     "parser_error": parser_error,
                 }
             )
             if status is Status.PASS and (
-                not exists or (expected.nonempty and not nonempty) or not structurally_valid
+                not exists
+                or (expected.nonempty and not nonempty)
+                or not structurally_valid
+                or (expected.record_count is not None and record_count != expected.record_count)
             ):
                 status = Status.FAIL
         if output_observations:
