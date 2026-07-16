@@ -76,3 +76,16 @@ def test_published_dependency_observations_do_not_expose_absolute_paths() -> Non
         assert not any(
             '"/' in json.dumps(row.get("observed"), sort_keys=True) for row in dependency_results
         )
+
+
+def test_published_dataset_keeps_all_normalized_current_results() -> None:
+    root = Path(__file__).parents[2]
+    dataset = json.loads((root / "web/public/data/dataset.json").read_text(encoding="utf-8"))
+    normalized = json.loads((root / "results/current/checks.json").read_text(encoding="utf-8"))
+    published_counts = {project["id"]: len(project["results"]) for project in dataset["projects"]}
+    normalized_counts = Counter(
+        row["project_id"] for row in normalized if row.get("run_id") == "current"
+    )
+
+    for project_id, expected_count in normalized_counts.items():
+        assert published_counts[project_id] == expected_count
