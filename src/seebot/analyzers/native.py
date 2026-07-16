@@ -279,9 +279,7 @@ def _run_native(
             stdout_path.write_bytes(raw_stdout)
         if not stderr_path.exists():
             stderr_path.write_bytes(raw_stderr)
-        (target / "audit-error.txt").write_text(
-            f"{type(exc).__name__}: {exc}\n", encoding="utf-8"
-        )
+        (target / "audit-error.txt").write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
         observed = {"audit_error": type(exc).__name__}
         notes = "Analyzer machinery failed; no project judgement was inferred."
     duration = time.monotonic() - clock

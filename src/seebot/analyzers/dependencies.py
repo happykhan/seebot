@@ -316,9 +316,7 @@ def discover_installed_ecosystem_packages(
                     )
                     for property_name in property_names:
                         values = _properties(
-                            archive.read(property_name).decode(
-                                encoding="utf-8", errors="replace"
-                            )
+                            archive.read(property_name).decode(encoding="utf-8", errors="replace")
                         )
                         group = values.get("groupId")
                         artifact = values.get("artifactId")

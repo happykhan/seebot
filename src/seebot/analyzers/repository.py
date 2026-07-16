@@ -348,10 +348,7 @@ def github_activity(repository_url: str) -> dict[str, Any]:
             repository_payload = repository_response.json()
             activity_commits = _pages(
                 client,
-                (
-                    f"{base}/commits?"
-                    f"since={ACTIVITY_START.isoformat()}&until={CUTOFF.isoformat()}"
-                ),
+                (f"{base}/commits?since={ACTIVITY_START.isoformat()}&until={CUTOFF.isoformat()}"),
                 maximum_pages=100,
             )
             recent_commits = _pages(
