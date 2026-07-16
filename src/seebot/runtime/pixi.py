@@ -61,6 +61,7 @@ class PixiEnvironment:
     manifest_path: Path
     lock_path: Path
     package_record: dict[str, Any]
+    package_records: tuple[dict[str, Any], ...] = ()
     image: str = PIXI_IMAGE
     platform: str = PLATFORM
     pixi_version: str = "pixi 0.72.2"
@@ -296,6 +297,7 @@ def prepare_environment(
         manifest_path=manifest_path,
         lock_path=lock_path,
         package_record=record,
+        package_records=tuple(records),
         compatibility_adjustments=adjustments,
     )
 

@@ -95,31 +95,113 @@ def test_documentation_coverage_is_a_valid_percentage_in_public_snapshot() -> No
 
 def test_dependency_summary_separates_runtime_and_development_inputs() -> None:
     summary = _dependency_summary(
-        {
-            "status": "OBSERVED",
-            "observed": {
-                "supported_sources": ["Cargo.lock", "docs/requirements.txt"],
-                "advisories": [
-                    {"advisory_id": "RUSTSEC-1", "source": "Cargo.lock"},
-                    {"advisory_id": "PYSEC-1", "source": "docs/requirements.txt"},
-                ],
+        [
+            {
+                "status": "OBSERVED",
+                "observed": {
+                    "supported_sources": [
+                        "Cargo.lock",
+                        "docs/requirements.txt",
+                        ".github/workflows/requirements.txt",
+                    ],
+                    "advisories": [
+                        {"advisory_id": "RUSTSEC-1", "source": "Cargo.lock"},
+                        {"advisory_id": "PYSEC-1", "source": "docs/requirements.txt"},
+                        {
+                            "advisory_id": "PYSEC-2",
+                            "source": ".github/workflows/requirements.txt",
+                        },
+                    ],
+                },
             },
-        },
+        ],
         "rust",
     )
     assert summary["coverage_status"] == "runtime_scanned"
     assert summary["runtime_sources"] == ["Cargo.lock"]
-    assert summary["development_sources"] == ["docs/requirements.txt"]
+    assert summary["development_sources"] == [
+        ".github/workflows/requirements.txt",
+        "docs/requirements.txt",
+    ]
     assert summary["runtime_advisory_count"] == 1
 
 
 def test_dependency_summary_does_not_report_zero_for_development_only_inputs() -> None:
     summary = _dependency_summary(
-        {
-            "status": "OBSERVED",
-            "observed": {"supported_sources": ["benches/requirements.txt"], "advisories": []},
-        },
+        [
+            {
+                "status": "OBSERVED",
+                "observed": {
+                    "supported_sources": ["benches/requirements.txt"],
+                    "advisories": [],
+                },
+            }
+        ],
         "python",
     )
     assert summary["coverage_status"] == "development_only"
+    assert summary["runtime_advisory_count"] is None
+
+
+def test_dependency_summary_combines_repository_and_installed_evidence() -> None:
+    summary = _dependency_summary(
+        [
+            {
+                "probe_id": "dependencies:osv-scanner",
+                "status": "NOT_APPLICABLE",
+                "observed": {
+                    "declared_dependencies": [
+                        {
+                            "ecosystem": "PyPI",
+                            "name": "archspec",
+                            "role": "runtime",
+                            "source": "pyproject.toml",
+                            "raw": "archspec~=0.2",
+                        }
+                    ],
+                    "supported_sources": [],
+                    "advisories": [],
+                },
+            },
+            {
+                "probe_id": "dependencies:installed-environment",
+                "status": "OBSERVED",
+                "observed": {
+                    "supported_sources": ["installed-environment:PyPI"],
+                    "conda_packages": [{"name": "archspec", "version": "0.2.5"}],
+                    "ecosystem_packages": [
+                        {"ecosystem": "PyPI", "name": "archspec", "version": "0.2.5"}
+                    ],
+                    "advisories": [],
+                },
+            },
+        ],
+        "python",
+    )
+
+    assert summary["coverage_status"] == "runtime_scanned"
+    assert summary["runtime_sources"] == ["installed-environment:PyPI"]
+    assert summary["runtime_advisory_count"] == 0
+    assert summary["conda_package_count"] == 1
+    assert summary["ecosystem_package_count"] == 1
+
+
+def test_dependency_summary_keeps_conda_only_inventory_distinct_from_a_scan() -> None:
+    summary = _dependency_summary(
+        [
+            {
+                "probe_id": "dependencies:installed-environment",
+                "status": "NOT_APPLICABLE",
+                "observed": {
+                    "supported_sources": [],
+                    "conda_packages": [{"name": "native-tool", "version": "1.0"}],
+                    "ecosystem_packages": [],
+                    "advisories": [],
+                },
+            }
+        ],
+        "c",
+    )
+
+    assert summary["coverage_status"] == "installed_inventory_only"
     assert summary["runtime_advisory_count"] is None

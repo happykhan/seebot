@@ -88,9 +88,8 @@
       "Verification CI": 7
     },
     "dependency_coverage_counts": {
-      "development_only": 2,
-      "no_supported_input": 7,
-      "runtime_scanned": 1
+      "installed_inventory_only": 7,
+      "runtime_scanned": 3
     },
     "robustness": [
       {
@@ -382,6 +381,14 @@
         }
       ],
       "dependency_advisories": [
+        {
+          "project_id": "cutadapt",
+          "value": 0
+        },
+        {
+          "project_id": "pyrodigal",
+          "value": 0
+        },
         {
           "project_id": "yacrd",
           "value": 13
@@ -6245,18 +6252,112 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "any2fasta",
+              "version": "0.8.1",
+              "build": "hdfd78af_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "gzip",
+              "version": "1.14",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc-ng",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma-devel",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libxcrypt",
+              "version": "4.4.36",
+              "build": "hd590300_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "perl",
+              "version": "5.32.1",
+              "build": "7_hd590300_perl5",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "unzip",
+              "version": "6.0",
+              "build": "hb03c661_4",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xz",
+              "version": "5.8.3",
+              "build": "ha02ee65_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xz-gpl-tools",
+              "version": "5.8.3",
+              "build": "ha02ee65_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xz-tools",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 15,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "CPAN Audit for cpanfile or cpanfile.snapshot; OSV-Scanner for supported lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus CPAN Audit and supported repository lockfiles"
         }
       },
       "labels": {
@@ -8840,6 +8941,136 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:any2fasta=0.8.1:hdfd78af_0",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "any2fasta",
+                "version": "0.8.1",
+                "build": "hdfd78af_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "gzip",
+                "version": "1.14",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc-ng",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma-devel",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libxcrypt",
+                "version": "4.4.36",
+                "build": "hd590300_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "perl",
+                "version": "5.32.1",
+                "build": "7_hd590300_perl5",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "unzip",
+                "version": "6.0",
+                "build": "hb03c661_4",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xz",
+                "version": "5.8.3",
+                "build": "ha02ee65_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xz-gpl-tools",
+                "version": "5.8.3",
+                "build": "ha02ee65_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xz-tools",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 15,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.0007865829393267632,
+          "environment_id": "pixi-lock:681e6203b9f47a7ac82f424ed7d031607711469d431ed709f2737f5f2631473a;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/any2fasta/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/any2fasta/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/any2fasta/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -8853,6 +9084,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -8866,11 +9099,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.0056607499718666,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 1.036777958041057,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/any2fasta/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -13400,18 +13634,220 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "bcftools",
+              "version": "1.23.1",
+              "build": "hb2cee57_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "c-ares",
+              "version": "1.34.8",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ca-certificates",
+              "version": "2026.6.17",
+              "build": "hbd8a1cb_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "gsl",
+              "version": "2.7",
+              "build": "he838d99_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "htslib",
+              "version": "1.23.1",
+              "build": "h633afcb_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "icu",
+              "version": "78.3",
+              "build": "h33c6efd_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "keyutils",
+              "version": "1.6.3",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "krb5",
+              "version": "1.22.2",
+              "build": "hbde042b_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libblas",
+              "version": "3.11.0",
+              "build": "8_h4a7cf45_openblas",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libcblas",
+              "version": "3.11.0",
+              "build": "8_h0358290_openblas",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libcurl",
+              "version": "8.21.0",
+              "build": "hae6b9f4_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libdeflate",
+              "version": "1.25",
+              "build": "h17f619e_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libedit",
+              "version": "3.1.20250104",
+              "build": "pl5321h7949ede_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libev",
+              "version": "4.33",
+              "build": "hd590300_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc-ng",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgfortran",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgfortran5",
+              "version": "15.2.0",
+              "build": "h68bc16d_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libnghttp2",
+              "version": "1.68.1",
+              "build": "h877daf1_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libopenblas",
+              "version": "0.3.33",
+              "build": "pthreads_h94d23a6_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libpsl",
+              "version": "0.22.0",
+              "build": "h49b2146_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libssh2",
+              "version": "1.11.1",
+              "build": "hcf80075_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libstdcxx",
+              "version": "15.2.0",
+              "build": "h934c35e_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libxcrypt",
+              "version": "4.4.36",
+              "build": "hd590300_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libzlib",
+              "version": "1.3.2",
+              "build": "h25fd6f3_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ncurses",
+              "version": "6.6",
+              "build": "hdb14827_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "openssl",
+              "version": "3.6.3",
+              "build": "h35e630c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "perl",
+              "version": "5.32.1",
+              "build": "7_hd590300_perl5",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "zstd",
+              "version": "1.5.7",
+              "build": "hb78ec9c_6",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 33,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -19128,6 +19564,244 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:bcftools=1.23.1:hb2cee57_0",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "bcftools",
+                "version": "1.23.1",
+                "build": "hb2cee57_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "c-ares",
+                "version": "1.34.8",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ca-certificates",
+                "version": "2026.6.17",
+                "build": "hbd8a1cb_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "gsl",
+                "version": "2.7",
+                "build": "he838d99_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "htslib",
+                "version": "1.23.1",
+                "build": "h633afcb_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "icu",
+                "version": "78.3",
+                "build": "h33c6efd_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "keyutils",
+                "version": "1.6.3",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "krb5",
+                "version": "1.22.2",
+                "build": "hbde042b_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libblas",
+                "version": "3.11.0",
+                "build": "8_h4a7cf45_openblas",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libcblas",
+                "version": "3.11.0",
+                "build": "8_h0358290_openblas",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libcurl",
+                "version": "8.21.0",
+                "build": "hae6b9f4_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libdeflate",
+                "version": "1.25",
+                "build": "h17f619e_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libedit",
+                "version": "3.1.20250104",
+                "build": "pl5321h7949ede_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libev",
+                "version": "4.33",
+                "build": "hd590300_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc-ng",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgfortran",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgfortran5",
+                "version": "15.2.0",
+                "build": "h68bc16d_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libnghttp2",
+                "version": "1.68.1",
+                "build": "h877daf1_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libopenblas",
+                "version": "0.3.33",
+                "build": "pthreads_h94d23a6_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libpsl",
+                "version": "0.22.0",
+                "build": "h49b2146_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libssh2",
+                "version": "1.11.1",
+                "build": "hcf80075_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libstdcxx",
+                "version": "15.2.0",
+                "build": "h934c35e_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libxcrypt",
+                "version": "4.4.36",
+                "build": "hd590300_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libzlib",
+                "version": "1.3.2",
+                "build": "h25fd6f3_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ncurses",
+                "version": "6.6",
+                "build": "hdb14827_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "openssl",
+                "version": "3.6.3",
+                "build": "h35e630c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "perl",
+                "version": "5.32.1",
+                "build": "7_hd590300_perl5",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "zstd",
+                "version": "1.5.7",
+                "build": "hb78ec9c_6",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 33,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.0008785829413682222,
+          "environment_id": "pixi-lock:1b0cddd4ba51ef26567ce71df863fa070a7d32af3ac0a61e7caff84f85a77919;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/bcftools/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/bcftools/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/bcftools/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -19141,6 +19815,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -19154,11 +19830,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.1210418329574168,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 0.967485916800797,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/bcftools/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -24981,11 +25658,405 @@
       "dependency_advisories": {
         "status": "OBSERVED",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [
+            "doc/requirements.txt",
+            "installed-environment:PyPI"
+          ],
+          "runtime_sources": [
+            "installed-environment:PyPI"
+          ],
+          "development_sources": [
             "doc/requirements.txt"
           ],
-          "advisory_count": 9,
+          "declared_dependencies": [
+            {
+              "ecosystem": "PyPI",
+              "role": "build",
+              "source": "pyproject.toml",
+              "raw": "Cython!=3.2.0,!=3.2.1",
+              "name": "Cython",
+              "specifier": "!=3.2.0,!=3.2.1",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "build",
+              "source": "pyproject.toml",
+              "raw": "setuptools >= 78",
+              "name": "setuptools",
+              "specifier": ">=78",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "build",
+              "source": "pyproject.toml",
+              "raw": "setuptools_scm[toml] >= 6.2",
+              "name": "setuptools_scm",
+              "specifier": ">=6.2",
+              "marker": null,
+              "extras": [
+                "toml"
+              ],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "Cython",
+              "group": "dev",
+              "name": "Cython",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "pytest",
+              "group": "dev",
+              "name": "pytest",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "pytest-mock",
+              "group": "dev",
+              "name": "pytest-mock",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "pytest-timeout",
+              "group": "dev",
+              "name": "pytest-timeout",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "sphinx",
+              "group": "dev",
+              "name": "sphinx",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "sphinx_better_subsection",
+              "group": "dev",
+              "name": "sphinx_better_subsection",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "sphinx_issues",
+              "group": "dev",
+              "name": "sphinx_issues",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "runtime",
+              "source": "pyproject.toml",
+              "raw": "dnaio >= 1.2.3",
+              "name": "dnaio",
+              "specifier": ">=1.2.3",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "runtime",
+              "source": "pyproject.toml",
+              "raw": "xopen >= 1.6.0",
+              "name": "xopen",
+              "specifier": ">=1.6.0",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            }
+          ],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "backports.zstd",
+              "version": "1.6.0",
+              "build": "py313h18e8e13_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ca-certificates",
+              "version": "2026.6.17",
+              "build": "hbd8a1cb_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "cutadapt",
+              "version": "5.2",
+              "build": "py313h8c92656_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "dnaio",
+              "version": "1.2.4",
+              "build": "py313hd978853_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "isa-l",
+              "version": "2.32.1",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ld_impl_linux-64",
+              "version": "2.45.1",
+              "build": "default_hbd61a6d_102",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libexpat",
+              "version": "2.8.1",
+              "build": "hecca717_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libffi",
+              "version": "3.5.2",
+              "build": "h3435931_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc-ng",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libmpdec",
+              "version": "4.0.0",
+              "build": "hb03c661_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libsqlite",
+              "version": "3.53.3",
+              "build": "h0c1763c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libstdcxx",
+              "version": "15.2.0",
+              "build": "h934c35e_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libstdcxx-ng",
+              "version": "15.2.0",
+              "build": "hdf11a46_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libuuid",
+              "version": "2.42.2",
+              "build": "h5347b49_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libzlib",
+              "version": "1.3.2",
+              "build": "h25fd6f3_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ncurses",
+              "version": "6.6",
+              "build": "hdb14827_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "openssl",
+              "version": "3.6.3",
+              "build": "h35e630c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "pbzip2",
+              "version": "1.1.13",
+              "build": "h1fcc475_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "pigz",
+              "version": "2.8",
+              "build": "h421ea60_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "python",
+              "version": "3.13.14",
+              "build": "h6add32d_100_cp313",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "python-isal",
+              "version": "1.8.0",
+              "build": "py313h07c4f96_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "python-zlib-ng",
+              "version": "1.0.0",
+              "build": "py313ha345abf_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "python_abi",
+              "version": "3.13",
+              "build": "8_cp313",
+              "subdir": "noarch"
+            },
+            {
+              "name": "readline",
+              "version": "8.3",
+              "build": "h853b02a_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "tk",
+              "version": "8.6.13",
+              "build": "noxft_h366c992_103",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "tzdata",
+              "version": "2025c",
+              "build": "hc9c84f9_1",
+              "subdir": "noarch"
+            },
+            {
+              "name": "xopen",
+              "version": "2.1.0",
+              "build": "pyh707e725_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "zlib-ng",
+              "version": "2.3.3",
+              "build": "hceb46e0_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "zstd",
+              "version": "1.5.7",
+              "build": "hb78ec9c_6",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 34,
+          "ecosystem_packages": [
+            {
+              "ecosystem": "PyPI",
+              "name": "backports.zstd",
+              "version": "1.6.0",
+              "source": "lib/python3.13/site-packages/backports_zstd-1.6.0.dist-info/METADATA"
+            },
+            {
+              "ecosystem": "PyPI",
+              "name": "cutadapt",
+              "version": "5.2",
+              "source": "lib/python3.13/site-packages/cutadapt-5.2.dist-info/METADATA"
+            },
+            {
+              "ecosystem": "PyPI",
+              "name": "dnaio",
+              "version": "1.2.4",
+              "source": "lib/python3.13/site-packages/dnaio-1.2.4.dist-info/METADATA"
+            },
+            {
+              "ecosystem": "PyPI",
+              "name": "isal",
+              "version": "1.8.0",
+              "source": "lib/python3.13/site-packages/isal-1.8.0.dist-info/METADATA"
+            },
+            {
+              "ecosystem": "PyPI",
+              "name": "xopen",
+              "version": "2.1.0",
+              "source": "lib/python3.13/site-packages/xopen-2.1.0.dist-info/METADATA"
+            },
+            {
+              "ecosystem": "PyPI",
+              "name": "zlib-ng",
+              "version": "1.0.0",
+              "source": "lib/python3.13/site-packages/zlib_ng-1.0.0.dist-info/METADATA"
+            }
+          ],
+          "ecosystem_package_count": 6,
           "advisories": [
             {
               "advisory_id": "GHSA-5rjg-fvgr-3xxf",
@@ -24997,6 +26068,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:P"
               ],
@@ -25013,6 +26085,7 @@
               "ecosystem": "PyPI",
               "dependency": "idna",
               "resolved_version": "3.9.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -25031,6 +26104,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -25049,6 +26123,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:L/SI:L/SA:N"
@@ -25067,6 +26142,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [],
               "fixed_versions": [
                 "43a9c9bfa6aa626ec2a22540bea28d2ca77964be",
@@ -25083,6 +26159,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
               ],
@@ -25101,6 +26178,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -25118,6 +26196,7 @@
               "ecosystem": "PyPI",
               "dependency": "idna",
               "resolved_version": "3.9.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
               ],
@@ -25135,6 +26214,7 @@
               "ecosystem": "PyPI",
               "dependency": "setuptools",
               "resolved_version": "9.1.0",
+              "source": "doc/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N"
               ],
@@ -25143,15 +26223,12 @@
               ]
             }
           ],
-          "exit_code": 1,
-          "coverage_status": "development_only",
-          "runtime_sources": [],
-          "development_sources": [
-            "doc/requirements.txt"
-          ],
-          "runtime_advisory_count": null,
+          "advisory_count": 9,
+          "runtime_advisory_count": 0,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "runtime_scanned",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -31656,6 +32733,298 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "OBSERVED",
+          "result_kind": "MEASUREMENT",
+          "applicability": "APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:cutadapt=5.2:py313h8c92656_1",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "backports.zstd",
+                "version": "1.6.0",
+                "build": "py313h18e8e13_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ca-certificates",
+                "version": "2026.6.17",
+                "build": "hbd8a1cb_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "cutadapt",
+                "version": "5.2",
+                "build": "py313h8c92656_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "dnaio",
+                "version": "1.2.4",
+                "build": "py313hd978853_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "isa-l",
+                "version": "2.32.1",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ld_impl_linux-64",
+                "version": "2.45.1",
+                "build": "default_hbd61a6d_102",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libexpat",
+                "version": "2.8.1",
+                "build": "hecca717_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libffi",
+                "version": "3.5.2",
+                "build": "h3435931_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc-ng",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libmpdec",
+                "version": "4.0.0",
+                "build": "hb03c661_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libsqlite",
+                "version": "3.53.3",
+                "build": "h0c1763c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libstdcxx",
+                "version": "15.2.0",
+                "build": "h934c35e_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libstdcxx-ng",
+                "version": "15.2.0",
+                "build": "hdf11a46_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libuuid",
+                "version": "2.42.2",
+                "build": "h5347b49_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libzlib",
+                "version": "1.3.2",
+                "build": "h25fd6f3_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ncurses",
+                "version": "6.6",
+                "build": "hdb14827_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "openssl",
+                "version": "3.6.3",
+                "build": "h35e630c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "pbzip2",
+                "version": "1.1.13",
+                "build": "h1fcc475_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "pigz",
+                "version": "2.8",
+                "build": "h421ea60_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "python",
+                "version": "3.13.14",
+                "build": "h6add32d_100_cp313",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "python_abi",
+                "version": "3.13",
+                "build": "8_cp313",
+                "subdir": "noarch"
+              },
+              {
+                "name": "python-isal",
+                "version": "1.8.0",
+                "build": "py313h07c4f96_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "python-zlib-ng",
+                "version": "1.0.0",
+                "build": "py313ha345abf_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "readline",
+                "version": "8.3",
+                "build": "h853b02a_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "tk",
+                "version": "8.6.13",
+                "build": "noxft_h366c992_103",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "tzdata",
+                "version": "2025c",
+                "build": "hc9c84f9_1",
+                "subdir": "noarch"
+              },
+              {
+                "name": "xopen",
+                "version": "2.1.0",
+                "build": "pyh707e725_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "zlib-ng",
+                "version": "2.3.3",
+                "build": "hceb46e0_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "zstd",
+                "version": "1.5.7",
+                "build": "hb78ec9c_6",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 34,
+            "ecosystem_packages": [
+              {
+                "ecosystem": "PyPI",
+                "name": "backports.zstd",
+                "version": "1.6.0",
+                "source": "lib/python3.13/site-packages/backports_zstd-1.6.0.dist-info/METADATA"
+              },
+              {
+                "ecosystem": "PyPI",
+                "name": "cutadapt",
+                "version": "5.2",
+                "source": "lib/python3.13/site-packages/cutadapt-5.2.dist-info/METADATA"
+              },
+              {
+                "ecosystem": "PyPI",
+                "name": "dnaio",
+                "version": "1.2.4",
+                "source": "lib/python3.13/site-packages/dnaio-1.2.4.dist-info/METADATA"
+              },
+              {
+                "ecosystem": "PyPI",
+                "name": "isal",
+                "version": "1.8.0",
+                "source": "lib/python3.13/site-packages/isal-1.8.0.dist-info/METADATA"
+              },
+              {
+                "ecosystem": "PyPI",
+                "name": "xopen",
+                "version": "2.1.0",
+                "source": "lib/python3.13/site-packages/xopen-2.1.0.dist-info/METADATA"
+              },
+              {
+                "ecosystem": "PyPI",
+                "name": "zlib-ng",
+                "version": "1.0.0",
+                "source": "lib/python3.13/site-packages/zlib_ng-1.0.0.dist-info/METADATA"
+              }
+            ],
+            "ecosystem_package_count": 6,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [
+              "installed-environment:PyPI"
+            ],
+            "advisory_count": 0,
+            "advisories": [],
+            "exit_code": 0
+          },
+          "command": [
+            "osv-scanner",
+            "scan",
+            "source",
+            "--format=json",
+            "--verbosity=error",
+            "--all-packages",
+            "--lockfile",
+            "osv-scanner:/source/osv-scanner.json"
+          ],
+          "duration_seconds": 1.372118250001222,
+          "environment_id": "pixi-lock:a0883ee235507c084e8419bdbdbc8f3d5ce51d2abda0c23f8715ad1a3b3e0def;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/cutadapt/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/cutadapt/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/cutadapt/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": null
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "OBSERVED",
@@ -31669,6 +33038,150 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [
+              {
+                "ecosystem": "PyPI",
+                "role": "build",
+                "source": "pyproject.toml",
+                "raw": "Cython!=3.2.0,!=3.2.1",
+                "name": "Cython",
+                "specifier": "!=3.2.0,!=3.2.1",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "build",
+                "source": "pyproject.toml",
+                "raw": "setuptools >= 78",
+                "name": "setuptools",
+                "specifier": ">=78",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "build",
+                "source": "pyproject.toml",
+                "raw": "setuptools_scm[toml] >= 6.2",
+                "name": "setuptools_scm",
+                "specifier": ">=6.2",
+                "marker": null,
+                "extras": [
+                  "toml"
+                ],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "Cython",
+                "group": "dev",
+                "name": "Cython",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "pytest",
+                "group": "dev",
+                "name": "pytest",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "pytest-mock",
+                "group": "dev",
+                "name": "pytest-mock",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "pytest-timeout",
+                "group": "dev",
+                "name": "pytest-timeout",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "sphinx",
+                "group": "dev",
+                "name": "sphinx",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "sphinx_better_subsection",
+                "group": "dev",
+                "name": "sphinx_better_subsection",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "sphinx_issues",
+                "group": "dev",
+                "name": "sphinx_issues",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "runtime",
+                "source": "pyproject.toml",
+                "raw": "dnaio >= 1.2.3",
+                "name": "dnaio",
+                "specifier": ">=1.2.3",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "runtime",
+                "source": "pyproject.toml",
+                "raw": "xopen >= 1.6.0",
+                "name": "xopen",
+                "specifier": ">=1.6.0",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              }
+            ],
             "analyzer": "OSV-Scanner",
             "supported_sources": [
               "doc/requirements.txt"
@@ -31685,6 +33198,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:P"
                 ],
@@ -31701,6 +33215,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "idna",
                 "resolved_version": "3.9.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -31719,6 +33234,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -31737,6 +33253,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:L/SI:L/SA:N"
@@ -31755,6 +33272,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [],
                 "fixed_versions": [
                   "43a9c9bfa6aa626ec2a22540bea28d2ca77964be",
@@ -31771,6 +33289,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
                 ],
@@ -31789,6 +33308,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -31806,6 +33326,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "idna",
                 "resolved_version": "3.9.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
                 ],
@@ -31823,6 +33344,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "setuptools",
                 "resolved_version": "9.1.0",
+                "source": "doc/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N"
                 ],
@@ -31839,11 +33361,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 4.862774125067517,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 3.894517249893397,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/cutadapt/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -35387,18 +36910,28 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "famsa",
+              "version": "2.4.1",
+              "build": "h9ee0642_0",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 1,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -38799,6 +40332,52 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:famsa=2.4.1:h9ee0642_0",
+            "conda_packages": [
+              {
+                "name": "famsa",
+                "version": "2.4.1",
+                "build": "h9ee0642_0",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 1,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.0010057080071419477,
+          "environment_id": "pixi-lock:5af5a3adaffdc5fd1d668313a6cff2360f3b5b323bd62843854aa3c0211f318d;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/famsa/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/famsa/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/famsa/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -38812,6 +40391,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -38825,11 +40406,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 2.2696089579258114,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 1.8837892920710146,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/famsa/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -42093,18 +43675,70 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "fastp",
+              "version": "1.3.6",
+              "build": "h43da1c4_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "isa-l",
+              "version": "2.32.1",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libdeflate",
+              "version": "1.25",
+              "build": "h17f619e_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libhwy",
+              "version": "1.3.0",
+              "build": "h4c17acf_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libstdcxx",
+              "version": "15.2.0",
+              "build": "h934c35e_19",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 8,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -45790,6 +47424,94 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:fastp=1.3.6:h43da1c4_0",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "fastp",
+                "version": "1.3.6",
+                "build": "h43da1c4_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "isa-l",
+                "version": "2.32.1",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libdeflate",
+                "version": "1.25",
+                "build": "h17f619e_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libhwy",
+                "version": "1.3.0",
+                "build": "h4c17acf_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libstdcxx",
+                "version": "15.2.0",
+                "build": "h934c35e_19",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 8,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.002006916096433997,
+          "environment_id": "pixi-lock:4195034b60d4fc7b8473baf26e6859ad93e0ce4ce8ca907fc1d2bc42876c4693;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/fastp/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/fastp/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/fastp/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -45803,6 +47525,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -45816,11 +47540,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.0537386250216514,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 0.9279795419424772,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/fastp/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -47731,18 +49456,46 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "fasttree",
+              "version": "2.2.0",
+              "build": "h7b50bb2_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 4,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -49667,6 +51420,70 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:fasttree=2.2.0:h7b50bb2_1",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "fasttree",
+                "version": "2.2.0",
+                "build": "h7b50bb2_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 4,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.002304124878719449,
+          "environment_id": "pixi-lock:637684eea65382adfb7d6f057ea6301e0d3eaa53ca294b130a9c6a3e1531f35a;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64;case-aliases:pruned",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/fasttree/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/fasttree/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/fasttree/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -49680,6 +51497,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -49693,11 +51512,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.0668217921629548,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 0.960816458798945,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/fasttree/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -52908,18 +54728,406 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "alsa-lib",
+              "version": "1.2.16.1",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ca-certificates",
+              "version": "2026.6.17",
+              "build": "hbd8a1cb_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "cairo",
+              "version": "1.18.4",
+              "build": "he90730b_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "font-ttf-dejavu-sans-mono",
+              "version": "2.37",
+              "build": "hab24e00_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "font-ttf-inconsolata",
+              "version": "3.000",
+              "build": "h77eed37_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "font-ttf-source-code-pro",
+              "version": "2.038",
+              "build": "h77eed37_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "font-ttf-ubuntu",
+              "version": "0.83",
+              "build": "h77eed37_3",
+              "subdir": "noarch"
+            },
+            {
+              "name": "fontconfig",
+              "version": "2.18.1",
+              "build": "h27c8c51_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "fonts-conda-ecosystem",
+              "version": "1",
+              "build": "0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "fonts-conda-forge",
+              "version": "1",
+              "build": "hc364b38_1",
+              "subdir": "noarch"
+            },
+            {
+              "name": "freetype",
+              "version": "2.14.3",
+              "build": "ha770c72_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "giflib",
+              "version": "5.2.2",
+              "build": "hd590300_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "graphite2",
+              "version": "1.3.15",
+              "build": "hecca717_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "harfbuzz",
+              "version": "14.2.1",
+              "build": "ha770c72_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "icu",
+              "version": "78.3",
+              "build": "h33c6efd_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "keyutils",
+              "version": "1.6.3",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "krb5",
+              "version": "1.22.2",
+              "build": "hbde042b_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "lcms2",
+              "version": "2.19.1",
+              "build": "h0c24ade_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "lerc",
+              "version": "4.1.0",
+              "build": "hdb68285_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libcups",
+              "version": "2.3.3",
+              "build": "h7a8fb5f_6",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libdeflate",
+              "version": "1.25",
+              "build": "h17f619e_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libedit",
+              "version": "3.1.20250104",
+              "build": "pl5321h7949ede_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libexpat",
+              "version": "2.8.1",
+              "build": "hecca717_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libffi",
+              "version": "3.5.2",
+              "build": "h3435931_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libfreetype",
+              "version": "2.14.3",
+              "build": "ha770c72_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libfreetype6",
+              "version": "2.14.3",
+              "build": "h73754d4_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc-ng",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libglib",
+              "version": "2.88.2",
+              "build": "h0d30a3d_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libharfbuzz",
+              "version": "14.2.1",
+              "build": "h17a8019_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libharfbuzz-devel",
+              "version": "14.2.1",
+              "build": "h17a8019_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libiconv",
+              "version": "1.18",
+              "build": "h3b78370_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libjpeg-turbo",
+              "version": "3.2.0",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libpng",
+              "version": "1.6.58",
+              "build": "h421ea60_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libstdcxx",
+              "version": "15.2.0",
+              "build": "h934c35e_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libtiff",
+              "version": "4.7.2",
+              "build": "h9d88235_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libuuid",
+              "version": "2.42.2",
+              "build": "h5347b49_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libwebp-base",
+              "version": "1.6.0",
+              "build": "hd42ef1d_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libxcb",
+              "version": "1.17.0",
+              "build": "h8a09558_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libzlib",
+              "version": "1.3.2",
+              "build": "h25fd6f3_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "minced",
+              "version": "0.4.2",
+              "build": "hdfd78af_1",
+              "subdir": "noarch"
+            },
+            {
+              "name": "ncurses",
+              "version": "6.6",
+              "build": "hdb14827_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "openjdk",
+              "version": "25.0.2",
+              "build": "ha668962_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "openssl",
+              "version": "3.6.3",
+              "build": "h35e630c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "pcre2",
+              "version": "10.47",
+              "build": "haa7fec5_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "pixman",
+              "version": "0.46.4",
+              "build": "h54a6638_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "pthread-stubs",
+              "version": "0.4",
+              "build": "hb9d3cd8_1002",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libice",
+              "version": "1.1.2",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libsm",
+              "version": "1.2.6",
+              "build": "he73a12e_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libx11",
+              "version": "1.8.13",
+              "build": "he1eb515_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxau",
+              "version": "1.0.12",
+              "build": "hb03c661_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxdmcp",
+              "version": "1.1.5",
+              "build": "hb03c661_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxext",
+              "version": "1.3.7",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxfixes",
+              "version": "6.0.2",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxi",
+              "version": "1.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxrandr",
+              "version": "1.5.5",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxrender",
+              "version": "0.9.12",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxt",
+              "version": "1.3.1",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "xorg-libxtst",
+              "version": "1.2.5",
+              "build": "hb9d3cd8_3",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "zstd",
+              "version": "1.5.7",
+              "build": "hb78ec9c_6",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 64,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -56309,6 +58517,430 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:minced=0.4.2:hdfd78af_1",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "alsa-lib",
+                "version": "1.2.16.1",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ca-certificates",
+                "version": "2026.6.17",
+                "build": "hbd8a1cb_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "cairo",
+                "version": "1.18.4",
+                "build": "he90730b_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "font-ttf-dejavu-sans-mono",
+                "version": "2.37",
+                "build": "hab24e00_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "font-ttf-inconsolata",
+                "version": "3.000",
+                "build": "h77eed37_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "font-ttf-source-code-pro",
+                "version": "2.038",
+                "build": "h77eed37_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "font-ttf-ubuntu",
+                "version": "0.83",
+                "build": "h77eed37_3",
+                "subdir": "noarch"
+              },
+              {
+                "name": "fontconfig",
+                "version": "2.18.1",
+                "build": "h27c8c51_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "fonts-conda-ecosystem",
+                "version": "1",
+                "build": "0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "fonts-conda-forge",
+                "version": "1",
+                "build": "hc364b38_1",
+                "subdir": "noarch"
+              },
+              {
+                "name": "freetype",
+                "version": "2.14.3",
+                "build": "ha770c72_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "giflib",
+                "version": "5.2.2",
+                "build": "hd590300_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "graphite2",
+                "version": "1.3.15",
+                "build": "hecca717_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "harfbuzz",
+                "version": "14.2.1",
+                "build": "ha770c72_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "icu",
+                "version": "78.3",
+                "build": "h33c6efd_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "keyutils",
+                "version": "1.6.3",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "krb5",
+                "version": "1.22.2",
+                "build": "hbde042b_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "lcms2",
+                "version": "2.19.1",
+                "build": "h0c24ade_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "lerc",
+                "version": "4.1.0",
+                "build": "hdb68285_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libcups",
+                "version": "2.3.3",
+                "build": "h7a8fb5f_6",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libdeflate",
+                "version": "1.25",
+                "build": "h17f619e_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libedit",
+                "version": "3.1.20250104",
+                "build": "pl5321h7949ede_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libexpat",
+                "version": "2.8.1",
+                "build": "hecca717_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libffi",
+                "version": "3.5.2",
+                "build": "h3435931_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libfreetype",
+                "version": "2.14.3",
+                "build": "ha770c72_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libfreetype6",
+                "version": "2.14.3",
+                "build": "h73754d4_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc-ng",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libglib",
+                "version": "2.88.2",
+                "build": "h0d30a3d_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libharfbuzz",
+                "version": "14.2.1",
+                "build": "h17a8019_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libharfbuzz-devel",
+                "version": "14.2.1",
+                "build": "h17a8019_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libiconv",
+                "version": "1.18",
+                "build": "h3b78370_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libjpeg-turbo",
+                "version": "3.2.0",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libpng",
+                "version": "1.6.58",
+                "build": "h421ea60_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libstdcxx",
+                "version": "15.2.0",
+                "build": "h934c35e_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libtiff",
+                "version": "4.7.2",
+                "build": "h9d88235_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libuuid",
+                "version": "2.42.2",
+                "build": "h5347b49_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libwebp-base",
+                "version": "1.6.0",
+                "build": "hd42ef1d_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libxcb",
+                "version": "1.17.0",
+                "build": "h8a09558_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libzlib",
+                "version": "1.3.2",
+                "build": "h25fd6f3_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "minced",
+                "version": "0.4.2",
+                "build": "hdfd78af_1",
+                "subdir": "noarch"
+              },
+              {
+                "name": "ncurses",
+                "version": "6.6",
+                "build": "hdb14827_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "openjdk",
+                "version": "25.0.2",
+                "build": "ha668962_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "openssl",
+                "version": "3.6.3",
+                "build": "h35e630c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "pcre2",
+                "version": "10.47",
+                "build": "haa7fec5_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "pixman",
+                "version": "0.46.4",
+                "build": "h54a6638_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "pthread-stubs",
+                "version": "0.4",
+                "build": "hb9d3cd8_1002",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libice",
+                "version": "1.1.2",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libsm",
+                "version": "1.2.6",
+                "build": "he73a12e_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libx11",
+                "version": "1.8.13",
+                "build": "he1eb515_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxau",
+                "version": "1.0.12",
+                "build": "hb03c661_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxdmcp",
+                "version": "1.1.5",
+                "build": "hb03c661_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxext",
+                "version": "1.3.7",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxfixes",
+                "version": "6.0.2",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxi",
+                "version": "1.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxrandr",
+                "version": "1.5.5",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxrender",
+                "version": "0.9.12",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxt",
+                "version": "1.3.1",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "xorg-libxtst",
+                "version": "1.2.5",
+                "build": "hb9d3cd8_3",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "zstd",
+                "version": "1.5.7",
+                "build": "hb78ec9c_6",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 64,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.0010757080744951963,
+          "environment_id": "pixi-lock:ca7c51dd24604069e523438756dc9f297fc3ec8ba6807d25dc6b28df70383fbd;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/minced/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/minced/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/minced/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -56322,6 +58954,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -56335,11 +58969,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.0374924999196082,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 0.8709144999738783,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/minced/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -60725,12 +63360,273 @@
       "dependency_advisories": {
         "status": "OBSERVED",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [
+            ".github/workflows/requirements.txt",
             "benches/connection_scoring/requirements.txt",
-            "docs/requirements.txt"
+            "docs/requirements.txt",
+            "installed-environment:PyPI",
+            "src/pyrodigal/tests/requirements.txt"
           ],
-          "advisory_count": 35,
+          "runtime_sources": [
+            "installed-environment:PyPI"
+          ],
+          "development_sources": [
+            ".github/workflows/requirements.txt",
+            "benches/connection_scoring/requirements.txt",
+            "docs/requirements.txt",
+            "src/pyrodigal/tests/requirements.txt"
+          ],
+          "declared_dependencies": [
+            {
+              "ecosystem": "PyPI",
+              "role": "build",
+              "source": "pyproject.toml",
+              "raw": "cython >= 3.0",
+              "name": "cython",
+              "specifier": ">=3.0",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "build",
+              "source": "pyproject.toml",
+              "raw": "scikit-build-core",
+              "name": "scikit-build-core",
+              "specifier": null,
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "isal ~=1.1",
+              "group": "isal",
+              "name": "isal",
+              "specifier": "~=1.1",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "lz4 ~=4.0",
+              "group": "lz4",
+              "name": "lz4",
+              "specifier": "~=4.0",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "importlib-resources ; python_version < '3.9'",
+              "group": "test",
+              "name": "importlib-resources",
+              "specifier": null,
+              "marker": "python_version < \"3.9\"",
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "optional",
+              "source": "pyproject.toml",
+              "raw": "zstandard ~=0.22",
+              "group": "zst",
+              "name": "zstandard",
+              "specifier": "~=0.22",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            },
+            {
+              "ecosystem": "PyPI",
+              "role": "runtime",
+              "source": "pyproject.toml",
+              "raw": "archspec ~=0.2.0",
+              "name": "archspec",
+              "specifier": "~=0.2.0",
+              "marker": null,
+              "extras": [],
+              "parse_status": "OBSERVED"
+            }
+          ],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "archspec",
+              "version": "0.2.5",
+              "build": "pyhd8ed1ab_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ca-certificates",
+              "version": "2026.6.17",
+              "build": "hbd8a1cb_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "ld_impl_linux-64",
+              "version": "2.45.1",
+              "build": "default_hbd61a6d_102",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libexpat",
+              "version": "2.8.1",
+              "build": "hecca717_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libffi",
+              "version": "3.5.2",
+              "build": "h3435931_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc-ng",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libnsl",
+              "version": "2.0.1",
+              "build": "hb9d3cd8_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libsqlite",
+              "version": "3.53.3",
+              "build": "h0c1763c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libuuid",
+              "version": "2.42.2",
+              "build": "h5347b49_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libxcrypt",
+              "version": "4.4.36",
+              "build": "hd590300_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libzlib",
+              "version": "1.3.2",
+              "build": "h25fd6f3_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ncurses",
+              "version": "6.6",
+              "build": "hdb14827_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "openssl",
+              "version": "3.6.3",
+              "build": "h35e630c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "pyrodigal",
+              "version": "3.7.1",
+              "build": "py312h247cb63_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "python",
+              "version": "3.12.13",
+              "build": "hd63d673_0_cpython",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "python_abi",
+              "version": "3.12",
+              "build": "8_cp312",
+              "subdir": "noarch"
+            },
+            {
+              "name": "readline",
+              "version": "8.3",
+              "build": "h853b02a_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "tk",
+              "version": "8.6.13",
+              "build": "noxft_h366c992_103",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "tzdata",
+              "version": "2025c",
+              "build": "hc9c84f9_1",
+              "subdir": "noarch"
+            },
+            {
+              "name": "zstd",
+              "version": "1.5.7",
+              "build": "hb78ec9c_6",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 25,
+          "ecosystem_packages": [
+            {
+              "ecosystem": "PyPI",
+              "name": "archspec",
+              "version": "0.2.5",
+              "source": "lib/python3.12/site-packages/archspec-0.2.5.dist-info/METADATA"
+            },
+            {
+              "ecosystem": "PyPI",
+              "name": "pyrodigal",
+              "version": "3.7.1",
+              "source": "lib/python3.12/site-packages/pyrodigal-3.7.1.dist-info/METADATA"
+            }
+          ],
+          "ecosystem_package_count": 2,
           "advisories": [
             {
               "advisory_id": "GHSA-29gw-9793-fvw7",
@@ -60741,6 +63637,7 @@
               "ecosystem": "PyPI",
               "dependency": "ipython",
               "resolved_version": "7.34.0",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
@@ -60759,6 +63656,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -60777,6 +63675,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -60794,6 +63693,7 @@
               "ecosystem": "PyPI",
               "dependency": "nbconvert",
               "resolved_version": "7.9.2",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
               ],
@@ -60810,6 +63710,7 @@
               "ecosystem": "PyPI",
               "dependency": "idna",
               "resolved_version": "3.9.0",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -60827,6 +63728,7 @@
               "ecosystem": "PyPI",
               "dependency": "nbconvert",
               "resolved_version": "7.9.2",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
               ],
@@ -60844,6 +63746,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
@@ -60861,6 +63764,7 @@
               "ecosystem": "PyPI",
               "dependency": "tqdm",
               "resolved_version": "4.9.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
               ],
@@ -60882,6 +63786,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
               ],
@@ -60912,6 +63817,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -60929,6 +63835,7 @@
               "ecosystem": "PyPI",
               "dependency": "tqdm",
               "resolved_version": "4.9.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -60947,6 +63854,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -60964,6 +63872,7 @@
               "ecosystem": "PyPI",
               "dependency": "nbconvert",
               "resolved_version": "7.9.2",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
               ],
@@ -60980,6 +63889,7 @@
               "ecosystem": "PyPI",
               "dependency": "tqdm",
               "resolved_version": "4.9.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [],
               "fixed_versions": [
                 "4.11.2"
@@ -60994,6 +63904,7 @@
               "ecosystem": "PyPI",
               "dependency": "scipy",
               "resolved_version": "1.9.3",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [],
               "fixed_versions": [
                 "1.10.0"
@@ -61008,6 +63919,7 @@
               "ecosystem": "PyPI",
               "dependency": "ipython",
               "resolved_version": "7.34.0",
+              "source": "docs/requirements.txt",
               "native_severity": [],
               "fixed_versions": [
                 "385d69325319a5972ee9b5983638e3617f21cb1f",
@@ -61020,6 +63932,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [],
               "fixed_versions": [
                 "10.0.1"
@@ -61035,6 +63948,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [],
               "fixed_versions": [
                 "10.0.0",
@@ -61051,6 +63965,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61067,6 +63982,7 @@
               "ecosystem": "PyPI",
               "dependency": "nbconvert",
               "resolved_version": "7.9.2",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
               ],
@@ -61084,6 +64000,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -61106,6 +64023,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
               ],
@@ -61122,6 +64040,7 @@
               "ecosystem": "PyPI",
               "dependency": "tqdm",
               "resolved_version": "4.9.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
               ],
@@ -61138,6 +64057,7 @@
               "ecosystem": "PyPI",
               "dependency": "idna",
               "resolved_version": "3.9.0",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
               ],
@@ -61154,6 +64074,7 @@
               "ecosystem": "PyPI",
               "dependency": "nbconvert",
               "resolved_version": "7.9.2",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
               ],
@@ -61170,6 +64091,7 @@
               "ecosystem": "PyPI",
               "dependency": "nbconvert",
               "resolved_version": "7.9.2",
+              "source": "docs/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
               ],
@@ -61187,6 +64109,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61204,6 +64127,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61221,6 +64145,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61238,6 +64163,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61255,6 +64181,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L"
               ],
@@ -61272,6 +64199,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -61290,6 +64218,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61307,6 +64236,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
               ],
@@ -61324,6 +64254,7 @@
               "ecosystem": "PyPI",
               "dependency": "pillow",
               "resolved_version": "9.5.0",
+              "source": "benches/connection_scoring/requirements.txt",
               "native_severity": [
                 "CVSS_V3:CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -61333,16 +64264,12 @@
               ]
             }
           ],
-          "exit_code": 1,
-          "coverage_status": "development_only",
-          "runtime_sources": [],
-          "development_sources": [
-            "benches/connection_scoring/requirements.txt",
-            "docs/requirements.txt"
-          ],
-          "runtime_advisory_count": null,
+          "advisory_count": 35,
+          "runtime_advisory_count": 0,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "runtime_scanned",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -66784,6 +69711,220 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "OBSERVED",
+          "result_kind": "MEASUREMENT",
+          "applicability": "APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:pyrodigal=3.7.1:py312h247cb63_1",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "archspec",
+                "version": "0.2.5",
+                "build": "pyhd8ed1ab_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ca-certificates",
+                "version": "2026.6.17",
+                "build": "hbd8a1cb_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "ld_impl_linux-64",
+                "version": "2.45.1",
+                "build": "default_hbd61a6d_102",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libexpat",
+                "version": "2.8.1",
+                "build": "hecca717_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libffi",
+                "version": "3.5.2",
+                "build": "h3435931_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc-ng",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libnsl",
+                "version": "2.0.1",
+                "build": "hb9d3cd8_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libsqlite",
+                "version": "3.53.3",
+                "build": "h0c1763c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libuuid",
+                "version": "2.42.2",
+                "build": "h5347b49_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libxcrypt",
+                "version": "4.4.36",
+                "build": "hd590300_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libzlib",
+                "version": "1.3.2",
+                "build": "h25fd6f3_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ncurses",
+                "version": "6.6",
+                "build": "hdb14827_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "openssl",
+                "version": "3.6.3",
+                "build": "h35e630c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "pyrodigal",
+                "version": "3.7.1",
+                "build": "py312h247cb63_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "python",
+                "version": "3.12.13",
+                "build": "hd63d673_0_cpython",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "python_abi",
+                "version": "3.12",
+                "build": "8_cp312",
+                "subdir": "noarch"
+              },
+              {
+                "name": "readline",
+                "version": "8.3",
+                "build": "h853b02a_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "tk",
+                "version": "8.6.13",
+                "build": "noxft_h366c992_103",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "tzdata",
+                "version": "2025c",
+                "build": "hc9c84f9_1",
+                "subdir": "noarch"
+              },
+              {
+                "name": "zstd",
+                "version": "1.5.7",
+                "build": "hb78ec9c_6",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 25,
+            "ecosystem_packages": [
+              {
+                "ecosystem": "PyPI",
+                "name": "archspec",
+                "version": "0.2.5",
+                "source": "lib/python3.12/site-packages/archspec-0.2.5.dist-info/METADATA"
+              },
+              {
+                "ecosystem": "PyPI",
+                "name": "pyrodigal",
+                "version": "3.7.1",
+                "source": "lib/python3.12/site-packages/pyrodigal-3.7.1.dist-info/METADATA"
+              }
+            ],
+            "ecosystem_package_count": 2,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [
+              "installed-environment:PyPI"
+            ],
+            "advisory_count": 0,
+            "advisories": [],
+            "exit_code": 0
+          },
+          "command": [
+            "osv-scanner",
+            "scan",
+            "source",
+            "--format=json",
+            "--verbosity=error",
+            "--all-packages",
+            "--lockfile",
+            "osv-scanner:/source/osv-scanner.json"
+          ],
+          "duration_seconds": 1.149699917063117,
+          "environment_id": "pixi-lock:bbb81eac798e57f1afde5aa7343f1159334c5b79e6fa0a8855b3a425a2a6a357;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/pyrodigal/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/pyrodigal/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/pyrodigal/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": null
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "OBSERVED",
@@ -66797,10 +69938,96 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [
+              {
+                "ecosystem": "PyPI",
+                "role": "build",
+                "source": "pyproject.toml",
+                "raw": "cython >= 3.0",
+                "name": "cython",
+                "specifier": ">=3.0",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "build",
+                "source": "pyproject.toml",
+                "raw": "scikit-build-core",
+                "name": "scikit-build-core",
+                "specifier": null,
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "isal ~=1.1",
+                "group": "isal",
+                "name": "isal",
+                "specifier": "~=1.1",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "lz4 ~=4.0",
+                "group": "lz4",
+                "name": "lz4",
+                "specifier": "~=4.0",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "importlib-resources ; python_version < '3.9'",
+                "group": "test",
+                "name": "importlib-resources",
+                "specifier": null,
+                "marker": "python_version < \"3.9\"",
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "optional",
+                "source": "pyproject.toml",
+                "raw": "zstandard ~=0.22",
+                "group": "zst",
+                "name": "zstandard",
+                "specifier": "~=0.22",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              },
+              {
+                "ecosystem": "PyPI",
+                "role": "runtime",
+                "source": "pyproject.toml",
+                "raw": "archspec ~=0.2.0",
+                "name": "archspec",
+                "specifier": "~=0.2.0",
+                "marker": null,
+                "extras": [],
+                "parse_status": "OBSERVED"
+              }
+            ],
             "analyzer": "OSV-Scanner",
             "supported_sources": [
+              ".github/workflows/requirements.txt",
               "benches/connection_scoring/requirements.txt",
-              "docs/requirements.txt"
+              "docs/requirements.txt",
+              "src/pyrodigal/tests/requirements.txt"
             ],
             "advisory_count": 35,
             "advisories": [
@@ -66813,6 +70040,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "ipython",
                 "resolved_version": "7.34.0",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N"
@@ -66831,6 +70059,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -66849,6 +70078,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -66866,6 +70096,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "nbconvert",
                 "resolved_version": "7.9.2",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
                 ],
@@ -66882,6 +70113,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "idna",
                 "resolved_version": "3.9.0",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -66899,6 +70131,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "nbconvert",
                 "resolved_version": "7.9.2",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
                 ],
@@ -66916,6 +70149,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
@@ -66933,6 +70167,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "tqdm",
                 "resolved_version": "4.9.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
                 ],
@@ -66954,6 +70189,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
                 ],
@@ -66984,6 +70220,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -67001,6 +70238,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "tqdm",
                 "resolved_version": "4.9.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -67019,6 +70257,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -67036,6 +70275,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "nbconvert",
                 "resolved_version": "7.9.2",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
                 ],
@@ -67052,6 +70292,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "tqdm",
                 "resolved_version": "4.9.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [],
                 "fixed_versions": [
                   "4.11.2"
@@ -67066,6 +70307,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "scipy",
                 "resolved_version": "1.9.3",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [],
                 "fixed_versions": [
                   "1.10.0"
@@ -67080,6 +70322,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "ipython",
                 "resolved_version": "7.34.0",
+                "source": "docs/requirements.txt",
                 "native_severity": [],
                 "fixed_versions": [
                   "385d69325319a5972ee9b5983638e3617f21cb1f",
@@ -67092,6 +70335,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [],
                 "fixed_versions": [
                   "10.0.1"
@@ -67107,6 +70351,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [],
                 "fixed_versions": [
                   "10.0.0",
@@ -67123,6 +70368,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67139,6 +70385,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "nbconvert",
                 "resolved_version": "7.9.2",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
                 ],
@@ -67156,6 +70403,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -67178,6 +70426,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
                 ],
@@ -67194,6 +70443,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "tqdm",
                 "resolved_version": "4.9.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
                 ],
@@ -67210,6 +70460,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "idna",
                 "resolved_version": "3.9.0",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
                 ],
@@ -67226,6 +70477,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "nbconvert",
                 "resolved_version": "7.9.2",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
                 ],
@@ -67242,6 +70494,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "nbconvert",
                 "resolved_version": "7.9.2",
+                "source": "docs/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
                 ],
@@ -67259,6 +70512,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67276,6 +70530,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67293,6 +70548,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67310,6 +70566,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67327,6 +70584,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L"
                 ],
@@ -67344,6 +70602,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
@@ -67362,6 +70621,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67379,6 +70639,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
                 ],
@@ -67396,6 +70657,7 @@
                 "ecosystem": "PyPI",
                 "dependency": "pillow",
                 "resolved_version": "9.5.0",
+                "source": "benches/connection_scoring/requirements.txt",
                 "native_severity": [
                   "CVSS_V3:CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
@@ -67413,11 +70675,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 9.815966458059847,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 7.841016541002318,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/pyrodigal/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -71179,18 +74442,172 @@
       "dependency_advisories": {
         "status": "NOT_APPLICABLE",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [],
-          "advisory_count": 0,
-          "advisories": [],
-          "reason": "OSV-Scanner detected no supported dependency manifest or lockfile.",
-          "exit_code": 128,
-          "coverage_status": "no_supported_input",
           "runtime_sources": [],
           "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "c-ares",
+              "version": "1.34.8",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ca-certificates",
+              "version": "2026.6.17",
+              "build": "hbd8a1cb_0",
+              "subdir": "noarch"
+            },
+            {
+              "name": "htslib",
+              "version": "1.23.1",
+              "build": "h633afcb_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "icu",
+              "version": "78.3",
+              "build": "h33c6efd_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "keyutils",
+              "version": "1.6.3",
+              "build": "hb9d3cd8_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "krb5",
+              "version": "1.22.2",
+              "build": "hbde042b_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libcurl",
+              "version": "8.21.0",
+              "build": "hae6b9f4_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libdeflate",
+              "version": "1.25",
+              "build": "h17f619e_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libedit",
+              "version": "3.1.20250104",
+              "build": "pl5321h7949ede_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libev",
+              "version": "4.33",
+              "build": "hd590300_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc-ng",
+              "version": "15.2.0",
+              "build": "h69a702a_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libnghttp2",
+              "version": "1.68.1",
+              "build": "h877daf1_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libpsl",
+              "version": "0.22.0",
+              "build": "h49b2146_1",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libssh2",
+              "version": "1.11.1",
+              "build": "hcf80075_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libstdcxx",
+              "version": "15.2.0",
+              "build": "h934c35e_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libzlib",
+              "version": "1.3.2",
+              "build": "h25fd6f3_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "ncurses",
+              "version": "6.6",
+              "build": "hdb14827_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "openssl",
+              "version": "3.6.3",
+              "build": "h35e630c_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "samtools",
+              "version": "1.23.1",
+              "build": "ha83d96e_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "zstd",
+              "version": "1.5.7",
+              "build": "hb78ec9c_6",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 25,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
+          "advisories": [],
+          "advisory_count": null,
           "runtime_advisory_count": null,
           "runtime_advisories": [],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "installed_inventory_only",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -75180,6 +78597,196 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:samtools=1.23.1:ha83d96e_0",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "c-ares",
+                "version": "1.34.8",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ca-certificates",
+                "version": "2026.6.17",
+                "build": "hbd8a1cb_0",
+                "subdir": "noarch"
+              },
+              {
+                "name": "htslib",
+                "version": "1.23.1",
+                "build": "h633afcb_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "icu",
+                "version": "78.3",
+                "build": "h33c6efd_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "keyutils",
+                "version": "1.6.3",
+                "build": "hb9d3cd8_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "krb5",
+                "version": "1.22.2",
+                "build": "hbde042b_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libcurl",
+                "version": "8.21.0",
+                "build": "hae6b9f4_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libdeflate",
+                "version": "1.25",
+                "build": "h17f619e_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libedit",
+                "version": "3.1.20250104",
+                "build": "pl5321h7949ede_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libev",
+                "version": "4.33",
+                "build": "hd590300_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc-ng",
+                "version": "15.2.0",
+                "build": "h69a702a_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libnghttp2",
+                "version": "1.68.1",
+                "build": "h877daf1_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libpsl",
+                "version": "0.22.0",
+                "build": "h49b2146_1",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libssh2",
+                "version": "1.11.1",
+                "build": "hcf80075_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libstdcxx",
+                "version": "15.2.0",
+                "build": "h934c35e_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libzlib",
+                "version": "1.3.2",
+                "build": "h25fd6f3_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "ncurses",
+                "version": "6.6",
+                "build": "hdb14827_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "openssl",
+                "version": "3.6.3",
+                "build": "h35e630c_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "samtools",
+                "version": "1.23.1",
+                "build": "ha83d96e_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "zstd",
+                "version": "1.5.7",
+                "build": "hb78ec9c_6",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 25,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.000714167021214962,
+          "environment_id": "pixi-lock:046500bf41dce92cca2d585c8228ef485a8a79eb3c7aa907846b999a1a6a3a95;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/samtools/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/samtools/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/samtools/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "NOT_APPLICABLE",
@@ -75193,6 +78800,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [],
             "advisory_count": 0,
@@ -75206,11 +78815,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.0481939578894526,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 0.9603034160099924,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/samtools/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",
@@ -77165,11 +80775,61 @@
       "dependency_advisories": {
         "status": "OBSERVED",
         "observed": {
-          "analyzer": "OSV-Scanner",
           "supported_sources": [
             "Cargo.lock"
           ],
-          "advisory_count": 13,
+          "runtime_sources": [
+            "Cargo.lock"
+          ],
+          "development_sources": [],
+          "declared_dependencies": [],
+          "conda_packages": [
+            {
+              "name": "_openmp_mutex",
+              "version": "4.5",
+              "build": "20_gnu",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "bzip2",
+              "version": "1.0.8",
+              "build": "hda65f42_9",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgcc",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libgomp",
+              "version": "15.2.0",
+              "build": "he0feb66_19",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "liblzma",
+              "version": "5.8.3",
+              "build": "hb03c661_0",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "libzlib",
+              "version": "1.3.2",
+              "build": "h25fd6f3_2",
+              "subdir": "linux-64"
+            },
+            {
+              "name": "yacrd",
+              "version": "1.0.0",
+              "build": "h790517f_5",
+              "subdir": "linux-64"
+            }
+          ],
+          "conda_package_count": 7,
+          "ecosystem_packages": [],
+          "ecosystem_package_count": 0,
           "advisories": [
             {
               "advisory_id": "GHSA-434x-w66g-qw3r",
@@ -77180,6 +80840,7 @@
               "ecosystem": "crates.io",
               "dependency": "bytes",
               "resolved_version": "1.8.0",
+              "source": "Cargo.lock",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P"
               ],
@@ -77195,6 +80856,7 @@
               "ecosystem": "crates.io",
               "dependency": "atty",
               "resolved_version": "0.2.14",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77208,6 +80870,7 @@
               "ecosystem": "crates.io",
               "dependency": "crossbeam-channel",
               "resolved_version": "0.5.13",
+              "source": "Cargo.lock",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
               ],
@@ -77223,6 +80886,7 @@
               "ecosystem": "crates.io",
               "dependency": "atty",
               "resolved_version": "0.2.14",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77232,6 +80896,7 @@
               "ecosystem": "crates.io",
               "dependency": "proc-macro-error",
               "resolved_version": "1.0.4",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77241,6 +80906,7 @@
               "ecosystem": "crates.io",
               "dependency": "atty",
               "resolved_version": "0.2.14",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77250,6 +80916,7 @@
               "ecosystem": "crates.io",
               "dependency": "instant",
               "resolved_version": "0.1.13",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77263,6 +80930,7 @@
               "ecosystem": "crates.io",
               "dependency": "crossbeam-channel",
               "resolved_version": "0.5.13",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "0.5.15"
@@ -77274,6 +80942,7 @@
               "ecosystem": "crates.io",
               "dependency": "fxhash",
               "resolved_version": "0.2.1",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77283,6 +80952,7 @@
               "ecosystem": "crates.io",
               "dependency": "bincode",
               "resolved_version": "1.3.3",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77295,6 +80965,7 @@
               "ecosystem": "crates.io",
               "dependency": "bytes",
               "resolved_version": "1.8.0",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "1.11.1"
@@ -77306,6 +80977,7 @@
               "ecosystem": "crates.io",
               "dependency": "anyhow",
               "resolved_version": "1.0.93",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "1.0.103"
@@ -77317,18 +80989,14 @@
               "ecosystem": "crates.io",
               "dependency": "crossbeam-epoch",
               "resolved_version": "0.9.18",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "0.9.20"
               ]
             }
           ],
-          "exit_code": 1,
-          "coverage_status": "runtime_scanned",
-          "runtime_sources": [
-            "Cargo.lock"
-          ],
-          "development_sources": [],
+          "advisory_count": 13,
           "runtime_advisory_count": 13,
           "runtime_advisories": [
             {
@@ -77340,6 +81008,7 @@
               "ecosystem": "crates.io",
               "dependency": "bytes",
               "resolved_version": "1.8.0",
+              "source": "Cargo.lock",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P"
               ],
@@ -77355,6 +81024,7 @@
               "ecosystem": "crates.io",
               "dependency": "atty",
               "resolved_version": "0.2.14",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77368,6 +81038,7 @@
               "ecosystem": "crates.io",
               "dependency": "crossbeam-channel",
               "resolved_version": "0.5.13",
+              "source": "Cargo.lock",
               "native_severity": [
                 "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
               ],
@@ -77383,6 +81054,7 @@
               "ecosystem": "crates.io",
               "dependency": "atty",
               "resolved_version": "0.2.14",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77392,6 +81064,7 @@
               "ecosystem": "crates.io",
               "dependency": "proc-macro-error",
               "resolved_version": "1.0.4",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77401,6 +81074,7 @@
               "ecosystem": "crates.io",
               "dependency": "atty",
               "resolved_version": "0.2.14",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77410,6 +81084,7 @@
               "ecosystem": "crates.io",
               "dependency": "instant",
               "resolved_version": "0.1.13",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77423,6 +81098,7 @@
               "ecosystem": "crates.io",
               "dependency": "crossbeam-channel",
               "resolved_version": "0.5.13",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "0.5.15"
@@ -77434,6 +81110,7 @@
               "ecosystem": "crates.io",
               "dependency": "fxhash",
               "resolved_version": "0.2.1",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77443,6 +81120,7 @@
               "ecosystem": "crates.io",
               "dependency": "bincode",
               "resolved_version": "1.3.3",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": []
             },
@@ -77455,6 +81133,7 @@
               "ecosystem": "crates.io",
               "dependency": "bytes",
               "resolved_version": "1.8.0",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "1.11.1"
@@ -77466,6 +81145,7 @@
               "ecosystem": "crates.io",
               "dependency": "anyhow",
               "resolved_version": "1.0.93",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "1.0.103"
@@ -77477,13 +81157,16 @@
               "ecosystem": "crates.io",
               "dependency": "crossbeam-epoch",
               "resolved_version": "0.9.18",
+              "source": "Cargo.lock",
               "native_severity": [],
               "fixed_versions": [
                 "0.9.20"
               ]
             }
           ],
-          "scanner_profile": "OSV-Scanner using the ecosystem-specific parser for supported manifests and lockfiles"
+          "coverage_status": "runtime_scanned",
+          "audit_errors": [],
+          "scanner_profile": "Exact installed PyPI, Maven and npm packages plus supported repository lockfiles and manifests"
         }
       },
       "labels": {
@@ -79521,6 +83204,88 @@
         },
         {
           "check_id": "DEP-ADVISORY-001",
+          "probe_id": "dependencies:installed-environment",
+          "domain": "dependencies",
+          "status": "NOT_APPLICABLE",
+          "result_kind": "MEASUREMENT",
+          "applicability": "NOT_APPLICABLE",
+          "snapshot_date": "2026-07-01",
+          "source_component_id": null,
+          "executable_id": null,
+          "expected": {
+            "current_only": true,
+            "basis": "exact packages installed in the audited Pixi environment",
+            "network": "OSV advisory service"
+          },
+          "observed": {
+            "scan_scope": "installed_environment",
+            "installation_id": "pixi:yacrd=1.0.0:h790517f_5",
+            "conda_packages": [
+              {
+                "name": "_openmp_mutex",
+                "version": "4.5",
+                "build": "20_gnu",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "bzip2",
+                "version": "1.0.8",
+                "build": "hda65f42_9",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgcc",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libgomp",
+                "version": "15.2.0",
+                "build": "he0feb66_19",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "liblzma",
+                "version": "5.8.3",
+                "build": "hb03c661_0",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "libzlib",
+                "version": "1.3.2",
+                "build": "h25fd6f3_2",
+                "subdir": "linux-64"
+              },
+              {
+                "name": "yacrd",
+                "version": "1.0.0",
+                "build": "h790517f_5",
+                "subdir": "linux-64"
+              }
+            ],
+            "conda_package_count": 7,
+            "ecosystem_packages": [],
+            "ecosystem_package_count": 0,
+            "analyzer": "OSV-Scanner",
+            "supported_sources": [],
+            "advisory_count": null,
+            "advisories": [],
+            "reason": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+          },
+          "command": null,
+          "duration_seconds": 0.0027489999774843454,
+          "environment_id": "pixi-lock:0e0964133ebbf5e349acf8624f0ec5274c2a5199779f596cf0cec9aeb5d0ccdd;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e;platform:linux/amd64",
+          "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
+          "evidence": {
+            "stdout": "evidence/current/yacrd/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stdout.txt",
+            "stderr": "evidence/current/yacrd/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/stderr.txt",
+            "metadata": "evidence/current/yacrd/2026-07-01/DEP-ADVISORY-001/dependencies-installed-environment/metadata.json"
+          },
+          "notes": "The installed Pixi environment was inventoried, but it contained no exact PyPI, Maven, or npm package metadata that OSV-Scanner could match."
+        },
+        {
+          "check_id": "DEP-ADVISORY-001",
           "probe_id": "dependencies:osv-scanner",
           "domain": "dependencies",
           "status": "OBSERVED",
@@ -79534,6 +83299,8 @@
             "network": "OSV advisory service"
           },
           "observed": {
+            "scan_scope": "repository",
+            "declared_dependencies": [],
             "analyzer": "OSV-Scanner",
             "supported_sources": [
               "Cargo.lock"
@@ -79549,6 +83316,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "bytes",
                 "resolved_version": "1.8.0",
+                "source": "Cargo.lock",
                 "native_severity": [
                   "CVSS_V4:CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P"
                 ],
@@ -79564,6 +83332,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "atty",
                 "resolved_version": "0.2.14",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79577,6 +83346,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "crossbeam-channel",
                 "resolved_version": "0.5.13",
+                "source": "Cargo.lock",
                 "native_severity": [
                   "CVSS_V4:CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
                 ],
@@ -79592,6 +83362,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "atty",
                 "resolved_version": "0.2.14",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79601,6 +83372,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "proc-macro-error",
                 "resolved_version": "1.0.4",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79610,6 +83382,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "atty",
                 "resolved_version": "0.2.14",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79619,6 +83392,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "instant",
                 "resolved_version": "0.1.13",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79632,6 +83406,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "crossbeam-channel",
                 "resolved_version": "0.5.13",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": [
                   "0.5.15"
@@ -79643,6 +83418,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "fxhash",
                 "resolved_version": "0.2.1",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79652,6 +83428,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "bincode",
                 "resolved_version": "1.3.3",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": []
               },
@@ -79664,6 +83441,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "bytes",
                 "resolved_version": "1.8.0",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": [
                   "1.11.1"
@@ -79675,6 +83453,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "anyhow",
                 "resolved_version": "1.0.93",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": [
                   "1.0.103"
@@ -79686,6 +83465,7 @@
                 "ecosystem": "crates.io",
                 "dependency": "crossbeam-epoch",
                 "resolved_version": "0.9.18",
+                "source": "Cargo.lock",
                 "native_severity": [],
                 "fixed_versions": [
                   "0.9.20"
@@ -79700,11 +83480,12 @@
             "source",
             "--format=json",
             "--verbosity=error",
+            "--all-packages",
             "--recursive",
             "/source"
           ],
-          "duration_seconds": 1.7648191249463707,
-          "environment_id": "source-analyzers:c8bbe6167a1d9d05c2b691996bf084f8118ec1263a0a0547250fb5ccacfcca40;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
+          "duration_seconds": 1.8339986249338835,
+          "environment_id": "dependency-analyzers:b29947b502837973588b952034b291d3f54dfc759f6752c53505b3c9fd1e849a;profile:f20bf9ef5d552e325c22a3d6601bc864faf1295efec6b0c1cb51f7e0922d9726;image:sha256:7c7cf973aeacb0af76a29a1f89471ef3cab8e8a181c4dc2d2af333ea8bea573e",
           "config_sha256": "1ecff71239da66ae479feb6296d497b1999dd3a5a60dd4d57df962151cd20eec",
           "evidence": {
             "stdout": "evidence/current/yacrd/2026-07-01/DEP-ADVISORY-001/dependencies-osv-scanner/stdout.txt",

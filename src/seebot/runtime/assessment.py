@@ -5,10 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from seebot.analyzers.dependencies import run_installed_dependency_advisories
 from seebot.evidence import sha256_file
 from seebot.fixtures import fixture_index
 from seebot.models import Applicability, CheckResult, ResultKind, Status, ToolIdentity
 from seebot.observations import write_measurement
+from seebot.runtime.analyzers import AnalyzerEnvironment
 from seebot.runtime.pixi import (
     ExpectedOutput,
     PixiEnvironment,
@@ -187,6 +189,7 @@ def run_project_usage(
     output_root: Path,
     fixture_directory: Path,
     config_path: Path,
+    analyzer_environment: AnalyzerEnvironment | None = None,
     checks: set[str] | None = None,
     force: bool = False,
     cleanup: bool = True,
@@ -238,6 +241,22 @@ def run_project_usage(
             for spec in specs
         ]
         requested = checks or {"usage", "robustness"}
+        if "dependencies" in requested or "DEP-ADVISORY-001" in requested:
+            if analyzer_environment is None:
+                raise ValueError("Installed dependency checks require an analyzer environment")
+            results.append(
+                run_installed_dependency_advisories(
+                    analyzer_environment=analyzer_environment,
+                    environment=environment,
+                    project_id=project_id,
+                    run_id=run_id,
+                    evidence_root=output_root / "evidence",
+                    config_path=config_path,
+                    snapshot_date=manifest["repository"]["snapshot_date"],
+                    snapshot_commit=manifest["repository"]["snapshot_commit"],
+                    force=force,
+                )
+            )
         status_rows: list[tuple[str, str, Status, str, Applicability]] = []
         valid = manifest["valid_run"]
         if ("usage" in requested or "CLI-VALID-RUN-001" in requested) and valid[

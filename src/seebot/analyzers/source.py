@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from seebot.analyzers.dependencies import run_dependency_advisories
 from seebot.analyzers.native import run_non_python_native_analyzers
 from seebot.analyzers.python import run_python_analyzers
 from seebot.analyzers.structure import production_files, run_structural_observations
@@ -90,20 +89,6 @@ def run_source_observations(
                 snapshot_commit=snapshot_commit,
                 source_component_id=f"{language}:production",
                 tool=ToolIdentity(name="Seebot analyzer dispatcher", version="2"),
-                force=force,
-            )
-        )
-    if snapshot_date == manifest["repository"]["snapshot_date"]:
-        results.append(
-            run_dependency_advisories(
-                environment=analyzer_environment,
-                checkout=checkout,
-                project_id=project_id,
-                run_id=run_id,
-                evidence_root=evidence_root,
-                config_path=config_root / "rubric.yaml",
-                snapshot_date=snapshot_date,
-                snapshot_commit=snapshot_commit or "",
                 force=force,
             )
         )

@@ -22,7 +22,10 @@ from seebot.manifests import validate_manifest, write_template
 from seebot.normalize.results import normalize_run, rebuild_global_results
 from seebot.reporting import build_public_dataset
 from seebot.runner import run_repository_and_source
-from seebot.runtime.analyzers import prepare_analyzer_environment
+from seebot.runtime.analyzers import (
+    prepare_analyzer_environment,
+    prepare_dependency_analyzer_environment,
+)
 from seebot.runtime.assessment import run_project_usage
 from seebot.selection import select_manifests
 from seebot.storage import directory_size, format_bytes, prune_owned_directory
@@ -413,7 +416,7 @@ def audit_plan(
 ) -> None:
     """Plan current-snapshot checks without installing or executing projects."""
     selected = selected_projects(tool, category, language)
-    checks = sorted(set(check or ["repository", "source", "usage", "robustness"]))
+    checks = sorted(set(check or ["repository", "source", "dependencies", "usage", "robustness"]))
     table = Table("Project", "Snapshot", "Checks", "Installer", "Valid run")
     for _, manifest in selected:
         table.add_row(
@@ -438,17 +441,25 @@ def audit_run(
     """Run reviewed installed-interface probes; never execute upstream test suites."""
     opts = options(ctx)
     selected = selected_projects(tool, category, language)
-    requested = set(check or ["repository", "source", "history", "usage", "robustness"])
+    requested = set(
+        check or ["repository", "source", "history", "dependencies", "usage", "robustness"]
+    )
     if opts.dry_run:
         audit_plan(tool, category, language, check)
         return
     needs_source = bool(requested & {"source", "history"})
+    needs_analyzer = needs_source or bool(requested & {"dependencies", "DEP-ADVISORY-001"})
     analyzer_environment = (
         prepare_analyzer_environment(
             opts.output_directory / "work" / "source-analyzers",
             opts.output_directory / ".seebot-cache" / "pixi",
         )
         if needs_source
+        else prepare_dependency_analyzer_environment(
+            opts.output_directory / "work" / "dependency-analyzers",
+            opts.output_directory / ".seebot-cache" / "pixi",
+        )
+        if needs_analyzer
         else None
     )
     table = Table("Project", "Passed", "Failed", "Untestable", "Errors")
@@ -473,11 +484,12 @@ def audit_run(
                         include_history="history" in requested,
                         include_repository="repository" in requested,
                         include_source=bool(requested & {"source", "history"}),
+                        include_dependencies=bool(requested & {"dependencies", "DEP-ADVISORY-001"}),
                         force=opts.force,
                         cleanup=not keep_environment,
                     )
                 )
-            if requested & {"usage", "robustness"}:
+            if requested & {"usage", "robustness", "dependencies", "DEP-ADVISORY-001"}:
                 results.extend(
                     run_project_usage(
                         manifest_path,
@@ -486,6 +498,7 @@ def audit_run(
                         output_root=opts.output_directory,
                         fixture_directory=ROOT / "fixtures",
                         config_path=ROOT / "config" / "rubric.yaml",
+                        analyzer_environment=analyzer_environment,
                         checks=requested,
                         force=opts.force,
                         cleanup=not keep_environment,

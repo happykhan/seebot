@@ -88,6 +88,21 @@ compared only when language, analyzer, configuration, and denominator are compat
 Cross-tool synthetic finding categories are not created. Source measurements never affect
 exemplar eligibility; only successful completion affects assessment coverage.
 
+## Dependency-advisory policy
+
+Current dependency evidence combines two observations. The repository observation scans
+supported manifests and lockfiles and records Python dependency declarations from
+`pyproject.toml` as runtime, optional, build, or development requirements. The installed
+observation inventories the exact dependency closure in the disposable Pixi environment.
+
+Installed packages are submitted for advisory lookup only when their exact name, version,
+and ecosystem can be recovered from PyPI distribution metadata, Maven JAR metadata, or npm
+package metadata. CPAN declarations are checked with CPAN Audit. Every resolved Conda
+package remains in the installation inventory, including native libraries for which there
+is no sound OSV ecosystem mapping. A zero-advisory result requires at least one supported
+runtime source or exact installed ecosystem package; an inventory without such a mapping
+is reported as inventory-only.
+
 ## Executable-behaviour policy
 
 Every public executable receives lightweight help/version discovery. One declared primary

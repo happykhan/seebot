@@ -46,6 +46,28 @@ def test_repository_only_audit_skips_source_analyzer_setup(tmp_path: Path, monke
     assert result.exit_code == 0, result.stdout
 
 
+def test_dependency_only_audit_uses_small_analyzer_profile(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr("seebot.cli.selected_projects", lambda *args: [])
+    calls: list[str] = []
+
+    monkeypatch.setattr(
+        "seebot.cli.prepare_dependency_analyzer_environment",
+        lambda *args, **kwargs: calls.append("dependencies"),
+    )
+
+    def unexpected_source_setup(*args, **kwargs):
+        raise AssertionError("full source analyzer setup should not run")
+
+    monkeypatch.setattr("seebot.cli.prepare_analyzer_environment", unexpected_source_setup)
+    result = runner.invoke(
+        app,
+        ["--output-directory", str(tmp_path), "audit", "run", "--check", "dependencies"],
+    )
+
+    assert result.exit_code == 0, result.stdout
+    assert calls == ["dependencies"]
+
+
 def test_report_build_overwrites_current_dataset(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(
         "seebot.cli.build_public_dataset",

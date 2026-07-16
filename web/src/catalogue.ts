@@ -65,7 +65,7 @@ export const metricDefinitions: Record<string, MetricDefinition> = {
   },
   dependency_advisories: {
     label: 'Known dependency vulnerabilities', shortLabel: 'Dependency vulnerabilities', unit: 'advisories', direction: 'lower',
-    explanation: 'Known advisories returned by OSV-Scanner for supported dependency manifests and lockfiles.',
+    explanation: 'Known advisories returned for exact packages in the audited installation or supported dependency lockfiles and manifests.',
   },
 }
 

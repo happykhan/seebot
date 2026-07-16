@@ -45,10 +45,13 @@ REQUIRED_CURRENT_CHECKS = {
 }
 REJECT_COVERAGE = {"UNTESTABLE", "ERROR", "NOT_RUN"}
 DEVELOPMENT_PATH_PARTS = {
+    ".circleci",
+    ".github",
     "bench",
     "benches",
     "benchmark",
     "benchmarks",
+    "ci",
     "dev",
     "doc",
     "docs",
@@ -298,52 +301,130 @@ def _is_development_dependency_source(source: str) -> bool:
     )
 
 
-def _dependency_summary(row: dict[str, Any], primary_language: str) -> dict[str, Any]:
-    raw = row.get("observed")
-    observed: dict[str, Any] = dict(raw) if isinstance(raw, dict) else {}
-    sources = [str(value) for value in observed.get("supported_sources", [])]
-    runtime_sources = [value for value in sources if not _is_development_dependency_source(value)]
-    development_sources = [value for value in sources if _is_development_dependency_source(value)]
-    status = str(row.get("status", "NOT_RUN"))
-    if status in REJECT_COVERAGE:
-        coverage_status = "audit_error"
-    elif runtime_sources:
+def _dependency_summary(rows: list[dict[str, Any]], primary_language: str) -> dict[str, Any]:
+    sources: set[str] = set()
+    runtime_sources: set[str] = set()
+    development_sources: set[str] = set()
+    declared: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
+    conda_packages: dict[tuple[str, str, str], dict[str, Any]] = {}
+    ecosystem_packages: dict[tuple[str, str, str], dict[str, Any]] = {}
+    advisories: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    audit_errors: list[dict[str, str]] = []
+    for row in rows:
+        raw = row.get("observed")
+        observed = raw if isinstance(raw, dict) else {}
+        installed = str(row.get("probe_id")) == "dependencies:installed-environment"
+        for value in observed.get("supported_sources", []):
+            source = str(value)
+            sources.add(source)
+            if installed or not _is_development_dependency_source(source):
+                runtime_sources.add(source)
+            else:
+                development_sources.add(source)
+        for declaration in observed.get("declared_dependencies", []):
+            if not isinstance(declaration, dict):
+                continue
+            declaration_key = (
+                str(declaration.get("ecosystem")),
+                str(declaration.get("role")),
+                str(declaration.get("group", "")),
+                str(declaration.get("name")),
+                str(declaration.get("raw", "")),
+            )
+            declared[declaration_key] = declaration
+        for package in observed.get("conda_packages", []):
+            if isinstance(package, dict):
+                conda_key = (
+                    str(package.get("name")),
+                    str(package.get("version")),
+                    str(package.get("build", "")),
+                )
+                conda_packages[conda_key] = package
+        for package in observed.get("ecosystem_packages", []):
+            if isinstance(package, dict):
+                ecosystem_key = (
+                    str(package.get("ecosystem")),
+                    str(package.get("name")),
+                    str(package.get("version")),
+                )
+                ecosystem_packages[ecosystem_key] = package
+        for advisory in observed.get("advisories", []):
+            if isinstance(advisory, dict):
+                advisory_key = (
+                    str(advisory.get("advisory_id")),
+                    str(advisory.get("dependency")),
+                    str(advisory.get("resolved_version")),
+                    str(advisory.get("source", "")),
+                )
+                advisories[advisory_key] = advisory
+        if str(row.get("status", "NOT_RUN")) in REJECT_COVERAGE:
+            audit_errors.append(
+                {
+                    "probe_id": str(row.get("probe_id", "UNKNOWN")),
+                    "status": str(row.get("status", "NOT_RUN")),
+                    "notes": str(row.get("notes") or "Dependency assessment did not complete."),
+                }
+            )
+    ordered_declared = [declared[key] for key in sorted(declared)]
+    ordered_conda = [conda_packages[key] for key in sorted(conda_packages)]
+    ordered_ecosystem = [ecosystem_packages[key] for key in sorted(ecosystem_packages)]
+    ordered_advisories = [advisories[key] for key in sorted(advisories)]
+    runtime_advisories = [
+        advisory
+        for advisory in ordered_advisories
+        if not advisory.get("source") or str(advisory["source"]) in runtime_sources
+    ]
+    runtime_declarations = [row for row in ordered_declared if row.get("role") == "runtime"]
+    if runtime_sources:
         coverage_status = "runtime_scanned"
+    elif audit_errors:
+        coverage_status = "audit_error"
+    elif runtime_declarations:
+        coverage_status = "declared_unresolved"
+    elif ordered_conda:
+        coverage_status = "installed_inventory_only"
     elif development_sources:
         coverage_status = "development_only"
     else:
         coverage_status = "no_supported_input"
-    advisories = observed.get("advisories")
-    advisory_rows = advisories if isinstance(advisories, list) else []
-    runtime_advisories = (
-        [
-            advisory
-            for advisory in advisory_rows
-            if not isinstance(advisory, dict)
-            or not advisory.get("source")
-            or str(advisory["source"]) in runtime_sources
-        ]
-        if runtime_sources
-        else []
-    )
-    observed.update(
-        {
-            "coverage_status": coverage_status,
-            "runtime_sources": runtime_sources,
-            "development_sources": development_sources,
-            "runtime_advisory_count": len(runtime_advisories) if runtime_sources else None,
-            "runtime_advisories": runtime_advisories,
-            "scanner_profile": (
-                "CPAN Audit for cpanfile or cpanfile.snapshot; OSV-Scanner for supported lockfiles"
-                if primary_language.lower() == "perl"
-                else (
-                    "OSV-Scanner using the ecosystem-specific parser for supported "
-                    "manifests and lockfiles"
-                )
-            ),
-        }
-    )
-    return observed
+    return {
+        "supported_sources": sorted(sources),
+        "runtime_sources": sorted(runtime_sources),
+        "development_sources": sorted(development_sources),
+        "declared_dependencies": ordered_declared,
+        "conda_packages": ordered_conda,
+        "conda_package_count": len(ordered_conda),
+        "ecosystem_packages": ordered_ecosystem,
+        "ecosystem_package_count": len(ordered_ecosystem),
+        "advisories": ordered_advisories,
+        "advisory_count": len(ordered_advisories) if sources else None,
+        "runtime_advisory_count": len(runtime_advisories) if runtime_sources else None,
+        "runtime_advisories": runtime_advisories,
+        "coverage_status": coverage_status,
+        "audit_errors": audit_errors,
+        "scanner_profile": (
+            "Exact installed PyPI, Maven and npm packages plus CPAN Audit and supported "
+            "repository lockfiles"
+            if primary_language.lower() == "perl"
+            else (
+                "Exact installed PyPI, Maven and npm packages plus supported repository "
+                "lockfiles and manifests"
+            )
+        ),
+    }
+
+
+def _dependency_status(rows: list[dict[str, Any]]) -> str:
+    statuses = {str(row.get("status", "NOT_RUN")) for row in rows}
+    if "ERROR" in statuses:
+        return "ERROR"
+    if "UNTESTABLE" in statuses:
+        return "UNTESTABLE"
+    if "OBSERVED" in statuses:
+        return "OBSERVED"
+    if "NOT_APPLICABLE" in statuses:
+        return "NOT_APPLICABLE"
+    return "NOT_RUN"
 
 
 def _project(
@@ -355,7 +436,11 @@ def _project(
     repository = manifest["repository"]
     activity = _observed(grouped, "REPO-ACTIVITY-001")
     releases = _observed(grouped, "REPO-RELEASES-001")
-    dependency = _current_row(grouped, "DEP-ADVISORY-001")
+    dependency_rows = [
+        row
+        for row in grouped.get("DEP-ADVISORY-001", [])
+        if row.get("snapshot_date") == CURRENT_DATE
+    ]
     return {
         "id": project["id"],
         "name": project["name"],
@@ -390,8 +475,8 @@ def _project(
         "contracts": _contract_summary(rows, repository_root),
         "source_snapshots": _source_snapshots(rows),
         "dependency_advisories": {
-            "status": dependency.get("status", "NOT_RUN"),
-            "observed": _dependency_summary(dependency, str(project["primary_language"])),
+            "status": _dependency_status(dependency_rows),
+            "observed": _dependency_summary(dependency_rows, str(project["primary_language"])),
         },
         "labels": _labels(rows, grouped),
         "results": [

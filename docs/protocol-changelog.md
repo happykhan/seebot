@@ -6,9 +6,15 @@
   treating it as a C/C++-specific analyzer.
 - Added CPAN Audit 20260622.001 for Perl projects that declare dependencies in `cpanfile`
   or `cpanfile.snapshot`.
+- Added an installed-environment observation that inventories the exact Pixi dependency
+  closure and checks packages exposing exact PyPI, Maven, or npm identities.
+- Added PEP 621 and dependency-group parsing for Python `pyproject.toml`, preserving
+  runtime, optional, build, and development roles without treating declarations as
+  resolved versions.
 - Separated runtime dependency inputs from files found only under documentation, test,
   example, or benchmark paths. A zero-advisory result is published only when a supported
-  runtime dependency input was scanned.
+  runtime dependency input or exact installed ecosystem package was scanned. Conda-only
+  inventories are reported separately.
 - Added repository, source, usage, and dependency as the four consistent public reporting
   areas. The frozen rubric, source exclusions, and broader-run gate are unchanged.
 

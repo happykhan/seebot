@@ -6,6 +6,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from seebot.analyzers.dependencies import run_dependency_advisories
 from seebot.analyzers.repository import clone_snapshot, run_repository_observations
 from seebot.analyzers.source import run_source_observations
 from seebot.models import CheckResult, Status, ToolIdentity
@@ -72,6 +73,7 @@ def run_repository_and_source(
     include_history: bool = True,
     include_repository: bool = True,
     include_source: bool = True,
+    include_dependencies: bool = False,
     force: bool = False,
     cleanup: bool = True,
 ) -> list[CheckResult]:
@@ -131,6 +133,22 @@ def run_repository_and_source(
                         snapshot_date=snapshot_date,
                         snapshot_commit=commit,
                         analyzer_environment=analyzer_environment,
+                        force=force,
+                    )
+                )
+            if include_dependencies and snapshot_date == repository["snapshot_date"]:
+                if analyzer_environment is None:
+                    raise ValueError("Dependency checks require an analyzer environment")
+                results.append(
+                    run_dependency_advisories(
+                        environment=analyzer_environment,
+                        checkout=checkout,
+                        project_id=manifest["project"]["id"],
+                        run_id=run_id,
+                        evidence_root=output_root / "evidence",
+                        config_path=config_root / "rubric.yaml",
+                        snapshot_date=snapshot_date,
+                        snapshot_commit=commit,
                         force=force,
                     )
                 )

@@ -14,6 +14,8 @@ def test_published_dependency_coverage_matches_project_observations() -> None:
     assert dataset["aggregate"]["dependency_coverage_counts"] == dict(sorted(expected.items()))
     assert set(expected) <= {
         "runtime_scanned",
+        "declared_unresolved",
+        "installed_inventory_only",
         "development_only",
         "no_supported_input",
         "audit_error",

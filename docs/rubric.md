@@ -19,12 +19,12 @@ Repository-practice exemplar requires a non-archived repository, README, licence
 instructions, recognized standard tests, verification CI, installation instructions, and
 at least one usage example.
 
-## Code health
+## Source health
 
 Core source-derived measurements are production source lines, language composition,
 file-length distribution, function-length distribution, cyclomatic-complexity distribution,
 nesting, parameter counts, duplication percentage, native linter findings, documentation
-coverage, native source-security findings, and current dependency advisories.
+coverage, and native source-security findings.
 
 Dead-code candidates, unsafe-code occurrences, and build-dependent analyzers are
 supplementary. Formatting compliance is not a code-health metric. No SOLID score or other
@@ -33,6 +33,18 @@ aggregate code-quality grade is produced.
 Counts are normalized by an appropriate published denominator such as production kLOC or
 recognized functions. Tests, generated code, vendored code, fixtures, documentation, and
 data never enter production-code denominators.
+
+## Dependencies
+
+The current repository is inspected for supported dependency manifests and lockfiles.
+Python `pyproject.toml` declarations are recorded by role, including runtime, optional,
+build, and development requirements. The exact disposable Pixi installation is also
+inventoried: its resolved Conda closure is retained, while exact PyPI, Maven, and npm
+package versions are checked for known advisories. CPAN declarations use CPAN Audit.
+
+Runtime advisory counts are published only when a supported runtime input was checked.
+Unmapped installed packages remain visible as inventory rather than being reported as a
+zero-advisory scan.
 
 ## Usage and robustness
 
