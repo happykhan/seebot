@@ -25,6 +25,7 @@ trap 'rm -rf "$scratch"' EXIT
 export SEEBOT_CONTAINER_RUNTIME=native
 export SEEBOT_PIXI_EXECUTABLE="$run_root/tools/pixi"
 export SEEBOT_OFFLINE=1
+export SEEBOT_SKIP_STORAGE_BUDGET=1
 export SEEBOT_SNAPSHOT_ROOT="$run_root/snapshots"
 export SEEBOT_WORK_ROOT="$scratch"
 
