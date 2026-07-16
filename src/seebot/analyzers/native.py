@@ -38,6 +38,14 @@ def _lines(files: list[Path]) -> int:
     )
 
 
+def _xml_fragment(text: str) -> str:
+    start = text.find("<results")
+    end = text.rfind("</results>")
+    if start == -1 or end == -1:
+        return "<results><errors /></results>"
+    return text[start : end + len("</results>")]
+
+
 def _perlcritic_parser(lines: int) -> Parser:
     def parse(stdout: str, stderr: str, returncode: int) -> tuple[dict[str, Any], Status]:
         findings: Counter[tuple[str, str]] = Counter()
@@ -70,7 +78,7 @@ def _perlcritic_parser(lines: int) -> Parser:
 
 def _cppcheck_parser(lines: int, *, security_only: bool) -> Parser:
     def parse(stdout: str, stderr: str, returncode: int) -> tuple[dict[str, Any], Status]:
-        root = ET.fromstring(stderr or "<results><errors /></results>")
+        root = ET.fromstring(_xml_fragment(stderr or stdout))
         findings: Counter[tuple[str, str]] = Counter()
         for error in root.findall(".//error"):
             rule = error.attrib.get("id", "UNKNOWN")
@@ -240,6 +248,8 @@ def _run_native(
     observed: dict[str, Any] = {}
     status = Status.ERROR
     notes: str | None = None
+    raw_stdout = b""
+    raw_stderr = b""
     try:
         completed = analyzer_command(
             environment.root,
@@ -248,10 +258,12 @@ def _run_native(
             work=target,
             config=config_root,
         )
-        stdout = completed.stdout.decode(errors="replace")
-        stderr = completed.stderr.decode(errors="replace")
-        stdout_path.write_text(stdout, encoding="utf-8")
-        stderr_path.write_text(stderr, encoding="utf-8")
+        raw_stdout = completed.stdout
+        raw_stderr = completed.stderr
+        stdout = raw_stdout.decode(errors="replace")
+        stderr = raw_stderr.decode(errors="replace")
+        stdout_path.write_bytes(raw_stdout)
+        stderr_path.write_bytes(raw_stderr)
         observed, parsed_status = parser(stdout, stderr, completed.returncode)
         status = parsed_status if completed.returncode in accepted else Status.ERROR
         if status is Status.ERROR:
@@ -263,8 +275,13 @@ def _run_native(
         status = Status.UNTESTABLE
         notes = "Analyzer exceeded its resource budget."
     except (OSError, ValueError, json.JSONDecodeError, ET.ParseError) as exc:
-        stdout_path.write_text("", encoding="utf-8")
-        stderr_path.write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
+        if not stdout_path.exists():
+            stdout_path.write_bytes(raw_stdout)
+        if not stderr_path.exists():
+            stderr_path.write_bytes(raw_stderr)
+        (target / "audit-error.txt").write_text(
+            f"{type(exc).__name__}: {exc}\n", encoding="utf-8"
+        )
         observed = {"audit_error": type(exc).__name__}
         notes = "Analyzer machinery failed; no project judgement was inferred."
     duration = time.monotonic() - clock

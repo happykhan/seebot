@@ -23,6 +23,22 @@ def test_cppcheck_keeps_native_rule_ids_and_security_filter() -> None:
     assert security["rules"][0]["rule"] == "nullPointer"
 
 
+def test_cppcheck_accepts_xml_with_stderr_preamble() -> None:
+    stderr = (
+        "Checking source file...\n"
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<results version="2"><errors>'
+        '<error id="unusedFunction" severity="style" />'
+        "</errors></results>\n"
+    )
+    observed, status = _cppcheck_parser(100, security_only=False)(
+        stdout="", stderr=stderr, returncode=0
+    )
+    assert status is Status.OBSERVED
+    assert observed["finding_count"] == 1
+    assert observed["rules"][0]["rule"] == "unusedFunction"
+
+
 def test_perlcritic_keeps_policy_and_severity() -> None:
     output = "Variables::ProhibitPunctuationVars~|~message~|~3~|~4~|~2\n"
     observed, status = _perlcritic_parser(200)(output, "", 2)
