@@ -68,6 +68,28 @@ def test_dependency_only_audit_uses_small_analyzer_profile(tmp_path: Path, monke
     assert calls == ["dependencies"]
 
 
+def test_history_includes_current_and_historical_source(tmp_path: Path, monkeypatch) -> None:
+    manifest = {"project": {"id": "example"}}
+    monkeypatch.setattr(
+        "seebot.cli.selected_projects", lambda *args: [(tmp_path / "example.yaml", manifest)]
+    )
+    monkeypatch.setattr("seebot.cli.prepare_analyzer_environment", lambda *args: object())
+    calls: list[tuple[bool, bool]] = []
+
+    def record_source(**kwargs):
+        calls.append((kwargs["include_history"], kwargs["include_source"]))
+        return []
+
+    monkeypatch.setattr("seebot.cli.run_repository_and_source", record_source)
+    result = runner.invoke(
+        app,
+        ["--output-directory", str(tmp_path), "audit", "run", "--check", "history"],
+    )
+
+    assert result.exit_code == 0, result.stdout
+    assert calls == [(True, True)]
+
+
 def test_named_cli_check_dispatches_usage_runner(tmp_path: Path, monkeypatch) -> None:
     manifest = {"project": {"id": "example"}}
     monkeypatch.setattr(

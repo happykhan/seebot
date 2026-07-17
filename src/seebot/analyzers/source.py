@@ -24,6 +24,7 @@ def run_source_observations(
     snapshot_date: str,
     snapshot_commit: str | None,
     analyzer_environment: AnalyzerEnvironment,
+    include_native: bool = True,
     force: bool = False,
 ) -> list[CheckResult]:
     project_id = manifest["project"]["id"]
@@ -37,6 +38,8 @@ def run_source_observations(
         snapshot_commit=snapshot_commit,
         force=force,
     )
+    if not include_native:
+        return results
     languages = manifest["source"]["language_roots"]
     if "python" in languages:
         files, _ = production_files(checkout, manifest, "python")

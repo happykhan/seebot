@@ -11,6 +11,7 @@ import sys
 import time
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from functools import cache
 from pathlib import Path
 
 from seebot import __version__
@@ -48,6 +49,7 @@ def evidence_path(path: Path, evidence_root: Path) -> str:
     return path.relative_to(evidence_root.parent).as_posix()
 
 
+@cache
 def audit_code_identity(repository: Path | None = None) -> dict[str, str | bool | None]:
     """Identify the checked-out audit code and whether tracked files differ."""
     cwd = repository or Path.cwd()

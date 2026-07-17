@@ -93,7 +93,7 @@ checks:
     kind: measurement
     title: Native analyzer findings
     values: [analyzer, rule, native_category, native_severity, count, findings_per_kloc]
-    historical: true
+    historical: false
     comparison: same language, analyzer, and configuration only
 
   - id: SRC-NATIVE-SECURITY-001
@@ -101,7 +101,7 @@ checks:
     kind: measurement
     title: Native source-security indicators
     values: [analyzer, rule, native_severity, native_confidence, count, findings_per_kloc]
-    historical: true
+    historical: false
     comparison: same language, analyzer, and configuration only
 
   - id: SRC-DEAD-CODE-001
@@ -109,7 +109,7 @@ checks:
     kind: measurement
     title: Dead-code candidates
     values: [analyzer, candidate_count]
-    historical: true
+    historical: false
     notes: Candidates are indicators and are not treated as confirmed dead code.
 
   - id: DEP-ADVISORY-001

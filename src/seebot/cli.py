@@ -30,7 +30,12 @@ from seebot.runtime.analyzers import (
 from seebot.runtime.assessment import run_project_usage, verify_installed_interface
 from seebot.runtime.pixi import cleanup_environment, prepare_environment
 from seebot.selection import select_manifests
-from seebot.storage import directory_size, format_bytes, prune_owned_directory
+from seebot.storage import (
+    compact_run_evidence,
+    directory_size,
+    format_bytes,
+    prune_owned_directory,
+)
 from seebot.survey import SURVEY_FIELDS, survey_rows
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -623,6 +628,31 @@ def results_rebuild_global(ctx: typer.Context) -> None:
         return
     json_path, csv_path = rebuild_global_results(opts.output_directory / "results")
     console.print(f"Wrote {json_path} and {csv_path}")
+
+
+@results_app.command("compact-evidence")
+def results_compact_evidence(
+    ctx: typer.Context,
+    yes: Annotated[bool, typer.Option("--yes", help="Delete disposable raw evidence.")] = False,
+) -> None:
+    """Remove per-check intermediates after retaining beta summaries and website data."""
+    opts = options(ctx)
+    normalized = opts.output_directory / "results" / opts.run_id / "checks.json"
+    dataset = opts.output_directory / "web" / "public" / "data" / "dataset.json"
+    missing = [path for path in (normalized, dataset) if not path.is_file()]
+    if missing:
+        raise RuntimeError(
+            "Build normalized results and the web dataset before compaction; missing: "
+            + ", ".join(str(path) for path in missing)
+        )
+    delete = yes and not opts.dry_run
+    files, size = compact_run_evidence(
+        opts.output_directory / "evidence", opts.run_id, delete=delete
+    )
+    action = "Removed" if delete else "Would remove"
+    console.print(f"{action} all {files} per-check evidence files ({format_bytes(size)}).")
+    if not delete:
+        console.print("Pass --yes to compact after reviewing this inventory.")
 
 
 @report_app.command("build")

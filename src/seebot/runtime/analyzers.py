@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 from dataclasses import dataclass
+from functools import cached_property
 from pathlib import Path
 
 from seebot.evidence import sha256_file
@@ -87,7 +88,7 @@ class AnalyzerEnvironment:
     records: list[dict[str, object]]
     profile: str = "source-analyzers"
 
-    @property
+    @cached_property
     def environment_id(self) -> str:
         profile = "\n".join(
             f"{row.get('name')}={row.get('requested_version')}"

@@ -11,6 +11,7 @@ import subprocess
 import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from functools import cached_property
 from pathlib import Path
 from typing import Any
 
@@ -106,7 +107,7 @@ class PixiEnvironment:
     pixi_version: str = "pixi 0.72.2"
     compatibility_adjustments: tuple[str, ...] = ()
 
-    @property
+    @cached_property
     def environment_id(self) -> str:
         if runtime_name() == "native":
             runtime = f"native-pixi:{sha256_file(Path(runtime_executable()))}"

@@ -6,6 +6,7 @@ from pytest import MonkeyPatch
 
 from seebot.analyzers.native import _cppcheck_parser, _cython_lint_parser, _perlcritic_parser
 from seebot.analyzers.python import run_python_analyzers
+from seebot.analyzers.source import run_source_observations
 from seebot.models import Status
 
 
@@ -85,6 +86,32 @@ def test_ruff_disables_cache_for_read_only_source_mount(
     assert ruff_command[:3] == ["ruff", "check", "--no-cache"]
 
 
+def test_pylint_uses_configured_parallel_workers(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
+    checkout = tmp_path / "checkout"
+    source = checkout / "tool.py"
+    checkout.mkdir()
+    source.write_text("print('ok')\n", encoding="utf-8")
+    commands: list[list[str]] = []
+    monkeypatch.setenv("SEEBOT_ANALYZER_JOBS", "8")
+    monkeypatch.setattr(
+        "seebot.analyzers.python._run_native",
+        lambda **kwargs: commands.append(kwargs["command"]) or Mock(),
+    )
+
+    run_python_analyzers(
+        environment=Mock(),
+        checkout=checkout,
+        files=[source],
+        project_id="example",
+        run_id="run",
+        evidence_root=tmp_path / "evidence",
+        config_root=tmp_path / "config",
+    )
+
+    pylint_command = next(command for command in commands if command[0] == "pylint")
+    assert pylint_command[1:4] == ["--output-format=json", "--jobs", "8"]
+
+
 def test_python_analyzers_record_zero_findings_without_files(
     tmp_path: Path, monkeypatch: MonkeyPatch
 ) -> None:
@@ -113,3 +140,30 @@ def test_python_analyzers_record_zero_findings_without_files(
     assert len(results) == 4
     assert {result.status for result in results} == {Status.OBSERVED}
     assert all(result.observed.get("finding_count", 0) == 0 for result in results)
+
+
+def test_historical_source_skips_native_analyzers(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
+    structural = Mock()
+    monkeypatch.setattr(
+        "seebot.analyzers.source.run_structural_observations", lambda **kwargs: [structural]
+    )
+
+    def unexpected_native(**kwargs: Any) -> Mock:
+        raise AssertionError("historical snapshots should not run native analyzers")
+
+    monkeypatch.setattr("seebot.analyzers.source.run_python_analyzers", unexpected_native)
+
+    results = run_source_observations(
+        manifest_path=tmp_path / "manifest.yaml",
+        manifest={"project": {"id": "example"}, "source": {"language_roots": {"python": []}}},
+        checkout=tmp_path,
+        run_id="current",
+        evidence_root=tmp_path / "evidence",
+        config_root=tmp_path / "config",
+        snapshot_date="2025-07-01",
+        snapshot_commit="abc",
+        analyzer_environment=Mock(),
+        include_native=False,
+    )
+
+    assert results == [structural]

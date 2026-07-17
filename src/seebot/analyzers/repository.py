@@ -43,20 +43,29 @@ def _dates_at_or_before_cutoff(dates: list[datetime]) -> list[datetime]:
 
 def clone_snapshot(repository_url: str, commit: str, target: Path) -> Path:
     """Create a disposable checkout containing only the audited commit."""
-    if target.exists():
-        shutil.rmtree(target)
     staged_root = os.environ.get("SEEBOT_SNAPSHOT_ROOT")
     if staged_root:
         staged = Path(staged_root) / commit
         if not staged.is_dir():
             raise FileNotFoundError(f"Prepared snapshot does not exist: {staged}")
-        shutil.copytree(staged, target, symlinks=True)
         observed = subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=target, capture_output=True, text=True, check=True
+            ["git", "rev-parse", "HEAD"], cwd=staged, capture_output=True, text=True, check=True
         ).stdout.strip()
         if observed != commit:
-            raise RuntimeError(f"Expected staged snapshot {commit}, copied {observed}")
+            raise RuntimeError(f"Expected staged snapshot {commit}, found {observed}")
+        staged_mode = os.environ.get("SEEBOT_STAGED_SNAPSHOT_MODE", "copy")
+        if staged_mode == "in-place":
+            if os.environ.get("SEEBOT_OFFLINE") != "1":
+                raise RuntimeError("In-place staged snapshots require SEEBOT_OFFLINE=1")
+            return staged
+        if staged_mode != "copy":
+            raise ValueError(f"Unknown staged snapshot mode: {staged_mode}")
+        if target.exists():
+            shutil.rmtree(target)
+        shutil.copytree(staged, target, symlinks=True)
         return target
+    if target.exists():
+        shutil.rmtree(target)
     target.mkdir(parents=True)
     commands = (
         ["git", "init", "--quiet"],
