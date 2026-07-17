@@ -118,25 +118,36 @@ def test_normalize_ignores_archived_results_beneath_run_root(tmp_path: Path) -> 
     assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW"]
 
 
-def test_merge_normalized_batches_replaces_complete_project(tmp_path: Path) -> None:
+def test_merge_normalized_batches_overlays_rows_without_dropping_others(tmp_path: Path) -> None:
     old = tmp_path / "old.json"
     new = tmp_path / "new.json"
     old.write_text(
         json.dumps(
             [
-                result_row("current", "replaced", "OLD"),
+                result_row("current", "updated", "SHARED"),
+                result_row("current", "updated", "OLD-ONLY"),
                 result_row("current", "retained", "ONLY"),
             ]
         ),
         encoding="utf-8",
     )
-    new.write_text(json.dumps([result_row("current", "replaced", "NEW")]), encoding="utf-8")
+    new.write_text(
+        json.dumps(
+            [
+                result_row("current", "updated", "SHARED", Status.FAIL),
+                result_row("current", "updated", "NEW-ONLY"),
+            ]
+        ),
+        encoding="utf-8",
+    )
 
     json_path, csv_path = merge_normalized_batches([old, new], tmp_path / "results", "current")
 
     rows = json.loads(json_path.read_text(encoding="utf-8"))
-    assert [(row["project_id"], row["check_id"]) for row in rows] == [
-        ("replaced", "NEW"),
-        ("retained", "ONLY"),
+    assert [(row["project_id"], row["check_id"], row["status"]) for row in rows] == [
+        ("retained", "ONLY", "PASS"),
+        ("updated", "NEW-ONLY", "PASS"),
+        ("updated", "OLD-ONLY", "PASS"),
+        ("updated", "SHARED", "FAIL"),
     ]
-    assert len(csv_path.read_text(encoding="utf-8").splitlines()) == 3
+    assert len(csv_path.read_text(encoding="utf-8").splitlines()) == 5

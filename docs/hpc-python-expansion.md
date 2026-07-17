@@ -103,7 +103,8 @@ evidence tree after its normalized summaries and website excerpts have been gene
 beta development, rerun the audit if those intermediates are needed again.
 
 To assemble successive normalized batches into one publication root, list inputs from oldest to
-newest. A newer batch replaces all older rows for each project it contains:
+newest. A newer measurement replaces the matching older row while measurements absent from a
+partial rerun remain available:
 
 ```bash
 uv run seebot --output-directory /well/aanensen/users/rva470/seebot-hpc-published \
