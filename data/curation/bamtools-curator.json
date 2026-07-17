@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "bamtools",
+  "source_commit": "7e5c183cdf37a6ab216402b26c07296807416472",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "bamtools"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "e1cf9e59aa0b305f64649ea93de32248543efb28fe84aca3e370bd90e5f536fb",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

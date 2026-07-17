@@ -20,7 +20,11 @@ from seebot.cohort.rank import rank_downloads, rank_remote_downloads
 from seebot.cohort.survey import collect_candidate_survey, resolve_historical_commits
 from seebot.fixtures import validate_catalogue
 from seebot.manifests import validate_manifest, write_template
-from seebot.normalize.results import normalize_run, rebuild_global_results
+from seebot.normalize.results import (
+    merge_normalized_batches,
+    normalize_run,
+    rebuild_global_results,
+)
 from seebot.reporting import build_public_dataset
 from seebot.runner import run_repository_and_source
 from seebot.runtime.analyzers import (
@@ -628,6 +632,22 @@ def results_rebuild_global(ctx: typer.Context) -> None:
         return
     json_path, csv_path = rebuild_global_results(opts.output_directory / "results")
     console.print(f"Wrote {json_path} and {csv_path}")
+
+
+@results_app.command("merge-batches")
+def results_merge_batches(
+    ctx: typer.Context,
+    inputs: Annotated[list[Path], typer.Option("--input", exists=True, dir_okay=False)],
+) -> None:
+    """Overlay normalized project batches in order without duplicating projects."""
+    opts = options(ctx)
+    if opts.dry_run:
+        console.print(f"Would merge {len(inputs)} normalized batches for {opts.run_id}")
+        return
+    json_path, csv_path = merge_normalized_batches(
+        [path.resolve() for path in inputs], opts.output_directory / "results", opts.run_id
+    )
+    console.print(f"Wrote merged project results to {json_path} and {csv_path}")
 
 
 @results_app.command("compact-evidence")

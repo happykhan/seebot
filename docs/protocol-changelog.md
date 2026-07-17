@@ -1,5 +1,18 @@
 # Protocol changelog
 
+## 2026-07-17 — second bounded 20-project expansion
+
+- Authorised 20 additional provisionally eligible CLI projects after source and interface review,
+  expanding the reviewed manifest set from 50 to 70.
+- Replaced the provisional PyHMMER candidate with mlst after confirming that PyHMMER exposes a
+  Python API but no packaged end-user CLI.
+- Added exact current and historical commits, installation records, reviewed source roots,
+  interface contracts, and two review records for every promoted project.
+- Added ordered normalized-batch merging: a newer complete project batch replaces that project's
+  older rows, while projects absent from the new batch remain. This prevents duplicate website
+  entries without retaining raw per-check evidence.
+- Kept this as a bounded 20-project Slurm run; the remaining ranked cohort is not unlocked.
+
 ## 2026-07-17 — compact beta evidence retention
 
 - Designated normalized tables and the generated website dataset as the retained beta products.

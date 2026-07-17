@@ -121,3 +121,40 @@ def rebuild_global_results(results_root: Path) -> tuple[Path, Path]:
     csv_path = target / "check-results.csv"
     _write_csv(csv_path, rows, analysis_ready=True)
     return json_path, csv_path
+
+
+def merge_normalized_batches(
+    batch_paths: list[Path], results_root: Path, run_id: str
+) -> tuple[Path, Path]:
+    """Overlay complete project batches in order, with the newest batch winning."""
+    projects: dict[str, list[dict[str, Any]]] = {}
+    for path in batch_paths:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(payload, list):
+            raise ValueError(f"Expected a result list in {path}")
+        current: dict[str, dict[tuple[str, ...], dict[str, Any]]] = {}
+        for value in payload:
+            row = CheckResult.model_validate(value).model_dump(mode="json")
+            if row["run_id"] != run_id:
+                raise ValueError(f"Expected run_id {run_id!r} in {path}, found {row['run_id']!r}")
+            project_id = str(row["project_id"])
+            indexed = current.setdefault(project_id, {})
+            key = _natural_key(row)
+            previous = indexed.get(key)
+            if previous is not None and previous != row:
+                raise ValueError(f"Conflicting batch result key {key} in {path}")
+            indexed[key] = row
+        for project_id, indexed in current.items():
+            projects[project_id] = [indexed[key] for key in sorted(indexed)]
+    if not projects:
+        raise ValueError("No normalized batch results were provided")
+    rows = sorted(
+        (row for project_rows in projects.values() for row in project_rows), key=_natural_key
+    )
+    target = results_root / run_id
+    target.mkdir(parents=True, exist_ok=True)
+    json_path = target / "checks.json"
+    json_path.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
+    csv_path = target / "checks.csv"
+    _write_csv(csv_path, rows, analysis_ready=False)
+    return json_path, csv_path

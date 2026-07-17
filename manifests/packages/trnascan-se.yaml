@@ -1,0 +1,175 @@
+schema_version: 2
+project:
+  id: trnascan-se
+  name: tRNAscan-SE
+  description: Detects transfer RNA genes in genomic sequences.
+  primary_language: c
+  primary_category: gene prediction
+  tags:
+  - FASTA
+  - tRNA
+  include: true
+  exclusion_code: null
+repository:
+  id: ucsc-lowelab-trnascan-se
+  url: https://github.com/UCSC-LoweLab/tRNAscan-SE
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 4e1b24f8a58b88e45d3bfe4136ab3462886baa1e
+  historical_commits:
+    '2021-07-01': 85a45884bfe4716e98de1ea193c4dbfed3588999
+    '2022-07-01': aa09951017df9c8199baa46b3ab4fa5c58aa0be4
+    '2023-07-01': 4e1b24f8a58b88e45d3bfe4136ab3462886baa1e
+    '2024-07-01': 4e1b24f8a58b88e45d3bfe4136ab3462886baa1e
+    '2025-07-01': 4e1b24f8a58b88e45d3bfe4136ab3462886baa1e
+  archived: false
+discovery:
+  source: bioconda
+  package_name: trnascan-se
+  rank: 143
+  download_count: 176724
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-trnascan-se-2.0.12
+  adapter: pixi
+  artifact: trnascan-se
+  version: 2.0.12
+  build: pl5321h7b50bb2_2
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/trnascan-se-2.0.12-pl5321h7b50bb2_2.tar.bz2
+  artifact_sha256: 7e32f5727dfbf989466d8bc285215ab32d6f675d830ff2988b0a82a4d2f440f4
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - lib
+  - src
+  language_roots:
+    c:
+    - src
+    perl:
+    - lib
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: tRNAscan-SE
+  executables:
+  - tRNAscan-SE
+  help_commands:
+  - - tRNAscan-SE
+    - --help
+  version_commands:
+  - - tRNAscan-SE
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reference-fasta
+  command:
+  - tRNAscan-SE
+  - -o
+  - trnas.txt
+  - /fixtures/core/reference.fasta
+  expected_outputs:
+  - path: trnas.txt
+    nonempty: false
+    parser: text
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - tRNAscan-SE
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - tRNAscan-SE
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture requires review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - tRNAscan-SE
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - tRNAscan-SE
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - tRNAscan-SE
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: The reviewed command has no independent bounded typed option.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/trnascan-se-curator.json
+  reviewer_record: data/curation/trnascan-se-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

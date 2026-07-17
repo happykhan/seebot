@@ -102,6 +102,18 @@ The first compaction command is a dry-run inventory. The second removes the comp
 evidence tree after its normalized summaries and website excerpts have been generated. During
 beta development, rerun the audit if those intermediates are needed again.
 
+To assemble successive normalized batches into one publication root, list inputs from oldest to
+newest. A newer batch replaces all older rows for each project it contains:
+
+```bash
+uv run seebot --output-directory /well/aanensen/users/rva470/seebot-hpc-published \
+  results merge-batches \
+  --input /well/aanensen/users/rva470/seebot-hpc/current/results/current/checks.json \
+  --input /well/aanensen/users/rva470/seebot-hpc-next/current/results/current/checks.json \
+  --input /well/aanensen/users/rva470/seebot-hpc-next20/current/results/current/checks.json
+uv run seebot --output-directory /well/aanensen/users/rva470/seebot-hpc-published report build
+```
+
 Publication remains blocked until the complete 30-project inventory audit and repository
 release gate pass. Preserve the promoted bundle and evidence; remove only abandoned
 Seebot-owned preparation and task-scratch paths.

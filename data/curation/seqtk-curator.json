@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "seqtk",
+  "source_commit": "94e707082d39b0a038f234df676e32d9802c0dc7",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 100,
+      "item_type": "interface_and_source_scope",
+      "item_name": "seqtk"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "12a3967902e72f29e34e819ff2a1d484f54d98a95018824c430fb34c5763ed0f",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

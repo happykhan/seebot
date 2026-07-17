@@ -5,7 +5,11 @@ from pathlib import Path
 import pytest
 
 from seebot.models import Applicability, CheckResult, EvidencePaths, Status, ToolIdentity
-from seebot.normalize.results import normalize_run, rebuild_global_results
+from seebot.normalize.results import (
+    merge_normalized_batches,
+    normalize_run,
+    rebuild_global_results,
+)
 
 
 def result_row(run_id: str, project_id: str, check_id: str, status: Status = Status.PASS):
@@ -112,3 +116,27 @@ def test_normalize_ignores_archived_results_beneath_run_root(tmp_path: Path) -> 
     json_path, _ = normalize_run(tmp_path / "evidence", tmp_path / "results", "pilot")
 
     assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW"]
+
+
+def test_merge_normalized_batches_replaces_complete_project(tmp_path: Path) -> None:
+    old = tmp_path / "old.json"
+    new = tmp_path / "new.json"
+    old.write_text(
+        json.dumps(
+            [
+                result_row("current", "replaced", "OLD"),
+                result_row("current", "retained", "ONLY"),
+            ]
+        ),
+        encoding="utf-8",
+    )
+    new.write_text(json.dumps([result_row("current", "replaced", "NEW")]), encoding="utf-8")
+
+    json_path, csv_path = merge_normalized_batches([old, new], tmp_path / "results", "current")
+
+    rows = json.loads(json_path.read_text(encoding="utf-8"))
+    assert [(row["project_id"], row["check_id"]) for row in rows] == [
+        ("replaced", "NEW"),
+        ("retained", "ONLY"),
+    ]
+    assert len(csv_path.read_text(encoding="utf-8").splitlines()) == 3

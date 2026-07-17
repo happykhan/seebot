@@ -1,0 +1,157 @@
+schema_version: 2
+project:
+  id: hhsuite
+  name: HH-suite
+  description: Searches protein profile HMMs for remote homology.
+  primary_language: cpp
+  primary_category: protein homology
+  tags:
+  - protein
+  - HMM
+  include: true
+  exclusion_code: null
+repository:
+  id: soedinglab-hh-suite
+  url: https://github.com/soedinglab/hh-suite
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 43095e46ada4ec2a8a47d47ef5ad7e38b1429f7b
+  historical_commits:
+    '2021-07-01': 9b8a26718145d779f36cfa8a37915eef342e81cf
+    '2022-07-01': 4c0cd66434ce0b83ccd247053f57989fdd53d82b
+    '2023-07-01': 4c0cd66434ce0b83ccd247053f57989fdd53d82b
+    '2024-07-01': 4c0cd66434ce0b83ccd247053f57989fdd53d82b
+    '2025-07-01': bf3f42747ca4ddbd72e1c142aa3b648793c59045
+  archived: false
+discovery:
+  source: bioconda
+  package_name: hhsuite
+  rank: 119
+  download_count: 207663
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-hhsuite-3.3.0
+  adapter: pixi
+  artifact: hhsuite
+  version: 3.3.0
+  build: h503566f_15
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/hhsuite-3.3.0-h503566f_15.tar.bz2
+  artifact_sha256: 1d7a96783862071c92102bb959a479e04dd25eccebabcadc5d3f18bd8070a67f
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: hhsearch
+  executables:
+  - hhalign
+  - hhblits
+  - hhsearch
+  help_commands:
+  - - hhsearch
+    - -h
+  version_commands: []
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - hhsearch
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/hhsuite-curator.json
+  reviewer_record: data/curation/hhsuite-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "prank",
+  "source_commit": "10c09e42cf298057cebbc539cf1536f2f86b6daf",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "prank"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "e573d961705815dbd35939246c66074bd1cb5ceacd66651034da90dc6895dfc4",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

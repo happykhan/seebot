@@ -1,0 +1,160 @@
+schema_version: 2
+project:
+  id: portcullis
+  name: Portcullis
+  description: Analyzes and filters splice junctions from alignments.
+  primary_language: cpp
+  primary_category: RNA-seq processing
+  tags:
+  - BAM
+  - splice junctions
+  include: true
+  exclusion_code: null
+repository:
+  id: maplesond-portcullis
+  url: https://github.com/maplesond/portcullis
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 3adf757e3f90ef4a931025906fa82d7aabd53fba
+  historical_commits:
+    '2021-07-01': ebe42b8bba0e9f6eda9c28befe555321971bf5f6
+    '2022-07-01': 3adf757e3f90ef4a931025906fa82d7aabd53fba
+    '2023-07-01': 3adf757e3f90ef4a931025906fa82d7aabd53fba
+    '2024-07-01': 3adf757e3f90ef4a931025906fa82d7aabd53fba
+    '2025-07-01': 3adf757e3f90ef4a931025906fa82d7aabd53fba
+  archived: false
+discovery:
+  source: bioconda
+  package_name: portcullis
+  rank: 133
+  download_count: 183692
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-portcullis-1.2.4
+  adapter: pixi
+  artifact: portcullis
+  version: 1.2.4
+  build: py310hfc0ef84_5
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/portcullis-1.2.4-py310hfc0ef84_5.conda
+  artifact_sha256: e3f5bb1360c3288b02240f689b703d8d1793c62a45d4ef92742ce7c4d68fcd98
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+  generated_paths: []
+  vendored_paths:
+  - deps
+  - lib
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: portcullis
+  executables:
+  - junctools
+  - portcullis
+  help_commands:
+  - - portcullis
+    - --help
+  version_commands:
+  - - portcullis
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - portcullis
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/portcullis-curator.json
+  reviewer_record: data/curation/portcullis-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

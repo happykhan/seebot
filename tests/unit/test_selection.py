@@ -16,7 +16,7 @@ def test_selection_supports_tool_category_and_language() -> None:
         "fastp",
     }
     languages = select_manifests(MANIFESTS, languages=["rust"])
-    assert {manifest["project"]["id"] for _, manifest in languages} == {"yacrd"}
+    assert {manifest["project"]["id"] for _, manifest in languages} == {"salmon", "yacrd"}
 
 
 def test_survey_preserves_manifest_identity_and_status() -> None:
