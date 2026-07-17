@@ -7,6 +7,7 @@ from pytest import MonkeyPatch
 from seebot.analyzers.native import (
     _cppcheck_parser,
     _cython_lint_parser,
+    _file_list_entries,
     _perlcritic_parser,
     run_non_python_native_analyzers,
 )
@@ -93,6 +94,17 @@ def test_pmd_uses_file_list_instead_of_expanding_command_line(
         assert "--file-list=/work/source-files.txt" in call["command"]
         assert call["input_files"] == ["/source/src/main/java/example/Main.java"]
         assert str(source) not in call["command"]
+
+
+def test_native_pmd_file_list_uses_mounted_host_paths(
+    tmp_path: Path, monkeypatch: MonkeyPatch
+) -> None:
+    checkout = tmp_path / "checkout"
+    monkeypatch.setattr("seebot.analyzers.native.runtime_name", lambda: "native")
+
+    assert _file_list_entries(checkout, ["/source/src/main/java/Main.java"]) == [
+        str(checkout / "src/main/java/Main.java")
+    ]
 
 
 def test_ruff_disables_cache_for_read_only_source_mount(
