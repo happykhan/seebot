@@ -178,8 +178,10 @@ def prepare(
             channels=installation["channels"],
         )
 
-    with ThreadPoolExecutor(max_workers=jobs) as executor:
-        list(executor.map(prepare_project, manifests))
+    # Pixi creates a large internal Tokio thread pool. Running multiple installs on the
+    # shared head node can exhaust its thread allowance even when CPU use is modest.
+    for manifest in manifests:
+        prepare_project(manifest)
     metadata = {
         "schema_version": 1,
         "prepared_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
@@ -188,7 +190,8 @@ def prepare(
         "architecture": platform.machine(),
         "slurm_cluster": "cluster",
         "partition": "short",
-        "preparation_jobs": jobs,
+        "snapshot_download_jobs": jobs,
+        "project_environment_jobs": 1,
         "runtime": command_output([str(pixi), "--version"]),
         "pixi_sha256": sha256(pixi),
         "shared_path": str(final),
@@ -227,7 +230,7 @@ def main() -> None:
         "--jobs",
         type=int,
         default=4,
-        help="Concurrent source and project-environment preparation workers.",
+        help="Concurrent source-download workers; Pixi environments are built serially.",
     )
     args = parser.parse_args()
     if args.jobs < 1:

@@ -21,10 +21,10 @@ dependency-only analyzer profile.
 The Pixi executable is hashed once during preparation; array tasks only check that it is present
 and executable. Repeated runtime and audit-code identities are cached once per worker process.
 `PREPARED.json` marks the bundle ready only after preparation completes.
-The connected preparation phase uses a conservative four workers for source snapshot downloads
-and, after the shared analyzer profile is ready, four workers for the independent Pixi project
-environments. This improves on serial preparation without monopolizing the shared head node.
-`--jobs` is an explicit override and does not change results.
+The connected preparation phase uses a conservative four workers for source snapshot downloads.
+Pixi project environments are built serially because each Pixi process creates a large internal
+thread pool; concurrent installs exhausted the head node's thread allowance in the timed run.
+`--jobs` controls downloads only and does not change results.
 Preparation now refuses to reuse a marked bundle if any project or analyzer environment is
 missing. Preserve such a bundle for evidence, prepare a replacement under a new shared root,
 and point the submitted job at it explicitly:

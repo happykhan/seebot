@@ -13,9 +13,9 @@
 - Stopped running native lint, security, and dead-code analyzers on historical snapshots because
   the beta website presents those findings only for current source. Historical runs now collect
   the structural measurements used by the time-series charts.
-- Parallelized connected preparation with a conservative four configurable workers for source
-  snapshots and project Pixi environments; this changes preparation time, not outcomes and
-  avoids swamping the shared head node.
+- Parallelized source downloads with four configurable workers, while keeping project Pixi
+  environments serial. Each Pixi process creates about 97 internal threads, so concurrent Pixi
+  installs exceeded the head node's thread allowance despite modest CPU use.
 - Removed all SHA-256 passes over staged Git snapshots, including their Git indexes. Preparation
   checks each checkout's commit with `git rev-parse HEAD` and hashes only smaller configuration
   and runtime inputs.
