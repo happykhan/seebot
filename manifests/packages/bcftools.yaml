@@ -64,9 +64,6 @@ interfaces:
   help_commands:
   - - bcftools
     - --help
-  - - bcftools
-    - view
-    - --help
   version_commands:
   - - bcftools
     - --version

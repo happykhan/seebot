@@ -145,8 +145,9 @@ robustness:
     reason: The option is deliberately unrecognised.
     command:
     - create_report
+    - /fixtures/core/variants.vcf
     - --seebot-invalid-option
-    fixture_id: null
+    fixture_id: core-variants-vcf
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable

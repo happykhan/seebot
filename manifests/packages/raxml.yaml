@@ -90,12 +90,24 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-alignment-fasta
+  command:
+  - raxmlHPC
+  - -m
+  - GTRGAMMA
+  - -p
+  - '12345'
+  - -s
+  - /fixtures/core/alignment.fasta
+  - -n
+  - seebot
+  expected_outputs:
+  - path: RAxML_bestTree.seebot
+    nonempty: true
+    parser: newick
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
@@ -105,8 +117,14 @@ robustness:
     reason: The input path does not exist.
     command:
     - raxmlHPC
+    - -m
+    - GTRGAMMA
+    - -p
+    - '12345'
     - -s
     - /fixtures/bad/missing.dat
+    - -n
+    - missing
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   empty_input:
@@ -114,15 +132,30 @@ robustness:
     reason: A zero-byte input file is supplied.
     command:
     - raxmlHPC
+    - -m
+    - GTRGAMMA
+    - -p
+    - '12345'
     - -s
     - /fixtures/bad/empty.dat
+    - -n
+    - empty
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: unknown
-    reason: The format-specific zero-record fixture requires review.
-    command: null
-    fixture_id: null
+    applicability: applicable
+    reason: A format-valid FASTA file containing zero sequence records is supplied.
+    command:
+    - raxmlHPC
+    - -m
+    - GTRGAMMA
+    - -p
+    - '12345'
+    - -s
+    - /fixtures/empty/empty.fasta
+    - -n
+    - no-records
+    fixture_id: empty-fasta
     expected_outputs: []
     expect_stdout: false
     stdout_parser: null
@@ -132,8 +165,14 @@ robustness:
     reason: A structurally malformed input is supplied.
     command:
     - raxmlHPC
+    - -m
+    - GTRGAMMA
+    - -p
+    - '12345'
     - -s
     - /fixtures/bad/plain-text.dat
+    - -n
+    - malformed
     fixture_id: bad-plain-text
     diagnostic_expectation: specific_or_generic
   wrong_format:
@@ -141,8 +180,14 @@ robustness:
     reason: A valid but incompatible biological format is supplied.
     command:
     - raxmlHPC
+    - -m
+    - GTRGAMMA
+    - -p
+    - '12345'
     - -s
     - /fixtures/core/variants.vcf
+    - -n
+    - wrong-format
     fixture_id: core-variants-vcf
     diagnostic_expectation: specific_or_generic
   invalid_option:
@@ -165,9 +210,20 @@ robustness:
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: The reviewed command writes its result to standard output.
-    command: null
+    applicability: applicable
+    reason: The documented output directory is placed on the read-only fixture mount.
+    command:
+    - raxmlHPC
+    - -m
+    - GTRGAMMA
+    - -p
+    - '12345'
+    - -s
+    - /fixtures/core/alignment.fasta
+    - -n
+    - unwritable
+    - -w
+    - /fixtures
     fixture_id: null
     diagnostic_expectation: not_applicable
 curation:

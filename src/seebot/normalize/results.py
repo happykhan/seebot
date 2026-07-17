@@ -67,10 +67,17 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], *, analysis_ready: bool) 
 def normalize_run(evidence_root: Path, results_root: Path, run_id: str) -> tuple[Path, Path]:
     target = results_root / run_id
     indexed: dict[tuple[str, ...], dict[str, Any]] = {}
-    for path in sorted((evidence_root / run_id).rglob("result.json")):
+    run_root = evidence_root / run_id
+    for path in sorted(run_root.rglob("result.json")):
         row = CheckResult.model_validate_json(path.read_text(encoding="utf-8")).model_dump(
             mode="json"
         )
+        # Evidence is rooted at <run>/<project>/....  Ignore archived or otherwise
+        # misplaced result trees so a preserved stale contract cannot re-enter a
+        # normalized run merely because it is stored beneath the run directory.
+        relative = path.relative_to(run_root)
+        if not relative.parts or relative.parts[0] != row["project_id"]:
+            continue
         indexed[_natural_key(row)] = row
     if not indexed:
         raise ValueError(f"No completed check results found for run {run_id}")

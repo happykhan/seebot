@@ -1,3 +1,5 @@
+import { analyzerRuleMetadata } from './ruleMetadata'
+
 export interface MetricDefinition {
   label: string
   shortLabel: string
@@ -108,7 +110,7 @@ export const contractCatalogue: Record<string, { label: string, explanation: str
   'CLI-MISSING-INPUT-001': {
     label: 'Missing input',
     explanation: 'Supplies a path that does not exist.',
-    expectation: 'Return a non-zero exit code and a useful diagnostic on standard error.',
+    expectation: 'Return a non-zero exit code and a useful diagnostic without an internal crash.',
   },
   'CLI-EMPTY-INPUT-001': {
     label: 'Zero-byte input',
@@ -199,6 +201,8 @@ const ruleDescriptions: Record<string, string> = {
 }
 
 export function describeRule(analyzer: string, rule: string): string {
+  const generated = analyzerRuleMetadata[`${analyzer}:${rule}`]
+  if (generated) return generated.description
   const known = ruleDescriptions[`${analyzer}:${rule}`]
   if (known) return known
   const words = rule.replaceAll('::', ' ').replaceAll(/([a-z])([A-Z])/g, '$1 $2').replaceAll(/[-_]/g, ' ').trim()
@@ -206,6 +210,8 @@ export function describeRule(analyzer: string, rule: string): string {
 }
 
 export function ruleDocumentationUrl(analyzer: string, rule: string): string | null {
+  const generated = analyzerRuleMetadata[`${analyzer}:${rule}`]
+  if (generated) return generated.url
   if (analyzer === 'bandit' && rule === 'B101') return 'https://bandit.readthedocs.io/en/latest/plugins/b101_assert_used.html'
   if (analyzer === 'bandit' && rule === 'B102') return 'https://bandit.readthedocs.io/en/latest/plugins/b102_exec_used.html'
   if (analyzer === 'bandit') return 'https://bandit.readthedocs.io/en/latest/plugins/index.html'

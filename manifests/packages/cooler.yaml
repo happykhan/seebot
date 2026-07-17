@@ -108,44 +108,46 @@ valid_run:
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: The pairs input path does not exist while chromosome sizes remain valid.
+    command: [cooler, cload, pairs, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/bad/missing.dat, tiny.cool]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A zero-byte pairs input is supplied while chromosome sizes remain valid.
+    command: [cooler, cload, pairs, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/bad/empty.dat, tiny.cool]
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    expected_outputs: []
+    applicability: applicable
+    reason: A header-only pairs stream containing zero contact records is supplied.
+    command: [cooler, cload, pairs, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/empty/empty.pairs, empty.cool]
+    fixture_id: empty-pairs
+    expected_outputs:
+    - path: empty.cool
+      nonempty: true
+      parser: null
+      record_count: null
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: Structurally malformed text is supplied where pairs records are expected.
+    command: [cooler, cload, pairs, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/bad/plain-text.dat, tiny.cool]
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied where pairs records are expected.
+    command: [cooler, cload, pairs, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/core/variants.vcf, tiny.cool]
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - cooler
-    - --seebot-invalid-option
+    command: [cooler, cload, pairs, --seebot-invalid-option, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/cooler/pairs.tsv, tiny.cool]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
@@ -157,14 +159,25 @@ robustness:
     - pairs
     - --chunksize
     - none
+    - -c1
+    - '1'
+    - -p1
+    - '2'
+    - -c2
+    - '3'
+    - -p2
+    - '4'
+    - /fixtures/cooler/chrom.sizes:20
+    - /fixtures/cooler/pairs.tsv
+    - tiny.cool
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The Cooler output is placed on the read-only fixture mount.
+    command: [cooler, cload, pairs, -c1, '1', -p1, '2', -c2, '3', -p2, '4', '/fixtures/cooler/chrom.sizes:20', /fixtures/cooler/pairs.tsv, /fixtures/tiny.cool]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

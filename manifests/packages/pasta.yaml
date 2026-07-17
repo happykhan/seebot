@@ -87,12 +87,32 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative run invokes several external aligners and tree estimators and is
-    not reliably bounded to five minutes.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-alignment-fasta
+  command:
+  - run_pasta.py
+  - -i
+  - /fixtures/core/alignment.fasta
+  - --aligned
+  - --iter-limit
+  - '1'
+  - --num-cpus
+  - '1'
+  - --job
+  - seebot
+  - --output-directory
+  - /work
+  - --temporaries
+  - /work/tmp
+  expected_outputs:
+  - path: seebot.marker001.alignment.aln
+    nonempty: true
+    parser: fasta
+  - path: seebot.tre
+    nonempty: true
+    parser: newick
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300

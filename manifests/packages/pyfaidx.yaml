@@ -138,8 +138,9 @@ robustness:
     reason: The option is deliberately unrecognised.
     command:
     - faidx
+    - /fixtures/core/reference.fasta
     - --seebot-invalid-option
-    fixture_id: null
+    fixture_id: core-reference-fasta
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable

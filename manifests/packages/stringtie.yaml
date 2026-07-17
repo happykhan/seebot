@@ -86,72 +86,68 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [core-alignment-sam]
+  command: [stringtie, /fixtures/core/alignment.sam, -o, transcripts.gtf, -p, '1']
+  expected_outputs:
+  - {path: transcripts.gtf, nonempty: true, parser: text}
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: The alignment input path does not exist.
+    command: [stringtie, /fixtures/bad/missing.dat, -o, transcripts.gtf, -p, '1']
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A zero-byte alignment input is supplied.
+    command: [stringtie, /fixtures/bad/empty.dat, -o, transcripts.gtf, -p, '1']
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    expected_outputs: []
+    applicability: applicable
+    reason: A header-only SAM containing zero alignment records is supplied.
+    command: [stringtie, /fixtures/empty/header-only.sam, -o, empty.gtf, -p, '1']
+    fixture_id: empty-header-only-sam
+    expected_outputs:
+    - {path: empty.gtf, nonempty: false, parser: null, record_count: null}
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: Plain text is supplied where an alignment is expected.
+    command: [stringtie, /fixtures/bad/plain-text.dat, -o, transcripts.gtf, -p, '1']
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied where an alignment is expected.
+    command: [stringtie, /fixtures/core/variants.vcf, -o, transcripts.gtf, -p, '1']
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - stringtie
-    - --seebot-invalid-option
+    command: [stringtie, /fixtures/core/alignment.sam, --seebot-invalid-option, -o, transcripts.gtf]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable
-    reason: A typed option is given a deliberately invalid value.
-    command:
-    - stringtie
-    - -p
-    - not-an-integer
+    reason: The thread count is given a deliberately non-integer value.
+    command: [stringtie, /fixtures/core/alignment.sam, -p, not-an-integer, -o, transcripts.gtf]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The transcript output is placed on the read-only fixture mount.
+    command: [stringtie, /fixtures/core/alignment.sam, -o, /fixtures/transcripts.gtf, -p, '1']
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

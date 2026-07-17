@@ -87,69 +87,63 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [core-reference-fasta, core-reference-fai, core-alignment-bam, core-alignment-bai]
+  command: [freebayes, -f, /fixtures/core/reference.fasta, /fixtures/core/alignment.bam]
   expected_outputs: []
-  expect_stdout: false
-  stdout_parser: null
+  expect_stdout: true
+  stdout_parser: vcf
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: The BAM input path does not exist while the indexed reference remains valid.
+    command: [freebayes, -f, /fixtures/core/reference.fasta, /fixtures/bad/missing.dat]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A zero-byte BAM input is supplied while the indexed reference remains valid.
+    command: [freebayes, -f, /fixtures/core/reference.fasta, /fixtures/bad/empty.dat]
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
+    applicability: applicable
+    reason: A header-only indexed BAM containing zero alignment records is supplied.
+    command: [freebayes, -f, /fixtures/core/reference.fasta, /fixtures/empty/header-only.bam]
+    fixture_id: empty-header-only-bam
     expected_outputs: []
-    expect_stdout: false
-    stdout_parser: null
-    stdout_record_count: null
+    expect_stdout: true
+    stdout_parser: vcf
+    stdout_record_count: 0
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: Plain text is supplied where BAM is expected.
+    command: [freebayes, -f, /fixtures/core/reference.fasta, /fixtures/bad/plain-text.dat]
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied where BAM is expected.
+    command: [freebayes, -f, /fixtures/core/reference.fasta, /fixtures/core/variants.vcf]
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - freebayes
-    - --seebot-invalid-option
+    command: [freebayes, --seebot-invalid-option, -f, /fixtures/core/reference.fasta, /fixtures/core/alignment.bam]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable
-    reason: A typed option is given a deliberately invalid value.
-    command:
-    - freebayes
-    - --ploidy
-    - not-an-integer
+    reason: Ploidy is given a deliberately non-integer value.
+    command: [freebayes, --ploidy, not-an-integer, -f, /fixtures/core/reference.fasta, /fixtures/core/alignment.bam]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
     applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
+    reason: The reviewed FreeBayes command writes VCF to standard output.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable

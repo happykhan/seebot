@@ -164,6 +164,53 @@ def test_dependency_summary_does_not_report_zero_for_development_only_inputs() -
     assert summary["runtime_advisory_count"] is None
 
 
+def test_dependency_summary_merges_aliases_for_one_vulnerability() -> None:
+    summary = _dependency_summary(
+        [
+            {
+                "status": "OBSERVED",
+                "observed": {
+                    "supported_sources": ["installed-environment:PyPI"],
+                    "advisories": [
+                        {
+                            "advisory_id": "GHSA-example",
+                            "aliases": ["CVE-2026-1", "PYSEC-2026-1"],
+                            "ecosystem": "PyPI",
+                            "dependency": "example",
+                            "resolved_version": "1.0",
+                            "source": "installed-environment:PyPI",
+                            "native_severity": ["CVSS_V3:first"],
+                            "fixed_versions": ["1.1"],
+                        },
+                        {
+                            "advisory_id": "PYSEC-2026-1",
+                            "aliases": ["CVE-2026-1", "GHSA-example"],
+                            "ecosystem": "PyPI",
+                            "dependency": "example",
+                            "resolved_version": "1.0",
+                            "source": "installed-environment:PyPI",
+                            "native_severity": ["CVSS_V4:second"],
+                            "fixed_versions": ["1.2"],
+                        },
+                    ],
+                },
+            }
+        ],
+        "python",
+    )
+
+    assert summary["runtime_advisory_count"] == 1
+    assert summary["advisory_count"] == 1
+    assert summary["advisories"][0]["advisory_id"] == "GHSA-example"
+    assert summary["advisories"][0]["aliases"] == ["CVE-2026-1", "PYSEC-2026-1"]
+    assert summary["advisories"][0]["fixed_versions"] == ["1.1", "1.2"]
+    assert summary["advisories"][0]["native_severity"] == ["CVSS_V3:first", "CVSS_V4:second"]
+    assert summary["advisories"][0]["native_severity"] == [
+        "CVSS_V3:first",
+        "CVSS_V4:second",
+    ]
+
+
 def test_dependency_summary_combines_repository_and_installed_evidence() -> None:
     summary = _dependency_summary(
         [

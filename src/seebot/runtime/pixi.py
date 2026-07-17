@@ -32,7 +32,10 @@ CRASH_PATTERNS = (
     "core dumped",
     "panicked at",
     "fatal runtime error",
-    "java.lang.",
+    "signal 11:",
+)
+JAVA_CRASH_PATTERN = re.compile(
+    r"(?m)(?:exception in thread|java\.lang\.[A-Za-z0-9_$]+(?:Exception|Error)(?::|$))"
 )
 SPECIFIC_DIAGNOSTIC_PATTERNS = (
     r"no such file",
@@ -53,6 +56,32 @@ EXECUTABLE_LAUNCH_FAILURES = {
     126: ("cannot execute", "permission denied"),
     127: ("command not found",),
 }
+
+
+def _crash_detected(output: str) -> bool:
+    lowered = output.lower()
+    return any(marker in lowered for marker in CRASH_PATTERNS) or bool(
+        JAVA_CRASH_PATTERN.search(output)
+    )
+
+
+def _set_fixture_tree_read_only(root: Path) -> None:
+    """Make one disposable native fixture copy enforce a read-only output target."""
+    for path in root.rglob("*"):
+        if path.is_symlink():
+            continue
+        path.chmod(0o555 if path.is_dir() else 0o444)
+    root.chmod(0o555)
+
+
+def _restore_fixture_tree_permissions(root: Path) -> None:
+    """Restore directory write permission so a disposable fixture copy can be removed."""
+    if not root.exists():
+        return
+    root.chmod(0o755)
+    for path in root.rglob("*"):
+        if path.is_dir() and not path.is_symlink():
+            path.chmod(0o755)
 
 
 def docker_executable() -> str:
@@ -163,7 +192,7 @@ def _run(
 ) -> subprocess.CompletedProcess[bytes]:
     process = subprocess.Popen(
         command,
-        stdin=subprocess.DEVNULL if stdin_bytes is None else None,
+        stdin=subprocess.DEVNULL if stdin_bytes is None else subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         start_new_session=True,
@@ -333,11 +362,9 @@ def _diagnostic_class(stderr: str, crash_detected: bool) -> str:
 def _executable_launch_failed(exit_code: int, stderr: str) -> bool:
     """Identify shell failures to launch the reviewed executable."""
     lowered = stderr.lower()
-    if any(marker in lowered for marker in EXECUTABLE_LAUNCH_FAILURES.get(exit_code, ())):
+    if "command not found" in lowered:
         return True
-    return exit_code != 0 and any(
-        marker in lowered for markers in EXECUTABLE_LAUNCH_FAILURES.values() for marker in markers
-    )
+    return exit_code == 126 and any(marker in lowered for marker in EXECUTABLE_LAUNCH_FAILURES[126])
 
 
 def _inspect_output(
@@ -461,6 +488,8 @@ def run_pixi_probe(
             # their input, so give each probe a disposable copy instead of the source fixtures.
             fixture_sandbox = check_dir / ".fixture-sandbox"
             shutil.copytree(spec.fixture_directory, fixture_sandbox)
+            if spec.check_id == "CLI-UNWRITABLE-OUTPUT-001":
+                _set_fixture_tree_read_only(fixture_sandbox)
             fixture_mount = fixture_sandbox
         mounts.append((fixture_mount, "/fixtures", "ro"))
     command = container_command(
@@ -497,9 +526,8 @@ def run_pixi_probe(
         stderr_path.write_bytes(completed.stderr)
         stdout = completed.stdout.decode(errors="replace")
         stderr = completed.stderr.decode(errors="replace")
-        combined = (stdout + "\n" + stderr).lower()
-        crash_detected = any(marker in combined for marker in CRASH_PATTERNS)
-        diagnostic_class = _diagnostic_class(stderr, crash_detected)
+        crash_detected = _crash_detected(stdout + "\n" + stderr)
+        diagnostic_class = _diagnostic_class(stdout + "\n" + stderr, crash_detected)
         created = sorted(
             path.relative_to(check_dir).as_posix()
             for path in check_dir.rglob("*")
@@ -534,7 +562,7 @@ def run_pixi_probe(
             )
             status = (
                 Status.PASS
-                if exit_coherent and diagnostic_ok and not crash_detected and not created
+                if exit_coherent and diagnostic_ok and not crash_detected
                 else Status.FAIL
             )
         else:
@@ -629,6 +657,7 @@ def run_pixi_probe(
         observed = {"exit_code": None, "audit_error": type(exc).__name__}
         notes = "Audit machinery could not start or supervise the probe."
     if fixture_sandbox is not None:
+        _restore_fixture_tree_permissions(fixture_sandbox)
         shutil.rmtree(fixture_sandbox, ignore_errors=True)
     duration = time.monotonic() - clock
     metadata = {

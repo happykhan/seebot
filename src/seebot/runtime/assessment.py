@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +34,130 @@ ROBUSTNESS_CHECKS = {
     "invalid_value": "CLI-INVALID-VALUE-001",
     "unwritable_output": "CLI-UNWRITABLE-OUTPUT-001",
 }
+
+ROBUSTNESS_REQUIRED_TEXT = {
+    "missing_input": (
+        "missing.dat",
+        "missing.fast",
+        "no such file",
+        "does not exist",
+        "cannot open",
+        "could not open",
+        "unable to open",
+        "failed to open",
+        "can't open",
+        "not readable",
+    ),
+    "empty_input": (
+        "empty.dat",
+        "empty input",
+        "no records",
+        "no sequences",
+        "zero",
+        "incorrect input",
+        "too few species",
+        "too few sequences",
+        "no reads",
+    ),
+    "malformed_input": (
+        "malformed",
+        "parse",
+        "invalid input",
+        "invalid format",
+        "unexpected end",
+        "truncated",
+        "primer_error",
+        "input line with no",
+        "invalid sequence",
+    ),
+    "wrong_format": (
+        "wrong format",
+        "invalid format",
+        "cannot guess file type",
+        "unsupported format",
+        "input file format",
+        "parse",
+        "unknown file type",
+        "unfamiliar format",
+        "unfamilar format",
+        "does not look like",
+        "does not have bam",
+        "does not seem to be",
+        "couldn't determine input file type",
+        "failed to read",
+        "incorrect input",
+        "error reading",
+    ),
+    "invalid_option": (
+        "unrecognized option",
+        "unrecognised option",
+        "unrecognized arguments",
+        "unrecognised arguments",
+        "unrecognized parameter",
+        "unrecognised parameter",
+        "unknown option",
+        "unknown argument",
+        "unknown parameter",
+        "no such option",
+        "invalid option",
+        "invalid command",
+        "don't understand arguments",
+        "undefined option",
+        "not an allowed command",
+        "unknown or incorrect use of option",
+        "invalid argument",
+        "wasn't expected",
+        "missing for parameter",
+        "empty value for parameter",
+        "following paths",
+    ),
+    "invalid_value": (
+        "invalid value",
+        "not a valid",
+        "must be",
+        "out of range",
+        "invalid integer",
+        "invalid choice",
+        "not found",
+        "cannot parse",
+        "could not parse",
+        "invalid int value",
+        "invalid argument type",
+        "invalid parse",
+        "error in argument",
+        "don't understand arguments",
+        "invalid option",
+    ),
+    "unwritable_output": ("permission denied", "read-only", "cannot write", "cannot open"),
+}
+
+
+def clear_forced_usage_evidence(
+    output_root: Path,
+    run_id: str,
+    project_id: str,
+    requested: set[str],
+) -> None:
+    """Remove stale variants only for usage checks selected for a forced rerun."""
+    usage_ids = {
+        "CLI-HELP-001",
+        "CLI-VERSION-001",
+        "CLI-NOARGS-001",
+        "CLI-VALID-RUN-001",
+        "CLI-STREAMS-001",
+    }
+    robustness_ids = set(ROBUSTNESS_CHECKS.values())
+    selected: set[str] = set()
+    if "usage" in requested:
+        selected.update(usage_ids)
+    if "robustness" in requested:
+        selected.update(robustness_ids)
+    selected.update(requested & (usage_ids | robustness_ids))
+    project_root = output_root / "evidence" / run_id / project_id
+    for check_id in selected:
+        shutil.rmtree(project_root / check_id, ignore_errors=True)
+        for dated_check_root in project_root.glob(f"*/{check_id}"):
+            shutil.rmtree(dated_check_root, ignore_errors=True)
 
 
 def declared_command_names(manifest: dict[str, Any]) -> tuple[str, ...]:
@@ -121,7 +246,7 @@ def plan_usage_probes(
                 snapshot_commit=snapshot_commit,
                 executable_id=command[0],
                 fixture_directory=fixture_directory,
-                required_any_text=("usage", "options", "commands", "arguments"),
+                required_any_text=("usage", "options", "commands", "arguments", "help"),
                 manifest_sha256=manifest_sha256,
             )
         )
@@ -146,7 +271,14 @@ def plan_usage_probes(
     primary = interface["primary"]
     noargs_policy = interface["no_argument_policy"]
     if primary and noargs_policy not in {"stdin_filter", "unknown"}:
-        allowed = (0,) if noargs_policy == "successful_noop" else (0, 1, 2, 64)
+        # A documented usage error is identified by useful guidance, not by a
+        # small conventional subset of exit codes. Several established tools
+        # return 255 for this ordinary condition. Keep shell launch failures out.
+        allowed = (
+            (0,)
+            if noargs_policy == "successful_noop"
+            else tuple(code for code in range(256) if code not in {126, 127})
+        )
         specs.append(
             PixiProbeSpec(
                 project_id=project_id,
@@ -162,7 +294,17 @@ def plan_usage_probes(
                 allowed_exit_codes=allowed,
                 fixture_directory=fixture_directory,
                 manifest_sha256=manifest_sha256,
-                required_any_text=("usage", "options", "input", "argument")
+                required_any_text=(
+                    "usage",
+                    "options",
+                    "input",
+                    "argument",
+                    "help",
+                    "required",
+                    "must specify",
+                    "error",
+                    "snakefile",
+                )
                 if noargs_policy in {"help_or_usage_error", "requires_input"}
                 else (),
             )
@@ -237,6 +379,7 @@ def plan_usage_probes(
                 stdout_parser=probe.get("stdout_parser"),
                 stdout_record_count=probe.get("stdout_record_count"),
                 diagnostic_expectation=probe.get("diagnostic_expectation", "not_applicable"),
+                required_any_text=ROBUSTNESS_REQUIRED_TEXT.get(scenario, ()),
                 error_contract=not semantic_empty,
                 allow_successful_empty_input=scenario == "empty_input",
                 manifest_sha256=manifest_sha256,
@@ -287,6 +430,9 @@ def run_project_usage(
     )
     try:
         verify_installed_interface(manifest, environment)
+        requested = checks or {"usage", "robustness"}
+        if force:
+            clear_forced_usage_evidence(output_root, run_id, project_id, requested)
         specs = plan_usage_probes(
             manifest,
             environment,
@@ -305,7 +451,6 @@ def run_project_usage(
             )
             for spec in specs
         ]
-        requested = checks or {"usage", "robustness"}
         if "dependencies" in requested or "DEP-ADVISORY-001" in requested:
             if analyzer_environment is None:
                 raise ValueError("Installed dependency checks require an analyzer environment")

@@ -73,7 +73,7 @@ interfaces:
     - --help
   version_commands:
   - - foldseek
-    - --version
+    - version
   no_argument_policy: help_or_usage_error
   stdin_support: not_supported
   stdout_support: supported
@@ -87,73 +87,67 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [structure-synthetic-pdb]
+  command: [foldseek, createdb, /fixtures/structures/example.pdb, structureDB]
+  expected_outputs:
+  - {path: structureDB, nonempty: true, parser: null}
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: The documented createdb command is given a missing structure path.
+    command: [foldseek, createdb, /fixtures/bad/missing.dat, structureDB]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: The documented createdb command is given a zero-byte structure file.
+    command: [foldseek, createdb, /fixtures/bad/empty.dat, structureDB]
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
+    applicability: applicable
+    reason: A zero-byte PDB stream represents zero structure records for database creation.
+    command: [foldseek, createdb, /fixtures/bad/empty.dat, emptyDB]
+    fixture_id: bad-empty
     expected_outputs: []
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: Plain text without PDB records is supplied to the structure database creator.
+    command: [foldseek, createdb, /fixtures/bad/plain-text.dat, structureDB]
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied where createdb expects a molecular structure file.
+    command: [foldseek, createdb, /fixtures/core/variants.vcf, structureDB]
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
-    reason: The option is deliberately unrecognised.
-    command:
-    - foldseek
-    - --seebot-invalid-option
+    reason: The option is deliberately unrecognised on an otherwise complete createdb command.
+    command: [foldseek, createdb, /fixtures/structures/example.pdb, structureDB, --seebot-invalid-option]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable
-    reason: A typed option is given a deliberately invalid value.
-    command:
-    - foldseek
-    - easy-search
-    - --threads
-    - none
+    reason: The createdb thread count is given a deliberately non-integer value.
+    command: [foldseek, createdb, /fixtures/structures/example.pdb, structureDB, --threads, none]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The database output prefix is placed on the read-only fixture mount.
+    command: [foldseek, createdb, /fixtures/structures/example.pdb, /fixtures/structureDB]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

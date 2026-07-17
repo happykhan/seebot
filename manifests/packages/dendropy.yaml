@@ -161,6 +161,11 @@ robustness:
     command:
     - dendropy-format
     - --seebot-invalid-option
+    - --from
+    - newick
+    - --to
+    - newick
+    - /fixtures/core/tree.newick
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:

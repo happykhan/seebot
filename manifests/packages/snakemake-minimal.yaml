@@ -105,19 +105,19 @@ valid_run:
 robustness:
   missing_input:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The reviewed command executes a fixed synthetic workflow with no biological input parameter.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   empty_input:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The reviewed command executes a fixed synthetic workflow with no biological input parameter.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   semantically_empty_input:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The reviewed command executes a fixed synthetic workflow with no biological record stream.
     command: null
     fixture_id: null
     expected_outputs: []
@@ -126,22 +126,20 @@ robustness:
     stdout_record_count: null
   malformed_input:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The reviewed command executes a fixed synthetic workflow with no biological input parameter.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   wrong_format:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The reviewed command executes a fixed synthetic workflow with no biological input parameter.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - snakemake
-    - --seebot-invalid-option
+    command: [snakemake, --snakefile, /fixtures/snakemake/Snakefile, --directory, ., --cores, '1', result.txt, --seebot-invalid-option]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
@@ -156,11 +154,11 @@ robustness:
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The workflow working directory is placed on the read-only fixture mount.
+    command: [snakemake, --snakefile, /fixtures/snakemake/Snakefile, --directory, /fixtures, --cores, '1', result.txt]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

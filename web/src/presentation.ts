@@ -2,6 +2,7 @@ import type { NativeRule } from './types'
 
 export interface RuleSummary {
   visible: NativeRule[]
+  hidden: NativeRule[]
   hiddenTypeCount: number
   hiddenFindingCount: number
 }
@@ -12,6 +13,7 @@ export function summarizeRules(rules: NativeRule[] = [], limit = 8): RuleSummary
   const hidden = ordered.slice(limit)
   return {
     visible,
+    hidden,
     hiddenTypeCount: hidden.length,
     hiddenFindingCount: hidden.reduce((total, rule) => total + rule.count, 0),
   }

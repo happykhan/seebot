@@ -95,72 +95,78 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [bowtie-reference-1, bowtie-reference-2, bowtie-reference-3, bowtie-reference-4,
+    bowtie-reference-rev-1, bowtie-reference-rev-2, alignment-reads-r1-fastq, alignment-reads-r2-fastq]
+  command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/alignment/reads_R1.fastq,
+    '-2', /fixtures/alignment/reads_R2.fastq, alignments.sam]
+  expected_outputs:
+  - {path: alignments.sam, nonempty: true, parser: sam}
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: One paired-read path is missing while the reference index and mate remain valid.
+    command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/bad/missing.dat,
+      '-2', /fixtures/core/reads_R2.fastq, alignments.sam]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: One paired-read path is zero bytes while the reference index and mate remain valid.
+    command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/bad/empty.dat,
+      '-2', /fixtures/core/reads_R2.fastq, alignments.sam]
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: Two format-valid FASTQ inputs containing zero reads are aligned to a valid index.
+    command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/empty/empty.fastq,
+      '-2', /fixtures/empty/empty.fastq, empty.sam]
     fixture_id: null
-    expected_outputs: []
+    expected_outputs:
+    - {path: empty.sam, nonempty: true, parser: sam, record_count: 0}
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A truncated FASTQ is supplied for one mate while the index and other mate remain valid.
+    command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/bad/truncated.fastq,
+      '-2', /fixtures/core/reads_R2.fastq, alignments.sam]
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A VCF is supplied in place of one paired FASTQ input.
+    command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/core/variants.vcf,
+      '-2', /fixtures/core/reads_R2.fastq, alignments.sam]
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - bowtie
-    - --seebot-invalid-option
+    command: [bowtie, --seebot-invalid-option, -S, -q, /fixtures/bowtie/reference, '-1',
+      /fixtures/core/reads_R1.fastq, '-2', /fixtures/core/reads_R2.fastq, alignments.sam]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable
     reason: A typed option is given a deliberately invalid value.
-    command:
-    - bowtie
-    - -p
-    - none
+    command: [bowtie, -p, none, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/core/reads_R1.fastq,
+      '-2', /fixtures/core/reads_R2.fastq, alignments.sam]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The SAM output path is placed on the read-only fixture mount.
+    command: [bowtie, -S, -q, /fixtures/bowtie/reference, '-1', /fixtures/core/reads_R1.fastq,
+      '-2', /fixtures/core/reads_R2.fastq, /fixtures/alignments.sam]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

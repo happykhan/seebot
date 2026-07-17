@@ -88,72 +88,78 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [core-reads-r1-fastq, core-reads-r2-fastq]
+  command: [unicycler, '-1', /fixtures/core/reads_R1.fastq, '-2', /fixtures/core/reads_R2.fastq,
+    -o, unicycler-out, --threads, '1', --mode, conservative, --kmers, '21', --linear_seqs,
+    '1', --min_component_size, '100', --min_dead_end_size, '100']
+  expected_outputs:
+  - {path: unicycler-out/assembly.fasta, nonempty: true, parser: fasta}
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: One paired-read path is missing while the other mate remains valid.
+    command: [unicycler, '-1', /fixtures/bad/missing.dat, '-2', /fixtures/core/reads_R2.fastq,
+      -o, unicycler-out, --threads, '1', --kmers, '21']
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: One paired-read path is zero bytes while the other mate remains valid.
+    command: [unicycler, '-1', /fixtures/bad/empty.dat, '-2', /fixtures/core/reads_R2.fastq,
+      -o, unicycler-out, --threads, '1', --kmers, '21']
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    expected_outputs: []
+    applicability: applicable
+    reason: Two format-valid FASTQ streams containing zero reads are supplied.
+    command: [unicycler, '-1', /fixtures/empty/empty.fastq, '-2', /fixtures/empty/empty.fastq,
+      -o, empty-out, --threads, '1', --kmers, '21']
+    fixture_id: empty-fastq
+    expected_outputs:
+    - {path: empty-out/assembly.fasta, nonempty: false, parser: fasta, record_count: 0}
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A truncated FASTQ is supplied for one mate while the other remains valid.
+    command: [unicycler, '-1', /fixtures/bad/truncated.fastq, '-2', /fixtures/core/reads_R2.fastq,
+      -o, unicycler-out, --threads, '1', --kmers, '21']
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied in place of one paired FASTQ input.
+    command: [unicycler, '-1', /fixtures/core/variants.vcf, '-2', /fixtures/core/reads_R2.fastq,
+      -o, unicycler-out, --threads, '1', --kmers, '21']
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
-    reason: The option is deliberately unrecognised.
-    command:
-    - unicycler
-    - --seebot-invalid-option
+    reason: The option is deliberately unrecognised on an otherwise complete assembly command.
+    command: [unicycler, '-1', /fixtures/core/reads_R1.fastq, '-2', /fixtures/core/reads_R2.fastq,
+      -o, unicycler-out, --threads, '1', --kmers, '21', --seebot-invalid-option]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: applicable
-    reason: A typed option is given a deliberately invalid value.
-    command:
-    - unicycler
-    - -t
-    - none
+    reason: The thread count is given a deliberately non-integer value.
+    command: [unicycler, '-1', /fixtures/core/reads_R1.fastq, '-2', /fixtures/core/reads_R2.fastq,
+      -o, unicycler-out, --threads, none, --kmers, '21']
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The assembly output directory is placed on the read-only fixture mount.
+    command: [unicycler, '-1', /fixtures/core/reads_R1.fastq, '-2', /fixtures/core/reads_R2.fastq,
+      -o, /fixtures/unicycler-out, --threads, '1', --kmers, '21']
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

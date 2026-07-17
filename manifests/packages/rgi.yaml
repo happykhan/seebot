@@ -66,9 +66,7 @@ interfaces:
   help_commands:
   - - rgi
     - --help
-  version_commands:
-  - - rgi
-    - --version
+  version_commands: []
   no_argument_policy: help_or_usage_error
   stdin_support: not_supported
   stdout_support: supported
@@ -92,20 +90,20 @@ valid_run:
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a loaded CARD reference database is required to isolate this input condition from database setup failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a loaded CARD reference database is required to isolate this input condition from database setup failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a loaded CARD reference database is required to isolate this input condition from database setup failure.'
     command: null
     fixture_id: null
     expected_outputs: []
@@ -113,14 +111,14 @@ robustness:
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a loaded CARD reference database is required to isolate this input condition from database setup failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a loaded CARD reference database is required to isolate this input condition from database setup failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
@@ -129,8 +127,13 @@ robustness:
     reason: The option is deliberately unrecognised.
     command:
     - rgi
+    - main
+    - --input_sequence
+    - /fixtures/core/proteins.fasta
+    - --output_file
+    - /work/rgi-invalid-option
     - --seebot-invalid-option
-    fixture_id: null
+    fixture_id: core-proteins-fasta
     diagnostic_expectation: specific_or_generic
   invalid_value:
     applicability: not_applicable

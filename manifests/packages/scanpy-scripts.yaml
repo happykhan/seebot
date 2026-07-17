@@ -92,69 +92,69 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A meaningful command requires an AnnData or 10x matrix fixture not in the shared
-    catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [scanpy-synthetic-h5ad]
+  command: [scanpy-cli, norm, --no-log-transform, /fixtures/scanpy/example.h5ad, normalized.h5ad]
+  expected_outputs:
+  - {path: normalized.h5ad, nonempty: true, parser: null}
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: The normalization command is given a missing AnnData input path.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/bad/missing.dat, normalized.h5ad]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: The normalization command is given a zero-byte file instead of an AnnData object.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/bad/empty.dat, normalized.h5ad]
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    expected_outputs: []
+    applicability: applicable
+    reason: A format-valid AnnData object containing zero cells is normalized.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/scanpy/empty.h5ad, empty-normalized.h5ad]
+    fixture_id: scanpy-empty-h5ad
+    expected_outputs:
+    - {path: empty-normalized.h5ad, nonempty: true, parser: null, record_count: null}
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: Plain text is supplied where the normalization command expects an HDF5 AnnData file.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/bad/plain-text.dat, normalized.h5ad]
+    fixture_id: bad-plain-text
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied where the normalization command expects an AnnData object.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/core/variants.vcf, normalized.h5ad]
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
-    reason: The option is deliberately unrecognised.
-    command:
-    - scanpy-cli
-    - --seebot-invalid-option
+    reason: The option is deliberately unrecognised on an otherwise complete normalization command.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/scanpy/example.h5ad, normalized.h5ad,
+      --seebot-invalid-option]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
-    applicability: not_applicable
-    reason: No bounded typed option can be exercised without external data or services.
-    command: null
+    applicability: applicable
+    reason: The normalization target is given a deliberately non-numeric value.
+    command: [scanpy-cli, norm, --normalize-to, none, /fixtures/scanpy/example.h5ad, normalized.h5ad]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The normalized AnnData output is placed on the read-only fixture mount.
+    command: [scanpy-cli, norm, --no-log-transform, /fixtures/scanpy/example.h5ad, /fixtures/normalized.h5ad]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

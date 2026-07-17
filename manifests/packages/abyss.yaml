@@ -86,49 +86,99 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: A representative successful run requires prepared references, indexes, databases,
-    or multi-file inputs not present in the shared fixture catalogue.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reads-r1-fastq
+  - core-reads-r2-fastq
+  command:
+  - ABYSS
+  - -k
+  - '10'
+  - -o
+  - contigs.fa
+  - /fixtures/core/reads_R1.fastq
+  - /fixtures/core/reads_R2.fastq
+  expected_outputs:
+  - path: contigs.fa
+    nonempty: true
+    parser: fasta
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: One paired-read input path does not exist while the mate file remains valid.
+    command:
+    - ABYSS
+    - -k
+    - '10'
+    - -o
+    - contigs.fa
+    - /fixtures/bad/missing.dat
+    - /fixtures/core/reads_R2.fastq
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A zero-byte file is supplied for one mate while the other mate remains valid.
+    command:
+    - ABYSS
+    - -k
+    - '10'
+    - -o
+    - contigs.fa
+    - /fixtures/bad/empty.dat
+    - /fixtures/core/reads_R2.fastq
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    expected_outputs: []
+    applicability: applicable
+    reason: Format-valid paired FASTQ files containing zero reads are supplied.
+    command:
+    - ABYSS
+    - -k
+    - '10'
+    - -o
+    - empty-contigs.fa
+    - /fixtures/empty/empty.fastq
+    - /fixtures/empty/empty.fastq
+    fixture_id: empty-fastq
+    expected_outputs:
+    - path: empty-contigs.fa
+      nonempty: false
+      parser: fasta
+      record_count: 0
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A truncated FASTQ is supplied for one mate while the other mate remains valid.
+    command:
+    - ABYSS
+    - -k
+    - '10'
+    - -o
+    - contigs.fa
+    - /fixtures/bad/truncated.fastq
+    - /fixtures/core/reads_R2.fastq
+    fixture_id: bad-truncated-fastq
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
-    fixture_id: null
-    diagnostic_expectation: not_applicable
+    applicability: applicable
+    reason: A valid VCF is supplied in place of one paired FASTQ input.
+    command:
+    - ABYSS
+    - -k
+    - '10'
+    - -o
+    - contigs.fa
+    - /fixtures/core/variants.vcf
+    - /fixtures/core/reads_R2.fastq
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
@@ -147,11 +197,18 @@ robustness:
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:
-    applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
-    command: null
+    applicability: applicable
+    reason: The documented output path is placed on the read-only fixture mount.
+    command:
+    - ABYSS
+    - -k
+    - '10'
+    - -o
+    - /fixtures/contigs.fa
+    - /fixtures/core/reads_R1.fastq
+    - /fixtures/core/reads_R2.fastq
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
 curation:
   status: reviewed
   curator: codex:bioinformatics-dev

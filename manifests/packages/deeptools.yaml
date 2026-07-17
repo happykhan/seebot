@@ -105,12 +105,12 @@ streams:
   stdout_parser: null
   timeout_seconds: 300
 valid_run:
-  status: untestable
-  untestable_reason: The shared fixture set has SAM but no indexed BAM or bigWig suitable for a representative
-    run.
-  fixture_ids: []
-  command: null
-  expected_outputs: []
+  status: reviewed
+  untestable_reason: null
+  fixture_ids: [core-alignment-bam, core-alignment-bai]
+  command: [bamCoverage, -b, /fixtures/core/alignment.bam, -o, coverage.bw, --binSize, '10', --numberOfProcessors, '1']
+  expected_outputs:
+  - {path: coverage.bw, nonempty: true, parser: null}
   expect_stdout: false
   stdout_parser: null
   timeout_seconds: 300
@@ -122,6 +122,8 @@ robustness:
     - bamCoverage
     - -b
     - /fixtures/bad/missing.dat
+    - -o
+    - coverage.bw
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   empty_input:
@@ -131,14 +133,17 @@ robustness:
     - bamCoverage
     - -b
     - /fixtures/bad/empty.dat
+    - -o
+    - coverage.bw
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: unknown
-    reason: The format-specific zero-record fixture and expected output require review.
-    command: null
-    fixture_id: null
-    expected_outputs: []
+    applicability: applicable
+    reason: A header-only indexed BAM containing zero alignment records is supplied.
+    command: [bamCoverage, -b, /fixtures/empty/header-only.bam, -o, empty.bw, --binSize, '10', --numberOfProcessors, '1']
+    fixture_id: empty-header-only-bam
+    expected_outputs:
+    - {path: empty.bw, nonempty: true, parser: null, record_count: null}
     expect_stdout: false
     stdout_parser: null
     stdout_record_count: null
@@ -149,6 +154,8 @@ robustness:
     - bamCoverage
     - -b
     - /fixtures/bad/malformed.fasta
+    - -o
+    - coverage.bw
     fixture_id: bad-malformed-fasta
     diagnostic_expectation: specific_or_generic
   wrong_format:
@@ -157,15 +164,15 @@ robustness:
     command:
     - bamCoverage
     - -b
-    - /fixtures/core/reference.fasta
-    fixture_id: core-reference-fasta
+    - /fixtures/core/variants.vcf
+    - -o
+    - coverage.bw
+    fixture_id: core-variants-vcf
     diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - bamCoverage
-    - --seebot-invalid-option
+    command: [bamCoverage, -b, /fixtures/core/alignment.bam, -o, coverage.bw, --seebot-invalid-option]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
@@ -174,7 +181,9 @@ robustness:
     command:
     - bamCoverage
     - -b
-    - /fixtures/core/alignment.sam
+    - /fixtures/core/alignment.bam
+    - -o
+    - coverage.bw
     - --binSize
     - 'no'
     fixture_id: null
@@ -185,7 +194,7 @@ robustness:
     command:
     - bamCoverage
     - -b
-    - /fixtures/core/alignment.sam
+    - /fixtures/core/alignment.bam
     - -o
     - /fixtures/out.bw
     fixture_id: null

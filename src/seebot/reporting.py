@@ -81,16 +81,6 @@ PRIVATE_PATH_MARKERS = (
     "/results/",
     "/web/",
 )
-PRIVATE_PATH_PREFIXES = (
-    "/gpfs3/well/aanensen/users/rva470/seebot-hpc/current/",
-    "/well/aanensen/users/rva470/seebot-hpc/current/",
-    "/gpfs3/well/aanensen/users/rva470/seebot-hpc/",
-    "/well/aanensen/users/rva470/seebot-hpc/",
-    "/gpfs3/well/aanensen/users/rva470/seebot/",
-    "/well/aanensen/users/rva470/seebot/",
-    "/gpfs3/users/aanensen/rva470/",
-    "/users/aanensen/rva470/",
-)
 PRIVATE_ABSOLUTE_PATH = re.compile(r"/(?:gpfs\d+/)?(?:well|users)/[^\s'\"`<>)]*")
 
 
@@ -142,10 +132,7 @@ def _public_path(value: str) -> str:
 
 def _public_text(value: str) -> str:
     """Scrub host-specific absolute path fragments from public text."""
-    output = value
-    for prefix in PRIVATE_PATH_PREFIXES:
-        output = output.replace(prefix, "")
-    return PRIVATE_ABSOLUTE_PATH.sub(lambda match: _public_path(match.group(0)), output)
+    return PRIVATE_ABSOLUTE_PATH.sub(lambda match: _public_path(match.group(0)), value)
 
 
 def _public_value(value: Any) -> Any:
@@ -384,6 +371,79 @@ def _is_development_dependency_source(source: str) -> bool:
     )
 
 
+def _merge_aliased_advisories(advisories: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Merge OSV records that identify the same package vulnerability by aliases."""
+    partitions: dict[tuple[str, str, str, str], list[dict[str, Any]]] = {}
+    for advisory in advisories:
+        key = (
+            str(advisory.get("ecosystem", "")),
+            str(advisory.get("dependency", "")),
+            str(advisory.get("resolved_version", "")),
+            str(advisory.get("source", "")),
+        )
+        partitions.setdefault(key, []).append(advisory)
+
+    merged: list[dict[str, Any]] = []
+    for rows in partitions.values():
+        groups: list[list[dict[str, Any]]] = []
+        for row in rows:
+            identifiers = {str(row.get("advisory_id", "")), *map(str, row.get("aliases", []))}
+            matching = [
+                group
+                for group in groups
+                if identifiers
+                & {
+                    identifier
+                    for member in group
+                    for identifier in (
+                        str(member.get("advisory_id", "")),
+                        *map(str, member.get("aliases", [])),
+                    )
+                }
+            ]
+            if not matching:
+                groups.append([row])
+                continue
+            target = matching[0]
+            target.append(row)
+            for extra in matching[1:]:
+                target.extend(extra)
+                groups.remove(extra)
+
+        for group in groups:
+            ids = {
+                identifier
+                for row in group
+                for identifier in (
+                    str(row.get("advisory_id", "")),
+                    *map(str, row.get("aliases", [])),
+                )
+                if identifier
+            }
+            primary = min(ids, key=lambda value: (not value.startswith("GHSA-"), value))
+            preferred = next(
+                (row for row in group if str(row.get("advisory_id")) == primary), group[0]
+            )
+            combined = dict(preferred)
+            combined["advisory_id"] = primary
+            combined["aliases"] = sorted(ids - {primary})
+            for field in ("native_severity", "fixed_versions"):
+                values = {
+                    str(value) for row in group for value in row.get(field, []) if value is not None
+                }
+                combined[field] = sorted(values)
+            merged.append(combined)
+    return sorted(
+        merged,
+        key=lambda row: (
+            str(row.get("source", "")),
+            str(row.get("dependency", "")),
+            str(row.get("resolved_version", "")),
+            str(row.get("advisory_id", "")),
+        ),
+    )
+
+
 def _dependency_summary(rows: list[dict[str, Any]], primary_language: str) -> dict[str, Any]:
     sources: set[str] = set()
     runtime_sources: set[str] = set()
@@ -452,7 +512,7 @@ def _dependency_summary(rows: list[dict[str, Any]], primary_language: str) -> di
     ordered_declared = [declared[key] for key in sorted(declared)]
     ordered_conda = [conda_packages[key] for key in sorted(conda_packages)]
     ordered_ecosystem = [ecosystem_packages[key] for key in sorted(ecosystem_packages)]
-    ordered_advisories = [advisories[key] for key in sorted(advisories)]
+    ordered_advisories = _merge_aliased_advisories([advisories[key] for key in sorted(advisories)])
     runtime_advisories = [
         advisory
         for advisory in ordered_advisories

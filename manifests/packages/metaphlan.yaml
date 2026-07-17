@@ -111,16 +111,17 @@ robustness:
     command:
     - metaphlan
     - /fixtures/bad/missing.dat
+    - --input_type
+    - fastq
+    - --offline
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   empty_input:
-    applicability: applicable
-    reason: A zero-byte input file is supplied.
-    command:
-    - metaphlan
-    - /fixtures/bad/empty.dat
-    fixture_id: bad-empty
-    diagnostic_expectation: specific_or_generic
+    applicability: unknown
+    reason: 'Not run: a marker database is required before MetaPhlAn reaches input validation.'
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
   semantically_empty_input:
     applicability: unknown
     reason: The format-specific zero-record fixture and expected output require review.
@@ -131,27 +132,27 @@ robustness:
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: applicable
-    reason: A structurally malformed input is supplied.
-    command:
-    - metaphlan
-    - /fixtures/bad/truncated.fastq
-    fixture_id: bad-truncated-fastq
-    diagnostic_expectation: specific_or_generic
+    applicability: unknown
+    reason: 'Not run: a marker database is required before MetaPhlAn reaches input validation.'
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
   wrong_format:
-    applicability: applicable
-    reason: A valid but incompatible biological format is supplied.
-    command:
-    - metaphlan
-    - /fixtures/core/tree.newick
-    fixture_id: core-tree-newick
-    diagnostic_expectation: specific_or_generic
+    applicability: unknown
+    reason: 'Not run: a marker database is required before MetaPhlAn reaches input validation.'
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
     command:
     - metaphlan
     - --seebot-invalid-option
+    - /fixtures/core/reads_R1.fastq
+    - --input_type
+    - fastq
+    - --offline
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:

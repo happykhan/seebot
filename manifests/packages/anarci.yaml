@@ -94,19 +94,19 @@ valid_run:
 robustness:
   missing_input:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The reviewed ANARCI interface accepts an inline amino-acid sequence rather than an input path.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: An empty inline amino-acid sequence is supplied.
+    command: [ANARCI, -i, '']
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   semantically_empty_input:
     applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    reason: The inline interface represents one sequence value and has no zero-record stream form.
     command: null
     fixture_id: null
     expected_outputs: []
@@ -114,23 +114,21 @@ robustness:
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: A syntactically invalid inline amino-acid sequence is supplied.
+    command: [ANARCI, -i, 'NOT_A_PROTEIN!']
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
-    command: null
+    applicability: applicable
+    reason: A nucleotide sequence is supplied where an antibody amino-acid sequence is expected.
+    command: [ANARCI, -i, ACGTACGTACGTACGT]
     fixture_id: null
-    diagnostic_expectation: not_applicable
+    diagnostic_expectation: specific_or_generic
   invalid_option:
     applicability: applicable
     reason: The option is deliberately unrecognised.
-    command:
-    - ANARCI
-    - --seebot-invalid-option
+    command: [ANARCI, -i, EVQLQQSGAEVVRSGASVKLSCTASGFNIKDYYIHWVKQRPEKGLEWIGWIDPEIGDTEYAPKFQGKATMTADTSSNTAYLQLSSLTSEDTAVYYCAR, --seebot-invalid-option]
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
@@ -146,7 +144,7 @@ robustness:
     diagnostic_expectation: specific_or_generic
   unwritable_output:
     applicability: not_applicable
-    reason: No bounded run with a documented output-path option is available for this interface.
+    reason: The reviewed ANARCI command writes its result to standard output.
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable

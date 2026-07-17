@@ -95,20 +95,20 @@ valid_run:
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: prepared reference databases and a configured container or Nextflow backend are required to isolate this input condition.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: prepared reference databases and a configured container or Nextflow backend are required to isolate this input condition.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: prepared reference databases and a configured container or Nextflow backend are required to isolate this input condition.'
     command: null
     fixture_id: null
     expected_outputs: []
@@ -116,14 +116,14 @@ robustness:
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: prepared reference databases and a configured container or Nextflow backend are required to isolate this input condition.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: prepared reference databases and a configured container or Nextflow backend are required to isolate this input condition.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable

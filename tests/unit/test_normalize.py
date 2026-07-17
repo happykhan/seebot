@@ -95,3 +95,20 @@ def test_normalize_overwrites_existing_checks_from_evidence(tmp_path: Path) -> N
     json_path, _ = normalize_run(tmp_path / "evidence", tmp_path / "results", "pilot")
 
     assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW"]
+
+
+def test_normalize_ignores_archived_results_beneath_run_root(tmp_path: Path) -> None:
+    current = tmp_path / "evidence" / "pilot" / "tool" / "NEW"
+    current.mkdir(parents=True)
+    (current / "result.json").write_text(
+        json.dumps(result_row("pilot", "tool", "NEW")), encoding="utf-8"
+    )
+    archived = tmp_path / "evidence" / "pilot" / "_stale-contracts" / "tool" / "OLD"
+    archived.mkdir(parents=True)
+    (archived / "result.json").write_text(
+        json.dumps(result_row("pilot", "tool", "OLD")), encoding="utf-8"
+    )
+
+    json_path, _ = normalize_run(tmp_path / "evidence", tmp_path / "results", "pilot")
+
+    assert [row["check_id"] for row in json.loads(json_path.read_text())] == ["NEW"]

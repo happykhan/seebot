@@ -109,7 +109,11 @@ robustness:
     reason: The input path does not exist.
     command:
     - htseq-count
+    - --format=sam
+    - --order=pos
+    - --stranded=no
     - /fixtures/bad/missing.dat
+    - /fixtures/core/annotation.gff3
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   empty_input:
@@ -117,24 +121,38 @@ robustness:
     reason: A zero-byte input file is supplied.
     command:
     - htseq-count
+    - --format=sam
+    - --order=pos
+    - --stranded=no
     - /fixtures/bad/empty.dat
+    - /fixtures/core/annotation.gff3
     fixture_id: bad-empty
     diagnostic_expectation: specific_or_generic
   semantically_empty_input:
-    applicability: unknown
-    reason: The format-specific zero-record fixture and expected output require review.
-    command: null
-    fixture_id: null
+    applicability: applicable
+    reason: A header-only SAM containing zero alignment records is supplied with a valid annotation.
+    command:
+    - htseq-count
+    - --format=sam
+    - --order=pos
+    - --stranded=no
+    - /fixtures/empty/header-only.sam
+    - /fixtures/core/annotation.gff3
+    fixture_id: empty-header-only-sam
     expected_outputs: []
-    expect_stdout: false
-    stdout_parser: null
+    expect_stdout: true
+    stdout_parser: text
     stdout_record_count: null
   malformed_input:
     applicability: applicable
     reason: A structurally malformed input is supplied.
     command:
     - htseq-count
+    - --format=sam
+    - --order=pos
+    - --stranded=no
     - /fixtures/bad/plain-text.dat
+    - /fixtures/core/annotation.gff3
     fixture_id: bad-plain-text
     diagnostic_expectation: specific_or_generic
   wrong_format:
@@ -142,7 +160,11 @@ robustness:
     reason: A valid but incompatible biological format is supplied.
     command:
     - htseq-count
+    - --format=sam
+    - --order=pos
+    - --stranded=no
     - /fixtures/core/tree.newick
+    - /fixtures/core/annotation.gff3
     fixture_id: core-tree-newick
     diagnostic_expectation: specific_or_generic
   invalid_option:
@@ -151,6 +173,8 @@ robustness:
     command:
     - htseq-count
     - --seebot-invalid-option
+    - /fixtures/core/alignment.sam
+    - /fixtures/core/annotation.gff3
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   invalid_value:
@@ -160,6 +184,8 @@ robustness:
     - htseq-count
     - --mode
     - not-a-mode
+    - /fixtures/core/alignment.sam
+    - /fixtures/core/annotation.gff3
     fixture_id: null
     diagnostic_expectation: specific_or_generic
   unwritable_output:

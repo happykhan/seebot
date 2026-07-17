@@ -109,20 +109,20 @@ valid_run:
   timeout_seconds: 300
 robustness:
   missing_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a prepared ProPhyle index is required to isolate this input condition from index-loading failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a prepared ProPhyle index is required to isolate this input condition from index-loading failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   semantically_empty_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a prepared ProPhyle index is required to isolate this input condition from index-loading failure.'
     command: null
     fixture_id: null
     expected_outputs: []
@@ -130,14 +130,14 @@ robustness:
     stdout_parser: null
     stdout_record_count: null
   malformed_input:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a prepared ProPhyle index is required to isolate this input condition from index-loading failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
   wrong_format:
-    applicability: not_applicable
-    reason: The reviewed command does not accept a standalone biological input file.
+    applicability: unknown
+    reason: 'Not run: a prepared ProPhyle index is required to isolate this input condition from index-loading failure.'
     command: null
     fixture_id: null
     diagnostic_expectation: not_applicable
@@ -146,6 +146,8 @@ robustness:
     reason: The option is deliberately unrecognised.
     command:
     - prophyle
+    - download
+    - bacteria
     - --seebot-invalid-option
     fixture_id: null
     diagnostic_expectation: specific_or_generic

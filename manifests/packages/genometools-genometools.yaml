@@ -157,7 +157,8 @@ robustness:
     command:
     - gt
     - seqstat
-    - -width
+    - -distlen
+    - -b
     - none
     - /fixtures/core/reference.fasta
     fixture_id: null

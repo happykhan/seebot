@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { contractCatalogue, describeRule } from './catalogue'
+import { contractCatalogue, describeRule, ruleDocumentationUrl } from './catalogue'
+import { analyzerRuleMetadata } from './ruleMetadata'
 import { compatibleMetricLanguages, selectMetricPoints } from './charts'
 import { practiceAreas, softwareHref } from './projects'
 import { describeSeverity, summarizeRules } from './presentation'
@@ -34,7 +35,19 @@ describe('public reporting contracts', () => {
 
   it('keeps a plain-language catalogue entry for Bandit B102', () => {
     expect(describeRule('bandit', 'B102')).toContain('exec')
-    expect(describeRule('bandit', 'B102')).toContain('dynamically supplied Python code')
+    expect(describeRule('bandit', 'B102')).toContain('risky')
+  })
+
+  it('publishes exact metadata and specific documentation links for observed Python rules', () => {
+    expect(Object.keys(analyzerRuleMetadata)).toHaveLength(319)
+    expect(describeRule('ruff', 'E501')).toContain('maximum character length')
+    expect(ruleDocumentationUrl('ruff', 'E501')).toBe('https://docs.astral.sh/ruff/rules/line-too-long/')
+    expect(describeRule('pylint', 'import-outside-toplevel')).toContain('module toplevel')
+    expect(ruleDocumentationUrl('pylint', 'import-outside-toplevel'))
+      .toBe('https://pylint.readthedocs.io/en/latest/user_guide/messages/convention/import-outside-toplevel.html')
+    expect(describeRule('bandit', 'B603')).toContain('without the use of a command shell')
+    expect(ruleDocumentationUrl('bandit', 'B603'))
+      .toBe('https://bandit.readthedocs.io/en/latest/plugins/b603_subprocess_without_shell_equals_true.html')
   })
 
   it('summarizes the largest rule categories and groups the remainder', () => {
@@ -42,7 +55,7 @@ describe('public reporting contracts', () => {
       { rule: 'small', count: 2 }, { rule: 'largest', count: 20 }, { rule: 'middle', count: 5 },
     ]
     expect(summarizeRules(rules, 2)).toEqual({
-      visible: [rules[1], rules[2]], hiddenTypeCount: 1, hiddenFindingCount: 2,
+      visible: [rules[1], rules[2]], hidden: [rules[0]], hiddenTypeCount: 1, hiddenFindingCount: 2,
     })
   })
 
