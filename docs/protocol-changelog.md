@@ -1,5 +1,41 @@
 # Protocol changelog
 
+## 2026-07-17 — second bounded 20-project expansion
+
+- Authorised 20 additional provisionally eligible CLI projects after source and interface review,
+  expanding the reviewed manifest set from 50 to 70.
+- Replaced the provisional PyHMMER candidate with mlst after confirming that PyHMMER exposes a
+  Python API but no packaged end-user CLI.
+- Added exact current and historical commits, installation records, reviewed source roots,
+  interface contracts, and two review records for every promoted project.
+- Added ordered normalized-batch merging: a newer complete project batch replaces that project's
+  older rows, while projects absent from the new batch remain. This prevents duplicate website
+  entries without retaining raw per-check evidence.
+- Kept this as a bounded 20-project Slurm run; the remaining ranked cohort is not unlocked.
+
+## 2026-07-17 — compact beta evidence retention
+
+- Designated normalized tables and the generated website dataset as the retained beta products.
+- Allowed the complete per-check evidence tree, including `result.json`, raw analyzer streams,
+  duplicate metadata, and fixture sandboxes, to be removed after validation, normalization,
+  and website generation.
+- Kept rerunning as the recovery path while the assessment and presentation are still changing;
+  this does not alter the rubric, schemas, exclusions, or recorded project outcomes.
+- Raised the bounded Python Slurm tasks to eight CPUs and 16 GiB and allowed Pylint to use
+  eight workers. Execution resources remain beta machinery and do not affect project outcomes.
+- Stopped running native lint, security, and dead-code analyzers on historical snapshots because
+  the beta website presents those findings only for current source. Historical runs now collect
+  the structural measurements used by the time-series charts.
+- Parallelized source downloads with four configurable workers, while keeping project Pixi
+  environments serial. Each Pixi process creates about 97 internal threads, so concurrent Pixi
+  installs exceeded the head node's thread allowance despite modest CPU use.
+- Removed all SHA-256 passes over staged Git snapshots, including their Git indexes. Preparation
+  checks each checkout's commit with `git rev-parse HEAD` and hashes only smaller configuration
+  and runtime inputs.
+- Cached stable runtime and audit-code identities per worker so result rows no longer repeatedly
+  hash the Pixi executable or launch duplicate Git identity commands. Array verification checks
+  that Pixi is executable instead of hashing the same binary in every task.
+
 ## 2026-07-16 — semantically empty input contract
 
 - Added a separate usage-health contract for format-valid inputs containing zero biological

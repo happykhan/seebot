@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "infernal",
+  "source_commit": "f80cd7618636e44e3963f65625cea78c38a8d823",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 120,
+      "item_type": "interface_and_source_scope",
+      "item_name": "infernal"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "abed7cf72b5e79c4ec960b4fa3cb1bed4843ceadc9f3063146450818764423e1",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

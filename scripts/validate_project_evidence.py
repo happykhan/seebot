@@ -60,6 +60,13 @@ def main() -> None:
             )
             if executable in UPSTREAM_TEST_RUNNERS or normalized in UPSTREAM_TEST_RUNNERS:
                 raise RuntimeError(f"Prohibited upstream test command recorded: {command}")
+    for row in rows:
+        command = row.command
+        if command:
+            executable = Path(command[0]).name.lower()
+            normalized = f"{executable}-{command[1].lower()}" if len(command) > 1 else executable
+            if executable in UPSTREAM_TEST_RUNNERS or normalized in UPSTREAM_TEST_RUNNERS:
+                raise RuntimeError(f"Prohibited upstream test command recorded: {command}")
 
 
 if __name__ == "__main__":

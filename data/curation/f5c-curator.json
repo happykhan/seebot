@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "f5c",
+  "source_commit": "e8e3942e65a095c05412ca9b15035214cb509e1e",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 150,
+      "item_type": "interface_and_source_scope",
+      "item_name": "f5c"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "d9b88b4a5d62aa4d7eadf84f3b506e463188a451381e41aed73747c82598025b",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

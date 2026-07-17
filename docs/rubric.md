@@ -26,6 +26,9 @@ file-length distribution, function-length distribution, cyclomatic-complexity di
 nesting, parameter counts, duplication percentage, native linter findings, documentation
 coverage, and native source-security findings.
 
+Historical snapshots retain the structural measurements used by the source-history charts.
+Native linter, security, and dead-code observations apply only to the current snapshot.
+
 Dead-code candidates, unsafe-code occurrences, and build-dependent analyzers are
 supplementary. Formatting compliance is not a code-health metric. No SOLID score or other
 aggregate code-quality grade is produced.

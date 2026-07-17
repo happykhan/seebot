@@ -1,0 +1,156 @@
+schema_version: 2
+project:
+  id: peptide-shaker
+  name: PeptideShaker
+  description: Interprets and visualizes proteomics identification results.
+  primary_language: java
+  primary_category: proteomics
+  tags:
+  - mass spectrometry
+  - proteomics
+  include: true
+  exclusion_code: null
+repository:
+  id: compomics-peptide-shaker
+  url: https://github.com/compomics/peptide-shaker
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: c052d101e303d0ce2c8621429ccd6e677467d4d7
+  historical_commits:
+    '2021-07-01': 924fb20db9d010c77c796961f222d04644623424
+    '2022-07-01': 23098042f5bedc42cc86f24fea0c7ef0eba53115
+    '2023-07-01': 32c39dab894be0f4f24caad412f581667dc7f608
+    '2024-07-01': 480af88017a4364faefb8551651095a01b6de5b8
+    '2025-07-01': 2718adc218a245f84c7df24542b46bdb8554532a
+  archived: false
+discovery:
+  source: bioconda
+  package_name: peptide-shaker
+  rank: 15
+  download_count: 1078300
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-peptide-shaker-3.0.11
+  adapter: pixi
+  artifact: peptide-shaker
+  version: 3.0.11
+  build: hdfd78af_0
+  subdir: noarch
+  artifact_url: https://conda.anaconda.org/bioconda/noarch/peptide-shaker-3.0.11-hdfd78af_0.tar.bz2
+  artifact_sha256: aed12a8a495e435a0e072e71f630737b9d2a8cfc55dd97a5b600e6c7cb5b9b0b
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src/main/java
+  language_roots:
+    java:
+    - src/main/java
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: peptide-shaker
+  executables:
+  - peptide-shaker
+  help_commands:
+  - - peptide-shaker
+    - eu.isas.peptideshaker.cmd.PeptideShakerCLI
+    - -help
+  version_commands: []
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - peptide-shaker
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/peptide-shaker-curator.json
+  reviewer_record: data/curation/peptide-shaker-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

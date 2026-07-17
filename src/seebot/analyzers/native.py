@@ -18,12 +18,19 @@ from seebot.evidence import audit_code_identity, evidence_path, sha256_file
 from seebot.models import CheckResult, EvidencePaths, ResultKind, Status, ToolIdentity
 from seebot.observations import write_measurement
 from seebot.runtime.analyzers import AnalyzerEnvironment, analyzer_command
+from seebot.runtime.container import runtime_name
 
 Parser = Callable[[str, str, int], tuple[dict[str, Any], Status]]
 SECURITY_CPP_IDS = re.compile(
     r"buffer|null|uninit|useafter|dangling|leak|overflow|invalid|race|unsafe|insecure",
     re.IGNORECASE,
 )
+
+
+def _file_list_entries(checkout: Path, input_files: list[str]) -> list[str]:
+    if runtime_name() != "native":
+        return input_files
+    return [str(checkout / Path(path).relative_to("/source")) for path in input_files]
 
 
 def _density(count: int, lines: int) -> float | None:
@@ -234,6 +241,7 @@ def _run_native(
     evidence_root: Path,
     config_root: Path,
     force: bool,
+    input_files: list[str] | None = None,
 ) -> CheckResult:
     safe_probe = re.sub(r"[^a-zA-Z0-9_.-]+", "-", probe_id)
     target = evidence_root / run_id / project_id / snapshot_date / check_id / safe_probe
@@ -243,6 +251,10 @@ def _run_native(
     target.mkdir(parents=True, exist_ok=True)
     stdout_path, stderr_path = target / "stdout.txt", target / "stderr.txt"
     metadata_path = target / "metadata.json"
+    if input_files is not None:
+        listed_files = _file_list_entries(checkout, input_files)
+        (target / "source-files.txt").write_text("\n".join(listed_files) + "\n", encoding="utf-8")
+    (target / "audit-error.txt").unlink(missing_ok=True)
     started = datetime.now(UTC)
     clock = time.monotonic()
     observed: dict[str, Any] = {}
@@ -451,8 +463,7 @@ def run_non_python_native_analyzers(
             "sh",
             "/workspace/.pixi/envs/default/bin/pmd",
             "check",
-            "-d",
-            ",".join(relative),
+            "--file-list=/work/source-files.txt",
             "-f",
             "json",
             "-R",
@@ -469,6 +480,7 @@ def run_non_python_native_analyzers(
                 ],
                 parser=_pmd_parser(line_count, language),
                 accepted={0, 4},
+                input_files=relative,
             ),
             _run_native(
                 **common,
@@ -477,6 +489,7 @@ def run_non_python_native_analyzers(
                 command=base + ["category/java/security.xml"],
                 parser=_pmd_parser(line_count, language),
                 accepted={0, 4},
+                input_files=relative,
             ),
         ]
     if language == "rust":

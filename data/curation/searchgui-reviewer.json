@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "searchgui",
+  "source_commit": "3b4021a2b8f83439da830d2140860c90b72bc382",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:protocol-review",
+  "review_round": 2,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 60,
+      "end_line": 130,
+      "item_type": "interface_and_source_scope",
+      "item_name": "searchgui"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "463b17f9f1d510fe717fc3e33ca176057f3e2387c4869c23e388371453272752",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Independent second-pass agreement with the frozen interface, fixture, and source-scope decisions.",
+  "adjudication_required": false
+}

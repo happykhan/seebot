@@ -1,0 +1,159 @@
+schema_version: 2
+project:
+  id: rsem
+  name: RSEM
+  description: Estimates gene and isoform expression from RNA-seq reads.
+  primary_language: cpp
+  primary_category: transcript quantification
+  tags:
+  - FASTQ
+  - RNA-seq
+  - quantification
+  include: true
+  exclusion_code: null
+repository:
+  id: deweylab-rsem
+  url: https://github.com/deweylab/RSEM
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: e2df2d3aafd4f0c982182e97c9cb2193647178ca
+  historical_commits:
+    '2021-07-01': e4dda70e90fb5eb9b831306f1c381f8bbf71ef0e
+    '2022-07-01': e4dda70e90fb5eb9b831306f1c381f8bbf71ef0e
+    '2023-07-01': 8bc1e2115493c0cdf3c6bee80ef7a21a91b2acce
+    '2024-07-01': 8bc1e2115493c0cdf3c6bee80ef7a21a91b2acce
+    '2025-07-01': 8bc1e2115493c0cdf3c6bee80ef7a21a91b2acce
+  archived: false
+discovery:
+  source: bioconda
+  package_name: rsem
+  rank: 204
+  download_count: 137057
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-rsem-1.3.3
+  adapter: pixi
+  artifact: rsem
+  version: 1.3.3
+  build: pl5321h077b44d_12
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/rsem-1.3.3-pl5321h077b44d_12.conda
+  artifact_sha256: 508f6c26afebd985c3dcc5fb187575bdf847f6069b2b9373decc8345d170312b
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  language_roots:
+    cpp:
+    - .
+    perl:
+    - .
+  generated_paths: []
+  vendored_paths:
+  - boost
+  - samtools-1.3
+  excluded_paths:
+  - boost
+  - samtools-1.3
+  - EBSeq
+  - pRSEM
+interfaces:
+  primary: rsem-calculate-expression
+  executables:
+  - rsem-calculate-expression
+  - rsem
+  help_commands:
+  - - rsem-calculate-expression
+    - --help
+  version_commands:
+  - - rsem-calculate-expression
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - rsem-calculate-expression
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/rsem-curator.json
+  reviewer_record: data/curation/rsem-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

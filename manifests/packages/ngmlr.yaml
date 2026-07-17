@@ -1,0 +1,195 @@
+schema_version: 2
+project:
+  id: ngmlr
+  name: NGMLR
+  description: Maps long reads with sensitivity around structural variations.
+  primary_language: cpp
+  primary_category: read alignment
+  tags:
+  - FASTA
+  - FASTQ
+  - long reads
+  include: true
+  exclusion_code: null
+repository:
+  id: philres-ngmlr
+  url: https://github.com/philres/ngmlr
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: a2a31fb6a63547be29c5868a7747e0c6f6e9e41f
+  historical_commits:
+    '2021-07-01': b205557db4be4d7e39070ead2ddcfdc715764e50
+    '2022-07-01': a2a31fb6a63547be29c5868a7747e0c6f6e9e41f
+    '2023-07-01': a2a31fb6a63547be29c5868a7747e0c6f6e9e41f
+    '2024-07-01': a2a31fb6a63547be29c5868a7747e0c6f6e9e41f
+    '2025-07-01': a2a31fb6a63547be29c5868a7747e0c6f6e9e41f
+  archived: false
+discovery:
+  source: bioconda
+  package_name: ngmlr
+  rank: 187
+  download_count: 147227
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-ngmlr-0.2.7
+  adapter: pixi
+  artifact: ngmlr
+  version: 0.2.7
+  build: h077b44d_10
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/ngmlr-0.2.7-h077b44d_10.tar.bz2
+  artifact_sha256: 5bd18cdf0803c152b0f00a68d5b36912c6dd68e0385d23114d8614af58ed0799
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+  generated_paths: []
+  vendored_paths:
+  - lib
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: ngmlr
+  executables:
+  - ngmlr
+  help_commands:
+  - - ngmlr
+    - -h
+  version_commands:
+  - - ngmlr
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reference-fasta
+  - core-reads-r1-fastq
+  command:
+  - ngmlr
+  - -r
+  - /fixtures/core/reference.fasta
+  - -q
+  - /fixtures/core/reads_R1.fastq
+  - -o
+  - alignment.sam
+  - -t
+  - '2'
+  expected_outputs:
+  - path: alignment.sam
+    nonempty: true
+    parser: sam
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - ngmlr
+    - -r
+    - /fixtures/core/reference.fasta
+    - -q
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - ngmlr
+    - -r
+    - /fixtures/core/reference.fasta
+    - -q
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture requires review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - ngmlr
+    - -r
+    - /fixtures/core/reference.fasta
+    - -q
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - ngmlr
+    - -r
+    - /fixtures/core/reference.fasta
+    - -q
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - ngmlr
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - ngmlr
+    - -t
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/ngmlr-curator.json
+  reviewer_record: data/curation/ngmlr-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

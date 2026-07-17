@@ -32,3 +32,11 @@ zDB, Cooler, RGI, and IGV Reports. Their manifests and two review passes are cur
 they do not become public reports until the complete x86-64 audit is collected and
 validated. This bounded expansion does not authorise execution of the rest of the ranked
 cohort.
+
+A second bounded 20-project expansion was authorised on 17 July 2026 after the optimized
+Python batch completed all projects in 4 minutes 44 seconds. It adds PeptideShaker, SearchGUI,
+slow5tools, MUSCLE, BamTools, SRA Toolkit, GATK, Seqtk, HH-suite, f5c, Portcullis, Prodigal,
+tRNAscan-SE, Trinity, Salmon, Infernal, PRANK, mlst, NGMLR, and RSEM. PyHMMER was reviewed but
+not promoted because the surveyed package is a Python library without an end-user executable;
+mlst is the next confirmed eligible CLI. This brings the reviewed manifest set to 70 projects
+without authorising a bulk run of the remaining ranked cohort.

@@ -11,6 +11,7 @@ import platform
 import shutil
 import socket
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -18,10 +19,7 @@ from typing import Any
 import yaml
 
 from seebot.analyzers.repository import clone_snapshot
-from seebot.runtime.analyzers import (
-    prepare_analyzer_environment,
-    prepare_dependency_analyzer_environment,
-)
+from seebot.runtime.analyzers import prepare_analyzer_environment
 from seebot.runtime.pixi import prepare_environment
 
 DEFAULT_PROJECTS = (
@@ -62,26 +60,6 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def tree_sha256(root: Path) -> str:
-    digest = hashlib.sha256()
-    for path in sorted(root.rglob("*")):
-        relative = path.relative_to(root).as_posix()
-        digest.update(relative.encode())
-        digest.update(b"\0")
-        if path.is_symlink():
-            digest.update(b"L")
-            digest.update(os.readlink(path).encode())
-        elif path.is_file():
-            digest.update(b"F")
-            with path.open("rb") as handle:
-                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                    digest.update(chunk)
-        elif path.is_dir():
-            digest.update(b"D")
-        digest.update(b"\0")
-    return digest.hexdigest()
-
-
 def load_manifest(repo: Path, project: str) -> tuple[Path, dict[str, Any]]:
     path = repo / "manifests" / "packages" / f"{project}.yaml"
     payload = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -90,17 +68,29 @@ def load_manifest(repo: Path, project: str) -> tuple[Path, dict[str, Any]]:
     return path, payload
 
 
+def prepared_bundle_issues(root: Path, projects: tuple[str, ...]) -> list[str]:
+    """Return missing runtime inputs that make an existing bundle unsafe to reuse."""
+    required = [
+        root / "tools" / "pixi",
+        root / "array.tsv",
+        root / "run-metadata.json",
+        root / "inventory.sha256.json",
+        root / "work" / "source-analyzers" / "pixi.lock",
+        root / "work" / "source-analyzers" / ".pixi" / "envs" / "default",
+    ]
+    for project in projects:
+        environment = root / "work" / "environments" / project
+        required.extend([environment / "pixi.lock", environment / ".pixi" / "envs" / "default"])
+    return [str(path.relative_to(root)) for path in required if not path.exists()]
+
+
 def critical_inventory(root: Path) -> dict[str, str]:
     patterns = (
         "tools/pixi",
         "inputs/**/*",
-        "snapshots/*/.git/HEAD",
-        "snapshots/*/.git/index",
-        "snapshots/*.sha256",
         "connected/*.json",
         "work/*/pixi.lock",
         "work/environments/*/pixi.lock",
-        "array.json",
         "array.tsv",
         "run-metadata.json",
     )
@@ -108,12 +98,25 @@ def critical_inventory(root: Path) -> dict[str, str]:
     return {path.relative_to(root).as_posix(): sha256(path) for path in sorted(paths)}
 
 
-def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_PROJECTS) -> Path:
+def prepare(
+    repo: Path,
+    shared_root: Path,
+    projects: tuple[str, ...] = DEFAULT_PROJECTS,
+    *,
+    jobs: int = 4,
+) -> Path:
     audit_commit = command_output(["git", "rev-parse", "HEAD"], cwd=repo)
     if command_output(["git", "status", "--porcelain"], cwd=repo):
         raise RuntimeError("Commit the tested HPC implementation before canonical preparation")
     final = shared_root / "current"
     if (final / "PREPARED.json").is_file():
+        issues = prepared_bundle_issues(final, projects)
+        if issues:
+            preview = ", ".join(issues[:5])
+            suffix = " ..." if len(issues) > 5 else ""
+            raise RuntimeError(
+                "Existing PREPARED bundle is incomplete and was preserved: " + preview + suffix
+            )
         return final
     temporary = final
     temporary.mkdir(parents=True, exist_ok=True)
@@ -127,10 +130,9 @@ def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_P
     history_target = temporary / "inputs" / "data" / "cohort"
     history_target.mkdir(parents=True, exist_ok=True)
     shutil.copy2(repo / "data/cohort/selected-history.json", history_target)
-    array = [{"index": index, "project_id": project} for index, project in enumerate(projects)]
-    (temporary / "array.json").write_text(json.dumps(array, indent=2) + "\n", encoding="utf-8")
     (temporary / "array.tsv").write_text(
-        "".join(f"{row['index']}\t{row['project_id']}\n" for row in array), encoding="utf-8"
+        "".join(f"{index}\t{project}\n" for index, project in enumerate(projects)),
+        encoding="utf-8",
     )
     manifests = [load_manifest(repo, project) for project in projects]
     commits: dict[str, str] = {}
@@ -143,30 +145,28 @@ def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_P
         for commit in snapshot_commits:
             if commit:
                 commits[str(commit)] = str(repository["url"])
-    for commit, url in sorted(commits.items()):
+
+    def prepare_snapshot(item: tuple[str, str]) -> None:
+        commit, url = item
         snapshot = temporary / "snapshots" / commit
-        tree_hash_path = temporary / "snapshots" / f"{commit}.sha256"
         if snapshot.is_dir():
             observed_commit = command_output(["git", "rev-parse", "HEAD"], cwd=snapshot)
             if observed_commit != commit:
                 raise RuntimeError(f"Prepared snapshot commit mismatch: {commit}")
-            observed_tree_hash = (
-                tree_hash_path.read_text(encoding="utf-8").strip()
-                if tree_hash_path.is_file()
-                else tree_sha256(snapshot)
-            )
         else:
-            snapshot = clone_snapshot(url, commit, snapshot)
-            observed_tree_hash = tree_sha256(snapshot)
-        tree_hash_path.write_text(observed_tree_hash + "\n", encoding="utf-8")
+            clone_snapshot(url, commit, snapshot)
+
+    with ThreadPoolExecutor(max_workers=jobs) as executor:
+        list(executor.map(prepare_snapshot, sorted(commits.items())))
     os.environ.update(
         SEEBOT_SNAPSHOT_ROOT=str(temporary / "snapshots"),
         SEEBOT_GITHUB_PAYLOAD_ROOT=str(temporary / "connected"),
     )
     cache = temporary / ".seebot-cache" / "pixi"
     prepare_analyzer_environment(temporary / "work" / "source-analyzers", cache)
-    prepare_dependency_analyzer_environment(temporary / "work" / "dependency-analyzers", cache)
-    for _, manifest in manifests:
+
+    def prepare_project(item: tuple[Path, dict[str, Any]]) -> None:
+        _, manifest = item
         installation = manifest["installation"]
         prepare_environment(
             temporary / "work" / "environments" / manifest["project"]["id"],
@@ -177,6 +177,11 @@ def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_P
             build=installation["build"],
             channels=installation["channels"],
         )
+
+    # Pixi creates a large internal Tokio thread pool. Running multiple installs on the
+    # shared head node can exhaust its thread allowance even when CPU use is modest.
+    for manifest in manifests:
+        prepare_project(manifest)
     metadata = {
         "schema_version": 1,
         "prepared_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
@@ -185,6 +190,8 @@ def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_P
         "architecture": platform.machine(),
         "slurm_cluster": "cluster",
         "partition": "short",
+        "snapshot_download_jobs": jobs,
+        "project_environment_jobs": 1,
         "runtime": command_output([str(pixi), "--version"]),
         "pixi_sha256": sha256(pixi),
         "shared_path": str(final),
@@ -197,6 +204,9 @@ def prepare(repo: Path, shared_root: Path, projects: tuple[str, ...] = DEFAULT_P
     (temporary / "inventory.sha256.json").write_text(
         json.dumps(inventory, indent=2) + "\n", encoding="utf-8"
     )
+    issues = prepared_bundle_issues(temporary, projects)
+    if issues:
+        raise RuntimeError("Prepared bundle is incomplete: " + ", ".join(issues))
     (temporary / "PREPARED.json").write_text(
         json.dumps({"audit_commit": audit_commit, "inventory_entries": len(inventory)}, indent=2)
         + "\n",
@@ -216,9 +226,17 @@ def main() -> None:
         action="append",
         help="Project id to include in the prepared Slurm array. May be repeated.",
     )
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=4,
+        help="Concurrent source-download workers; Pixi environments are built serially.",
+    )
     args = parser.parse_args()
+    if args.jobs < 1:
+        parser.error("--jobs must be at least 1")
     projects = tuple(args.tool) if args.tool else DEFAULT_PROJECTS
-    print(prepare(args.repo.resolve(), args.shared_root.resolve(), projects))
+    print(prepare(args.repo.resolve(), args.shared_root.resolve(), projects, jobs=args.jobs))
 
 
 if __name__ == "__main__":

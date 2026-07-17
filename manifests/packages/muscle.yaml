@@ -1,0 +1,180 @@
+schema_version: 2
+project:
+  id: muscle
+  name: MUSCLE
+  description: Constructs multiple sequence alignments.
+  primary_language: cpp
+  primary_category: sequence alignment
+  tags:
+  - FASTA
+  - alignment
+  include: true
+  exclusion_code: null
+repository:
+  id: rcedgar-muscle
+  url: https://github.com/rcedgar/muscle
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 6c69a9b2c73ce2d48128db889bfc0ef195153f2e
+  historical_commits:
+    '2021-07-01': 28089b1ece7c963a1f377db314d7c70ad0c08d33
+    '2022-07-01': 6c601163998616bb88991931e443c645858e162c
+    '2023-07-01': 8f7dfd660f1fbcf982bee9b40286efe428897e8e
+    '2024-07-01': 03a1933655c9beeb5a774049e863acbc8588232a
+    '2025-07-01': cfc3eeedb98fa9cc9bd5b32c2edad95ae0416725
+  archived: false
+discovery:
+  source: bioconda
+  package_name: muscle
+  rank: 89
+  download_count: 292218
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-muscle-5.3
+  adapter: pixi
+  artifact: muscle
+  version: '5.3'
+  build: h9948957_3
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/muscle-5.3-h9948957_3.tar.bz2
+  artifact_sha256: e0fb500aef23bb13fcd6b4676c0064a1e3ccc63bf68e375d10f9b1edf9042380
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - src
+  language_roots:
+    cpp:
+    - src
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: muscle
+  executables:
+  - muscle
+  help_commands:
+  - - muscle
+    - -h
+  version_commands:
+  - - muscle
+    - -version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reference-fasta
+  command:
+  - muscle
+  - -align
+  - /fixtures/core/reference.fasta
+  - -output
+  - aligned.fasta
+  expected_outputs:
+  - path: aligned.fasta
+    nonempty: true
+    parser: fasta
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - muscle
+    - -align
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - muscle
+    - -align
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture requires review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - muscle
+    - -align
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - muscle
+    - -align
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - muscle
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: applicable
+    reason: A typed option is given a deliberately invalid value.
+    command:
+    - muscle
+    - -threads
+    - none
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/muscle-curator.json
+  reviewer_record: data/curation/muscle-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

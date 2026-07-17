@@ -1,0 +1,169 @@
+schema_version: 2
+project:
+  id: seqtk
+  name: Seqtk
+  description: Transforms and samples FASTA and FASTQ sequences.
+  primary_language: c
+  primary_category: sequence manipulation
+  tags:
+  - FASTA
+  - FASTQ
+  include: true
+  exclusion_code: null
+repository:
+  id: lh3-seqtk
+  url: https://github.com/lh3/seqtk
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 94e707082d39b0a038f234df676e32d9802c0dc7
+  historical_commits:
+    '2021-07-01': 7c04ce7898ad5909bd309c6ba3cd9c3bd0651f0e
+    '2022-07-01': ddf6b08b8891af44186b100ca59f9b9fdf3a5248
+    '2023-07-01': c9458bad2c355d29c721926c0d2cadc95e01eddc
+    '2024-07-01': c9458bad2c355d29c721926c0d2cadc95e01eddc
+    '2025-07-01': 94e707082d39b0a038f234df676e32d9802c0dc7
+  archived: false
+discovery:
+  source: bioconda
+  package_name: seqtk
+  rank: 115
+  download_count: 216296
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-seqtk-1.5
+  adapter: pixi
+  artifact: seqtk
+  version: '1.5'
+  build: h577a1d6_1
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/seqtk-1.5-h577a1d6_1.tar.bz2
+  artifact_sha256: f265fe676118d9d45fde040cc8354fc96ca18c45ed2410854c06c143e823258b
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - .
+  language_roots:
+    c:
+    - .
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - tests
+  - doc
+  - docs
+  - example
+  - examples
+  - data
+  - scripts
+interfaces:
+  primary: seqtk
+  executables:
+  - seqtk
+  help_commands:
+  - - seqtk
+  version_commands: []
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: reviewed
+  untestable_reason: null
+  fixture_ids:
+  - core-reference-fasta
+  command:
+  - seqtk
+  - seq
+  - /fixtures/core/reference.fasta
+  expected_outputs: []
+  expect_stdout: true
+  stdout_parser: fasta
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: applicable
+    reason: The input path does not exist.
+    command:
+    - seqtk
+    - seq
+    - /fixtures/bad/missing.dat
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  empty_input:
+    applicability: applicable
+    reason: A zero-byte input file is supplied.
+    command:
+    - seqtk
+    - seq
+    - /fixtures/bad/empty.dat
+    fixture_id: bad-empty
+    diagnostic_expectation: specific_or_generic
+  semantically_empty_input:
+    applicability: unknown
+    reason: The format-specific zero-record fixture requires review.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: applicable
+    reason: A structurally malformed input is supplied.
+    command:
+    - seqtk
+    - seq
+    - /fixtures/bad/malformed.fasta
+    fixture_id: bad-malformed-fasta
+    diagnostic_expectation: specific_or_generic
+  wrong_format:
+    applicability: applicable
+    reason: A valid but incompatible biological format is supplied.
+    command:
+    - seqtk
+    - seq
+    - /fixtures/core/variants.vcf
+    fixture_id: core-variants-vcf
+    diagnostic_expectation: specific_or_generic
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - seqtk
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: The reviewed command has no independent bounded typed option.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: The reviewed command writes its result to standard output.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/seqtk-curator.json
+  reviewer_record: data/curation/seqtk-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

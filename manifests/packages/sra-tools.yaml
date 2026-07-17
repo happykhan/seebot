@@ -1,0 +1,165 @@
+schema_version: 2
+project:
+  id: sra-tools
+  name: SRA Toolkit
+  description: Reads and converts data from the NCBI Sequence Read Archive.
+  primary_language: c
+  primary_category: data retrieval
+  tags:
+  - SRA
+  - FASTQ
+  include: true
+  exclusion_code: null
+repository:
+  id: ncbi-sra-tools
+  url: https://github.com/ncbi/sra-tools
+  forge: github
+  snapshot_date: '2026-07-01'
+  snapshot_commit: 434ae787c86e32e7faa5e80417a342c365fa03b0
+  historical_commits:
+    '2021-07-01': 0934da1a3fa816427a0aa962a75e7f105857bf19
+    '2022-07-01': 9c8469d2ce960b0e7cb738a0f299264ca2bf51be
+    '2023-07-01': 9d6a479cfa870b7713d985c86fd9f046ed4351cb
+    '2024-07-01': 765d4876ba33e62e19637551d6a990addf9aea75
+    '2025-07-01': 3a71afdcf37a845fde8a20777bb0f56b98895fa1
+  archived: false
+discovery:
+  source: bioconda
+  package_name: sra-tools
+  rank: 97
+  download_count: 264933
+  download_period:
+    start: '2025-07-01'
+    end: '2026-06-30'
+installation:
+  id: pixi-sra-tools-3.4.1
+  adapter: pixi
+  artifact: sra-tools
+  version: 3.4.1
+  build: 2_linux_64
+  subdir: linux-64
+  artifact_url: https://conda.anaconda.org/bioconda/linux-64/sra-tools-3.4.1-2_linux_64.conda
+  artifact_sha256: ce6cd07843cf4f04b55fbf4a61ca69592c7bf43948ec6ef67835007a5bcbb560
+  channels:
+  - conda-forge
+  - bioconda
+  platform: linux-64
+source:
+  production_roots:
+  - libs
+  - tools
+  - tools2
+  language_roots:
+    c:
+    - libs
+    - tools
+    - tools2
+    cpp:
+    - libs
+    - tools
+    - tools2
+  generated_paths: []
+  vendored_paths: []
+  excluded_paths:
+  - test
+  - shared
+  - scripts
+  - setup
+  - ngs
+interfaces:
+  primary: fasterq-dump
+  executables:
+  - fasterq-dump
+  - fastq-dump
+  - prefetch
+  - vdb-config
+  help_commands:
+  - - fasterq-dump
+    - --help
+  version_commands:
+  - - fasterq-dump
+    - --version
+  no_argument_policy: help_or_usage_error
+  stdin_support: not_supported
+  stdout_support: supported
+streams:
+  applicability: not_applicable
+  reason: The documented interface does not provide a bounded stream mode.
+  command: null
+  fixture_ids: []
+  stdin_fixture_id: null
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+valid_run:
+  status: untestable
+  untestable_reason: A representative successful run requires prepared references, indexes, databases,
+    or multi-file inputs not present in the shared fixture catalogue.
+  fixture_ids: []
+  command: null
+  expected_outputs: []
+  expect_stdout: false
+  stdout_parser: null
+  timeout_seconds: 300
+robustness:
+  missing_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  semantically_empty_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    expected_outputs: []
+    expect_stdout: false
+    stdout_parser: null
+    stdout_record_count: null
+  malformed_input:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  wrong_format:
+    applicability: not_applicable
+    reason: The reviewed command does not accept a standalone biological input file.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  invalid_option:
+    applicability: applicable
+    reason: The option is deliberately unrecognised.
+    command:
+    - fasterq-dump
+    - --seebot-invalid-option
+    fixture_id: null
+    diagnostic_expectation: specific_or_generic
+  invalid_value:
+    applicability: not_applicable
+    reason: No bounded typed option can be exercised without external data or services.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+  unwritable_output:
+    applicability: not_applicable
+    reason: No bounded run with a documented output-path option is available for this interface.
+    command: null
+    fixture_id: null
+    diagnostic_expectation: not_applicable
+curation:
+  status: reviewed
+  curator: codex:bioinformatics-dev
+  reviewer: codex:protocol-review
+  reviewed_at: '2026-07-17T10:30:00Z'
+  curator_record: data/curation/sra-tools-curator.json
+  reviewer_record: data/curation/sra-tools-reviewer.json
+  notes: Two recorded review passes agree; no adjudication was required.

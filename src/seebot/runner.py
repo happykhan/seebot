@@ -107,8 +107,8 @@ def run_repository_and_source(
         if commit is None:
             continue
         work_root = Path(os.environ.get("SEEBOT_WORK_ROOT", output_root / "work"))
-        checkout = work_root / "checkouts" / manifest["project"]["id"] / snapshot_date
-        clone_snapshot(repository_url, commit, checkout)
+        checkout_target = work_root / "checkouts" / manifest["project"]["id"] / snapshot_date
+        checkout = clone_snapshot(repository_url, commit, checkout_target)
         try:
             if include_repository and snapshot_date == repository["snapshot_date"]:
                 results.extend(
@@ -135,6 +135,7 @@ def run_repository_and_source(
                         snapshot_date=snapshot_date,
                         snapshot_commit=commit,
                         analyzer_environment=analyzer_environment,
+                        include_native=snapshot_date == repository["snapshot_date"],
                         force=force,
                     )
                 )
@@ -155,6 +156,6 @@ def run_repository_and_source(
                     )
                 )
         finally:
-            if cleanup:
+            if cleanup and checkout == checkout_target:
                 shutil.rmtree(checkout, ignore_errors=True)
     return results

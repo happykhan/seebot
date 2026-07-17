@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "project_id": "mlst",
+  "source_commit": "950abcc0bd855d148d59fda10bf560e269fe30d8",
+  "review_type": "manifest_curation",
+  "reviewer_id": "codex:curator",
+  "review_round": 1,
+  "sampling_seed": 0,
+  "sample": [
+    {
+      "file": "README.md",
+      "start_line": 1,
+      "end_line": 115,
+      "item_type": "interface_and_source_scope",
+      "item_name": "mlst"
+    }
+  ],
+  "assessment": {
+    "manifest_sha256": "b145f75786dbde1be4681789a3a7279dd346efd7817c253c7bf91271e46730d0",
+    "source_roots_reviewed": true,
+    "commands_are_argument_arrays": true,
+    "fixtures_and_applicability_reviewed": true,
+    "upstream_tests_not_requested": true
+  },
+  "confidence": "high",
+  "evidence_notes": "Initial metadata and upstream-documentation curation of interface, fixtures, and source scope.",
+  "adjudication_required": false
+}

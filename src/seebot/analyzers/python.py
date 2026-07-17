@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from collections import Counter
 from collections.abc import Callable
 from pathlib import Path
@@ -12,6 +13,13 @@ from seebot.analyzers.native import _run_native
 from seebot.models import CheckResult, Status, ToolIdentity
 from seebot.observations import write_measurement
 from seebot.runtime.analyzers import AnalyzerEnvironment
+
+
+def _analyzer_jobs() -> int:
+    jobs = int(os.environ.get("SEEBOT_ANALYZER_JOBS", "1"))
+    if jobs < 1:
+        raise ValueError("SEEBOT_ANALYZER_JOBS must be at least 1")
+    return jobs
 
 
 def _denominator(files: list[Path]) -> tuple[int, int]:
@@ -237,6 +245,8 @@ def run_python_analyzers(
             [
                 "pylint",
                 "--output-format=json",
+                "--jobs",
+                str(_analyzer_jobs()),
                 "--rcfile",
                 "/config/pylint-standard.toml",
                 *relative,
