@@ -4,7 +4,12 @@ from unittest.mock import Mock
 
 from pytest import MonkeyPatch
 
-from seebot.analyzers.native import _cppcheck_parser, _cython_lint_parser, _perlcritic_parser
+from seebot.analyzers.native import (
+    _cppcheck_parser,
+    _cython_lint_parser,
+    _perlcritic_parser,
+    run_non_python_native_analyzers,
+)
 from seebot.analyzers.python import run_python_analyzers
 from seebot.analyzers.source import run_source_observations
 from seebot.models import Status
@@ -55,6 +60,39 @@ def test_cython_lint_keeps_native_rule_ids() -> None:
     assert status is Status.OBSERVED
     assert observed["rules"][0]["rule"] == "E225"
     assert observed["findings_per_kloc"] == 10.0
+
+
+def test_pmd_uses_file_list_instead_of_expanding_command_line(
+    tmp_path: Path, monkeypatch: MonkeyPatch
+) -> None:
+    checkout = tmp_path / "checkout"
+    source = checkout / "src/main/java/example/Main.java"
+    source.parent.mkdir(parents=True)
+    source.write_text("class Main {}\n", encoding="utf-8")
+    calls: list[dict[str, Any]] = []
+    monkeypatch.setattr(
+        "seebot.analyzers.native._run_native",
+        lambda **kwargs: calls.append(kwargs) or Mock(),
+    )
+
+    run_non_python_native_analyzers(
+        environment=Mock(),
+        manifest={"project": {"id": "example"}},
+        checkout=checkout,
+        language="java",
+        files=[source],
+        run_id="current",
+        evidence_root=tmp_path / "evidence",
+        config_root=tmp_path / "config",
+        snapshot_date="2026-07-17",
+        snapshot_commit="abc",
+    )
+
+    assert len(calls) == 2
+    for call in calls:
+        assert "--file-list=/work/source-files.txt" in call["command"]
+        assert call["input_files"] == ["/source/src/main/java/example/Main.java"]
+        assert str(source) not in call["command"]
 
 
 def test_ruff_disables_cache_for_read_only_source_mount(

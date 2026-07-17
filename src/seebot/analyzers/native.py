@@ -234,6 +234,7 @@ def _run_native(
     evidence_root: Path,
     config_root: Path,
     force: bool,
+    input_files: list[str] | None = None,
 ) -> CheckResult:
     safe_probe = re.sub(r"[^a-zA-Z0-9_.-]+", "-", probe_id)
     target = evidence_root / run_id / project_id / snapshot_date / check_id / safe_probe
@@ -243,6 +244,8 @@ def _run_native(
     target.mkdir(parents=True, exist_ok=True)
     stdout_path, stderr_path = target / "stdout.txt", target / "stderr.txt"
     metadata_path = target / "metadata.json"
+    if input_files is not None:
+        (target / "source-files.txt").write_text("\n".join(input_files) + "\n", encoding="utf-8")
     started = datetime.now(UTC)
     clock = time.monotonic()
     observed: dict[str, Any] = {}
@@ -451,8 +454,7 @@ def run_non_python_native_analyzers(
             "sh",
             "/workspace/.pixi/envs/default/bin/pmd",
             "check",
-            "-d",
-            ",".join(relative),
+            "--file-list=/work/source-files.txt",
             "-f",
             "json",
             "-R",
@@ -469,6 +471,7 @@ def run_non_python_native_analyzers(
                 ],
                 parser=_pmd_parser(line_count, language),
                 accepted={0, 4},
+                input_files=relative,
             ),
             _run_native(
                 **common,
@@ -477,6 +480,7 @@ def run_non_python_native_analyzers(
                 command=base + ["category/java/security.xml"],
                 parser=_pmd_parser(line_count, language),
                 accepted={0, 4},
+                input_files=relative,
             ),
         ]
     if language == "rust":
