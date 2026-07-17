@@ -55,6 +55,7 @@ def test_native_translation_does_not_rewrite_translated_host_paths(
             "--",
             "cppcheck",
             "/source/tool.c",
+            "--file-list=/work/source-files.txt",
         ],
         mounts=((workspace, "/workspace", "rw"), (source, "/source", "ro"), (work, "/work", "rw")),
         environment={"PERL5LIB": "/workspace/perl5/lib/perl5"},
@@ -64,3 +65,4 @@ def test_native_translation_does_not_rewrite_translated_host_paths(
     assert str(workspace / "pixi.toml") in command
     assert f"PERL5LIB={workspace / 'perl5/lib/perl5'}" in command
     assert str(work / str(workspace).lstrip("/")) not in command
+    assert f"--file-list={work}/source-files.txt" in command

@@ -60,7 +60,9 @@ def container_command(
     if runtime_name() == "native":
         mount_map = {target: str(host.resolve()) for host, target, _ in mounts}
         mount_pattern = re.compile(
-            "|".join(re.escape(target) for target in sorted(mount_map, key=len, reverse=True))
+            "(?:"
+            + "|".join(re.escape(target) for target in sorted(mount_map, key=len, reverse=True))
+            + r")(?=/|$)"
         )
 
         def translate(value: str) -> str:
